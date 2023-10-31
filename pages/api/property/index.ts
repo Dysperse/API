@@ -40,7 +40,7 @@ const handler = async (req, res) => {
     });
 
     res.json(data[0]);
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

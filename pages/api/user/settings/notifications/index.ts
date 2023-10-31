@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       where: { userId: req.query.userIdentifier },
     });
     res.json(data || {});
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 }

@@ -9,7 +9,11 @@ async function getSong(access_token) {
   }).then((res) => res.json());
 }
 
-export async function getCurrentlyListening(email, access_token, refresh_token) {
+export async function getCurrentlyListening(
+  email,
+  access_token,
+  refresh_token
+) {
   const client_id = process.env.SPOTIFY_CLIENT_ID;
   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
@@ -56,7 +60,7 @@ export default async function handler(req, res) {
     );
 
     res.json(response);
-  } catch (e: any) {
+  } catch (e) {
     res.status(401).json({ error: e.message });
   }
 }

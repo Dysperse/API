@@ -108,7 +108,7 @@ const handler = async (req, res) => {
       });
     }
     res.json({ query, data: results });
-  } catch (e: any) {
+  } catch (e) {
     console.log(e);
     res.json({ error: e.message });
   }

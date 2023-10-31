@@ -10,7 +10,6 @@ import { NextRequest } from "next/server";
 
 export async function PUT(req: NextRequest) {
   try {
-    console.log(1);
     const sessionToken = await getSessionToken();
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
     const id = getApiParam(req, "id", true);

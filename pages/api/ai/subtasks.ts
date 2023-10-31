@@ -82,7 +82,7 @@ export default async function handler(req: any, res: any) {
       prompt,
       response,
     });
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 }

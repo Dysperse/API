@@ -37,16 +37,15 @@ function BulkCompletion() {
   const handleSubmit = async (completed) => {
     try {
       setOpen(false);
-      const res = await fetchRawApi(
-        session,
-        "property/boards/column/task/editMany",
-        {
+      const res = await fetchRawApi(session, "space/tasks/task/many", {
+        method: "PUT",
+        params: {
           selection: JSON.stringify(
             taskSelection.values.filter((e) => e !== "-1")
           ),
           completed,
-        }
-      );
+        },
+      });
       if (res.errors !== 0) {
         toast.error(
           `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
@@ -105,16 +104,15 @@ function BulkColorCode({ children }) {
       color="null"
       setColor={async (e) => {
         try {
-          const res = await fetchRawApi(
-            session,
-            "property/boards/column/task/editMany",
-            {
+          const res = await fetchRawApi(session, "space/tasks/task/many", {
+            method: "PUT",
+            params: {
               selection: JSON.stringify(
                 taskSelection.values.filter((e) => e !== "-1")
               ),
               color: e,
-            }
-          );
+            },
+          });
           if (res.errors !== 0) {
             toast.error(
               `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`
@@ -232,12 +230,15 @@ export default function TasksLayout({
                     try {
                       const res = await fetchRawApi(
                         session,
-                        "property/boards/column/task/editMany",
+                        "space/tasks/task/many",
                         {
-                          selection: JSON.stringify(
-                            taskSelection.filter((e) => e !== "-1")
-                          ),
-                          due: newDate.toISOString(),
+                          method: "PUT",
+                          params: {
+                            selection: JSON.stringify(
+                              taskSelection.filter((e) => e !== "-1")
+                            ),
+                            due: newDate.toISOString(),
+                          },
                         }
                       );
                       if (res.errors !== 0) {
@@ -277,11 +278,14 @@ export default function TasksLayout({
                     try {
                       const res = await fetchRawApi(
                         session,
-                        "property/boards/column/task/deleteMany",
+                        "space/tasks/task/many",
                         {
-                          selection: JSON.stringify(
-                            taskSelection.filter((e) => e !== "-1")
-                          ),
+                          method: "DELETE",
+                          params: {
+                            selection: JSON.stringify(
+                              taskSelection.filter((e) => e !== "-1")
+                            ),
+                          },
                         }
                       );
                       if (res.errors !== 0) {

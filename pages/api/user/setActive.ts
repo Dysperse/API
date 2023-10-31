@@ -11,8 +11,8 @@ export default async function handler(req, res) {
         lastActive: dayjs().tz(req.query.timeZone).toDate(),
       },
     });
-    res.json({success:true})
-  } catch (e: any) {
+    res.json({ success: true });
+  } catch (e) {
     res.status(500).json({ error: e.message });
   }
 }

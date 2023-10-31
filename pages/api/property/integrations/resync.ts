@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     await Promise.all(fetchPromises);
 
     res.json({});
-  } catch (e: any) {
+  } catch (e) {
     console.error(e);
     res.status(500).json({ error: e.message });
   }

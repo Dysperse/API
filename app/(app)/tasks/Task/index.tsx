@@ -351,12 +351,15 @@ export const Task: any = React.memo(function Task({
           );
         }
 
-        await fetchRawApi(session, "property/boards/column/task/complete", {
-          id: task.id,
-          isRecurring,
-          ...(recurringInstance && { iteration: instanceDate.toISOString() }),
-          completedAt: newInstance.completedAt,
-          isCompleted: completed ? "true" : "false",
+        await fetchRawApi(session, "space/tasks/task/complete", {
+          method: "PUT",
+          params: {
+            id: task.id,
+            isRecurring,
+            ...(recurringInstance && { iteration: instanceDate.toISOString() }),
+            completedAt: newInstance.completedAt,
+            isCompleted: completed ? "true" : "false",
+          },
         });
       } catch (e) {
         toast.error("An error occurred while updating the task");

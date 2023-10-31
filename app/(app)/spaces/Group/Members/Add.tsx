@@ -161,7 +161,7 @@ export function AddPersonModal({
       } else {
         throw new Error("Please enter a valid email address");
       }
-    } catch (e: any) {
+    } catch (e) {
       toast.error(e.message);
     }
   };

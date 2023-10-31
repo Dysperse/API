@@ -113,7 +113,7 @@ export default function Page() {
         name: titleRef.current.value,
         room: room.id,
       });
-    } catch (e: any) {
+    } catch (e) {
       toast.error(e.message);
     }
     setSubmitted(true);

@@ -20,7 +20,7 @@ const handler = async (req, res) => {
     });
 
     res.json({ success: true });
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

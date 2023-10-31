@@ -34,7 +34,7 @@ const handler = async (req, res) => {
 
     cacheData.clear();
     res.json(data);
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

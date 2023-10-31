@@ -11,7 +11,7 @@ const handler = async (req, res) => {
       where: { token: req.query.token || "-1" },
     });
     res.json(data);
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

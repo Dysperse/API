@@ -55,16 +55,15 @@ function UnfinishedTasks({ column, completedTasks, data }) {
 
   const handleSubmit = async (newDate) => {
     try {
-      const res = await fetchRawApi(
-        session,
-        "property/boards/column/task/editMany",
-        {
+      const res = await fetchRawApi(session, "space/tasks/task/many", {
+        method: "PUT",
+        params: {
           selection: JSON.stringify(
             taskSelection.values.filter((e) => e !== -2)
           ),
           due: newDate,
-        }
-      );
+        },
+      });
       if (res.errors !== 0) {
         toast.error(
           `Couldn't edit ${res.errors} item${res.errors == 1 ? "" : "s"}`

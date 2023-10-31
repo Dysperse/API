@@ -131,7 +131,7 @@ export default function DrawerContent({
         { revalidate: false }
       );
 
-      await fetchRawApi(session, "property/boards/column/task/complete", {
+      await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
         params: {
           id: task.id,
@@ -158,7 +158,7 @@ export default function DrawerContent({
         { revalidate: false }
       );
 
-      await fetchRawApi(session, "property/boards/column/task/complete", {
+      await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
         params: {
           id: task.id,

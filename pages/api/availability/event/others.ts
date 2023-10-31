@@ -87,7 +87,7 @@ export default async function handler(req, res) {
       overlappingAvailability,
       data,
     });
-  } catch (e: any) {
+  } catch (e) {
     res.status(400).json({ error: true, message: e.message });
   }
 }

@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     });
 
     res.redirect("/auth/qr-success");
-  } catch (e: any) {
+  } catch (e) {
     res.status(401).json({ success: false, error: e.message });
   }
 }

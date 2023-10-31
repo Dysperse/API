@@ -23,7 +23,7 @@ const handler = async (req, res) => {
     });
 
     res.json(user);
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

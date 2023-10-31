@@ -69,7 +69,7 @@ export const createInboxNotification = async (
     }
 
     return data;
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

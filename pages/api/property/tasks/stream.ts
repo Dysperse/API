@@ -83,7 +83,7 @@ const handler = async (req, res) => {
         (e) => e.recurrenceRule === null && e.completionInstances.length === 0
       )
     );
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 };

@@ -35,7 +35,7 @@ const IntegrationChip = ({ integration, boardId, session }) => {
           await mutateData();
           resolve(response);
           setLoading(false);
-        } catch (e: any) {
+        } catch (e) {
           reject(e);
           setLoading(false);
         }

@@ -30,7 +30,7 @@ export default async function handler(req: any, res: any) {
     const response = await query(imageUrl);
 
     res.json(response);
-  } catch (e: any) {
+  } catch (e) {
     res.json({ error: e.message });
   }
 }

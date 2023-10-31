@@ -46,7 +46,7 @@ export default function Prompt() {
       }
       toast.success("Check your email for further instructions.");
       router.push("/auth");
-    } catch (e: any) {
+    } catch (e) {
       setStep(0);
       setButtonLoading(false);
       setAlreadySubmitted(false);

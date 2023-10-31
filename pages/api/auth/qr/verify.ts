@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
     await prisma.qrToken.delete({ where: { token: req.query.token } });
     res.json({ success: true, key: encoded });
-  } catch (e: any) {
+  } catch (e) {
     res.status(401).json({ error: e.message });
   }
 }

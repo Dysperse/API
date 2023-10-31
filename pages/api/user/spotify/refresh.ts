@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     });
 
     res.json({ success: true });
-  } catch (e: any) {
+  } catch (e) {
     res.json({ success: false, error: e.message });
   }
 }

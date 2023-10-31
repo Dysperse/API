@@ -154,7 +154,7 @@ export default async function handler(req, res) {
     const encoded = await createSession(user.id, res, ip);
 
     res.json({ success: true, key: encoded });
-  } catch (e: any) {
+  } catch (e) {
     return res.status(401).json({ message: e.message });
   }
 }

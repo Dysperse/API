@@ -186,7 +186,7 @@ export async function GET(req: NextRequest) {
       user,
       friends: unique,
     });
-  } catch (e: any) {
+  } catch (e) {
     return handleApiError(e);
   }
 }
