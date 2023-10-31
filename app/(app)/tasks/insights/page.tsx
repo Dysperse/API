@@ -52,7 +52,7 @@ export default function Insights() {
   const purplePalette = useColor("purple", isDark);
 
   const { data } = useSWR([
-    "property/tasks/insights",
+    "space/tasks/insights",
     { email: session.user.email },
   ]);
 
@@ -72,7 +72,7 @@ export default function Insights() {
   };
 
   const { data: score, error } = useSWR([
-    "property/tasks/score",
+    "space/tasks/insights/score",
     { email: session.user.email },
   ]);
 

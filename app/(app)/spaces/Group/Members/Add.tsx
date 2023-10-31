@@ -35,7 +35,7 @@ function LinkToken() {
 
   const createLink = () => {
     setLoading(true);
-    fetchRawApi(session, "property/members/inviteLink", {
+    fetchRawApi(session, "space/members/inviteLink", {
       method: "POST",
       params: {
         inviterName: session.user.name,

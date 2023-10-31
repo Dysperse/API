@@ -178,7 +178,7 @@ function BoardColumnSettings({ data, styles, mutate }) {
       };
     });
 
-    fetchRawApi(session, "property/boards/column/order", {
+    fetchRawApi(session, "space/tasks/boards/column/order", {
       method: "PUT",
       params: {
         order: JSON.stringify(orderObj),

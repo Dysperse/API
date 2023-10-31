@@ -42,7 +42,7 @@ export default function CreateColumn({
       setLoading(false);
       return;
     }
-    fetchRawApi(session, "property/boards/column/create", {
+    fetchRawApi(session, "space/tasks/boards/column", {
       method: "POST",
       params: {
         who: session.user.name,

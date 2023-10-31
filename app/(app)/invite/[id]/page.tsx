@@ -32,7 +32,7 @@ export default function Onboarding() {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
 
   const { data } = useSWR([
-    "property/members/inviteLink/info",
+    "space/members/inviteLink",
     { token: id as string },
   ]);
 
@@ -45,7 +45,7 @@ export default function Onboarding() {
     setLoading(true);
     if (session.user && session.user.email) {
       fetch(
-        "/api/property/members/inviteLink/accept?" +
+        "/api/space/members/inviteLink/accept?" +
           new URLSearchParams({
             token: id as string,
             email: session.user.email,

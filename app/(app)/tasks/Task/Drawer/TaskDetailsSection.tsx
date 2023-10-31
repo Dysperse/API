@@ -50,7 +50,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
 
   const handleAttachmentButtonClick = async () => {
     if (isImage) {
-      await fetchRawApi(session, "property/boards/column/task/edit", {
+      await fetchRawApi(session, "space/tasks/task", {
         method: "PUT",
         params: {
           image: "null",
