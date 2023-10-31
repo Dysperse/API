@@ -59,11 +59,14 @@ export default function Page() {
   const handleSubmit = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetchRawApi(session, "space/inventory/rooms/edit", {
-        name,
-        note,
-        emoji,
-        private: isPrivate ? "true" : "false",
+      const res = await fetchRawApi(session, "space/inventory/rooms", {
+        method: "PUT",
+        params: {
+          name,
+          note,
+          emoji,
+          private: isPrivate ? "true" : "false",
+        },
       });
       setLoading(false);
       toast.success("Saved!");

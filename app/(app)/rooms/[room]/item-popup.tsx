@@ -44,9 +44,11 @@ function MoveItem({ children, item, mutate, setParentOpen }) {
 
   const handleMove = async (roomId) => {
     await fetchRawApi(session, "space/inventory/items/move", {
-      id: item.id,
-      updatedAt: dayjs().toISOString(),
-      room: roomId,
+      params: {
+        id: item.id,
+        updatedAt: dayjs().toISOString(),
+        room: roomId,
+      },
     });
     const newData = {
       ...item,
@@ -125,7 +127,10 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
 
   const handleDelete = async () => {
     await fetchRawApi(session, "space/inventory/items/delete", {
-      id: item.id,
+      method: "DELETE",
+      params: {
+        id: item.id,
+      },
     });
     mutate("deleted", {
       populateCache: "deleted",
@@ -147,10 +152,13 @@ function ItemDrawerContent({ item, mutate, setOpen }) {
     });
 
     return await fetchRawApi(session, "space/inventory/items/edit", {
-      id: item.id,
-      updatedAt: dayjs().toISOString(),
-      [key]: String(value),
-      createdBy: session.user.email,
+      method: "PUT",
+      params: {
+        id: item.id,
+        updatedAt: dayjs().toISOString(),
+        [key]: String(value),
+        createdBy: session.user.email,
+      },
     });
   };
 
