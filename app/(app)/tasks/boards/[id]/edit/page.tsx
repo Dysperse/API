@@ -218,13 +218,16 @@ function BoardColumnSettings({ data, styles, mutate }) {
                             recentlyAccessed.clear();
                             await fetchRawApi(
                               session,
-                              "property/boards/column/delete",
+                              "space/tasks/boards/column",
                               {
-                                id: column.id,
-                                who: session.user.name,
-                                boardName: data.name,
-                                boardEmoji: data.emoji,
-                                columnName: column.name,
+                                method: "DELETE",
+                                params: {
+                                  id: column.id,
+                                  who: session.user.name,
+                                  boardName: data.name,
+                                  boardEmoji: data.emoji,
+                                  columnName: column.name,
+                                },
                               }
                             );
                             await mutate();
