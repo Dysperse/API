@@ -67,9 +67,12 @@ export default function DrawerContent({
     toast.promise(
       new Promise(async (resolve, reject) => {
         try {
-          fetchRawApi(session, "property/boards/column/task/edit", {
-            id: task.id,
-            pinned: task.pinned ? "false" : "true",
+          fetchRawApi(session, "space/tasks/task/edit", {
+            method: "PUT",
+            params: {
+              id: task.id,
+              pinned: task.pinned ? "false" : "true",
+            },
           });
           resolve("");
         } catch (e) {
@@ -129,11 +132,14 @@ export default function DrawerContent({
       );
 
       await fetchRawApi(session, "property/boards/column/task/complete", {
-        id: task.id,
-        isRecurring,
-        iteration: iteration.toISOString(),
-        completedAt: dayjs().toISOString(),
-        isCompleted: isCompleted ? "false" : "true",
+        method: "PUT",
+        params: {
+          id: task.id,
+          isRecurring,
+          iteration: iteration.toISOString(),
+          completedAt: dayjs().toISOString(),
+          isCompleted: isCompleted ? "false" : "true",
+        },
       });
     } else {
       const newInstance = {
@@ -153,9 +159,12 @@ export default function DrawerContent({
       );
 
       await fetchRawApi(session, "property/boards/column/task/complete", {
-        id: task.id,
-        completedAt: dayjs().toISOString(),
-        isCompleted: !isCompleted ? "true" : "false",
+        method: "PUT",
+        params: {
+          id: task.id,
+          completedAt: dayjs().toISOString(),
+          isCompleted: !isCompleted ? "true" : "false",
+        },
       });
     }
   }, [session, isRecurring, task, isCompleted]);

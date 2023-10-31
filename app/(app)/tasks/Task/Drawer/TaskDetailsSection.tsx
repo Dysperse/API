@@ -51,8 +51,11 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   const handleAttachmentButtonClick = async () => {
     if (isImage) {
       await fetchRawApi(session, "property/boards/column/task/edit", {
-        image: "null",
-        id: task.id,
+        method: "PUT",
+        params: {
+          image: "null",
+          id: task.id,
+        },
       });
       await task.mutate();
     } else {
@@ -189,8 +192,11 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
                     session,
                     "property/boards/column/task/edit",
                     {
-                      image: res.data.url,
-                      id: task.id,
+                      method: "PUT",
+                      params: {
+                        image: res.data.url,
+                        id: task.id,
+                      },
                     }
                   );
                   await task.mutate();
