@@ -1,14 +1,6 @@
 import { handleApiError } from "@/lib/server/helpers";
 import { NextRequest } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "32mb",
-    },
-  },
-};
-
 async function query(url) {
   const data = new Buffer(url.split(",")[1], "base64");
 
