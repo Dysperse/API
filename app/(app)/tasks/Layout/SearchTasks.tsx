@@ -1,4 +1,5 @@
 "use client";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -163,8 +164,12 @@ export function SearchTasks({
                 minWidth: 0,
                 overflow: "hidden",
               },
-              "&:hover": { background: palette[4] + "!important" },
-              "&:active": { background: palette[5] + "!important" },
+              "&:hover": {
+                background: addHslAlpha(palette[5], 0.6) + "!important",
+              },
+              "&:active": {
+                background: addHslAlpha(palette[6], 0.6) + "!important",
+              },
             }}
             {...(props as any)}
           >
@@ -330,9 +335,15 @@ export function SearchTasks({
     <Box
       sx={{
         display: "flex",
-        mb: 2,
         gap: 1,
         alignItems: "center",
+        position: "sticky",
+        top: 0,
+        py: 2,
+        mt: -2,
+        zIndex: 99,
+        background: addHslAlpha(palette[2], 0.6),
+        backdropFilter: "blur(10px)",
       }}
     >
       {input}
@@ -365,13 +376,13 @@ export function SearchTasks({
                 }),
                 cursor: "default",
                 transition: "transform .2s",
-                background: palette[4],
+                background: addHslAlpha(palette[5], 0.6),
                 color: palette[12],
                 "&:hover": {
-                  background: palette[5],
+                  background: addHslAlpha(palette[6], 0.6),
                 },
                 "&:active": {
-                  background: palette[6],
+                  background: addHslAlpha(palette[7], 0.6),
                 },
               }}
             >
