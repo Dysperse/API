@@ -11,7 +11,7 @@ export const handleApiError = async (error: any) => {
 };
 
 export const getSessionToken = async () => {
-  const token = headers().get("Authorization")?.replace("Bearer ", "");
+  const token =  headers().get("Authorization")?.replace("Bearer ", "");
   if (!token) throw new Error("Missing `Authorization` header");
   return token;
 };
