@@ -179,11 +179,17 @@ function Template({ onboarding, children, template, mutate }: any) {
             }}
             onClick={() => {
               setLoading(true);
-              fetchRawApi(session, "property/boards/create", {
-                board: JSON.stringify({
-                  ...template,
-                  columns: template.columns.map((c, o) => ({ ...c, order: o })),
-                }),
+              fetchRawApi(session, "spaces/tasks/boards", {
+                method: "POST",
+                params: {
+                  board: JSON.stringify({
+                    ...template,
+                    columns: template.columns.map((c, o) => ({
+                      ...c,
+                      order: o,
+                    })),
+                  }),
+                },
               }).then(async (res) => {
                 // await mutate();
                 if (onboarding) {
@@ -589,22 +595,6 @@ export function CreateBoard({ parentRef, onboarding = false, mutate }: any) {
       ],
     };
   });
-
-  const createBlankBoard = () => {
-    fetchRawApi(session, "property/boards/create", {
-      board: JSON.stringify({
-        for: ["Student", "College student"],
-        name: "Untitled board",
-        description: "",
-        color: "blue",
-        columns: [],
-      }),
-    }).then(async (res) => {
-      await mutate();
-      router.push(`/tasks/boards/${res.id}`);
-      setLoading(false);
-    });
-  };
 
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();

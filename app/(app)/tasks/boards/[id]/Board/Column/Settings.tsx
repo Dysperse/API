@@ -224,10 +224,13 @@ export function ColumnSettings({
           }
           onClick={async () => {
             toast.promise(
-              fetchRawApi(session, "property/boards/column/edit", {
-                id: column.id,
-                name: title,
-                emoji: emoji,
+              fetchRawApi(session, "space/tasks/boards/column", {
+                method: "PUT",
+                params: {
+                  id: column.id,
+                  name: title,
+                  emoji: emoji,
+                },
               }).then(mutateData),
               {
                 loading: "Saving...",

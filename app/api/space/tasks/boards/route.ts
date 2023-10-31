@@ -7,15 +7,111 @@ import {
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
+export async function PUT(req: NextRequest) {
+  try {
+    const sessionToken = getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
+    const id = getApiParam(req, "id", true);
+
+    const pinned = getApiParam(req, "pinned", false);
+    const name = getApiParam(req, "name", false);
+    const description = getApiParam(req, "description", false);
+    const wallpaper = getApiParam(req, "wallpaper", false);
+    const _public = getApiParam(req, "public", false);
+    const archived = getApiParam(req, "archived", false);
+
+    if (pinned) {
+      await prisma.board.updateMany({
+        data: {
+          pinned: false,
+        },
+        where: {
+          propertyId: spaceId,
+        },
+      });
+    }
+
+    const data = await prisma.board.updateMany({
+      where: {
+        AND: [
+          { id },
+          {
+            OR: [
+              { propertyId: spaceId },
+              { user: { identifier: userIdentifier } },
+            ],
+          },
+        ],
+      },
+      data: {
+        ...(name && { name }),
+        ...(description && { description }),
+        ...(wallpaper && { wallpaper }),
+        ...(_public && {
+          public: _public === "true",
+        }),
+        ...(pinned && {
+          pinned: pinned === "true",
+        }),
+        ...(archived && {
+          archived: archived === "true",
+        }),
+      },
+    });
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const sessionToken = getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
+    const _board = getApiParam(req, "board", true);
+
+    const board = JSON.parse(_board);
+
+    const data = await prisma.board.create({
+      data: {
+        name: board.name,
+        user: {
+          connect: { identifier: userIdentifier },
+        },
+        columns: {
+          createMany: {
+            data: board.columns.map((column) => ({
+              name: column.name,
+              emoji: column.emoji,
+              order: column.order,
+            })),
+          },
+        },
+        property: { connect: { id: spaceId } },
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
-    const id = getApiParam(req, "id", true);
     const { spaceId } = await getIdentifiers(sessionToken);
+    const id = getApiParam(req, "id", true);
 
     await prisma.board.deleteMany({
       where: {
         AND: [{ id }, { property: { id: spaceId } }],
+      },
+    });
+
+    await prisma.integration.deleteMany({
+      where: {
+        AND: [{ board: { propertyId: spaceId } }, { boardId: id }],
       },
     });
     return Response.json({ success: true });

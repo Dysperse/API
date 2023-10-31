@@ -67,7 +67,7 @@ function Layout() {
     [params]
   );
 
-  const { data } = useSWR(["property/boards"]);
+  const { data } = useSWR(["space/tasks/boards"]);
 
   const [query, setQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -231,13 +231,16 @@ function Layout() {
               />
               <ListItemButton
                 onClick={() => {
-                  fetchRawApi(session, "property/boards/create", {
-                    board: JSON.stringify({
-                      for: [],
-                      category: "",
-                      name: "Integration",
-                      columns: [],
-                    }),
+                  fetchRawApi(session, "spaces/tasks/boards", {
+                    method: "POST",
+                    params: {
+                      board: JSON.stringify({
+                        for: [],
+                        category: "",
+                        name: "Integration",
+                        columns: [],
+                      }),
+                    },
                   }).then(async (res) => {
                     setBoardId(res.id);
                     setStep(step + 1);

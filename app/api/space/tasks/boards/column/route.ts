@@ -8,6 +8,42 @@ import { DispatchGroupNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
+export async function PUT(req: NextRequest) {
+  try {
+    console.log(1);
+    const sessionToken = await getSessionToken();
+    const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
+    const id = getApiParam(req, "id", true);
+    const name = getApiParam(req, "name", false);
+    const emoji = getApiParam(req, "emoji", false);
+
+    const data = await prisma.column.updateMany({
+      where: {
+        AND: [
+          { id },
+          {
+            OR: [
+              { board: { user: { identifier: userIdentifier } } },
+              { board: { property: { id: spaceId } } },
+            ],
+          },
+        ],
+      },
+      data: {
+        ...(name && { name }),
+        ...(emoji && { emoji }),
+      },
+    });
+
+    return Response.json({
+      data,
+      success: true,
+    });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const sessionToken = await getSessionToken();

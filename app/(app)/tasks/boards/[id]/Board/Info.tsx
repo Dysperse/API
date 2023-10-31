@@ -133,10 +133,13 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
       )
     ) {
       toast.promise(
-        fetchRawApi(session, "property/boards/edit", {
-          id: board.id,
-          name: titleRef.current.value,
-          description: descriptionRef.current.value,
+        fetchRawApi(session, "space/tasks/boards", {
+          method: "PUT",
+          params: {
+            id: board.id,
+            name: titleRef.current.value,
+            description: descriptionRef.current.value,
+          },
         }).then(mutateData),
         {
           loading: "Updating...",

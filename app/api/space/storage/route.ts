@@ -1,12 +1,15 @@
-import { getSessionToken, handleApiError } from "@/lib/server/helpers";
+import {
+  getApiParam,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
     const sessionToken = getSessionToken();
-    const propertyId = req.nextUrl.searchParams.get("propertyId");
-    if (!propertyId) throw new Error("Missing parameters");
+    const propertyId = getApiParam(req, "propertyId", true);
 
     const space = await prisma.session.findFirstOrThrow({
       where: { id: sessionToken },

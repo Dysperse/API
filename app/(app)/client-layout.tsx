@@ -102,7 +102,7 @@ export default function ClientLayout({ children, session }) {
     }
   }, [pathname]);
 
-  const { data, error } = useSWR(["property/storage"]);
+  const { data, error } = useSWR(["space/storage"]);
 
   const storage = useAccountStorage();
   const hasReachedLimit = data && getTotal(data, data.tasks, data.items) >= max;

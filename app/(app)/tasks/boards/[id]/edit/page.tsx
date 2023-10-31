@@ -318,14 +318,15 @@ function BoardColumnSettings({ data, styles, mutate }) {
     </>
   );
 }
+
 function BoardAppearanceSettings({ data, styles, mutate }) {
   const { session } = useSession();
   const router = useRouter();
 
   const handleEdit = async (key, value, callback = () => {}) => {
     setLoading(true);
-    return await fetchRawApi(session, "property/boards/edit", {
-      method: "POST",
+    return await fetchRawApi(session, "space/tasks/boards", {
+      method: "PUT",
       params: {
         id: data.id,
         [key]: value,
@@ -504,8 +505,11 @@ function BoardAppearanceSettings({ data, styles, mutate }) {
           title="Delete board?"
           question="Are you sure you want to delete this board? This action annot be undone."
           callback={async () => {
-            await fetchRawApi(session, "property/boards/delete", {
-              id: data.id,
+            await fetchRawApi(session, "space/tasks/boards", {
+              method: "DELETE",
+              params: {
+                id: data.id,
+              },
             });
             router.push("/tasks/perspectives/weeks");
           }}
