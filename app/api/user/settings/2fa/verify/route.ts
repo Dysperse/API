@@ -1,12 +1,17 @@
 // Update user settings
+import { getApiParam, getSessionToken } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { NextRequest } from "next/server";
 import * as twofactor from "node-2fa";
 
 export async function GET(req: NextRequest) {
+  const sessionToken = getSessionToken();
+  const code = getApiParam(req, "code", true);
+
   // Get user info from sessions table using accessToken
   const session = await prisma.session.findUnique({
     where: {
-      id: req.query.token,
+      id: sessionToken,
     },
     select: {
       user: {
@@ -17,14 +22,13 @@ export async function GET(req: NextRequest) {
     },
   });
   if (!session) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
+    return Response.json({ error: "Unauthorized" });
   }
   const twoFactorSecret = session.user.twoFactorSecret;
   twofactor.generateToken(twoFactorSecret);
   const login: null | { delta: number } = twofactor.verifyToken(
     twoFactorSecret,
-    req.query.code
+    code
   );
 
   return Response.json({

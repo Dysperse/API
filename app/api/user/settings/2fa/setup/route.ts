@@ -1,12 +1,17 @@
 // Update user settings
+import { getApiParam, getSessionToken } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { NextRequest } from "next/server";
 import * as twofactor from "node-2fa";
 
 export async function GET(req: NextRequest) {
-  // Get user info from sessions table using accessToken
+  const sessionToken = getSessionToken();
+  const secret = getApiParam(req, "secret", false);
+  const code = getApiParam(req, "code", true);
+
   const session = await prisma.session.findUnique({
     where: {
-      id: req.query.token,
+      id: sessionToken,
     },
     select: {
       user: {
@@ -18,16 +23,14 @@ export async function GET(req: NextRequest) {
   });
 
   if (!session) {
-    res.status(401).json({ error: "Unauthorized" });
-    return;
+    return Response.json({ error: "Unauthorized" });
   }
   const userId = session.user.id;
-  twofactor.generateToken(req.query.secret);
-  const login = twofactor.verifyToken(req.query.secret, req.query.code);
+  twofactor.generateToken(secret);
+  const login = twofactor.verifyToken(secret, code);
 
   if (!login || login.delta !== 0) {
-    res.status(401).json({ error: "Invalid code" });
-    return;
+    return Response.json({ error: "Invalid code" });
   }
 
   const user = await prisma.user.update({
@@ -35,7 +38,7 @@ export async function GET(req: NextRequest) {
       id: userId,
     },
     data: {
-      twoFactorSecret: req.query.secret || undefined,
+      twoFactorSecret: secret,
     },
   });
 
