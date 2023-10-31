@@ -3,7 +3,7 @@ import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { cookies } from "next/headers";
 
-export async function GET(req) {
+export async function GET() {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get("token")?.value;
