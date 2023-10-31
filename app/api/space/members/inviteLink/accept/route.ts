@@ -1,24 +1,24 @@
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import cacheData from "memory-cache";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    const email = getApiParam(req, "email", true);
+    const token = getApiParam(req, "token", true);
+    const property = getApiParam(req, "property", true);
+
     // Find email from `user` table
     const user = await prisma.user.findUnique({
-      where: { email: req.query.email },
+      where: { email },
     });
 
-    if (!user || !req.query.token) {
-      res.status(401).json({ error: "User not found" });
-      return;
+    if (!user) {
+      return Response.json({ error: "User not found" });
     }
     // Delete invite link
     await prisma.propertyLinkInvite.delete({
-      where: {
-        token: req.query.token,
-      },
+      where: { token },
     });
 
     // Get user id
@@ -29,14 +29,10 @@ export async function GET(req: NextRequest) {
       where: { userId },
     });
 
-    cacheData.clear();
-    cacheData.clear();
-    cacheData.clear();
-
     const data = await prisma.propertyInvite.create({
       data: {
         profile: {
-          connect: { id: req.query.property },
+          connect: { id: property },
         },
         user: {
           connect: { id: userId },

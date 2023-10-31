@@ -1,6 +1,6 @@
+import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { validateParams } from "@/lib/server/validateParams";
-import cacheData from "memory-cache";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -27,7 +27,6 @@ export async function GET(req: NextRequest) {
     });
 
     // Clear the cache
-    cacheData.clear();
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);

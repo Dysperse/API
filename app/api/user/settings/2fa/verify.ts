@@ -1,6 +1,5 @@
 // Update user settings
 import { prisma } from "@/lib/server/prisma";
-import cacheData from "memory-cache";
 import * as twofactor from "node-2fa";
 
 export async function GET(req: NextRequest) {
@@ -28,7 +27,6 @@ export async function GET(req: NextRequest) {
     req.query.code
   );
 
-  cacheData.clear();
   return Response.json({
     success: login && login.delta === 0,
   });
