@@ -1,5 +1,6 @@
 // Remove `token` cookie
-import { serialize } from "cookie";
+import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 
 /**
  * API handler for the /api/logout endpoint
@@ -7,16 +8,7 @@ import { serialize } from "cookie";
  * @param {any} res
  * @returns {any}
  */
-export default function handler(req, res) {
-  res.setHeader(
-    "Set-Cookie",
-
-    serialize("token", "", {
-      path: "/",
-      maxAge: 0,
-      expires: new Date(0),
-    })
-  );
-
-  res.status(200).json({});
+export function GET(req: NextRequest) {
+  cookies().delete("token");
+  return Response.json({ success: true });
 }

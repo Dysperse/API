@@ -1,6 +1,8 @@
 import { sessionData } from "@/app/api/session/route";
 import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 /**
  * API handler for the /api/login endpoint
@@ -11,16 +13,17 @@ import { prisma } from "@/lib/server/prisma";
 export default async function handler(req, res) {
   try {
     let info;
+    const cookieStore = cookies();
+    const token = cookieStore.get("token");
 
-    if (req.cookies.token) {
-      info = await sessionData(req.cookies.token);
+    if (token) {
+      info = await sessionData(token.value);
       if (info.user === false) {
         res.redirect("/auth");
         return;
       }
     } else {
-      res.redirect("/auth");
-      return;
+      redirect("/auth");
     }
 
     const { identifier } = info.user;
@@ -30,7 +33,7 @@ export default async function handler(req, res) {
     }
 
     const data = await prisma.qrToken.findFirst({
-      where: { token: req.query.token },
+      where: { token: token.value },
     });
 
     if (!data) {
@@ -42,11 +45,11 @@ export default async function handler(req, res) {
     }
 
     await prisma.qrToken.update({
-      where: { token: req.query.token },
+      where: { token: token.value },
       data: { user: { connect: { identifier } } },
     });
 
-    res.redirect("/auth/qr-success");
+    redirect("/auth/qr-success");
   } catch (e) {
     return handleApiError(e);
   }
