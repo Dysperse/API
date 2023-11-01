@@ -131,7 +131,11 @@ function QrLogin({ handleRedirect }) {
           },
         }}
       >
-        {error && <Box sx={containerStyles}>Failed to generate QR code</Box>}
+        {error && (
+          <Box sx={{ ...containerStyles, mb: "-250px", zIndex: 1, p: 2 }}>
+            Something went wrong. Please try again later
+          </Box>
+        )}
         {data ? (
           <Box
             sx={{
@@ -150,6 +154,7 @@ function QrLogin({ handleRedirect }) {
                 top: 0,
                 borderRadius: 5,
                 left: 0,
+                zIndex: 999,
                 width: "100%",
                 height: "100%",
                 cursor: "pointer",
@@ -160,10 +165,6 @@ function QrLogin({ handleRedirect }) {
               <Box>
                 <span className="material-symbols-rounded">content_copy</span>
                 <Typography>Copy link</Typography>
-              </Box>
-              <Box>
-                <span className="material-symbols-rounded">refresh</span>
-                <Typography>Recheck</Typography>
               </Box>
             </Box>
             <QRCode
