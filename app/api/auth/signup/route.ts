@@ -31,7 +31,7 @@ const validateEmail = (email) => {
  * @param {any} req
  * @param {any} res
  */
-export default async function handler(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const requestBody = await req.json();
 
   if (process.env.NODE_ENV === "production") {
