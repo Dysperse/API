@@ -102,7 +102,7 @@ function Slides({ data }) {
           <Icon>close</Icon>
           Delete
         </Box>
-        <Box sx={styles}>
+        <Box sx={{ ...styles, background: palette[2] }}>
           <Icon>south</Icon>
           Today
         </Box>
