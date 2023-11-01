@@ -89,12 +89,11 @@ function Slides({ data }) {
           border: `2px solid ${palette[3]}`,
           borderRadius: 5,
           display: "flex",
-          justifyContent: "center",
           alignItems: "center",
           p: 4,
         }}
       >
-        <Typography variant="h4" className="font-heading">
+        <Typography variant="h3" className="font-heading">
           {slide.name}
         </Typography>
       </Box>
