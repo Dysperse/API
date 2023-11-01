@@ -67,8 +67,8 @@ export default function AddFriend() {
     }
   });
 
-  const { data, mutate, error } = useSWR([
-    "user/followers/requests",
+  const { data, mutate } = useSWR([
+    "user/friends/requests",
     { email: session.user.email },
   ]);
 
@@ -76,7 +76,7 @@ export default function AddFriend() {
     data: pendingData,
     mutate: pendingMutate,
     error: pendingError,
-  } = useSWR(["user/followers/pending", { email: session.user.email }]);
+  } = useSWR(["user/friends/pending", { email: session.user.email }]);
 
   const [loading, setLoading] = useState("");
 
