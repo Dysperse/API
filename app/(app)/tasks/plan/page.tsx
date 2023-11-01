@@ -91,7 +91,7 @@ function Slides({ data }) {
           height: 350,
           width: 700,
           maxWidth: "100%",
-          border: `2px solid ${palette[3]}`,
+          border: `2px solid ${palette[4]}`,
           boxShadow: `0 0 100px ${palette[4]}`,
           borderRadius: 5,
           display: "flex",
