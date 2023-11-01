@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const id = await getApiParam(req, "id", true);
 
     const item = await prisma.item.findFirstOrThrow({
-      where: { id },
+      where: { AND: [{ id }, { propertyId: spaceId }] },
       include: {
         property: {
           select: { name: true, id: true },
