@@ -140,6 +140,7 @@ export function PerspectivesInfo({
           >
             <Box
               sx={{
+                WebkitAppRegion: "no-drag",
                 mx: "auto",
                 px: 1,
                 borderRadius: 3,

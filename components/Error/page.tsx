@@ -45,6 +45,8 @@ export default function ErrorPage({
           height: "100dvh",
           flexDirection: "column",
           alignItems: "center",
+          textAlign: "center",
+          px: 5,
           justifyContent: "center",
         }}
       >
@@ -53,7 +55,13 @@ export default function ErrorPage({
           {heading}
         </Typography>
         <Typography sx={{ mb: 2 }}>{subheading}</Typography>
-        <Box sx={{ gap: 2, display: "flex" }}>
+        <Box
+          sx={{
+            gap: 2,
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <ErrorModal error={error}>
             <Button variant="outlined">
               <Icon>terminal</Icon>
