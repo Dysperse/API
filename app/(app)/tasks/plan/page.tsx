@@ -88,9 +88,15 @@ function Slides({ data }) {
           maxWidth: "100%",
           border: `2px solid ${palette[3]}`,
           borderRadius: 5,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 4,
         }}
       >
-        {slide.name}
+        <Typography variant="h4" className="font-heading">
+          {slide.name}
+        </Typography>
       </Box>
       <Box
         sx={{
