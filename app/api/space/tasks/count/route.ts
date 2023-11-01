@@ -10,7 +10,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const sessionId = getSessionToken();
+    const sessionId = await getSessionToken();
     const { spaceId } = await getIdentifiers(sessionId);
 
     const startTime = await getApiParam(req, "startTime", true);

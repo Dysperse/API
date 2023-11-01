@@ -18,7 +18,7 @@ export const handleApiError = async (error: any) => {
 export const getSessionToken = async () => {
   const token = headers().get("Authorization")?.replace("Bearer ", "");
   if (!token) throw new Error("Missing `Authorization` header");
-  return token;
+  else return token;
 };
 
 export const getApiParam = async (
@@ -47,7 +47,6 @@ export const getIdentifiers = async (id) => {
       },
     },
   });
-
   return {
     sessionId: id || "-1",
     userIdentifier: data.user.identifier || "-1",
