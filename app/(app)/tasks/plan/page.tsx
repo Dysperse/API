@@ -1,14 +1,17 @@
 "use client";
 
 import { ErrorHandler } from "@/components/Error";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
   Box,
+  Chip,
   Icon,
   Skeleton,
   SxProps,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -23,7 +26,7 @@ function Loader() {
       <Skeleton
         variant="rectangular"
         animation="wave"
-        height={500}
+        height={350}
         width="700px"
         sx={{
           maxWidth: "100%",
@@ -39,7 +42,9 @@ function Loader() {
 
 function Slides({ data }) {
   const { session } = useSession();
-  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
+  const isDark = useDarkMode(session.darkMode);
+  const orangePalette = useColor("orange", isDark);
+  const palette = useColor(session.themeColor, isDark);
 
   const maxLength = data.length;
   const [progress, setProgress] = useState(0);
@@ -83,31 +88,76 @@ function Slides({ data }) {
     <>
       <Box
         sx={{
-          height: 500,
+          height: 350,
           width: 700,
           maxWidth: "100%",
           border: `2px solid ${palette[3]}`,
+          boxShadow: `0 0 100px ${palette[4]}`,
           borderRadius: 5,
           display: "flex",
-          alignItems: "center",
+          flexDirection: "column",
+          justifyContent: "center",
           p: 4,
+          gap: 2,
         }}
       >
+        <Box sx={{ display: "flex", gap: 1.5 }}>
+          {slide.pinned && (
+            <Chip
+              sx={{
+                color: `${orangePalette[11]}!important`,
+                background: `${orangePalette[5]}!important`,
+              }}
+              icon={<Icon>priority_high</Icon>}
+              label="Urgent"
+            />
+          )}
+          {slide.pinned && (
+            <Chip
+              icon={<Icon className="outlined">calendar_today</Icon>}
+              label={dayjs(slide.due).format("MMMM Do")}
+            />
+          )}
+          {!slide.dateOnly && (
+            <Chip
+              label={dayjs(slide.due).format("h:mm A")}
+              sx={{ background: palette[3] }}
+              icon={<Icon className="outlined">access_time</Icon>}
+            />
+          )}
+          {slide.column && (
+            <Tooltip title={slide.column?.name}>
+              <Chip
+                label={slide.column?.board?.name}
+                sx={{ background: palette[3] }}
+                avatar={
+                  <Avatar
+                    sx={{ borderRadius: 0 }}
+                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
+                  />
+                }
+              />
+            </Tooltip>
+          )}
+        </Box>
         <Typography variant="h3" className="font-heading">
           {slide.name}
         </Typography>
+        <Typography className="font-heading">{slide.description}</Typography>
       </Box>
       <Box
         sx={{
           display: "flex",
           mt: 2,
+          mb: 3,
+          gap: 1,
         }}
       >
         <Box sx={styles}>
           <Icon>close</Icon>
           Delete
         </Box>
-        <Box sx={{ ...styles, background: palette[2] }}>
+        <Box sx={{ ...styles, background: addHslAlpha(palette[4], 0.3) }}>
           <Icon>south</Icon>
           Today
         </Box>
@@ -217,6 +267,7 @@ export default function Page() {
       </Box>
       <Box
         sx={{
+          pt: 4,
           flexGrow: 1,
           display: "flex",
           alignItems: "center",
