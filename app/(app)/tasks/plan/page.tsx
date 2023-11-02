@@ -297,7 +297,7 @@ function Slides({ setNavbarText, data }) {
           "& .opacity": {
             height: { xs: 250, sm: 350 },
             width: { xs: 500, sm: 700 },
-            maxWidth: "calc(100dvw - 50px)",
+            maxWidth: "calc(100dvw - 100px)",
             border: `2px solid ${palette[4]}`,
             boxShadow: `0 0 100px ${palette[4]}`,
             borderRadius: 5,
