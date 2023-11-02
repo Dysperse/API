@@ -3,6 +3,7 @@
 import { ErrorHandler } from "@/components/Error";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
+import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
@@ -134,45 +135,83 @@ function Slides({ setNavbarText, data }) {
     [setProgress]
   );
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = useCallback(async () => {
     setIsDeleted(true);
+    fetchRawApi(session, "space/tasks/task", {
+      method: "DELETE",
+      params: {
+        id: slide.id,
+      },
+    });
     setTimeout(() => {
       setProgress((p) => p + 1);
       setIsDeleted(false);
     }, 800);
-  }, [setProgress]);
+  }, [setProgress, session, slide.id]);
 
   const handleComplete = useCallback(() => {
+    fetchRawApi(session, "space/tasks/task/complete", {
+      method: "PUT",
+      params: {
+        id: slide.id,
+        isRecurring: false,
+        completedAt: dayjs().toISOString(),
+        isCompleted: "true",
+      },
+    });
     setIsCompleted(true);
     setTimeout(() => {
       setProgress((p) => p + 1);
       setIsCompleted(false);
     }, 800);
-  }, [setIsCompleted]);
+  }, [setIsCompleted, slide, session]);
 
   const handlePrioritize = useCallback(() => {
+    fetchRawApi(session, "space/tasks/task", {
+      method: "PUT",
+      params: {
+        id: slide.id,
+        pinned: slide.pinned ? "false" : "true",
+      },
+    });
     setIsPinned(true);
     setTimeout(() => {
       setProgress((p) => p + 1);
       setIsPinned(false);
     }, 800);
-  }, [setProgress]);
+  }, [setProgress, session, slide]);
 
   const handleToday = useCallback(() => {
     setIsToday(true);
+    fetchRawApi(session, "space/tasks/task", {
+      method: "PUT",
+      params: {
+        id: slide.id,
+        due: dayjs().toISOString(),
+        lastUpdated: dayjs().toISOString(),
+      },
+    });
     setTimeout(() => {
       setProgress((p) => p + 1);
       setIsToday(false);
     }, 300);
-  }, [setIsToday]);
+  }, [setIsToday, session, slide.id]);
 
   const handlePostpone = useCallback(() => {
     setIsPostponed(true);
+    fetchRawApi(session, "space/tasks/task", {
+      method: "PUT",
+      params: {
+        id: slide.id,
+        due: dayjs().add(1, "day").toISOString(),
+        lastUpdated: dayjs().toISOString(),
+      },
+    });
     setTimeout(() => {
       setProgress((p) => p + 1);
       setIsPostponed(false);
     }, 400);
-  }, [setIsPostponed]);
+  }, [setIsPostponed, session, slide.id]);
 
   useHotkeys("d", handleDelete);
   useHotkeys("o", handleComplete);
