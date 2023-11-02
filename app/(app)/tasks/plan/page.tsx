@@ -1,5 +1,6 @@
 "use client";
 
+import { Emoji } from "@/components/Emoji";
 import { ErrorHandler } from "@/components/Error";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -8,6 +9,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
   Box,
+  Button,
   Chip,
   Icon,
   IconButton,
@@ -19,6 +21,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import randomQuotes from "random-quotes";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
@@ -124,8 +127,8 @@ function Slides({ setNavbarText, data }) {
 
   useEffect(() => {
     setNavbarText(
-      `${Math.abs(~((progress / maxLength) * 100))}% • ${
-        maxLength - progress
+      `${Math.abs(~~(((progress + 1) / maxLength) * 100))}% • ${
+        maxLength - progress - 1
       } left`
     );
   }, [setNavbarText, progress, maxLength]);
@@ -134,6 +137,20 @@ function Slides({ setNavbarText, data }) {
     () => setProgress((p) => (p === 0 ? 0 : p - 1)),
     [setProgress]
   );
+
+  const handleNext = useCallback(
+    () => setProgress((p) => p + 1),
+    [setProgress]
+  );
+
+  const finishPlanning = useCallback(async () => {
+    fetchRawApi(session, "user/settings", {
+      method: "PUT",
+      params: {
+        lastPlannedTasks: dayjs().toISOString(),
+      },
+    });
+  }, [session]);
 
   const handleDelete = useCallback(async () => {
     setIsDeleted(true);
@@ -220,10 +237,38 @@ function Slides({ setNavbarText, data }) {
   useHotkeys("p", handlePostpone);
   useHotkeys("backspace", handleBack);
 
-  return (
+  useEffect(() => {
+    if (progress === maxLength - 1) {
+      finishPlanning();
+    }
+  }, [progress, maxLength, finishPlanning]);
+  const quote = randomQuotes();
+  return progress === maxLength - 1 ? (
+    <Box>
+      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+        <Emoji emoji="1f389" size={60} />
+        <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
+          Let&apos;s reach for the stars.
+        </Typography>
+        <Typography variant="h6">
+          Today&apos;s gonna be a great day. Onward!
+        </Typography>
+        <Box sx={{ my: 2, borderRadius: 5, background: palette[2], p: 3 }}>
+          <Typography>{quote.body}</Typography>
+          <Typography variant="body2" sx={{ opacity: 0.6 }}>
+            &#8212; {quote.author}
+          </Typography>
+        </Box>
+        <Button variant="contained" fullWidth>
+          Go to agenda
+          <Icon>rocket_launch</Icon>
+        </Button>
+      </motion.div>
+    </Box>
+  ) : (
     <>
       <LinearProgress
-        value={((progress + 1) / (maxLength + 1)) * 100}
+        value={((progress + 1) / maxLength) * 100}
         variant="determinate"
         sx={{
           height: 10,
@@ -473,7 +518,7 @@ function Slides({ setNavbarText, data }) {
               pointerEvents: "none",
             }),
             position: "fixed",
-            bottom: 0,
+            bottom: 50,
             right: 0,
             background: palette[2],
             color: palette[11],
@@ -484,6 +529,24 @@ function Slides({ setNavbarText, data }) {
           <Icon>undo</Icon>
         </IconButton>
       </Tooltip>
+      <IconButton
+        sx={{
+          transition: "all .2s",
+          ...(progress === maxLength - 1 && {
+            opacity: 0,
+            pointerEvents: "none",
+          }),
+          position: "fixed",
+          bottom: 0,
+          right: 0,
+          background: palette[2],
+          color: palette[11],
+          m: 3,
+        }}
+        onClick={handleNext}
+      >
+        <Icon>redo</Icon>
+      </IconButton>
     </>
   );
 }
@@ -539,7 +602,6 @@ function Intro() {
 
 export default function Page() {
   const { session } = useSession();
-
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
