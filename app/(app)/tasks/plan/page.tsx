@@ -9,6 +9,7 @@ import {
   Box,
   Chip,
   Icon,
+  IconButton,
   Skeleton,
   SxProps,
   Tooltip,
@@ -16,7 +17,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { TaskNavbar } from "../navbar";
 
@@ -112,41 +113,66 @@ function Slides({ setNavbarText, data }) {
     },
   };
 
+  const [isPinned, setIsPinned] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   useEffect(() => {
-    setNavbarText(`${progress} of ${maxLength}`);
-  }, [progress, maxLength]);
-  const [isBroken, setIsBroken] = useState(false);
+    setNavbarText(
+      `${Math.abs(~((progress / maxLength) * 100))}% • ${
+        maxLength - progress
+      } left`
+    );
+  }, [setNavbarText, progress, maxLength]);
+
+  const handleDelete = useCallback(() => {
+    setIsDeleted(true);
+  }, []);
+  const handlePrioritize = useCallback(() => {
+    setIsPinned(true);
+  }, []);
+
   return (
     <>
       <Box
-        onClick={() => setIsBroken((s) => !s)}
         sx={{
           height: 350,
           width: 700,
           maxWidth: "100%",
           border: `2px solid ${palette[4]}`,
-          transition: "all .8s",
           boxShadow: `0 0 100px ${palette[4]}`,
           borderRadius: 5,
+          position: "relative",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           p: 4,
           gap: 2,
           zIndex: 99,
-          ...(isBroken && {
-            animation: "delete .8s forwards",
+          overflow: "hidden",
+          transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+          ...(isPinned && {
+            animation: "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
+            ["@keyframes pin"]: {
+              from: { transform: "scale(1)" },
+              to: { transform: "scale(1.1)" },
+            },
+          }),
+          ...(isDeleted && {
+            animation: "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
             ["@keyframes delete"]: {
-              "10%": {
+              "20%": {
+                opacity: 1,
                 transform: "scale(.9) rotate(-5deg)",
                 boxShadow: "none",
               },
-              "50%": {
+              "60%": {
+                opacity: 1,
                 transform: "scale(.9) rotate(-5deg)",
                 boxShadow: "none",
               },
               "100%": {
-                filter: "blur(5px)",
+                // filter: "blur(5px)",
+                opacity: 0,
                 transform: "scale(.5) rotate(-5deg) translate(-80vh, 100vh)",
                 boxShadow: "none",
               },
@@ -154,6 +180,40 @@ function Slides({ setNavbarText, data }) {
           }),
         }}
       >
+        {isPinned && (
+          <Box
+            sx={{
+              transform: "skew(-10deg,-0deg)",
+              width: "300px",
+              display: "block",
+              height: "100dvh",
+              position: "absolute",
+              zIndex: 99,
+              top: 0,
+              left: 0,
+              background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
+              opacity: 0.1,
+              animation: "slide .6s forwards ",
+              ["@keyframes slide"]: {
+                from: { transform: "translateX(-1000px)" },
+                to: { transform: "translateX(1000px)" },
+              },
+            }}
+          />
+        )}
+        <IconButton
+          sx={{
+            background: palette[3],
+            color: palette[9],
+            position: "absolute",
+            top: 0,
+            right: 0,
+            m: 2,
+          }}
+          onClick={handleDelete}
+        >
+          <Icon className="outlined">delete</Icon>
+        </IconButton>
         <Box sx={{ display: "flex", gap: 1.5 }}>
           {slide.pinned && (
             <Chip
@@ -204,11 +264,15 @@ function Slides({ setNavbarText, data }) {
           mt: 2,
           mb: 3,
           gap: 1,
+          transition: "all .3s",
+          ...((isPinned || isDeleted) && {
+            opacity: 0,
+          }),
         }}
       >
-        <Box sx={styles}>
-          <Icon>close</Icon>
-          Delete
+        <Box sx={styles} onClick={handlePrioritize}>
+          <Icon>priority_high</Icon>
+          Prioritize
         </Box>
         <Box sx={{ ...styles, background: addHslAlpha(palette[4], 0.3) }}>
           <Icon>south</Icon>
@@ -296,7 +360,7 @@ export default function Page() {
   }, [session.user.timeZone]);
 
   const { data, mutate, error, isLoading } = useSWR(key);
-  const [navbarText, setNavbarText] = useState<null | string>(null);
+  const [navbarText, setNavbarText] = useState<undefined | string>(undefined);
   return (
     <Box
       sx={{
@@ -305,6 +369,7 @@ export default function Page() {
         display: "flex",
         flexDirection: "column",
         height: "100dvh",
+        overflow: "hidden",
       }}
     >
       <TaskNavbar title="Plan" />
@@ -313,7 +378,7 @@ export default function Page() {
       </Box>
       <Box
         sx={{
-          pt: 4,
+          pt: 7,
           flexGrow: 1,
           display: "flex",
           alignItems: "center",
