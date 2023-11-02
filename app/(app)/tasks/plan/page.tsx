@@ -21,11 +21,11 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import randomQuotes from "random-quotes";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
-import { TaskNavbar } from "../navbar";
 
 function PlanNavbar({ subtitle }: { subtitle?: string }) {
   return (
@@ -77,6 +77,8 @@ function Loader() {
 
 function Slides({ setNavbarText, data }) {
   const { session } = useSession();
+  const quote = randomQuotes();
+  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const orangePalette = useColor("orange", isDark);
   const palette = useColor(session.themeColor, isDark);
@@ -242,7 +244,7 @@ function Slides({ setNavbarText, data }) {
       finishPlanning();
     }
   }, [progress, maxLength, finishPlanning]);
-  const quote = randomQuotes();
+
   return progress === maxLength - 1 ? (
     <Box>
       <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
@@ -259,7 +261,11 @@ function Slides({ setNavbarText, data }) {
             &#8212; {quote.author}
           </Typography>
         </Box>
-        <Button variant="contained" fullWidth>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={() => router.push("/tasks/days")}
+        >
           Go to agenda
           <Icon>rocket_launch</Icon>
         </Button>
@@ -289,9 +295,9 @@ function Slides({ setNavbarText, data }) {
       <Box
         sx={{
           "& .opacity": {
-            height: 350,
-            width: 700,
-            maxWidth: "100%",
+            height: { xs: 250, sm: 350 },
+            width: { xs: 500, sm: 700 },
+            maxWidth: "calc(100dvw - 50px)",
             border: `2px solid ${palette[4]}`,
             boxShadow: `0 0 100px ${palette[4]}`,
             borderRadius: 5,
@@ -632,12 +638,12 @@ export default function Page() {
         display: "flex",
         flexDirection: "column",
         height: "100dvh",
+        maxWidth: "100dvw",
         overflow: "hidden",
         position: "relative",
       }}
     >
-      <TaskNavbar title="Plan" />
-      <Box sx={{ maxWidth: "500px" }}>
+      <Box sx={{ maxWidth: "100dvw", width: "500px" }}>
         <PlanNavbar subtitle={navbarText} />
       </Box>
       <Box
