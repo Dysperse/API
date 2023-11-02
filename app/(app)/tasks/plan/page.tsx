@@ -10,6 +10,7 @@ import {
   Chip,
   Icon,
   IconButton,
+  LinearProgress,
   Skeleton,
   SxProps,
   Tooltip,
@@ -18,6 +19,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { TaskNavbar } from "../navbar";
 
@@ -115,6 +117,9 @@ function Slides({ setNavbarText, data }) {
 
   const [isPinned, setIsPinned] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isToday, setIsToday] = useState(false);
+  const [isPostponed, setIsPostponed] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
     setNavbarText(
@@ -124,139 +129,268 @@ function Slides({ setNavbarText, data }) {
     );
   }, [setNavbarText, progress, maxLength]);
 
+  const handleBack = useCallback(
+    () => setProgress((p) => (p === 0 ? 0 : p - 1)),
+    [setProgress]
+  );
+
   const handleDelete = useCallback(() => {
     setIsDeleted(true);
-  }, []);
+    setTimeout(() => {
+      setProgress((p) => p + 1);
+      setIsDeleted(false);
+    }, 800);
+  }, [setProgress]);
+
+  const handleComplete = useCallback(() => {
+    setIsCompleted(true);
+    setTimeout(() => {
+      setProgress((p) => p + 1);
+      setIsCompleted(false);
+    }, 800);
+  }, [setIsCompleted]);
+
   const handlePrioritize = useCallback(() => {
     setIsPinned(true);
-  }, []);
+    setTimeout(() => {
+      setProgress((p) => p + 1);
+      setIsPinned(false);
+    }, 800);
+  }, [setProgress]);
+
+  const handleToday = useCallback(() => {
+    setIsToday(true);
+    setTimeout(() => {
+      setProgress((p) => p + 1);
+      setIsToday(false);
+    }, 300);
+  }, [setIsToday]);
+
+  const handlePostpone = useCallback(() => {
+    setIsPostponed(true);
+    setTimeout(() => {
+      setProgress((p) => p + 1);
+      setIsPostponed(false);
+    }, 400);
+  }, [setIsPostponed]);
+
+  useHotkeys("d", handleDelete);
+  useHotkeys("c", handleComplete);
+  useHotkeys("1", handlePrioritize);
+  useHotkeys("t", handleToday);
+  useHotkeys("p", handleToday);
 
   return (
     <>
+      <LinearProgress
+        value={((progress + 1) / (maxLength + 1)) * 100}
+        variant="determinate"
+        sx={{
+          height: 10,
+          overflow: "visible",
+          background: palette[3],
+          "& *": {
+            borderRadius: 999,
+            color: palette[9],
+            boxShadow: `0 0 10px ${palette[9]}`,
+          },
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 9999,
+          width: "100%",
+        }}
+      />
       <Box
         sx={{
-          height: 350,
-          width: 700,
-          maxWidth: "100%",
-          border: `2px solid ${palette[4]}`,
-          boxShadow: `0 0 100px ${palette[4]}`,
-          borderRadius: 5,
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          p: 4,
-          gap: 2,
-          zIndex: 99,
-          overflow: "hidden",
-          transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-          ...(isPinned && {
-            animation: "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
-            ["@keyframes pin"]: {
-              from: { transform: "scale(1)" },
-              to: { transform: "scale(1.1)" },
-            },
-          }),
-          ...(isDeleted && {
-            animation: "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-            ["@keyframes delete"]: {
-              "20%": {
-                opacity: 1,
-                transform: "scale(.9) rotate(-5deg)",
-                boxShadow: "none",
+          "& .opacity": {
+            height: 350,
+            width: 700,
+            maxWidth: "100%",
+            border: `2px solid ${palette[4]}`,
+            boxShadow: `0 0 100px ${palette[4]}`,
+            borderRadius: 5,
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            p: 4,
+            gap: 2,
+            zIndex: 99,
+            overflow: "hidden",
+            transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+            ...(isToday && {
+              animation:
+                "today .3s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
+              ["@keyframes today"]: {
+                from: { transform: "translateY(0px)", opacity: 1 },
+                to: { transform: "translateY(-50dvh)", opacity: 0 },
               },
-              "60%": {
-                opacity: 1,
-                transform: "scale(.9) rotate(-5deg)",
-                boxShadow: "none",
+            }),
+            ...(isPostponed && {
+              animation:
+                "postpone .4s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
+              ["@keyframes postpone"]: {
+                from: { transform: "translateX(0px)", opacity: 1 },
+                to: {
+                  transform: "translateX(calc(100%  + 500px))",
+                  opacity: 1,
+                },
               },
-              "100%": {
-                // filter: "blur(5px)",
-                opacity: 0,
-                transform: "scale(.5) rotate(-5deg) translate(-80vh, 100vh)",
-                boxShadow: "none",
+            }),
+            ...(isPinned && {
+              animation: "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
+              ["@keyframes pin"]: {
+                from: { transform: "scale(1)" },
+                to: { transform: "scale(1.1)" },
               },
-            },
-          }),
+            }),
+            ...(isCompleted && {
+              animation: "complete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+              ["@keyframes complete"]: {
+                "20%": {
+                  opacity: 1,
+                  transform: "scale(.9) rotate(-2deg)",
+                  boxShadow: "none",
+                },
+                "60%": {
+                  opacity: 1,
+                  transform: "scale(.9) rotate(-2deg)",
+                  boxShadow: "none",
+                },
+                "100%": {
+                  // filter: "blur(5px)",
+                  opacity: 0,
+                  transform: "scale(.5) rotate(-5deg) translate(100vh, -100vh)",
+                  boxShadow: "none",
+                },
+              },
+            }),
+            ...(isDeleted && {
+              animation: "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+              ["@keyframes delete"]: {
+                "20%": {
+                  opacity: 1,
+                  transform: "scale(.9) rotate(-2deg)",
+                  boxShadow: "none",
+                },
+                "60%": {
+                  opacity: 1,
+                  transform: "scale(.9) rotate(-2deg)",
+                  boxShadow: "none",
+                },
+                "100%": {
+                  // filter: "blur(5px)",
+                  opacity: 0,
+                  transform: "scale(.5) rotate(-5deg) translate(-80vh, 100vh)",
+                  boxShadow: "none",
+                },
+              },
+            }),
+          },
         }}
       >
-        {isPinned && (
-          <Box
-            sx={{
-              transform: "skew(-10deg,-0deg)",
-              width: "300px",
-              display: "block",
-              height: "100dvh",
-              position: "absolute",
-              zIndex: 99,
-              top: 0,
-              left: 0,
-              background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
-              opacity: 0.1,
-              animation: "slide .6s forwards ",
-              ["@keyframes slide"]: {
-                from: { transform: "translateX(-1000px)" },
-                to: { transform: "translateX(1000px)" },
-              },
-            }}
-          />
-        )}
-        <IconButton
-          sx={{
-            background: palette[3],
-            color: palette[9],
-            position: "absolute",
-            top: 0,
-            right: 0,
-            m: 2,
-          }}
-          onClick={handleDelete}
+        <motion.div
+          key={progress}
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="opacity"
         >
-          <Icon className="outlined">delete</Icon>
-        </IconButton>
-        <Box sx={{ display: "flex", gap: 1.5 }}>
-          {slide.pinned && (
-            <Chip
+          {isPinned && (
+            <Box
               sx={{
-                color: `${orangePalette[11]}!important`,
-                background: `${orangePalette[5]}!important`,
+                transform: "skew(-10deg,-0deg)",
+                width: "300px",
+                display: "block",
+                height: "100dvh",
+                position: "absolute",
+                zIndex: 99,
+                top: 0,
+                left: 0,
+                background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
+                opacity: 0.3,
+                animation: "slide .8s forwards ",
+                ["@keyframes slide"]: {
+                  from: { transform: "skew(-10deg,-0deg) translateX(-1000px)" },
+                  to: { transform: "skew(-10deg,-0deg) translateX(1000px)" },
+                },
               }}
-              icon={<Icon>priority_high</Icon>}
-              label="Urgent"
             />
           )}
-          {slide.pinned && (
-            <Chip
-              icon={<Icon className="outlined">calendar_today</Icon>}
-              label={dayjs(slide.due).format("MMMM Do")}
-            />
-          )}
-          {!slide.dateOnly && (
-            <Chip
-              label={dayjs(slide.due).format("h:mm A")}
-              sx={{ background: palette[3] }}
-              icon={<Icon className="outlined">access_time</Icon>}
-            />
-          )}
-          {slide.column && (
-            <Tooltip title={slide.column?.name}>
+          <Tooltip title="d" enterDelay={1000}>
+            <IconButton
+              sx={{
+                // background: palette[3],
+                color: palette[9],
+                position: "absolute",
+                top: 0,
+                left: 0,
+                m: 2,
+              }}
+              onClick={handleDelete}
+            >
+              <Icon className="outlined">delete</Icon>
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="c" enterDelay={1000}>
+            <IconButton
+              sx={{
+                background: palette[3],
+                color: palette[9],
+                position: "absolute",
+                top: 0,
+                right: 0,
+                m: 2,
+              }}
+              onClick={handleComplete}
+            >
+              <Icon className="outlined">check</Icon>
+            </IconButton>
+          </Tooltip>
+          <Box sx={{ display: "flex", gap: 1.5 }}>
+            {slide.pinned && (
               <Chip
-                label={slide.column?.board?.name}
-                sx={{ background: palette[3] }}
-                avatar={
-                  <Avatar
-                    sx={{ borderRadius: 0 }}
-                    src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
-                  />
-                }
+                sx={{
+                  color: `${orangePalette[11]}!important`,
+                  background: `${orangePalette[5]}!important`,
+                }}
+                icon={<Icon>priority_high</Icon>}
+                label="Urgent"
               />
-            </Tooltip>
-          )}
-        </Box>
-        <Typography variant="h3" className="font-heading">
-          {slide.name}
-        </Typography>
-        <Typography className="font-heading">{slide.description}</Typography>
+            )}
+            {slide.pinned && (
+              <Chip
+                icon={<Icon className="outlined">calendar_today</Icon>}
+                label={dayjs(slide.due).format("MMMM Do")}
+              />
+            )}
+            {!slide.dateOnly && (
+              <Chip
+                label={dayjs(slide.due).format("h:mm A")}
+                sx={{ background: palette[3] }}
+                icon={<Icon className="outlined">access_time</Icon>}
+              />
+            )}
+            {slide.column && (
+              <Tooltip title={slide.column?.name}>
+                <Chip
+                  label={slide.column?.board?.name}
+                  sx={{ background: palette[3] }}
+                  avatar={
+                    <Avatar
+                      sx={{ borderRadius: 0 }}
+                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
+                    />
+                  }
+                />
+              </Tooltip>
+            )}
+          </Box>
+          <Typography variant="h3" className="font-heading">
+            {slide.name}
+          </Typography>
+          <Typography>{slide.description}</Typography>
+        </motion.div>
       </Box>
       <Box
         sx={{
@@ -270,19 +404,44 @@ function Slides({ setNavbarText, data }) {
           }),
         }}
       >
-        <Box sx={styles} onClick={handlePrioritize}>
-          <Icon>priority_high</Icon>
-          Prioritize
-        </Box>
-        <Box sx={{ ...styles, background: addHslAlpha(palette[4], 0.3) }}>
-          <Icon>south</Icon>
-          Today
-        </Box>
-        <Box sx={styles}>
-          <Icon>east</Icon>
-          Postpone
-        </Box>
+        <Tooltip title="1" enterDelay={1000}>
+          <Box sx={styles} onClick={handlePrioritize}>
+            <Icon>priority_high</Icon>
+            Prioritize
+          </Box>
+        </Tooltip>
+        <Tooltip title="t" enterDelay={1000}>
+          <Box
+            sx={{ ...styles, background: addHslAlpha(palette[4], 0.3) }}
+            onClick={handleToday}
+          >
+            <Icon>north</Icon>
+            Today
+          </Box>
+        </Tooltip>
+        <Tooltip title="p" enterDelay={1000}>
+          <Box sx={styles} onClick={handlePostpone}>
+            <Icon>east</Icon>
+            Postpone
+          </Box>
+        </Tooltip>
       </Box>
+
+      <IconButton
+        sx={{
+          transition: "all .2s",
+          opacity: progress == 0 ? 0 : 1,
+          position: "fixed",
+          bottom: 0,
+          right: 0,
+          background: palette[2],
+          color: palette[11],
+          m: 3,
+        }}
+        onClick={handleBack}
+      >
+        <Icon>undo</Icon>
+      </IconButton>
     </>
   );
 }
@@ -370,6 +529,7 @@ export default function Page() {
         flexDirection: "column",
         height: "100dvh",
         overflow: "hidden",
+        position: "relative",
       }}
     >
       <TaskNavbar title="Plan" />

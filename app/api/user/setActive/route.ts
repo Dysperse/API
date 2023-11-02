@@ -6,7 +6,9 @@ import {
 } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
 import { NextRequest } from "next/server";
+dayjs.extend(timezone);
 
 export async function GET(req: NextRequest) {
   try {
