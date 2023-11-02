@@ -20,6 +20,34 @@ import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { TaskNavbar } from "../navbar";
 
+function PlanNavbar({ subtitle }: { subtitle?: string }) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+      <Avatar sx={{ width: 50, height: 50, borderRadius: 3 }}>
+        <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
+          emoji_objects
+        </Icon>
+      </Avatar>
+      <Box>
+        <Typography variant="h6">Plan</Typography>
+        {subtitle && (
+          <Typography
+            variant="body2"
+            sx={{
+              opacity: 0.6,
+              textTransform: "uppercase",
+              fontWeight: 900,
+              mt: -0.5,
+            }}
+          >
+            {subtitle}
+          </Typography>
+        )}
+      </Box>
+    </Box>
+  );
+}
+
 function Loader() {
   return (
     <>
@@ -40,7 +68,7 @@ function Loader() {
   );
 }
 
-function Slides({ data }) {
+function Slides({ setNavbarText, data }) {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const orangePalette = useColor("orange", isDark);
@@ -84,14 +112,20 @@ function Slides({ data }) {
     },
   };
 
+  useEffect(() => {
+    setNavbarText(`${progress} of ${maxLength}`);
+  }, [progress, maxLength]);
+  const [isBroken, setIsBroken] = useState(false);
   return (
     <>
       <Box
+        onClick={() => setIsBroken((s) => !s)}
         sx={{
           height: 350,
           width: 700,
           maxWidth: "100%",
           border: `2px solid ${palette[4]}`,
+          transition: "all .8s",
           boxShadow: `0 0 100px ${palette[4]}`,
           borderRadius: 5,
           display: "flex",
@@ -99,6 +133,25 @@ function Slides({ data }) {
           justifyContent: "center",
           p: 4,
           gap: 2,
+          zIndex: 99,
+          ...(isBroken && {
+            animation: "delete .8s forwards",
+            ["@keyframes delete"]: {
+              "10%": {
+                transform: "scale(.9) rotate(-5deg)",
+                boxShadow: "none",
+              },
+              "50%": {
+                transform: "scale(.9) rotate(-5deg)",
+                boxShadow: "none",
+              },
+              "100%": {
+                filter: "blur(5px)",
+                transform: "scale(.5) rotate(-5deg) translate(-80vh, 100vh)",
+                boxShadow: "none",
+              },
+            },
+          }),
         }}
       >
         <Box sx={{ display: "flex", gap: 1.5 }}>
@@ -243,7 +296,7 @@ export default function Page() {
   }, [session.user.timeZone]);
 
   const { data, mutate, error, isLoading } = useSWR(key);
-
+  const [navbarText, setNavbarText] = useState<null | string>(null);
   return (
     <Box
       sx={{
@@ -256,14 +309,7 @@ export default function Page() {
     >
       <TaskNavbar title="Plan" />
       <Box sx={{ maxWidth: "500px" }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Avatar sx={{ width: 45, height: 45, borderRadius: 3 }}>
-            <Icon className="outlined" sx={{ fontSize: "26px!important" }}>
-              emoji_objects
-            </Icon>
-          </Avatar>
-          <Typography variant="h6">Plan</Typography>
-        </Box>
+        <PlanNavbar subtitle={navbarText} />
       </Box>
       <Box
         sx={{
@@ -276,7 +322,9 @@ export default function Page() {
         }}
       >
         {showIntro && <Intro />}
-        {!showIntro && data && <Slides data={data} />}
+        {!showIntro && data && (
+          <Slides setNavbarText={setNavbarText} data={data} />
+        )}
         {error && <ErrorHandler callback={mutate} />}
         {isLoading && !showIntro && <Loader />}
       </Box>
