@@ -175,10 +175,11 @@ function Slides({ setNavbarText, data }) {
   }, [setIsPostponed]);
 
   useHotkeys("d", handleDelete);
-  useHotkeys("c", handleComplete);
-  useHotkeys("1", handlePrioritize);
+  useHotkeys("o", handleComplete);
+  useHotkeys("u", handlePrioritize);
   useHotkeys("t", handleToday);
-  useHotkeys("p", handleToday);
+  useHotkeys("p", handlePostpone);
+  useHotkeys("backspace", handleBack);
 
   return (
     <>
@@ -250,18 +251,18 @@ function Slides({ setNavbarText, data }) {
               ["@keyframes complete"]: {
                 "20%": {
                   opacity: 1,
-                  transform: "scale(.9) rotate(-2deg)",
+                  transform: "scale(.9) rotate(2deg)",
                   boxShadow: "none",
                 },
                 "60%": {
                   opacity: 1,
-                  transform: "scale(.9) rotate(-2deg)",
+                  transform: "scale(.9) rotate(2deg)",
                   boxShadow: "none",
                 },
                 "100%": {
                   // filter: "blur(5px)",
                   opacity: 0,
-                  transform: "scale(.5) rotate(-5deg) translate(100vh, -100vh)",
+                  transform: "scale(.5) rotate(5deg) translate(100vh, -100vh)",
                   boxShadow: "none",
                 },
               },
@@ -282,7 +283,7 @@ function Slides({ setNavbarText, data }) {
                 "100%": {
                   // filter: "blur(5px)",
                   opacity: 0,
-                  transform: "scale(.5) rotate(-5deg) translate(-80vh, 100vh)",
+                  transform: "scale(.5) rotate(-5deg) translate(-100vh, 100vh)",
                   boxShadow: "none",
                 },
               },
@@ -332,7 +333,7 @@ function Slides({ setNavbarText, data }) {
               <Icon className="outlined">delete</Icon>
             </IconButton>
           </Tooltip>
-          <Tooltip title="c" enterDelay={1000}>
+          <Tooltip title="o" enterDelay={1000}>
             <IconButton
               sx={{
                 background: palette[3],
@@ -358,12 +359,10 @@ function Slides({ setNavbarText, data }) {
                 label="Urgent"
               />
             )}
-            {slide.pinned && (
-              <Chip
-                icon={<Icon className="outlined">calendar_today</Icon>}
-                label={dayjs(slide.due).format("MMMM Do")}
-              />
-            )}
+            <Chip
+              icon={<Icon className="outlined">calendar_today</Icon>}
+              label={dayjs(slide.due).format("MMMM Do")}
+            />
             {!slide.dateOnly && (
               <Chip
                 label={dayjs(slide.due).format("h:mm A")}
@@ -404,7 +403,7 @@ function Slides({ setNavbarText, data }) {
           }),
         }}
       >
-        <Tooltip title="1" enterDelay={1000}>
+        <Tooltip title="u" enterDelay={1000}>
           <Box sx={styles} onClick={handlePrioritize}>
             <Icon>priority_high</Icon>
             Prioritize
@@ -426,22 +425,26 @@ function Slides({ setNavbarText, data }) {
           </Box>
         </Tooltip>
       </Box>
-
-      <IconButton
-        sx={{
-          transition: "all .2s",
-          opacity: progress == 0 ? 0 : 1,
-          position: "fixed",
-          bottom: 0,
-          right: 0,
-          background: palette[2],
-          color: palette[11],
-          m: 3,
-        }}
-        onClick={handleBack}
-      >
-        <Icon>undo</Icon>
-      </IconButton>
+      <Tooltip title="backspace" enterDelay={1000}>
+        <IconButton
+          sx={{
+            transition: "all .2s",
+            ...(progress == 0 && {
+              opacity: 0,
+              pointerEvents: "none",
+            }),
+            position: "fixed",
+            bottom: 0,
+            right: 0,
+            background: palette[2],
+            color: palette[11],
+            m: 3,
+          }}
+          onClick={handleBack}
+        >
+          <Icon>undo</Icon>
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
