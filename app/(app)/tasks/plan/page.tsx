@@ -29,6 +29,7 @@ import randomQuotes from "random-quotes";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
+import { CreateTask } from "../Task/Create";
 import { TaskDrawer } from "../Task/Drawer";
 
 function PlanNavbar({ subtitle }: { subtitle?: string }) {
@@ -608,7 +609,7 @@ function Slides({ setNavbarText, data }) {
         sx={{
           display: "flex",
           width: { xs: 500, sm: 700 },
-          maxWidth: "calc(100dvw - 80px)",
+          maxWidth: "calc(100dvw - 20px)",
           mt: { xs: "auto", sm: 2 },
           mb: 3,
           gap: 1,
@@ -664,12 +665,11 @@ function Slides({ setNavbarText, data }) {
             }),
             position: "fixed",
             top: 0,
-            right: 0,
+            right: 55,
             color: palette[11],
             background: palette[3],
             m: 3,
             mt: 4,
-            zIndex: 999,
           }}
           onClick={handleBack}
         >
@@ -775,19 +775,22 @@ export default function Page() {
         position: "relative",
       }}
     >
-      <IconButton
-        sx={{
-          transition: "all .2s",
-          position: "fixed",
-          top: 0,
-          right: 0,
-          color: palette[11],
-          m: 3,
-          mt: 4,
-        }}
-      >
-        <Icon className="outlined">help</Icon>
-      </IconButton>
+      <CreateTask defaultDate={dayjs().startOf("day").toDate()}>
+        <IconButton
+          sx={{
+            transition: "all .2s",
+            position: "fixed",
+            top: 0,
+            right: 0,
+            color: palette[11],
+            background: palette[3],
+            m: 3,
+            mt: 4,
+          }}
+        >
+          <Icon className="outlined">add</Icon>
+        </IconButton>
+      </CreateTask>
       <Box sx={{ maxWidth: "100dvw", width: "500px" }}>
         <PlanNavbar subtitle={navbarText} />
       </Box>
