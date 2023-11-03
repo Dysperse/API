@@ -1,5 +1,5 @@
 import { sessionData } from "@/app/api/session/route";
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,16 +15,16 @@ export async function GET(req: NextRequest) {
   try {
     let info;
     const cookieStore = cookies();
-    const token = cookieStore.get("token");
+    const sessionToken = cookieStore.get("token");
+    const token = await getApiParam(req, "token", true);
 
-    if (token) {
-      info = await sessionData(token.value);
+    if (sessionToken) {
+      info = await sessionData(sessionToken.value);
       if (info.user === false) {
-        redirect("/auth");
-        return;
+        return redirect("/auth");
       }
     } else {
-      redirect("/auth");
+      return redirect("/auth");
     }
 
     const { identifier } = info.user;
@@ -33,24 +33,20 @@ export async function GET(req: NextRequest) {
       throw new Error("No identifier");
     }
 
-    const data = await prisma.qrToken.findFirst({
-      where: { token: token.value },
+    const data = await prisma.qrToken.findFirstOrThrow({
+      where: { AND: [{ token }, { expires: { gt: new Date() } }] },
     });
 
     if (!data) {
       throw new Error("Invalid token");
     }
 
-    if (new Date() > new Date(data.expires)) {
-      throw new Error("Expired token");
-    }
-
     await prisma.qrToken.update({
-      where: { token: token.value },
+      where: { token },
       data: { user: { connect: { identifier } } },
     });
 
-    redirect("/auth/qr-success");
+    return redirect("/auth/qr-success");
   } catch (e) {
     return handleApiError(e);
   }

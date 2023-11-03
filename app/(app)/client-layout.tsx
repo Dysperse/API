@@ -43,11 +43,15 @@ import { fetcher } from "./fetcher";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import isBetween from "dayjs/plugin/isBetween";
+import isToday from "dayjs/plugin/isToday";
+import isTomorrow from "dayjs/plugin/isTomorrow";
 import isoWeek from "dayjs/plugin/isoWeek";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
+dayjs.extend(isTomorrow);
+dayjs.extend(isToday);
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 dayjs.extend(relativeTime);

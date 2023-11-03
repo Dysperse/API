@@ -35,6 +35,7 @@ import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
 export default function DrawerContent({
+  isPlan,
   setCreateSubTaskOpen,
   createSubTaskOpen,
   parentRef,
@@ -118,7 +119,7 @@ export default function DrawerContent({
 
       task.set(
         (oldData) => {
-          return {
+          const d = {
             ...oldData,
             completionInstances: isCompleted
               ? oldData.completionInstances.filter(
@@ -127,10 +128,11 @@ export default function DrawerContent({
                 )
               : [...task.completionInstances, newInstance],
           };
+          task.editCallback(d);
+          return d;
         },
         { revalidate: false }
       );
-      task.editCallback(task);
 
       await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
@@ -151,15 +153,16 @@ export default function DrawerContent({
 
       task.set(
         (oldData) => {
-          return {
+          const d = {
             ...oldData,
             completionInstances: isCompleted ? [] : [newInstance],
           };
+          task.editCallback(d);
+          return d;
         },
         { revalidate: false }
       );
       task.close();
-      task.editCallback(task);
 
       await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
@@ -301,6 +304,7 @@ export default function DrawerContent({
             </Button>
             {!isSubTask &&
               !isRecurring &&
+              !isPlan &&
               (task.due ? (
                 <RescheduleModal handlePostpone={handlePostpone}>
                   <Button
@@ -320,38 +324,40 @@ export default function DrawerContent({
                   </Button>
                 </RescheduleModal>
               ) : null)}
-            <IconButton
-              id="pinTask"
-              onClick={handlePriorityChange}
-              sx={{
-                flexShrink: 0,
-                ...styles.button,
-                ...(task.pinned && {
-                  background: orangePalette[3],
-                  color: orangePalette[11],
-                  "&:hover": {
-                    background: orangePalette[4],
-                  },
-                  "&:active": {
-                    background: orangePalette[5],
-                  },
-                }),
-              }}
-              disabled={shouldDisable}
-            >
-              <Icon
-                {...(!task.pinned && { className: "outlined" })}
+            {!isPlan && (
+              <IconButton
+                id="pinTask"
+                onClick={handlePriorityChange}
                 sx={{
+                  flexShrink: 0,
+                  ...styles.button,
                   ...(task.pinned && {
-                    transform: "rotate(-20deg)",
+                    background: orangePalette[3],
+                    color: orangePalette[11],
+                    "&:hover": {
+                      background: orangePalette[4],
+                    },
+                    "&:active": {
+                      background: orangePalette[5],
+                    },
                   }),
-
-                  transition: "transform .2s",
                 }}
+                disabled={shouldDisable}
               >
-                push_pin
-              </Icon>
-            </IconButton>
+                <Icon
+                  {...(!task.pinned && { className: "outlined" })}
+                  sx={{
+                    ...(task.pinned && {
+                      transform: "rotate(-20deg)",
+                    }),
+
+                    transition: "transform .2s",
+                  }}
+                >
+                  push_pin
+                </Icon>
+              </IconButton>
+            )}
             <ConfirmationModal
               title="Delete task?"
               question={

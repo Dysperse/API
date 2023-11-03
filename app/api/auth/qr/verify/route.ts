@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
+
     if (!data?.userId || !data.user) {
       throw new Error("Unauthenticated");
     }

@@ -13,5 +13,6 @@ export async function GET(req) {
     },
   });
 
+  console.log(data);
   return Response.json(data);
 }

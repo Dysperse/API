@@ -45,6 +45,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   handleSelect,
   recurringInstance = new Date(),
   editCallback = (e) => {},
+  isPlan = false,
 }: {
   isDisabled?: boolean;
   children: JSX.Element;
@@ -54,6 +55,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   handleSelect?: any;
   recurringInstance?: Date;
   editCallback?: (updatedTask: any) => void;
+  isPlan?: boolean;
 }) {
   const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -79,14 +81,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             id: taskId,
           },
         });
-        editCallback('DELETED')
+        editCallback("DELETED");
         mutateList();
         mutateTask();
       } catch (e: any) {
         toast.error(e.message);
       }
     },
-    [mutateList, session, setOpen, mutateTask,editCallback]
+    [mutateList, session, setOpen, mutateTask, editCallback]
   );
 
   useHotkeys(
@@ -319,6 +321,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             data &&
             data !== "deleted" && (
               <DrawerContent
+                isPlan={isPlan}
                 createSubTaskOpen={createSubTaskOpen}
                 setCreateSubTaskOpen={setCreateSubTaskOpen}
                 parentRef={ref}

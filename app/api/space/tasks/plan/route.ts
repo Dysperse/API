@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
           { completionInstances: { none: { taskId: { contains: "-" } } } },
         ],
       },
-      orderBy: [{ pinned: "desc" }, { name: "asc" }],
+      orderBy: { due: "asc" },
       include: {
         parentTasks: true,
         subTasks: { include: { completionInstances: { take: 1 } } },

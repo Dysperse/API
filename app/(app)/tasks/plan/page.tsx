@@ -4,7 +4,6 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Emoji } from "@/components/Emoji";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -43,10 +42,10 @@ function PlanNavbar({ subtitle }: { subtitle?: string }) {
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <ConfirmationModal
         callback={() => {
-          if (!isMobile) router.push("/tasks/home");
+          if (isMobile) router.push("/tasks/home");
         }}
         title="Stop planning?"
-        question="You'll have to start again"
+        question="Changes have been saved, but you'll have to go through everything again"
         disabled={!isMobile}
       >
         <IconButton sx={{ background: palette[3], color: palette[11] }}>
@@ -57,7 +56,7 @@ function PlanNavbar({ subtitle }: { subtitle?: string }) {
       </ConfirmationModal>
       <Box
         sx={{
-          mx: "auto",
+          mx: { xs: "auto", sm: "unset" },
           pr: "80px",
           textAlign: { xs: "center", sm: "left" },
         }}
@@ -188,8 +187,8 @@ function Slides({ setNavbarText, data }) {
 
   const styles: SxProps = {
     width: "100%",
-    px: { xs: 3, sm: 5 },
-    py: { xs: 1, sm: 3 },
+    px: { xs: 2, sm: 5 },
+    py: { xs: 2, sm: 3 },
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -210,7 +209,7 @@ function Slides({ setNavbarText, data }) {
       fontSize: "30px",
     },
     "&:hover": {
-      background: palette[2],
+      background: { sm: palette[2] },
     },
     "&:active": {
       background: palette[3],
@@ -236,6 +235,10 @@ function Slides({ setNavbarText, data }) {
 
   const handleBack = useCallback(
     () => setProgress((p) => (p === 0 ? 0 : p - 1)),
+    [setProgress]
+  );
+  const handleNext = useCallback(
+    () => setProgress((p) => p + 1),
     [setProgress]
   );
 
@@ -268,6 +271,7 @@ function Slides({ setNavbarText, data }) {
       params: {
         id: slide.id,
         pinned: slide.pinned ? "false" : "true",
+        date: dayjs().toISOString(),
       },
     });
     setIsPinned(true);
@@ -296,6 +300,7 @@ function Slides({ setNavbarText, data }) {
   const handlePostpone = useCallback(
     (days) => {
       setIsPostponed(true);
+      setPostponeOpen(false);
       fetchRawApi(session, "space/tasks/task", {
         method: "PUT",
         params: {
@@ -307,15 +312,15 @@ function Slides({ setNavbarText, data }) {
       setTimeout(() => {
         setProgress((p) => p + 1);
         setIsPostponed(false);
-      }, 400);
+      }, 800);
     },
     [setIsPostponed, session, slide.id]
   );
 
-  useHotkeys("d", handleDelete);
-  useHotkeys("u", handlePrioritize);
-  useHotkeys("t", handleToday);
-  useHotkeys("p", () => setPostponeOpen(true));
+  useHotkeys("1", handlePrioritize);
+  useHotkeys("2", handleToday);
+  useHotkeys("3", handleNext);
+  useHotkeys("4", () => setPostponeOpen(true));
   useHotkeys("backspace", handleBack);
 
   useEffect(() => {
@@ -325,7 +330,12 @@ function Slides({ setNavbarText, data }) {
   }, [progress, maxLength, finishPlanning]);
 
   return progress === maxLength - 1 ? (
-    <Box>
+    <Box
+      sx={{
+        maxWidth: "100dvw",
+        p: 3,
+      }}
+    >
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -388,6 +398,7 @@ function Slides({ setNavbarText, data }) {
         }}
       />
       <TaskDrawer
+        isPlan
         id={slide.id}
         mutateList={() => {}}
         editCallback={(updatedTask) => {
@@ -395,9 +406,9 @@ function Slides({ setNavbarText, data }) {
             setIsDeleted(true);
             setTimeout(() => {
               setProgress((p) => p + 1);
+              setIsDeleted(false);
             }, 800);
-          }
-          if (
+          } else if (
             dayjs(updatedTask.due).isAfter(
               dayjs().startOf("day").add(1, "day")
             ) ||
@@ -407,7 +418,7 @@ function Slides({ setNavbarText, data }) {
             setTimeout(() => {
               setProgress((p) => p + 1);
               setIsPostponed(false);
-            }, 400);
+            }, 800);
           }
         }}
       >
@@ -416,12 +427,22 @@ function Slides({ setNavbarText, data }) {
             transformOrigin: "top center",
             transform: postponeOpen ? "scale(.9)" : "scale(1)",
             transition: "all .2s",
+            mt: { xs: "auto", sm: "0" },
             "& .opacity": {
-              height: { xs: 300, sm: 350 },
+              height: { xs: "100%", sm: 350 },
+              maxHeight: { xs: 250, sm: 350 },
               width: { xs: 500, sm: 700 },
               maxWidth: "calc(100dvw - 80px)",
               border: `2px solid ${palette[4]}`,
+              overflow: "hidden",
               boxShadow: `0 0 100px ${palette[4]}`,
+              "&:hover": {
+                background: { sm: palette[2] },
+                border: { sm: `2px solid ${palette[5]}` },
+              },
+              "&:active": {
+                filter: "opacity(.6)",
+              },
               borderRadius: 5,
               position: "relative",
               display: "flex",
@@ -430,7 +451,6 @@ function Slides({ setNavbarText, data }) {
               p: 4,
               gap: 2,
               zIndex: 99,
-              overflow: "hidden",
               transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
               ...(isToday && {
                 animation:
@@ -524,20 +544,30 @@ function Slides({ setNavbarText, data }) {
                 }}
               />
             )}
-            <Box sx={{ display: "flex", gap: 1.5 }}>
+            <Box sx={{ flexWrap: "wrap", display: "flex", gap: 1.5 }}>
               {slide.pinned && (
                 <Chip
                   sx={{
                     color: `${orangePalette[11]}!important`,
                     background: `${orangePalette[5]}!important`,
                   }}
-                  icon={<Icon>priority_high</Icon>}
+                  icon={
+                    <Icon sx={{ color: `${orangePalette[11]}!important` }}>
+                      priority_high
+                    </Icon>
+                  }
                   label="Urgent"
                 />
               )}
               <Chip
                 icon={<Icon className="outlined">calendar_today</Icon>}
-                label={dayjs(slide.due).format("MMMM Do")}
+                label={`${
+                  dayjs(slide.due).isTomorrow()
+                    ? "Tomorrow"
+                    : dayjs(slide.due).isToday()
+                    ? "Today"
+                    : dayjs(slide.due).fromNow()
+                }`}
               />
               {!slide.dateOnly && (
                 <Chip
@@ -570,14 +600,16 @@ function Slides({ setNavbarText, data }) {
             >
               {slide.name}
             </Typography>
-            <Typography>{slide.description}</Typography>
+            {slide.description && <Typography>{slide.description}</Typography>}
           </motion.div>
         </Box>
       </TaskDrawer>
       <Box
         sx={{
           display: "flex",
-          mt: 2,
+          width: { xs: 500, sm: 700 },
+          maxWidth: "calc(100dvw - 80px)",
+          mt: { xs: "auto", sm: 2 },
           mb: 3,
           gap: 1,
           transition: "all .3s",
@@ -586,30 +618,38 @@ function Slides({ setNavbarText, data }) {
           }),
         }}
       >
-        <Tooltip title="d" enterDelay={1000}>
-          <Box sx={styles} onClick={handleDelete}>
-            <Icon>delete</Icon>
-            Delete
-          </Box>
-        </Tooltip>
-        <Tooltip title="u" enterDelay={1000}>
+        <Tooltip title="1" enterDelay={1000}>
           <Box sx={styles} onClick={handlePrioritize}>
-            <Icon>priority_high</Icon>
-            Prioritize
+            <Icon
+              sx={{
+                ...(slide.pinned && {
+                  background: `${palette[9]}!important`,
+                  color: `${palette[1]}!important`,
+                }),
+              }}
+            >
+              release_alert
+            </Icon>
+            Prioritize{slide.pinned && "d"}
           </Box>
         </Tooltip>
-        <Tooltip title="t" enterDelay={1000}>
-          <Box
-            sx={{ ...styles, background: addHslAlpha(palette[4], 0.3) }}
-            onClick={handleToday}
-          >
-            <Icon>north</Icon>
+        <Tooltip title="2" enterDelay={1000}>
+          <Box sx={styles} onClick={handleToday}>
+            <Icon>priority</Icon>
             Today
           </Box>
         </Tooltip>
-        <Tooltip title="p" enterDelay={1000}>
+        <Tooltip title="3" enterDelay={1000}>
+          <Box sx={styles} onClick={handleNext}>
+            <Icon>
+              {dayjs(slide.due).isTomorrow() ? "outbound" : "next_plan"}
+            </Icon>
+            {dayjs(slide.due).isTomorrow() ? "Tomorrow" : "Skip"}
+          </Box>
+        </Tooltip>
+        <Tooltip title="4" enterDelay={1000}>
           <Box sx={styles} onClick={() => setPostponeOpen(true)}>
-            <Icon>east</Icon>
+            <Icon>dark_mode</Icon>
             Postpone
           </Box>
         </Tooltip>
@@ -628,6 +668,8 @@ function Slides({ setNavbarText, data }) {
             color: palette[11],
             background: palette[3],
             m: 3,
+            mt: 4,
+            zIndex: 999,
           }}
           onClick={handleBack}
         >
@@ -696,6 +738,9 @@ function Intro() {
 
 export default function Page() {
   const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
@@ -713,22 +758,36 @@ export default function Page() {
     ];
   }, []);
 
-  const { data, mutate, error, isLoading } = useSWR(key);
+  const { data, mutate, error, isLoading } = useSWR(key, {
+    revalidateOnFocus: false,
+  });
   const [navbarText, setNavbarText] = useState<undefined | string>(undefined);
   return (
     <Box
       sx={{
         p: { xs: 2, sm: 5 },
-        pt: { xs: 3, sm: 6 },
+        pt: { xs: 4, sm: 6 },
         width: "100%",
         display: "flex",
         flexDirection: "column",
         height: "100dvh",
         maxWidth: "100dvw",
-        overflow: "hidden",
         position: "relative",
       }}
     >
+      <IconButton
+        sx={{
+          transition: "all .2s",
+          position: "fixed",
+          top: 0,
+          right: 0,
+          color: palette[11],
+          m: 3,
+          mt: 4,
+        }}
+      >
+        <Icon className="outlined">help</Icon>
+      </IconButton>
       <Box sx={{ maxWidth: "100dvw", width: "500px" }}>
         <PlanNavbar subtitle={navbarText} />
       </Box>
@@ -740,6 +799,7 @@ export default function Page() {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
+          height: "100%",
         }}
       >
         {showIntro && <Intro />}
