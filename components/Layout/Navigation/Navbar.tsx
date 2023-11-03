@@ -5,8 +5,13 @@ import { Logo } from "@/components/Logo";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, IconButton, SxProps, useScrollTrigger } from "@mui/material";
-import { useRouter } from "next/navigation";
+import {
+  Box,
+  IconButton,
+  SxProps,
+  useMediaQuery,
+  useScrollTrigger,
+} from "@mui/material";
 import { useDeferredValue } from "react";
 import { SidebarMenu } from "./Sidebar";
 
@@ -25,29 +30,37 @@ export function Navbar({
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const _isScrollingUp = useScrollTrigger({
-    target: containerRef?.current ? containerRef.current : document.body,
+    target: isMobile
+      ? undefined
+      : containerRef?.current
+      ? containerRef.current
+      : document.body,
   });
 
   const isScrollingUp = useDeferredValue(_isScrollingUp);
 
   const isAtTop = useScrollTrigger({
-    target: containerRef?.current ? containerRef.current : document.body,
+    target: isMobile
+      ? undefined
+      : containerRef?.current
+      ? containerRef.current
+      : document.body,
     disableHysteresis: true,
   });
 
   return (
     <Box
-      onClick={() =>
-        containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
-      }
+      onClick={() => {
+        document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       sx={{
         display: "flex",
         alignItems: "center",
-        p: 4,
-        py: 1,
+        p: 3,
+        py: 2,
         height: 75,
         "& svg": {
           display: showLogo ? { sm: "none" } : "none",

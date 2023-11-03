@@ -211,12 +211,12 @@ export default function ClientLayout({ children, session }) {
                   component="main"
                   sx={{
                     flexGrow: 90,
-                    height: "100dvh",
+                    height: { xs: "auto", sm: "100dvh" },
                     p: 0,
                     display: "flex",
                     flexDirection: "column",
                     ml: { md: "-85px" },
-                    position: "relative",
+                    position: { sm: "relative" },
                     width: {
                       xs: "100%",
                       sm: "calc(100% - 65px)",
@@ -229,10 +229,10 @@ export default function ClientLayout({ children, session }) {
                     sx={{
                       height: { xs: "auto", sm: "100dvh" },
                       overflowY: {
-                        xs: "visibile",
+                        xs: "unset",
                         sm: pathname?.includes("tasks") ? "auto" : "scroll",
                       },
-                      overflowX: "hidden",
+                      overflowX: { xs: "unset", sm: "hidden" },
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",
                       borderRadius: { sm: "20px 0 0 20px" },
