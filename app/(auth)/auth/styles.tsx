@@ -89,7 +89,7 @@ export const authStyles = (palette) => ({
     textAlign: "center",
     mx: "auto",
     transition: "none",
-    color: palette[12],
+    color: palette[11],
     "&:hover": {
       color: palette[11],
     },

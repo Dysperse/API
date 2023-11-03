@@ -78,7 +78,7 @@ function QrLogin({ handleRedirect }) {
     if (data && !verified) {
       const interval = setInterval(() => {
         handleVerify();
-      }, 5000);
+      }, 3000);
 
       return () => {
         clearInterval(interval);
@@ -184,7 +184,7 @@ function QrLogin({ handleRedirect }) {
         )}
         <Box
           sx={{
-            width: "250px",
+            width: "255px",
             mt: 2,
             background: palette[4],
             p: 3,
@@ -361,12 +361,12 @@ export default function Prompt() {
                 <Box sx={{ pt: 3 }}>
                   <Typography
                     variant="h2"
-                    sx={{ mb: 1, mt: { xs: 3, sm: 0 } }}
+                    sx={{ mt: { xs: 3, sm: 0 } }}
                     className="font-heading"
                   >
                     Welcome back!
                   </Typography>
-                  <Typography sx={{ my: 1.5, mb: 3 }}>
+                  <Typography sx={{ mb: 3 }}>
                     We&apos;re so excited to see you again! Please sign in with
                     your Dysperse ID.
                   </Typography>
@@ -463,12 +463,12 @@ export default function Prompt() {
                 <Box>
                   <Typography
                     variant="h2"
-                    sx={{ mb: 1, mt: { xs: 6, sm: 0 } }}
+                    sx={{ mt: { xs: 6, sm: 0 } }}
                     className="font-heading"
                   >
                     Verifying...
                   </Typography>
-                  <Typography sx={{ my: 2, mb: 3 }}>
+                  <Typography sx={{ mb: 3 }}>
                     Hang on while we verify that you&apos;re a human.
                   </Typography>
                   <NoSsr>

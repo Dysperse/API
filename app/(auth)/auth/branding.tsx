@@ -1,7 +1,7 @@
 "use client";
 
+import { Logo } from "@/components/Logo";
 import { Box, useMediaQuery } from "@mui/material";
-import Image from "next/image";
 
 export const AuthBranding = ({ mobile = false }: any) => {
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
@@ -23,19 +23,11 @@ export const AuthBranding = ({ mobile = false }: any) => {
         mt: mobile ? 2 : 4,
         cursor: "pointer",
         transition: "all 0.2s ease",
-        "&:active": {
-          transform: "scale(0.95)",
-          transitionDuration: "0s",
-        },
+        "&:active": { opacity: 0.6 },
       }}
       onClick={() => window.open("//dysperse.com")}
     >
-      <Image
-        src={`/auth/logo-${isDark ? "dark" : "light"}.png`}
-        alt="logo"
-        width={80}
-        height={80}
-      />
+      <Logo size={60} />
     </Box>
   );
 };
