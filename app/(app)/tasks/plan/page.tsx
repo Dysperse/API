@@ -2,6 +2,7 @@
 
 import { Emoji } from "@/components/Emoji";
 import { ErrorHandler } from "@/components/Error";
+import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -15,6 +16,7 @@ import {
   IconButton,
   LinearProgress,
   Skeleton,
+  SwipeableDrawer,
   SxProps,
   Tooltip,
   Typography,
@@ -52,6 +54,66 @@ function PlanNavbar({ subtitle }: { subtitle?: string }) {
         )}
       </Box>
     </Box>
+  );
+}
+
+function PostponeModal({ task, open, setOpen, handlePostpone }) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  return (
+    <SwipeableDrawer
+      open={open}
+      onClose={() => setOpen(false)}
+      anchor="bottom"
+      PaperProps={{
+        sx: {
+          background: palette[2],
+        },
+      }}
+      slotProps={{
+        backdrop: {
+          sx: {
+            opacity: "0!important",
+          },
+        },
+      }}
+    >
+      <Puller showOnDesktop />
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          overflowX: "scroll",
+          px: 5,
+          py: 2,
+          pt: 0,
+        }}
+      >
+        {[
+          { days: 1, label: "Tomorrow" },
+          { days: 2, label: `Day after` },
+          { days: 3, label: `This ${dayjs().add(3, "day").format("dddd")}` },
+          {
+            days: dayjs().endOf("week").diff(dayjs(), "day"),
+            label: `This Saturday`,
+          },
+          { days: 3, label: `Next ${dayjs().add(7, "day").format("dddd")}` },
+          { days: 5, label: `This ${dayjs().add(5, "day").format("dddd")}` },
+          {
+            days: dayjs().daysInMonth(),
+            label: `In ${dayjs().daysInMonth()} days`,
+          },
+        ].map((chip) => (
+          <Chip
+            onClick={() => handlePostpone(chip.days)}
+            key={chip.days}
+            label={chip.label}
+          />
+        ))}
+      </Box>
+    </SwipeableDrawer>
   );
 }
 
@@ -125,6 +187,7 @@ function Slides({ setNavbarText, data }) {
     },
   };
 
+  const [postponeOpen, setPostponeOpen] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isToday, setIsToday] = useState(false);
@@ -211,7 +274,7 @@ function Slides({ setNavbarText, data }) {
       params: {
         id: slide.id,
         due: dayjs().toISOString(),
-        lastUpdated: dayjs().toISOString(),
+        date: dayjs().toISOString(),
       },
     });
     setTimeout(() => {
@@ -220,27 +283,30 @@ function Slides({ setNavbarText, data }) {
     }, 300);
   }, [setIsToday, session, slide.id]);
 
-  const handlePostpone = useCallback(() => {
-    setIsPostponed(true);
-    fetchRawApi(session, "space/tasks/task", {
-      method: "PUT",
-      params: {
-        id: slide.id,
-        due: dayjs().add(1, "day").toISOString(),
-        lastUpdated: dayjs().toISOString(),
-      },
-    });
-    setTimeout(() => {
-      setProgress((p) => p + 1);
-      setIsPostponed(false);
-    }, 400);
-  }, [setIsPostponed, session, slide.id]);
+  const handlePostpone = useCallback(
+    (days) => {
+      setIsPostponed(true);
+      fetchRawApi(session, "space/tasks/task", {
+        method: "PUT",
+        params: {
+          id: slide.id,
+          due: dayjs().add(days, "day").toISOString(),
+          date: dayjs().toISOString(),
+        },
+      });
+      setTimeout(() => {
+        setProgress((p) => p + 1);
+        setIsPostponed(false);
+      }, 400);
+    },
+    [setIsPostponed, session, slide.id]
+  );
 
   useHotkeys("d", handleDelete);
   useHotkeys("o", handleComplete);
   useHotkeys("u", handlePrioritize);
   useHotkeys("t", handleToday);
-  useHotkeys("p", handlePostpone);
+  useHotkeys("p", () => setPostponeOpen(true));
   useHotkeys("backspace", handleBack);
 
   useEffect(() => {
@@ -297,7 +363,7 @@ function Slides({ setNavbarText, data }) {
           position: "absolute",
           top: 0,
           left: 0,
-          zIndex: 9999,
+          zIndex: 999,
           width: "100%",
         }}
       />
@@ -518,7 +584,7 @@ function Slides({ setNavbarText, data }) {
           </Box>
         </Tooltip>
         <Tooltip title="p" enterDelay={1000}>
-          <Box sx={styles} onClick={handlePostpone}>
+          <Box sx={styles} onClick={() => setPostponeOpen(true)}>
             <Icon>east</Icon>
             Postpone
           </Box>
@@ -562,6 +628,12 @@ function Slides({ setNavbarText, data }) {
       >
         <Icon>redo</Icon>
       </IconButton>
+      <PostponeModal
+        setOpen={setPostponeOpen}
+        open={postponeOpen}
+        task={slide}
+        handlePostpone={handlePostpone}
+      />
     </>
   );
 }
