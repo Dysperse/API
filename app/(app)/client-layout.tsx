@@ -234,10 +234,7 @@ export default function ClientLayout({ children, session }) {
                       overflowX: "hidden",
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",
-                      borderRadius: {
-                        xs: shouldHide ? "0px" : "0 0 20px 20px",
-                        sm: "20px 0 0 20px",
-                      },
+                      borderRadius: { sm: "20px 0 0 20px" },
                       transition: "border-radius .3s, margin .3s",
                       ml: { md: shouldHide ? "0px" : "85px" },
                       background: palette[1],
