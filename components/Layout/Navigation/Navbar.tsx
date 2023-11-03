@@ -46,9 +46,9 @@ export function Navbar({
       sx={{
         display: "flex",
         alignItems: "center",
-        p: "15px",
-        pt: "40px",
-        height: 100,
+        p: 4,
+        py: 1,
+        height: 75,
         "& svg": {
           display: showLogo ? { sm: "none" } : "none",
         },
@@ -58,7 +58,7 @@ export function Navbar({
         top: 0,
         transition: "transform 0.25s, border-bottom .25s",
         transitionTimingFunction: "cubic-bezier(0.1, 0.76, 0.55, 0.9)",
-        transform: isScrollingUp ? "translateY(-100px)" : "translateY(-25px)",
+        transform: isScrollingUp ? "translateY(-100px)" : "translateY(0px)",
         left: 0,
         background: addHslAlpha(palette[1], 0.8),
         backdropFilter: "blur(10px)",
