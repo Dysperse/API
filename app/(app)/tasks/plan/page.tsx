@@ -252,20 +252,6 @@ function Slides({ setNavbarText, data }) {
     });
   }, [session]);
 
-  const handleDelete = useCallback(async () => {
-    setIsDeleted(true);
-    fetchRawApi(session, "space/tasks/task", {
-      method: "DELETE",
-      params: {
-        id: slide.id,
-      },
-    });
-    setTimeout(() => {
-      setProgress((p) => p + 1);
-      setIsDeleted(false);
-    }, 800);
-  }, [setProgress, session, slide.id]);
-
   const handlePrioritize = useCallback(() => {
     fetchRawApi(session, "space/tasks/task", {
       method: "PUT",
@@ -296,7 +282,7 @@ function Slides({ setNavbarText, data }) {
       setProgress((p) => p + 1);
       setIsToday(false);
     }, 300);
-  }, [setIsToday, session, slide.id]);
+  }, [setIsToday, session, slide]);
 
   const handlePostpone = useCallback(
     (days) => {
@@ -315,7 +301,7 @@ function Slides({ setNavbarText, data }) {
         setIsPostponed(false);
       }, 800);
     },
-    [setIsPostponed, session, slide.id]
+    [setIsPostponed, session, slide]
   );
 
   useHotkeys("1", handlePrioritize);
