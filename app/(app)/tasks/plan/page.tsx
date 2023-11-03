@@ -97,7 +97,7 @@ function PostponeModal({ task, open, setOpen, handlePostpone }) {
           { days: 3, label: `This ${dayjs().add(3, "day").format("dddd")}` },
           {
             days: dayjs().endOf("week").diff(dayjs(), "day"),
-            label: `This Saturday`,
+            label: `This weekend`,
           },
           { days: 3, label: `Next ${dayjs().add(7, "day").format("dddd")}` },
           { days: 5, label: `This ${dayjs().add(5, "day").format("dddd")}` },
@@ -155,8 +155,8 @@ function Slides({ setNavbarText, data }) {
 
   const styles: SxProps = {
     width: "100%",
-    px: 5,
-    py: 3,
+    px: { xs: 3, sm: 5 },
+    py: { xs: 1, sm: 3 },
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -352,7 +352,7 @@ function Slides({ setNavbarText, data }) {
         value={((progress + 1) / maxLength) * 100}
         variant="determinate"
         sx={{
-          height: 10,
+          height: 2,
           overflow: "visible",
           background: palette[3],
           "& *": {
@@ -369,10 +369,13 @@ function Slides({ setNavbarText, data }) {
       />
       <Box
         sx={{
+          transformOrigin: "top center",
+          transform: postponeOpen ? "scale(.9) translateY(-10vh)" : "scale(1)",
+          transition: "all .2s",
           "& .opacity": {
-            height: { xs: 250, sm: 350 },
+            height: { xs: 300, sm: 350 },
             width: { xs: 500, sm: 700 },
-            maxWidth: "calc(100dvw - 100px)",
+            maxWidth: "calc(100dvw - 80px)",
             border: `2px solid ${palette[4]}`,
             boxShadow: `0 0 100px ${palette[4]}`,
             borderRadius: 5,
@@ -486,7 +489,10 @@ function Slides({ setNavbarText, data }) {
           <Tooltip title="d" enterDelay={1000}>
             <IconButton
               sx={{
-                // background: palette[3],
+                ...(postponeOpen && {
+                  opacity: 0,
+                  pointerEvents: "none",
+                }),
                 color: palette[9],
                 position: "absolute",
                 top: 0,
@@ -501,6 +507,10 @@ function Slides({ setNavbarText, data }) {
           <Tooltip title="o" enterDelay={1000}>
             <IconButton
               sx={{
+                ...(postponeOpen && {
+                  opacity: 0,
+                  pointerEvents: "none",
+                }),
                 background: palette[3],
                 color: palette[9],
                 position: "absolute",
@@ -550,7 +560,13 @@ function Slides({ setNavbarText, data }) {
               </Tooltip>
             )}
           </Box>
-          <Typography variant="h3" className="font-heading">
+          <Typography
+            sx={{
+              fontSize: { xs: "40px", sm: "50px" },
+              lineHeight: { xs: "40px", sm: "50px" },
+            }}
+            className="font-heading"
+          >
             {slide.name}
           </Typography>
           <Typography>{slide.description}</Typography>
@@ -563,7 +579,7 @@ function Slides({ setNavbarText, data }) {
           mb: 3,
           gap: 1,
           transition: "all .3s",
-          ...((isPinned || isDeleted) && {
+          ...((isPinned || isDeleted || postponeOpen) && {
             opacity: 0,
           }),
         }}
@@ -594,17 +610,17 @@ function Slides({ setNavbarText, data }) {
         <IconButton
           sx={{
             transition: "all .2s",
-            ...(progress == 0 && {
+            ...((progress == 0 || postponeOpen) && {
               opacity: 0,
               pointerEvents: "none",
             }),
             position: "fixed",
-            bottom: 50,
+            top: 0,
             right: 0,
-            background: palette[2],
-            color: palette[11],
-            m: 3,
+            color: palette[8],
+            m: 1,
           }}
+          size="small"
           onClick={handleBack}
         >
           <Icon>undo</Icon>
@@ -613,7 +629,7 @@ function Slides({ setNavbarText, data }) {
       <IconButton
         sx={{
           transition: "all .2s",
-          ...(progress === maxLength - 1 && {
+          ...((progress === maxLength - 1 || postponeOpen) && {
             opacity: 0,
             pointerEvents: "none",
           }),
@@ -714,7 +730,8 @@ export default function Page() {
   return (
     <Box
       sx={{
-        p: 5,
+        p: { xs: 2, sm: 5 },
+        pt: { xs: 3, sm: 6 },
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -729,7 +746,7 @@ export default function Page() {
       </Box>
       <Box
         sx={{
-          pt: 7,
+          pt: { xs: 2, sm: 7 },
           flexGrow: 1,
           display: "flex",
           alignItems: "center",
