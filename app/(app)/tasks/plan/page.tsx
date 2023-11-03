@@ -723,9 +723,10 @@ function Intro() {
         transition={{ delay: 2, duration: 0.5 }}
       >
         <Typography
-          variant="h5"
+          variant={isMobile ? undefined : "h5"}
           sx={{
             textShadow: `0 0 100px ${palette[9]}`,
+            textAlign: "center",
           }}
         >
           Let&apos;s take a moment to plan your day{" "}
