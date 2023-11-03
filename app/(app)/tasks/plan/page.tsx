@@ -349,9 +349,11 @@ function Slides({ setNavbarText, data }) {
           </Typography>
         </Box>
         <Box sx={{ display: "flex", gap: 2 }}>
-          <Button variant="outlined" onClick={() => setProgress(0)}>
-            <Icon>undo</Icon>Restart
-          </Button>
+          {maxLength !== 0 && (
+            <Button variant="outlined" onClick={() => setProgress(0)}>
+              <Icon>undo</Icon>Restart
+            </Button>
+          )}
           <Button
             variant="contained"
             fullWidth
