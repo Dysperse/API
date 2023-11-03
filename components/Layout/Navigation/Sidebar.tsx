@@ -228,7 +228,7 @@ export function Sidebar() {
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: palette[6],
+          background: palette[pathname === "/" ? 3 : 6],
           color: palette[11],
         },
       }),
