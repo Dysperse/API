@@ -232,7 +232,7 @@ export default function ClientLayout({ children, session }) {
                         xs: "unset",
                         sm: pathname?.includes("tasks") ? "auto" : "scroll",
                       },
-                      overflowX: { xs: "unset", sm: "hidden" },
+                      overflowX: { xs: "clip", sm: "hidden" },
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",
                       borderRadius: { sm: "20px 0 0 20px" },
