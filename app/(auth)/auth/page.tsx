@@ -354,7 +354,7 @@ export default function Prompt() {
           maxWidth: "100vw",
         }}
       >
-        {!isMobile && <AuthBranding mobile />}
+        {isMobile && <AuthBranding mobile />}
         <Box sx={{ display: "flex", gap: 4 }}>
           <Box sx={{ flexGrow: 1 }}>
             <form onSubmit={handleSubmit}>
