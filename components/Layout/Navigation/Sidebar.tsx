@@ -228,7 +228,7 @@ export function Sidebar() {
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: palette[pathname === "/" ? 3 : 6],
+          background: palette[pathname.includes('tasks')||pathname.includes('/rooms') ? 6 : 4],
           color: palette[11],
         },
       }),

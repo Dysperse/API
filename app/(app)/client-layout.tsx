@@ -181,7 +181,12 @@ export default function ClientLayout({ children, session }) {
                 initial={{ opacity: 0, background: palette[1] }}
                 animate={{
                   opacity: 1,
-                  background: palette[pathname === "/" ? 2 : 3],
+                  background:
+                    palette[
+                      pathname.includes("tasks") || pathname.includes("/rooms")
+                        ? 3
+                        : 2
+                    ],
                 }}
                 onContextMenu={(e) => !isMobile && e.preventDefault()}
                 style={{
