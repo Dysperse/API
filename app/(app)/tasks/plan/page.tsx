@@ -345,7 +345,7 @@ function Slides({ setNavbarText, data }) {
             ? "What will you achieve today!?"
             : "Reach for the stars. Today's gonna be a great day!"}
         </Typography>
-        <Box sx={{ my: 2, borderRadius: 5, background: palette[2], p: 3 }}>
+        <Box sx={{ my: 2, borderRadius: 5, background: palette[3], p: 3 }}>
           <Typography>{quote.body}</Typography>
           <Typography variant="body2" sx={{ opacity: 0.6 }}>
             &#8212; {quote.author}
