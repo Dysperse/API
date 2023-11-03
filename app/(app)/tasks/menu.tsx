@@ -20,6 +20,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -208,9 +209,25 @@ export const MenuChildren = memo(function MenuChildren({
               emoji_objects
             </Icon>
             Plan
-            {isMobile && (
-              <Icon sx={{ ml: "auto", mr: -1 }}>arrow_forward_ios</Icon>
-            )}
+            <Box sx={{ ml: "auto", mr: { xs: -1, sm: 0 } }}>
+              {!dayjs(session.user.lastPlannedTasks).isBefore(
+                dayjs().startOf("day")
+              ) && (
+                <Box
+                  sx={{
+                    transform: pathname?.includes(`/tasks/plan`)
+                      ? "scale(0)"
+                      : "scale(1)",
+                    transition: "all .2s",
+                    width: 10,
+                    height: 10,
+                    background: palette[7],
+                    borderRadius: 99,
+                  }}
+                />
+              )}
+              {isMobile && <Icon>arrow_forward_ios</Icon>}
+            </Box>
           </Button>
         </Link>
         <Divider sx={taskStyles(palette).divider} />

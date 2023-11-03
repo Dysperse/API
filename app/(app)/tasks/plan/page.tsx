@@ -84,7 +84,11 @@ function Slides({ setNavbarText, data }) {
   const palette = useColor(session.themeColor, isDark);
 
   const maxLength = data.length;
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(
+    dayjs(session.user.lastPlannedTasks).isAfter(dayjs().startOf("day"))
+      ? maxLength - 1
+      : 0
+  );
   const slide = data[progress];
 
   const styles: SxProps = {
@@ -261,14 +265,19 @@ function Slides({ setNavbarText, data }) {
             &#8212; {quote.author}
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={() => router.push("/tasks/days")}
-        >
-          Go to agenda
-          <Icon>rocket_launch</Icon>
-        </Button>
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <Button variant="outlined" onClick={() => setProgress(0)}>
+            <Icon>undo</Icon>Restart
+          </Button>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => router.push("/tasks/days")}
+          >
+            Go to agenda
+            <Icon>rocket_launch</Icon>
+          </Button>
+        </Box>
       </motion.div>
     </Box>
   ) : (
