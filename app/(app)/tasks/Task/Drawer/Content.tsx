@@ -130,6 +130,7 @@ export default function DrawerContent({
         },
         { revalidate: false }
       );
+      task.editCallback(task);
 
       await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
@@ -157,6 +158,8 @@ export default function DrawerContent({
         },
         { revalidate: false }
       );
+      task.close();
+      task.editCallback(task);
 
       await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
@@ -171,10 +174,14 @@ export default function DrawerContent({
 
   const handlePostpone: any = useCallback(
     async (count, type) => {
-      task.set((prev) => ({
-        ...prev,
-        due: dayjs(task.due).add(count, type).toISOString(),
-      }));
+      task.set((prev) => {
+        const d = {
+          ...prev,
+          due: dayjs(task.due).add(count, type).toISOString(),
+        };
+        task.editCallback(d);
+        return d;
+      });
       await task.edit(
         task.id,
         "due",
@@ -388,6 +395,7 @@ export default function DrawerContent({
                   ...prev,
                   dateOnly: dateOnly,
                 }));
+                task.editCallback(task);
                 task.edit(task.id, "dateOnly", dateOnly ? "true" : "false");
               }}
               setDate={(d) => {
@@ -396,6 +404,7 @@ export default function DrawerContent({
                   ...prev,
                   due: d ? null : d?.toISOString(),
                 }));
+                task.editCallback(task);
                 task.edit(task.id, "due", d.toISOString());
               }}
             >
@@ -425,6 +434,7 @@ export default function DrawerContent({
                         due: "",
                         dateOnly: true,
                       }));
+                      task.editCallback(task);
                       task.edit(task.id, "due", "");
                       task.edit("dateOnly", true, "");
                     },

@@ -1,5 +1,6 @@
 "use client";
 
+import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { Emoji } from "@/components/Emoji";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
@@ -20,6 +21,7 @@ import {
   SxProps,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
@@ -28,25 +30,55 @@ import randomQuotes from "random-quotes";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
+import { TaskDrawer } from "../Task/Drawer";
 
 function PlanNavbar({ subtitle }: { subtitle?: string }) {
+  const router = useRouter();
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const palette = useColor(session.themeColor, isDark);
+
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-      <Avatar sx={{ width: 50, height: 50, borderRadius: 3 }}>
-        <Icon className="outlined" sx={{ fontSize: "30px!important" }}>
-          emoji_objects
-        </Icon>
-      </Avatar>
-      <Box>
-        <Typography variant="h6">Plan</Typography>
+      <ConfirmationModal
+        callback={() => {
+          if (!isMobile) router.push("/tasks/home");
+        }}
+        title="Stop planning?"
+        question="You'll have to start again"
+        disabled={!isMobile}
+      >
+        <IconButton sx={{ background: palette[3], color: palette[11] }}>
+          <Icon className="outlined">
+            {isMobile ? "close" : "emoji_objects"}
+          </Icon>
+        </IconButton>
+      </ConfirmationModal>
+      <Box
+        sx={{
+          mx: "auto",
+          pr: "80px",
+          textAlign: { xs: "center", sm: "left" },
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: 900,
+            fontSize: { xs: "16px", sm: "20px" },
+          }}
+        >
+          Plan
+        </Typography>
         {subtitle && (
           <Typography
             variant="body2"
             sx={{
               opacity: 0.6,
               textTransform: "uppercase",
-              fontWeight: 900,
-              mt: -0.5,
+              fontWeight: { sm: 900 },
+              fontSize: { xs: "12.5px", sm: "15px" },
+              mt: -0.4,
             }}
           >
             {subtitle}
@@ -144,6 +176,7 @@ function Slides({ setNavbarText, data }) {
   const isDark = useDarkMode(session.darkMode);
   const orangePalette = useColor("orange", isDark);
   const palette = useColor(session.themeColor, isDark);
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const maxLength = data.length;
   const [progress, setProgress] = useState(
@@ -192,7 +225,6 @@ function Slides({ setNavbarText, data }) {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isToday, setIsToday] = useState(false);
   const [isPostponed, setIsPostponed] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
     setNavbarText(
@@ -204,11 +236,6 @@ function Slides({ setNavbarText, data }) {
 
   const handleBack = useCallback(
     () => setProgress((p) => (p === 0 ? 0 : p - 1)),
-    [setProgress]
-  );
-
-  const handleNext = useCallback(
-    () => setProgress((p) => p + 1),
     [setProgress]
   );
 
@@ -234,23 +261,6 @@ function Slides({ setNavbarText, data }) {
       setIsDeleted(false);
     }, 800);
   }, [setProgress, session, slide.id]);
-
-  const handleComplete = useCallback(() => {
-    fetchRawApi(session, "space/tasks/task/complete", {
-      method: "PUT",
-      params: {
-        id: slide.id,
-        isRecurring: false,
-        completedAt: dayjs().toISOString(),
-        isCompleted: "true",
-      },
-    });
-    setIsCompleted(true);
-    setTimeout(() => {
-      setProgress((p) => p + 1);
-      setIsCompleted(false);
-    }, 800);
-  }, [setIsCompleted, slide, session]);
 
   const handlePrioritize = useCallback(() => {
     fetchRawApi(session, "space/tasks/task", {
@@ -303,7 +313,6 @@ function Slides({ setNavbarText, data }) {
   );
 
   useHotkeys("d", handleDelete);
-  useHotkeys("o", handleComplete);
   useHotkeys("u", handlePrioritize);
   useHotkeys("t", handleToday);
   useHotkeys("p", () => setPostponeOpen(true));
@@ -317,13 +326,24 @@ function Slides({ setNavbarText, data }) {
 
   return progress === maxLength - 1 ? (
     <Box>
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-        <Emoji emoji="1f389" size={60} />
-        <Typography variant="h3" className="font-heading" sx={{ mt: 1 }}>
-          Let&apos;s reach for the stars.
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Emoji
+          emoji="1f4ab"
+          size={isMobile ? 50 : 60}
+          style={{ marginBottom: "10px" }}
+        />
+        <Typography variant={isMobile ? "h3" : "h2"} className="font-heading">
+          Sky&apos;s the limit.
         </Typography>
-        <Typography variant="h6">
-          Today&apos;s gonna be a great day. Onward!
+        <Typography variant="h6" sx={{ opacity: 0.6 }}>
+          Reach for the stars. Today&apos;s gonna be a great day!
         </Typography>
         <Box sx={{ my: 2, borderRadius: 5, background: palette[2], p: 3 }}>
           <Typography>{quote.body}</Typography>
@@ -367,211 +387,193 @@ function Slides({ setNavbarText, data }) {
           width: "100%",
         }}
       />
-      <Box
-        sx={{
-          transformOrigin: "top center",
-          transform: postponeOpen ? "scale(.9) translateY(-10vh)" : "scale(1)",
-          transition: "all .2s",
-          "& .opacity": {
-            height: { xs: 300, sm: 350 },
-            width: { xs: 500, sm: 700 },
-            maxWidth: "calc(100dvw - 80px)",
-            border: `2px solid ${palette[4]}`,
-            boxShadow: `0 0 100px ${palette[4]}`,
-            borderRadius: 5,
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            p: 4,
-            gap: 2,
-            zIndex: 99,
-            overflow: "hidden",
-            transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-            ...(isToday && {
-              animation:
-                "today .3s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
-              ["@keyframes today"]: {
-                from: { transform: "translateY(0px)", opacity: 1 },
-                to: { transform: "translateY(-50dvh)", opacity: 0 },
-              },
-            }),
-            ...(isPostponed && {
-              animation:
-                "postpone .4s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
-              ["@keyframes postpone"]: {
-                from: { transform: "translateX(0px)", opacity: 1 },
-                to: {
-                  transform: "translateX(calc(100%  + 500px))",
-                  opacity: 1,
-                },
-              },
-            }),
-            ...(isPinned && {
-              animation: "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
-              ["@keyframes pin"]: {
-                from: { transform: "scale(1)" },
-                to: { transform: "scale(1.1)" },
-              },
-            }),
-            ...(isCompleted && {
-              animation: "complete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-              ["@keyframes complete"]: {
-                "20%": {
-                  opacity: 1,
-                  transform: "scale(.9) rotate(2deg)",
-                  boxShadow: "none",
-                },
-                "60%": {
-                  opacity: 1,
-                  transform: "scale(.9) rotate(2deg)",
-                  boxShadow: "none",
-                },
-                "100%": {
-                  // filter: "blur(5px)",
-                  opacity: 0,
-                  transform: "scale(.5) rotate(5deg) translate(100vh, -100vh)",
-                  boxShadow: "none",
-                },
-              },
-            }),
-            ...(isDeleted && {
-              animation: "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-              ["@keyframes delete"]: {
-                "20%": {
-                  opacity: 1,
-                  transform: "scale(.9) rotate(-2deg)",
-                  boxShadow: "none",
-                },
-                "60%": {
-                  opacity: 1,
-                  transform: "scale(.9) rotate(-2deg)",
-                  boxShadow: "none",
-                },
-                "100%": {
-                  // filter: "blur(5px)",
-                  opacity: 0,
-                  transform: "scale(.5) rotate(-5deg) translate(-100vh, 100vh)",
-                  boxShadow: "none",
-                },
-              },
-            }),
-          },
+      <TaskDrawer
+        id={slide.id}
+        mutateList={() => {}}
+        editCallback={(updatedTask) => {
+          if (updatedTask === "DELETED") {
+            setIsDeleted(true);
+            setTimeout(() => {
+              setProgress((p) => p + 1);
+            }, 800);
+          }
+          if (
+            dayjs(updatedTask.due).isAfter(
+              dayjs().startOf("day").add(1, "day")
+            ) ||
+            updatedTask.completionInstances.length > 0
+          ) {
+            setIsPostponed(true);
+            setTimeout(() => {
+              setProgress((p) => p + 1);
+              setIsPostponed(false);
+            }, 400);
+          }
         }}
       >
-        <motion.div
-          key={progress}
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="opacity"
-        >
-          {isPinned && (
-            <Box
-              sx={{
-                transform: "skew(-10deg,-0deg)",
-                width: "300px",
-                display: "block",
-                height: "100dvh",
-                position: "absolute",
-                zIndex: 99,
-                top: 0,
-                left: 0,
-                background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
-                opacity: 0.3,
-                animation: "slide .8s forwards ",
-                ["@keyframes slide"]: {
-                  from: { transform: "skew(-10deg,-0deg) translateX(-1000px)" },
-                  to: { transform: "skew(-10deg,-0deg) translateX(1000px)" },
+        <Box
+          sx={{
+            transformOrigin: "top center",
+            transform: postponeOpen ? "scale(.9)" : "scale(1)",
+            transition: "all .2s",
+            "& .opacity": {
+              height: { xs: 300, sm: 350 },
+              width: { xs: 500, sm: 700 },
+              maxWidth: "calc(100dvw - 80px)",
+              border: `2px solid ${palette[4]}`,
+              boxShadow: `0 0 100px ${palette[4]}`,
+              borderRadius: 5,
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              p: 4,
+              gap: 2,
+              zIndex: 99,
+              overflow: "hidden",
+              transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+              ...(isToday && {
+                animation:
+                  "today .3s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
+                ["@keyframes today"]: {
+                  from: { transform: "translateY(0px)", opacity: 1 },
+                  to: { transform: "translateY(-50dvh)", opacity: 0 },
                 },
-              }}
-            />
-          )}
-          <Tooltip title="d" enterDelay={1000}>
-            <IconButton
-              sx={{
-                ...(postponeOpen && {
-                  opacity: 0,
-                  pointerEvents: "none",
-                }),
-                color: palette[9],
-                position: "absolute",
-                top: 0,
-                left: 0,
-                m: 2,
-              }}
-              onClick={handleDelete}
-            >
-              <Icon className="outlined">delete</Icon>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="o" enterDelay={1000}>
-            <IconButton
-              sx={{
-                ...(postponeOpen && {
-                  opacity: 0,
-                  pointerEvents: "none",
-                }),
-                background: palette[3],
-                color: palette[9],
-                position: "absolute",
-                top: 0,
-                right: 0,
-                m: 2,
-              }}
-              onClick={handleComplete}
-            >
-              <Icon className="outlined">check</Icon>
-            </IconButton>
-          </Tooltip>
-          <Box sx={{ display: "flex", gap: 1.5 }}>
-            {slide.pinned && (
-              <Chip
-                sx={{
-                  color: `${orangePalette[11]}!important`,
-                  background: `${orangePalette[5]}!important`,
-                }}
-                icon={<Icon>priority_high</Icon>}
-                label="Urgent"
-              />
-            )}
-            <Chip
-              icon={<Icon className="outlined">calendar_today</Icon>}
-              label={dayjs(slide.due).format("MMMM Do")}
-            />
-            {!slide.dateOnly && (
-              <Chip
-                label={dayjs(slide.due).format("h:mm A")}
-                sx={{ background: palette[3] }}
-                icon={<Icon className="outlined">access_time</Icon>}
-              />
-            )}
-            {slide.column && (
-              <Tooltip title={slide.column?.name}>
-                <Chip
-                  label={slide.column?.board?.name}
-                  sx={{ background: palette[3] }}
-                  avatar={
-                    <Avatar
-                      sx={{ borderRadius: 0 }}
-                      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
-                    />
-                  }
-                />
-              </Tooltip>
-            )}
-          </Box>
-          <Typography
-            sx={{
-              fontSize: { xs: "40px", sm: "50px" },
-              lineHeight: { xs: "40px", sm: "50px" },
-            }}
-            className="font-heading"
+              }),
+              ...(isPinned && {
+                animation: "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
+                ["@keyframes pin"]: {
+                  from: { transform: "scale(1)" },
+                  to: { transform: "scale(1.1)" },
+                },
+              }),
+              ...(isPostponed && {
+                animation:
+                  "postpone .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+                ["@keyframes postpone"]: {
+                  "20%": {
+                    opacity: 1,
+                    transform: "scale(.9) rotate(2deg)",
+                    boxShadow: "none",
+                  },
+                  "60%": {
+                    opacity: 1,
+                    transform: "scale(.9) rotate(2deg)",
+                    boxShadow: "none",
+                  },
+                  "100%": {
+                    // filter: "blur(5px)",
+                    opacity: 0,
+                    transform:
+                      "scale(.5) rotate(5deg) translate(100vh, -100vh)",
+                    boxShadow: "none",
+                  },
+                },
+              }),
+              ...(isDeleted && {
+                animation: "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+                ["@keyframes delete"]: {
+                  "20%": {
+                    opacity: 1,
+                    transform: "scale(.9) rotate(-2deg)",
+                    boxShadow: "none",
+                  },
+                  "60%": {
+                    opacity: 1,
+                    transform: "scale(.9) rotate(-2deg)",
+                    boxShadow: "none",
+                  },
+                  "100%": {
+                    // filter: "blur(5px)",
+                    opacity: 0,
+                    transform:
+                      "scale(.5) rotate(-5deg) translate(-100vh, 100vh)",
+                    boxShadow: "none",
+                  },
+                },
+              }),
+            },
+          }}
+        >
+          <motion.div
+            key={progress}
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="opacity"
           >
-            {slide.name}
-          </Typography>
-          <Typography>{slide.description}</Typography>
-        </motion.div>
-      </Box>
+            {isPinned && (
+              <Box
+                sx={{
+                  transform: "skew(-10deg,-0deg)",
+                  width: "300px",
+                  display: "block",
+                  height: "100dvh",
+                  position: "absolute",
+                  zIndex: 99,
+                  top: 0,
+                  left: 0,
+                  background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
+                  opacity: 0.3,
+                  animation: "slide .8s forwards ",
+                  ["@keyframes slide"]: {
+                    from: {
+                      transform: "skew(-10deg,-0deg) translateX(-1000px)",
+                    },
+                    to: { transform: "skew(-10deg,-0deg) translateX(1000px)" },
+                  },
+                }}
+              />
+            )}
+            <Box sx={{ display: "flex", gap: 1.5 }}>
+              {slide.pinned && (
+                <Chip
+                  sx={{
+                    color: `${orangePalette[11]}!important`,
+                    background: `${orangePalette[5]}!important`,
+                  }}
+                  icon={<Icon>priority_high</Icon>}
+                  label="Urgent"
+                />
+              )}
+              <Chip
+                icon={<Icon className="outlined">calendar_today</Icon>}
+                label={dayjs(slide.due).format("MMMM Do")}
+              />
+              {!slide.dateOnly && (
+                <Chip
+                  label={dayjs(slide.due).format("h:mm A")}
+                  sx={{ background: palette[3] }}
+                  icon={<Icon className="outlined">access_time</Icon>}
+                />
+              )}
+              {slide.column && (
+                <Tooltip title={slide.column?.name}>
+                  <Chip
+                    label={slide.column?.board?.name}
+                    sx={{ background: palette[3] }}
+                    avatar={
+                      <Avatar
+                        sx={{ borderRadius: 0 }}
+                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
+                      />
+                    }
+                  />
+                </Tooltip>
+              )}
+            </Box>
+            <Typography
+              sx={{
+                fontSize: { xs: "40px", sm: "50px" },
+                lineHeight: { xs: "40px", sm: "50px" },
+              }}
+              className="font-heading"
+            >
+              {slide.name}
+            </Typography>
+            <Typography>{slide.description}</Typography>
+          </motion.div>
+        </Box>
+      </TaskDrawer>
       <Box
         sx={{
           display: "flex",
@@ -584,6 +586,12 @@ function Slides({ setNavbarText, data }) {
           }),
         }}
       >
+        <Tooltip title="d" enterDelay={1000}>
+          <Box sx={styles} onClick={handleDelete}>
+            <Icon>delete</Icon>
+            Delete
+          </Box>
+        </Tooltip>
         <Tooltip title="u" enterDelay={1000}>
           <Box sx={styles} onClick={handlePrioritize}>
             <Icon>priority_high</Icon>
@@ -617,33 +625,15 @@ function Slides({ setNavbarText, data }) {
             position: "fixed",
             top: 0,
             right: 0,
-            color: palette[8],
-            m: 1,
+            color: palette[11],
+            background: palette[3],
+            m: 3,
           }}
-          size="small"
           onClick={handleBack}
         >
           <Icon>undo</Icon>
         </IconButton>
       </Tooltip>
-      <IconButton
-        sx={{
-          transition: "all .2s",
-          ...((progress === maxLength - 1 || postponeOpen) && {
-            opacity: 0,
-            pointerEvents: "none",
-          }),
-          position: "fixed",
-          bottom: 0,
-          right: 0,
-          background: palette[2],
-          color: palette[11],
-          m: 3,
-        }}
-        onClick={handleNext}
-      >
-        <Icon>redo</Icon>
-      </IconButton>
       <PostponeModal
         setOpen={setPostponeOpen}
         open={postponeOpen}
@@ -656,6 +646,7 @@ function Slides({ setNavbarText, data }) {
 
 function Intro() {
   const { session } = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const getGreeting = useMemo(() => {
@@ -674,7 +665,7 @@ function Intro() {
         transition={{ delay: 0.5, duration: 1.5 }}
       >
         <Typography
-          variant="h1"
+          variant={isMobile ? "h2" : "h1"}
           className="font-heading"
           sx={{
             textShadow: `0 0 100px ${palette[9]}`,
@@ -716,14 +707,11 @@ export default function Page() {
     return [
       "space/tasks/plan",
       {
-        timezone: session.user.timeZone,
-        utcOffset: dayjs().utcOffset(),
         start: dayjs().subtract(7, "day").toISOString(),
-        end: dayjs().endOf("day").toISOString(),
-        type: "week",
+        end: dayjs().add(1, "day").toISOString(),
       },
     ];
-  }, [session.user.timeZone]);
+  }, []);
 
   const { data, mutate, error, isLoading } = useSWR(key);
   const [navbarText, setNavbarText] = useState<undefined | string>(undefined);

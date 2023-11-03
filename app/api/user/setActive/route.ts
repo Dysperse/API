@@ -6,8 +6,12 @@ import {
 } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
 import { NextRequest } from "next/server";
+
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone"); // dependent on utc plugin
+
+dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export async function GET(req: NextRequest) {
