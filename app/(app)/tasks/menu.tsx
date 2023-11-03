@@ -210,7 +210,7 @@ export const MenuChildren = memo(function MenuChildren({
             </Icon>
             Plan
             <Box sx={{ ml: "auto", mr: { xs: -1, sm: 0 } }}>
-              {!dayjs(session.user.lastPlannedTasks).isBefore(
+              {dayjs(session.user.lastPlannedTasks).isBefore(
                 dayjs().startOf("day")
               ) && (
                 <Box
