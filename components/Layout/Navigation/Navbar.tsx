@@ -12,6 +12,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useDeferredValue } from "react";
 
 export function Navbar({
   showLogo = false,
@@ -30,9 +31,11 @@ export function Navbar({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const router = useRouter();
 
-  const isScrollingUp = useScrollTrigger({
+  const _isScrollingUp = useScrollTrigger({
     target: containerRef?.current ? containerRef.current : document.body,
   });
+
+  const isScrollingUp = useDeferredValue(_isScrollingUp);
 
   const isAtTop = useScrollTrigger({
     target: containerRef?.current ? containerRef.current : document.body,
@@ -65,7 +68,7 @@ export function Navbar({
         backdropFilter: "blur(10px)",
         borderBottom: `2px solid transparent`,
         borderColor: isAtTop
-          ? `${addHslAlpha(palette[5], 0.5)}`
+          ? `${addHslAlpha(palette[6], 0.5)}`
           : "transparent",
         ...sx,
       }}

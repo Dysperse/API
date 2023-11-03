@@ -227,10 +227,11 @@ export default function ClientLayout({ children, session }) {
                   <Box
                     ref={containerRef}
                     sx={{
-                      height: "100dvh",
-                      overflowY: pathname?.includes("tasks")
-                        ? "auto"
-                        : "scroll",
+                      height: { xs: "auto", sm: "100dvh" },
+                      overflowY: {
+                        xs: "visibile",
+                        sm: pathname?.includes("tasks") ? "auto" : "scroll",
+                      },
                       overflowX: "hidden",
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",

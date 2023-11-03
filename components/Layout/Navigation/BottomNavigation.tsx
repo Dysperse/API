@@ -107,7 +107,7 @@ export function BottomNav() {
       sx={{
         position: "fixed",
         bottom: 0,
-        borderTop: `2px solid ${addHslAlpha(palette[3], 0.6)}`,
+        borderTop: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
         background: addHslAlpha(palette[1], 0.9),
         backdropFilter: "blur(10px)",
         width: "100%",

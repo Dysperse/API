@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=League+Gothic&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=League+Gothic&family=Work+Sans:wght@300;400;500;600;700&display=swap");
 
 /* Ensure immediate display of content with system fonts */
 body {
@@ -9,7 +9,7 @@ body {
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));
   --bottom-nav-height: 60px;
-  --transition-defaults: .25s cubic-bezier(0.1, 0.76, 0.55, 0.9);
+  --transition-defaults: 0.25s cubic-bezier(0.1, 0.76, 0.55, 0.9);
 
   --toast-bg: hsla(240, 11%, 10%, 0.8);
   --toast-text: hsla(240, 11%, 90%, 0.8);
@@ -19,13 +19,6 @@ body {
   --sar: env(safe-area-inset-right);
   --sab: env(safe-area-inset-bottom);
   --sal: env(safe-area-inset-left);
-}
-
-html:not(.allow-scroll),
-body:not(.allow-scroll body) {
-  overflow: hidden;
-  position: fixed;
-  overscroll-behavior-x: none;
 }
 
 .kbd {
@@ -44,6 +37,12 @@ body:not(.allow-scroll body) {
 @media (min-width: 600px) {
   .cursor-unset {
     cursor: unset !important;
+  }
+  html:not(.allow-scroll),
+  body:not(.allow-scroll body) {
+    overflow: hidden;
+    position: fixed;
+    overscroll-behavior-x: none;
   }
 }
 
