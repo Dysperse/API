@@ -64,7 +64,9 @@ export function Navbar({
         background: addHslAlpha(palette[1], 0.8),
         backdropFilter: "blur(10px)",
         borderBottom: `2px solid transparent`,
-        borderColor: isAtTop ? `${palette[3]}` : "transparent",
+        borderColor: isAtTop
+          ? `${addHslAlpha(palette[5], 0.5)}`
+          : "transparent",
         ...sx,
       }}
     >

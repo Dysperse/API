@@ -2,6 +2,7 @@
 
 import { containerRef } from "@/app/(app)/container";
 import { CreateTask } from "@/app/(app)/tasks/Task/Create";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
@@ -72,15 +73,16 @@ export function BottomNav() {
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
           opacity: 0.5,
-          transition: "none",
+          transition: "all .2s,opacity 0s",
         },
       ...(active && {
         fontWeight: 700,
         color: `${palette[11]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
+          transition: "all .2s,opacity 0s",
           opacity: 1,
           ...iconStyles,
-          background: palette[5],
+          background: addHslAlpha(palette[6], 0.5),
         },
       }),
     };
@@ -102,6 +104,11 @@ export function BottomNav() {
         containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
       }}
       sx={{
+        position: "fixed",
+        bottom: 0,
+        borderTop: `2px solid ${addHslAlpha(palette[3], 0.6)}`,
+        background: addHslAlpha(palette[1], 0.9),
+        backdropFilter: "blur(10px)",
         width: "100%",
         ".hideBottomNav &": {
           mb: "calc(var(--bottom-nav-height) * -1)",
@@ -122,7 +129,6 @@ export function BottomNav() {
         "&, & *": {
           overflow: "hidden!important",
         },
-        borderRadius: "20px 20px 0 0",
         alignItems: "center",
       }}
     >
