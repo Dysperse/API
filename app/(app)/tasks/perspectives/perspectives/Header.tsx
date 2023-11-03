@@ -134,7 +134,7 @@ export const Header = memo(function Header({
                   maxWidth: "100dvw",
                   mb: { xs: 0, sm: 2 },
                   borderBottom: { sm: "2px solid" },
-                  borderColor: { sm: palette[5] },
+                  borderColor: { sm: palette[4] },
                   height: "auto",
                 }}
                 ref={emblaRef}

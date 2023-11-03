@@ -167,10 +167,6 @@ export default function Onboarding() {
           </Typography>
           <LoadingButton
             loading={loading}
-            disabled={
-              session.properties &&
-              session.properties.find((p) => p.propertyId === data.property.id)
-            }
             variant="contained"
             disableElevation
             size="large"
@@ -187,10 +183,7 @@ export default function Onboarding() {
             }}
             onClick={handleAccept}
           >
-            {session?.properties &&
-            session.properties.find((p) => p.propertyId === data.property.id)
-              ? "You're already in this group"
-              : "Join"}
+            Join
           </LoadingButton>
         </Box>
       ) : (

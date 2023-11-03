@@ -348,8 +348,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           standardInfo: ({ theme }) =>
             theme.unstable_sx({
               color: palette[11],
-              background: palette[2],
-              borderColor: palette[3],
+              background: palette[3],
+              borderColor: palette[6],
               "& svg": {
                 color: palette[10],
               },
@@ -357,8 +357,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           standardWarning: ({ theme }) =>
             theme.unstable_sx({
               color: orangePalette[11],
-              background: orangePalette[2],
-              borderColor: orangePalette[3],
+              background: orangePalette[3],
+              borderColor: orangePalette[6],
               "& svg": {
                 color: orangePalette[10],
               },
@@ -366,8 +366,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           standardError: ({ theme }) =>
             theme.unstable_sx({
               color: redPalette[11],
-              background: redPalette[2],
-              borderColor: redPalette[3],
+              background: redPalette[3],
+              borderColor: redPalette[6],
               "& svg": {
                 color: redPalette[10],
               },
@@ -375,10 +375,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           root: ({ theme }) =>
             theme.unstable_sx({
               gap: 2,
-              border: "2px solid",
+              border: "1.5px solid",
               color: palette[11],
-              background: palette[2],
-              borderColor: palette[3],
+              background: palette[3],
+              borderColor: palette[6],
               "& svg": {
                 mt: 1,
                 color: palette[10],

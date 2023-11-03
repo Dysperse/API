@@ -25,10 +25,6 @@ export default function Page() {
   const params = useParams();
   const { id } = params as any;
 
-  const accessToken = session.properties.find(
-    (property) => property.propertyId == id
-  )?.accessToken;
-
   const { error, data } = useSWR([
     "space/inbox",
     {

@@ -41,14 +41,8 @@ export function GroupModal({
     useDarkMode(session.darkMode)
   );
 
-  const properties = [...session.properties, ...(data || [])]
+  const properties = (data || [])
     .filter((group) => group)
-    .reduce((acc, curr) => {
-      if (!acc.find((property) => property.propertyId === curr.propertyId)) {
-        acc.push(curr);
-      }
-      return acc;
-    }, [])
     .sort((a, b) => (a.name > b.name ? 1 : -1));
 
   const drawer = (

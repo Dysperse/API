@@ -444,7 +444,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               router.push("/users/" + (friend.username || friend.email));
             }}
             sx={{
-              background: userPalette[3],
+              border: "2px solid",
+              borderColor: userPalette[3],
               borderRadius: 5,
               position: "relative",
               overflow: "hidden",

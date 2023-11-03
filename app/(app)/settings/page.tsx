@@ -90,7 +90,7 @@ export default function Page() {
           "about",
         ],
         sx: {
-          background: palette[2] + "!important",
+          background: palette[3] + "!important",
           mb: 2,
           ...styles,
         },
@@ -122,7 +122,7 @@ export default function Page() {
           </Avatar>
         ),
         sx: {
-          background: palette[2] + "!important",
+          background: palette[3] + "!important",
           ...styles,
           mb: 2,
         },
@@ -235,9 +235,9 @@ export default function Page() {
         InputProps={{
           disableUnderline: true,
           sx: {
-            background: palette[2],
+            background: palette[3],
             "&:focus-within": {
-              background: palette[3],
+              background: palette[4],
             },
             transition: "all .2s",
             mb: 2,
@@ -262,7 +262,7 @@ export default function Page() {
       )}
       {filteredSections.map((section, sectionIndex) => (
         <Box
-          sx={{ background: palette[2], borderRadius: 3, mb: 2 }}
+          sx={{ background: palette[3], borderRadius: 3, mb: 2 }}
           key={sectionIndex}
         >
           {section &&
