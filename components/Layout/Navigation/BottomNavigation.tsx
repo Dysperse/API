@@ -5,7 +5,8 @@ import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box } from "@mui/material";
+import { Badge, Box } from "@mui/material";
+import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 
 export const shouldHideNavigation = (path) => {
@@ -133,19 +134,39 @@ export function BottomNav() {
       }}
     >
       <CreateTask customTrigger="onContextMenu" disableBadge>
-        <Box
-          id="link1"
-          onClick={() => router.push("/tasks/home")}
-          sx={styles(pathname?.includes("/tasks"))}
+        <Badge
+          badgeContent={
+            dayjs(session.user.lastPlannedTasks).isBefore(
+              dayjs().startOf("day")
+            ) && !pathname.includes("/tasks")
+              ? 1
+              : 0
+          }
+          variant="dot"
+          sx={{
+            width: "33.33333%",
+            "& .MuiBadge-badge": {
+              background: palette[9],
+              right: "calc(50% - 15px)",
+              top: 4,
+              transform: "translateX(50%)",
+            },
+          }}
         >
-          <span
-            className={`material-symbols-${
-              pathname?.includes("/tasks") ? "rounded" : "outlined"
-            }`}
+          <Box
+            id="link1"
+            onClick={() => router.push("/tasks/home")}
+            sx={styles(pathname?.includes("/tasks"))}
           >
-            &#xe86c;
-          </span>
-        </Box>
+            <span
+              className={`material-symbols-${
+                pathname?.includes("/tasks") ? "rounded" : "outlined"
+              }`}
+            >
+              &#xe86c;
+            </span>
+          </Box>
+        </Badge>
       </CreateTask>
       <Box
         id="link2"
