@@ -26,6 +26,67 @@ import { useEffect, useState } from "react";
 import { MenuChildren } from "../menu";
 import { recentlyAccessed } from "../recently-accessed";
 
+function PlanTrigger() {
+  const router = useRouter();
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.user.color, isDark);
+
+  return (
+    <Box
+      onClick={() => router.push("/tasks/plan")}
+      sx={{
+        background: palette[3],
+        px: 2,
+        py: 1,
+        gap: 2,
+        mb: 2,
+        borderRadius: 5,
+        display: "flex",
+        alignItems: "center",
+        "&:active": {
+          opacity: 0.7,
+        },
+      }}
+    >
+      <Avatar
+        sx={{ background: palette[4], color: palette[11], flexShrink: 0 }}
+      >
+        <Icon className="outlined">emoji_objects</Icon>
+      </Avatar>
+      <Box>
+        <Typography
+          sx={{
+            fontWeight: 600,
+            opacity: 0.5,
+            fontSize: "13px",
+            textTransform: "uppercase",
+          }}
+        >
+          STAY ON TOP
+        </Typography>
+        <Typography sx={{ fontWeight: 900 }}>Plan your day</Typography>
+      </Box>
+      <Box sx={{ ml: "auto", display: "flex", alignItems: "center", gap: 1.5 }}>
+        {dayjs(session.user.lastPlannedTasks).isBefore(
+          dayjs().startOf("day")
+        ) && (
+          <Box
+            sx={{
+              transition: "all .2s",
+              width: 10,
+              height: 10,
+              background: palette[8],
+              borderRadius: 99,
+            }}
+          />
+        )}
+        <Icon>arrow_forward_ios</Icon>
+      </Box>
+    </Box>
+  );
+}
+
 function RecentlyAccessed() {
   const router = useRouter();
   const { session } = useSession();
@@ -44,7 +105,7 @@ function RecentlyAccessed() {
       <Box
         onClick={() => router.push(item.path)}
         sx={{
-          background: palette[2],
+          background: palette[3],
           px: 2,
           py: 1,
           gap: 2,
@@ -58,7 +119,7 @@ function RecentlyAccessed() {
         }}
       >
         <Avatar
-          sx={{ background: palette[3], color: palette[11], flexShrink: 0 }}
+          sx={{ background: palette[4], color: palette[11], flexShrink: 0 }}
         >
           <Icon className="outlined">{item.icon}</Icon>
         </Avatar>
@@ -193,9 +254,9 @@ export default function Home() {
                       readOnly: true,
                       disableUnderline: true,
                       sx: {
-                        background: palette[2],
-                        "&:focus-within": {
-                          background: palette[3],
+                        background: palette[3],
+                        "&:active": {
+                          background: palette[4],
                         },
                         cursor: "pointer",
                         "& *": { pointerEvents: "none" },
@@ -223,9 +284,9 @@ export default function Home() {
                     <IconButton
                       sx={{
                         color: palette[11],
-                        background: palette[2],
+                        background: palette[3],
                         "&:active": {
-                          background: palette[3],
+                          background: palette[4],
                         },
                       }}
                     >
@@ -235,6 +296,7 @@ export default function Home() {
                 )}
               </Box>
               <RecentlyAccessed />
+              <PlanTrigger />
             </Box>
             <MenuChildren editMode={editMode} setEditMode={setEditMode} />
           </Box>

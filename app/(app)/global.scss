@@ -21,10 +21,6 @@ body {
   --sal: env(safe-area-inset-left);
 }
 
-.dark {
-  background: var(--bg);
-}
-
 html:not(.allow-scroll),
 body:not(.allow-scroll body) {
   overflow: hidden;

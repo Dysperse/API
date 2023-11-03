@@ -11,7 +11,6 @@ import { UpdateButton } from "@/components/Layout/Navigation/UpdateButton";
 import NotificationsPrompt from "@/components/Layout/NotificationsPrompt";
 import ReleaseModal from "@/components/Layout/ReleaseModal";
 import TosModal from "@/components/Layout/TosModal";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { SessionProvider, useSession } from "@/lib/client/session";
 import {
   AccountStorageState,
@@ -182,7 +181,7 @@ export default function ClientLayout({ children, session }) {
                 initial={{ opacity: 0, background: palette[1] }}
                 animate={{
                   opacity: 1,
-                  background: addHslAlpha(palette[3], 0.7),
+                  background: palette[3],
                 }}
                 onContextMenu={(e) => !isMobile && e.preventDefault()}
                 style={{

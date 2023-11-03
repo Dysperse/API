@@ -187,14 +187,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           root: ({ theme }) =>
             theme.unstable_sx({
               transition: "none",
+              color: palette[11],
               cursor: "default",
               "&:hover": {
-                background: {
-                  sm: palette[3],
-                },
+                background: { sm: palette[4] },
               },
               "&:active": {
-                background: addHslAlpha(palette[4], 0.6),
+                background: palette[5],
               },
               "&:disabled": {
                 cursor: "not-allowed!important",
@@ -534,13 +533,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               userSelect: "none",
               "&:hover": {
                 cursor: "default",
-                background: { xs: "transparent", sm: palette[2] },
+                background: { xs: "transparent", sm: palette[4] },
               },
               "&:active": {
-                background: {
-                  xs: palette[2],
-                  sm: addHslAlpha(palette[3], 0.5),
-                },
+                background: palette[5],
               },
             }),
         },
@@ -549,8 +545,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              borderColor: palette[3],
-              borderWidth: "2px",
+              borderColor: palette[6],
+              borderWidth: "1px",
               borderRadius: 99,
             }),
         },

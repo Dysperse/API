@@ -222,7 +222,7 @@ export default function Home() {
                             display: "flex",
                             gap: 2,
                             alignItems: "center",
-                            background: palette[2],
+                            background: palette[3],
                             borderRadius: 5,
                             height: 95,
                           }}

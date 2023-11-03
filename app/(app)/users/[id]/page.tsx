@@ -242,7 +242,8 @@ function Page() {
 
   const profileCardStyles = {
     border: "2px solid",
-    borderColor: palette[3],
+    background: palette[3],
+    borderColor: palette[4],
     color: palette[11],
     p: 3,
     borderRadius: 5,
@@ -351,7 +352,7 @@ function Page() {
             borderColor: "transparent",
           }}
         >
-          <Toolbar>
+          <Toolbar sx={{ gap: 2 }}>
             <IconButton
               onClick={() => handleBack(router)}
               sx={{
@@ -380,21 +381,6 @@ function Page() {
                   sx={{
                     px: 2,
                     flexShrink: 0,
-                    ...(!loading && data && isFriend
-                      ? {
-                          color: palette[12] + "!important",
-                          background: palette[5] + "!important",
-                          "&:hover": {
-                            background: palette[6] + "!important",
-                            borderColor: palette[4] + "!important",
-                          },
-                        }
-                      : data && {
-                          "&,&:hover": {
-                            background: palette[4] + "!important",
-                            color: palette[12] + "!important",
-                          },
-                        }),
                   }}
                 >
                   <Icon className="outlined">

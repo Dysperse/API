@@ -183,53 +183,55 @@ export const MenuChildren = memo(function MenuChildren({
       )}
       <Box
         sx={{
-          p: 3,
+          p: 2,
           px: 2,
         }}
       >
         {!isMobile && <SearchTasks />}
-        <Link
-          href="/tasks/plan"
-          style={{
-            cursor: "default",
-            alignItems: "center",
-          }}
-          legacyBehavior
-        >
-          <Button
-            size="large"
-            sx={buttonStyles(
-              palette,
-              Boolean(pathname?.includes(`/tasks/plan`))
-            )}
+        {!isMobile && (
+          <Link
+            href="/tasks/plan"
+            style={{
+              cursor: "default",
+              alignItems: "center",
+            }}
+            legacyBehavior
           >
-            <Icon
-              className={pathname?.includes(`/tasks/plan`) ? "" : "outlined"}
-            >
-              emoji_objects
-            </Icon>
-            Plan
-            <Box sx={{ ml: "auto", mr: { xs: -1, sm: 0 } }}>
-              {dayjs(session.user.lastPlannedTasks).isBefore(
-                dayjs().startOf("day")
-              ) && (
-                <Box
-                  sx={{
-                    transform: pathname?.includes(`/tasks/plan`)
-                      ? "scale(0)"
-                      : "scale(1)",
-                    transition: "all .2s",
-                    width: 10,
-                    height: 10,
-                    background: palette[7],
-                    borderRadius: 99,
-                  }}
-                />
+            <Button
+              size="large"
+              sx={buttonStyles(
+                palette,
+                Boolean(pathname?.includes(`/tasks/plan`))
               )}
-              {isMobile && <Icon>arrow_forward_ios</Icon>}
-            </Box>
-          </Button>
-        </Link>
+            >
+              <Icon
+                className={pathname?.includes(`/tasks/plan`) ? "" : "outlined"}
+              >
+                emoji_objects
+              </Icon>
+              Plan
+              <Box sx={{ ml: "auto", mr: { xs: -1, sm: 0 } }}>
+                {dayjs(session.user.lastPlannedTasks).isBefore(
+                  dayjs().startOf("day")
+                ) && (
+                  <Box
+                    sx={{
+                      transform: pathname?.includes(`/tasks/plan`)
+                        ? "scale(0)"
+                        : "scale(1)",
+                      transition: "all .2s",
+                      width: 10,
+                      height: 10,
+                      background: palette[7],
+                      borderRadius: 99,
+                    }}
+                  />
+                )}
+                {isMobile && <Icon>arrow_forward_ios</Icon>}
+              </Box>
+            </Button>
+          </Link>
+        )}
         <Divider sx={taskStyles(palette).divider} />
         {!(isMobile && hiddenPerspectives.length == 6) && (
           <Typography

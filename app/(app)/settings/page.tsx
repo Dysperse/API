@@ -45,10 +45,10 @@ export default function Page() {
 
   const styles = {
     "&:hover": {
-      background: { sm: palette[3] + "!important" },
+      background: { sm: palette[4] + "!important" },
     },
     "&:active": {
-      background: palette[3] + "!important",
+      background: palette[4] + "!important",
     },
     "& *": {
       whiteSpace: "nowrap",

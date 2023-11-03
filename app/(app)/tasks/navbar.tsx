@@ -55,7 +55,7 @@ export function TaskNavbar({
             opacity: 0,
             pointerEvents: "none",
           }),
-          background: addHslAlpha(palette[3], 0.6),
+          background: addHslAlpha(palette[4], 0.5),
           maxWidth: { xs: "100dvw", md: "400px" },
           "& .MuiIcon-root": {
             color: palette[9],
@@ -66,8 +66,8 @@ export function TaskNavbar({
           <IconButton
             onClick={() => router.push("/tasks/home")}
             sx={{
-              background: addHslAlpha(palette[4], 0.6),
-              "&:active": { background: addHslAlpha(palette[4], 0.9) },
+              background: addHslAlpha(palette[5], 0.6),
+              "&:active": { background: addHslAlpha(palette[6], 0.6) },
             }}
           >
             <Icon>{closeIcon}</Icon>

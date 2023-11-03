@@ -47,7 +47,7 @@ export default function ContactSync({ showFriends }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Box
         sx={{
-          background: palette[2],
+          background: palette[3],
           borderRadius: 5,
           mx: "auto",
         }}
@@ -56,7 +56,7 @@ export default function ContactSync({ showFriends }) {
           sx={{
             px: 2,
             py: 2,
-            borderBottom: `2px solid ${palette[3]}`,
+            borderBottom: `2px solid ${palette[4]}`,
             display: "flex",
             gap: 2,
             alignItems: "center",

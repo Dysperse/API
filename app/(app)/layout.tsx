@@ -119,7 +119,7 @@ export default async function RootLayout({
           ["--toast-bg" as any]: addHslAlpha(palette[3], 0.8),
           ["--toast-text" as any]: palette[11],
           ["--toast-solid" as any]: palette[7],
-          ["--bg" as any]: palette[1],
+          background: palette[1],
         }}
       >
         <ClientLayout session={s}>{children}</ClientLayout>

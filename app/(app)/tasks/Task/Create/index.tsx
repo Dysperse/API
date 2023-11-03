@@ -212,9 +212,12 @@ export function CreateTask({
         },
       }),
       button: (active) => ({
-        background: palette[active ? 5 : 2] + "!important",
+        background: palette[active ? 5 : 3] + "!important",
         "&:hover": {
-          background: { sm: palette[active ? 6 : 3] + "!important" },
+          background: { sm: palette[active ? 6 : 4] + "!important" },
+        },
+        "&:active": {
+          background: { sm: palette[active ? 7 : 5] + "!important" },
         },
         color: palette[active ? 11 : 12] + "!important",
         borderRadius: 3,
@@ -492,7 +495,7 @@ export function CreateTask({
           sx={{
             p: 3,
             pb: 2,
-            background: palette[2],
+            background: palette[3],
             borderRadius: "20px 20px 0 0",
           }}
         >
@@ -631,7 +634,11 @@ export function CreateTask({
                 loading={imageUploading}
                 disabled={loading || formData.title.trim() === ""}
                 onClick={handleSubmit}
-                sx={{ px: 2, minWidth: "unset" }}
+                sx={{
+                  px: 2,
+                  minWidth: "unset",
+                  background: palette[4] + "!important",
+                }}
               >
                 <Icon>arrow_upward</Icon>
               </LoadingButton>

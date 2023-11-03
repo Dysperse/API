@@ -1,54 +1,53 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 
-
 export const buttonStyles = (palette, condition: boolean) => ({
-    cursor: { sm: "unset!important" },
-    transition: "transform .1s !important",
-    gap: 1.5,
-    py: { xs: 1, sm: 0.8 },
-    px: { xs: 2, sm: 1.5 },
-    mr: 1,
-    mb: { xs: 0.5, sm: 0.3 },
-    width: "100%",
-    fontSize: "15px",
-    justifyContent: "flex-start",
-    borderRadius: 4,
-    "&:hover, &:focus": {
-      background: {
-        xs: "transparent!important",
-        sm: addHslAlpha(palette[4], 0.5) + "!important",
-      },
+  cursor: { sm: "unset!important" },
+  transition: "transform .1s !important",
+  gap: 1.5,
+  py: { xs: 1, sm: 0.8 },
+  px: { xs: 2, sm: 1.5 },
+  mr: 1,
+  mb: { xs: 0.5, sm: 0.3 },
+  width: "100%",
+  fontSize: "15px",
+  justifyContent: "flex-start",
+  borderRadius: 4,
+  "&:hover, &:focus": {
+    background: {
+      xs: "transparent!important",
+      sm: addHslAlpha(palette[4], 0.5) + "!important",
     },
-    "&:active": {
-      background: addHslAlpha(palette[4], 0.5) + "!important",
-    },
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    ...(!condition
-      ? {
-          color: addHslAlpha(palette[12], 0.7),
-          "&:hover": {
-            background: addHslAlpha(palette[4], 0.5),
-          },
-        }
-      : {
-          color: palette[12],
-          background: addHslAlpha(palette[6], 0.5),
-          "&:hover, &:focus": {
-            background: addHslAlpha(palette[7], 0.5),
-          },
-        }),
-  });
+  },
+  "&:active": {
+    background: addHslAlpha(palette[4], 0.5) + "!important",
+  },
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  ...(!condition
+    ? {
+        color: addHslAlpha(palette[12], 0.7),
+        "&:hover": {
+          background: addHslAlpha(palette[4], 0.5),
+        },
+      }
+    : {
+        color: palette[12],
+        background: addHslAlpha(palette[6], 0.5),
+        "&:hover, &:focus": {
+          background: addHslAlpha(palette[7], 0.5),
+        },
+      }),
+});
 
 export const taskStyles = (palette) => {
   return {
     divider: {
-      mt: 1,
+      opacity: { xs: 0, sm: 0.5 },
+      mt: { xs: 0, sm: 1 },
       mb: 2,
-      width: { sm: "90%" },
+      width: { xs: "50vw", sm: "90%" },
       mx: "auto",
-      opacity: 0.5,
     },
     subheading: {
       my: { xs: 1, sm: 1.5 },
