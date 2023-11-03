@@ -1,7 +1,8 @@
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
-import { createSession } from "../login/route";
+import { NextRequest } from "next/server";
+import { createSession } from "../../login/route";
 
 /**
  * API handler for the /api/login endpoint
@@ -9,11 +10,12 @@ import { createSession } from "../login/route";
  * @param {any} res
  * @returns {any}
  */
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
   try {
+    const token = await getApiParam(req, "token", true);
     const data = await prisma.qrToken.findFirstOrThrow({
       where: {
-        AND: [{ token: req.query.token }, { expires: { gt: new Date() } }],
+        AND: [{ token }, { expires: { gt: new Date() } }],
       },
       include: {
         user: {
@@ -33,12 +35,11 @@ export default async function handler(req, res) {
       actions: [],
     });
 
-    const ip =
-      req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
+    const ip = "Unknown";
 
     const encoded = await createSession(data.user.id, ip);
 
-    await prisma.qrToken.delete({ where: { token: req.query.token } });
+    await prisma.qrToken.delete({ where: { token } });
     return Response.json({ success: true, key: encoded });
   } catch (e) {
     return handleApiError(e);

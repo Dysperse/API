@@ -1,6 +1,8 @@
 import ForgotPasswordEmail from "@/emails/forgot-password";
 import { validateCaptcha } from "@/lib/server/captcha";
+import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { NextRequest } from "next/server";
 import { Resend } from "resend";
 
 /**
@@ -9,17 +11,18 @@ import { Resend } from "resend";
  * @param {any} res
  * @returns {any}
  */
-export default async function handler(req, res) {
-  const { captchaToken, email } = JSON.parse(req.body);
+export async function GET(req: NextRequest) {
+  const body = await req.json();
+  const { captchaToken, email } = JSON.parse(body);
 
   try {
     // Validate captcha
     const data = await validateCaptcha(captchaToken);
     if (!data.success) {
-      return res.status(401).json({ message: "Invalid Captcha" });
+      return handleApiError({ message: "Invalid Captcha" });
     }
   } catch (e) {
-    return res.status(401).json({ message: "Invalid Captcha" });
+    return handleApiError({ message: "Invalid Captcha" });
   }
 
   // Find the user in the database
@@ -30,7 +33,7 @@ export default async function handler(req, res) {
 
   // If the user doesn't exist, return an error
   if (!user) {
-    return res.status(401).json({ message: "Invalid email or password" });
+    return handleApiError({ message: "Invalid email or password" });
   }
 
   const { id, name } = user;

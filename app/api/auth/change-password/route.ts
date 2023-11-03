@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/server/prisma";
 import argon2 from "argon2";
+import { NextRequest } from "next/server";
 
 /**
  * API handler for the /api/login endpoint
@@ -7,9 +8,10 @@ import argon2 from "argon2";
  * @param {any} res
  * @returns {any}
  */
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
+  const body = await req.json();
   // Get the user's email and password from the request body
-  const { password, token } = JSON.parse(req.body);
+  const { password, token } = body;
 
   //  Find passwordResetToken in database and get user id from it
   const passwordResetToken: any = await prisma.passwordResetToken.findUnique({

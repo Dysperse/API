@@ -2,7 +2,7 @@ import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { NextRequest } from "next/server";
 
-export default async function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const subscription = await getApiParam(req, "subscription", true);
     await DispatchNotification({

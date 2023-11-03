@@ -3,6 +3,7 @@ import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
 
 /**
  * API handler for the /api/login endpoint
@@ -10,7 +11,7 @@ import { redirect } from "next/navigation";
  * @param {any} res
  * @returns {any}
  */
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
   try {
     let info;
     const cookieStore = cookies();
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
     if (token) {
       info = await sessionData(token.value);
       if (info.user === false) {
-        res.redirect("/auth");
+        redirect("/auth");
         return;
       }
     } else {
