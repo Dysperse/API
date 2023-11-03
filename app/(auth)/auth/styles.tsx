@@ -1,5 +1,7 @@
 "use client";
 
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
+
 export const authStyles = (palette) => ({
   footer: {
     display: "flex",
@@ -8,7 +10,6 @@ export const authStyles = (palette) => ({
     zIndex: 99999,
     left: 0,
     py: { xs: 1, sm: 0 },
-    background: palette[2],
     width: { xs: "100vw", sm: "auto" },
   },
   submit: {
@@ -64,7 +65,10 @@ export const authStyles = (palette) => ({
     },
   },
   container: {
-    background: palette[2],
+    border: { sm: "2px solid" },
+    background: addHslAlpha(palette[1], 0.2),
+    backdropFilter: "blur(3px)",
+    borderColor: { sm: palette[6] },
     color: palette[12],
     borderRadius: { sm: 5 },
     top: 0,

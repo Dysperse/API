@@ -34,7 +34,7 @@ export function AuthClientLayout({ children }) {
         <Box sx={{ zIndex: 99 }}>{children}</Box>
         <Image
           alt="background"
-          src={`/auth/background-${isDark ? "dark" : "light"}.png`}
+          src={`/auth/background-${isDark ? "dark" : "light"}.png?purge=dev`}
           width={width}
           height={height}
           style={{
@@ -44,6 +44,7 @@ export function AuthClientLayout({ children }) {
             left: 0,
             zIndex: -1,
             width: "100dvw",
+            objectFit: "cover",
             height: "100dvh",
           }}
         />

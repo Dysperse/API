@@ -9,7 +9,9 @@ export const AuthBranding = ({ mobile = false }: any) => {
   return (
     <Box
       sx={{
-        display: { xs: "inline-flex", sm: mobile ? "none" : "inline-flex" },
+        display: mobile
+          ? "inline-flex"
+          : { xs: "none", sm: mobile ? "none" : "inline-flex" },
         color: "#000",
         position: "absolute",
         top: 0,
