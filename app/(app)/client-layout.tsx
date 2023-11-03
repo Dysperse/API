@@ -183,7 +183,10 @@ export default function ClientLayout({ children, session }) {
                   opacity: 1,
                   background:
                     palette[
-                      pathname.includes("tasks") || pathname.includes("/rooms")
+                      isMobile
+                        ? 3
+                        : pathname.includes("tasks") ||
+                          pathname.includes("/rooms")
                         ? 3
                         : 2
                     ],
