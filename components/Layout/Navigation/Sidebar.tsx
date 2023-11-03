@@ -220,15 +220,15 @@ export function Sidebar() {
         justifyContent: "center",
       },
       "&:hover .material-symbols-outlined": {
-        background: palette[3],
+        background: palette[4],
       },
       "&:active .material-symbols-outlined": {
-        background: palette[4],
+        background: palette[5],
       },
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: palette[4],
+          background: palette[6],
           color: palette[11],
         },
       }),

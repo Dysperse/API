@@ -321,6 +321,7 @@ function Slides({ setNavbarText, data }) {
       sx={{
         maxWidth: "100dvw",
         p: 3,
+        width: "100%",
       }}
     >
       <motion.div
@@ -340,7 +341,9 @@ function Slides({ setNavbarText, data }) {
           Sky&apos;s the limit.
         </Typography>
         <Typography variant="h6" sx={{ opacity: 0.6 }}>
-          Reach for the stars. Today&apos;s gonna be a great day!
+          {maxLength == 1
+            ? "What will you achieve today!?"
+            : "Reach for the stars. Today's gonna be a great day!"}
         </Typography>
         <Box sx={{ my: 2, borderRadius: 5, background: palette[2], p: 3 }}>
           <Typography>{quote.body}</Typography>
@@ -349,19 +352,28 @@ function Slides({ setNavbarText, data }) {
           </Typography>
         </Box>
         <Box sx={{ display: "flex", gap: 2 }}>
-          {maxLength !== 0 && (
+          {maxLength !== 1 && (
             <Button variant="outlined" onClick={() => setProgress(0)}>
               <Icon>undo</Icon>Restart
             </Button>
           )}
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={() => router.push("/tasks/days")}
-          >
-            Go to agenda
-            <Icon>rocket_launch</Icon>
-          </Button>
+          {maxLength == 1 ? (
+            <CreateTask defaultDate={dayjs().startOf("day").toDate()}>
+              <Button variant="contained" fullWidth>
+                Create a task
+                <Icon>add_circle</Icon>
+              </Button>
+            </CreateTask>
+          ) : (
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => router.push("/tasks/days")}
+            >
+              Go to agenda
+              <Icon>rocket_launch</Icon>
+            </Button>
+          )}
         </Box>
       </motion.div>
     </Box>
