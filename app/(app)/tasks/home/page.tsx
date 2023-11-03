@@ -119,7 +119,7 @@ function RecentlyAccessed() {
         }}
       >
         <Avatar
-          sx={{ background: palette[4], color: palette[11], flexShrink: 0 }}
+          sx={{ background: palette[5], color: palette[11], flexShrink: 0 }}
         >
           <Icon className="outlined">{item.icon}</Icon>
         </Avatar>

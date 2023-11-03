@@ -175,12 +175,6 @@ export const MenuChildren = memo(function MenuChildren({
 
   return (
     <>
-      {error && (
-        <ErrorHandler
-          callback={() => mutate()}
-          error="An error occurred while loading your tasks"
-        />
-      )}
       <Box
         sx={{
           p: 2,
@@ -231,6 +225,12 @@ export const MenuChildren = memo(function MenuChildren({
               </Box>
             </Button>
           </Link>
+        )}
+        {error && (
+          <ErrorHandler
+            callback={() => mutate()}
+            error="An error occurred while loading your tasks"
+          />
         )}
         <Divider sx={taskStyles(palette).divider} />
         {!(isMobile && hiddenPerspectives.length == 6) && (

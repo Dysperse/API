@@ -19,11 +19,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { shouldHideNavigation } from "./BottomNavigation";
 
-function SidebarMenu({ styles }) {
+export function SidebarMenu({ children }) {
   const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -42,30 +42,11 @@ function SidebarMenu({ styles }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const trigger = cloneElement(children, { onClick: handleClick });
 
   return (
     <>
-      <Box
-        onClick={handleClick}
-        sx={{
-          ...styles(false),
-          "& .material-symbols-outlined": {
-            borderRadius: 99,
-            background: addHslAlpha(palette[4], 0.6),
-            transition: "all .2s",
-            "&:active": {
-              opacity: 0.6,
-              transition: "none",
-            },
-            width: 40,
-            height: 40,
-            fontVariationSettings:
-              '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20!important',
-          },
-        }}
-      >
-        <span className="material-symbols-outlined">more_horiz</span>
-      </Box>
+      {trigger}
       <Menu
         anchorEl={anchorEl}
         open={open}
@@ -228,7 +209,10 @@ export function Sidebar() {
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: palette[pathname.includes('tasks')||pathname.includes('/rooms') ? 6 : 4],
+          background:
+            palette[
+              pathname.includes("tasks") || pathname.includes("/rooms") ? 6 : 4
+            ],
           color: palette[11],
         },
       }),
@@ -370,7 +354,28 @@ export function Sidebar() {
         }}
       >
         <StatusSelector mutate={() => {}} profile={session.user.Profile} />
-        <SidebarMenu styles={styles} />
+        <SidebarMenu>
+          <Box
+            sx={{
+              ...styles(false),
+              "& .material-symbols-outlined": {
+                borderRadius: 99,
+                background: addHslAlpha(palette[4], 0.6),
+                transition: "all .2s",
+                "&:active": {
+                  opacity: 0.6,
+                  transition: "none",
+                },
+                width: 40,
+                height: 40,
+                fontVariationSettings:
+                  '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20!important',
+              },
+            }}
+          >
+            <span className="material-symbols-outlined">more_horiz</span>
+          </Box>
+        </SidebarMenu>
       </Box>
     </Box>
   );

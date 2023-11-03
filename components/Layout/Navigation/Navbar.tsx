@@ -1,18 +1,14 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import {
-  Box,
-  Icon,
-  IconButton,
-  SxProps,
-  useScrollTrigger,
-} from "@mui/material";
+import { Box, IconButton, SxProps, useScrollTrigger } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useDeferredValue } from "react";
+import { SidebarMenu } from "./Sidebar";
 
 export function Navbar({
   showLogo = false,
@@ -71,49 +67,20 @@ export function Navbar({
           ? `${addHslAlpha(palette[6], 0.5)}`
           : "transparent",
         ...sx,
+        gap: 1.5,
       }}
     >
-      <Logo />
+      <Logo style={{ marginRight: "auto" }} />
       {right}
-      {(!right || showRightContent) && (
-        <>
-          <IconButton
-            onClick={() =>
-              router.push(
-                `/users/${session.user.username || session.user.email}`
-              )
-            }
-            sx={{
-              color: palette[9],
-              ml: {
-                xs: right ? "" : "auto",
-                sm: showRightContent && right ? "" : "auto",
-              },
-              fontSize: "15px",
-              gap: 2,
-              borderRadius: 99,
-              "& .label": {
-                display: { xs: "none", sm: "block" },
-              },
-            }}
-          >
-            <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              account_circle
-            </Icon>
-            <span className="label">My profile</span>
-          </IconButton>
-          {!hideSettings && (
-            <IconButton
-              sx={{ color: palette[9] }}
-              onClick={() => router.push("/settings")}
-            >
-              <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-                &#xe8b8;
-              </Icon>
-            </IconButton>
-          )}
-        </>
-      )}
+      <SidebarMenu>
+        <IconButton
+          sx={{
+            p: 0,
+          }}
+        >
+          <ProfilePicture data={session.user} size={36} />
+        </IconButton>
+      </SidebarMenu>
     </Box>
   );
 }
