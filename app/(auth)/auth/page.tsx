@@ -341,6 +341,7 @@ export default function Prompt() {
 
   useEffect(() => emailRef?.current?.focus(), []);
 
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useMediaQuery("(prefers-color-scheme: dark)");
   const palette = useColor("violet", isDark);
 
@@ -353,7 +354,7 @@ export default function Prompt() {
           maxWidth: "100vw",
         }}
       >
-        <AuthBranding mobile />
+        {!isMobile && <AuthBranding mobile />}
         <Box sx={{ display: "flex", gap: 4 }}>
           <Box sx={{ flexGrow: 1 }}>
             <form onSubmit={handleSubmit}>
