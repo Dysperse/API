@@ -1,6 +1,7 @@
 import { containerRef } from "@/app/(app)/container";
 import SelectDateModal from "@/app/(app)/tasks/Task/DatePicker";
 import { Emoji } from "@/components/Emoji";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -447,7 +448,7 @@ const Column = React.memo(function Column({
         ...(view === "priority" && {
           borderLeft: "2px solid",
         }),
-        borderColor: { sm: palette[4] },
+        borderColor: { sm: addHslAlpha(palette[4], 0.8) },
         ...(isMobile &&
           taskSelection.values.includes(-2) && {
             "& .header": { opacity: 0, mt: -15, pointerEvents: "none" },

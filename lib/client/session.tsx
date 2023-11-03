@@ -19,18 +19,10 @@ export const SessionProvider = ({
 
 export async function mutateSession(setSession) {
   const data = await fetch("/api/session").then((res) => res.json());
-
-  const selectedProperty =
-    data?.properties &&
-    (data.properties.find((property: any) => property.selected) ||
-      data.properties[0]);
-
   const themeColor = data?.user?.color || "violet";
 
-  const s = data?.properties && {
+  const s = {
     ...data,
-    property: selectedProperty,
-    permission: selectedProperty.permission,
     themeColor,
     darkMode: data.user.darkMode,
   };

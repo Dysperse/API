@@ -2,7 +2,6 @@
 
 import { containerRef } from "@/app/(app)/container";
 import { CreateTask } from "@/app/(app)/tasks/Task/Create";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box } from "@mui/material";
@@ -81,7 +80,7 @@ export function BottomNav() {
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           opacity: 1,
           ...iconStyles,
-          background: addHslAlpha(palette[4], 0.6),
+          background: palette[5],
         },
       }),
     };
