@@ -30,7 +30,7 @@ export function GroupModal({
   const [showMore, setShowMore] = useState(false);
   const [showInvitations, setShowInvitations] = useState(false);
 
-  const { data } = useSWR(showMore ? null : ["user/spaces"]);
+  const { data } = useSWR(!showMore ? null : ["user/spaces"]);
 
   const personPalette = useColor(
     defaultPalette || session.themeColor,

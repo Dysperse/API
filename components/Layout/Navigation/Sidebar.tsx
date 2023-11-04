@@ -53,12 +53,18 @@ export function SidebarMenu({ children }) {
         onClose={handleClose}
         onClick={(e) => e.stopPropagation()}
         sx={{
-          zIndex: 99,
+          zIndex: 999,
         }}
         slotProps={{
           root: {
             sx: {
               transform: "translate(13px, -5px)!important",
+              "& .MuiTypography-body2": {
+                textTransform: "uppercase",
+                opacity: 0.6,
+                fontWeight: 900,
+                fontSize: "13px",
+              },
             },
           },
           paper: {
@@ -77,7 +83,10 @@ export function SidebarMenu({ children }) {
           }}
         >
           <ProfilePicture data={session.user} size={35} />
-          {session.user.name}
+          <Box>
+            <Typography variant="body2">Profile</Typography>
+            <Typography>{session.user.name}</Typography>
+          </Box>
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -103,7 +112,10 @@ export function SidebarMenu({ children }) {
                 : "school"}
             </Icon>
           </Avatar>
-          <span style={{ marginRight: "15px" }}>{session.space.info.name}</span>
+          <Box>
+            <Typography variant="body2">Space</Typography>
+            <Typography>{session.space.info.name}</Typography>
+          </Box>
           <GroupModal useRightClick={false}>
             <Avatar
               sx={{
