@@ -47,7 +47,7 @@ function PlanNavbar({ subtitle }: { subtitle?: string }) {
         }}
         title="Stop planning?"
         question="Changes have been saved, but you'll have to go through everything again"
-        disabled={!isMobile}
+        disabled={!isMobile || subtitle?.includes("100%")}
       >
         <IconButton sx={{ background: palette[3], color: palette[11] }}>
           <Icon className="outlined">

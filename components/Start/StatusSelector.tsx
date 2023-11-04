@@ -199,7 +199,6 @@ export function StatusSelector({
               <>&#xe1af;</>
             )}
           </Icon>
-          {isMobile && (status ? capitalizeFirstLetter(status) : "")}
         </IconButton>
       </Tooltip>
     ),

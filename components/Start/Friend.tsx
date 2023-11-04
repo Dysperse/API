@@ -46,6 +46,39 @@ function calculatePercentage(startDate, endDate) {
   return Math.min(100, Math.max(0, percentage));
 }
 
+function FriendProgressBar({ started, until, userPalette }) {
+  const [value, setValue] = useState(
+    calculatePercentage(new Date(started), new Date(until))
+  );
+
+  useEffect(() => {
+    const interval = setInterval(
+      () => setValue(calculatePercentage(new Date(started), new Date(until))),
+      1000
+    );
+    return () => clearInterval(interval);
+  }, [started, until]);
+
+  return (
+    <LinearProgress
+      sx={{
+        width: "100%",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: "100%",
+        borderRadius: 0,
+        background: userPalette[3],
+        "& *": {
+          background: userPalette[5] + "!important",
+        },
+      }}
+      variant="determinate"
+      value={value}
+    />
+  );
+}
+
 export function FriendPopover({ children, email }) {
   const { session } = useSession();
   const router = useRouter();
@@ -530,24 +563,10 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               </Box>
             </CardContent>
             {status && (
-              <LinearProgress
-                sx={{
-                  width: "100%",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  height: "100%",
-                  borderRadius: 0,
-                  background: userPalette[3],
-                  "& *": {
-                    background: userPalette[5] + "!important",
-                  },
-                }}
-                variant="determinate"
-                value={calculatePercentage(
-                  new Date(status.started),
-                  new Date(status.until)
-                )}
+              <FriendProgressBar
+                started={status.started}
+                until={status.until}
+                userPalette={userPalette}
               />
             )}
           </Card>
