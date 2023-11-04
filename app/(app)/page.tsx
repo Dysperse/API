@@ -98,6 +98,8 @@ export default function Home() {
       )}
       <Box
         sx={{
+          maxWidth: "100dvw",
+          overflowX: "hidden",
           mt: "env(titlebar-area-height)",
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
