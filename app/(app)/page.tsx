@@ -80,15 +80,22 @@ export default function Home() {
   return (
     // <NoSsr> cuz embla doesn't get initialized idk why
     <NoSsr>
-      <Navbar
-        showLogo={isMobile}
-        showRightContent={isMobile}
-        right={
-          !isMobile ? undefined : (
-            <StatusSelector mutate={() => {}} profile={session.user.Profile} />
-          )
-        }
-      />
+      {isMobile ? (
+        <Navbar
+          showLogo={isMobile}
+          showRightContent={isMobile}
+          right={
+            !isMobile ? undefined : (
+              <StatusSelector
+                mutate={() => {}}
+                profile={session.user.Profile}
+              />
+            )
+          }
+        />
+      ) : (
+        <Toolbar />
+      )}
       <Box
         sx={{
           mt: "env(titlebar-area-height)",

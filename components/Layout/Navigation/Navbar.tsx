@@ -85,15 +85,17 @@ export function Navbar({
     >
       <Logo style={{ marginRight: "auto" }} />
       {right}
-      <SidebarMenu>
-        <IconButton
-          sx={{
-            p: 0,
-          }}
-        >
-          <ProfilePicture data={session.user} size={36} />
-        </IconButton>
-      </SidebarMenu>
+      {isMobile && (
+        <SidebarMenu>
+          <IconButton
+            sx={{
+              p: 0,
+            }}
+          >
+            <ProfilePicture data={session.user} size={36} />
+          </IconButton>
+        </SidebarMenu>
+      )}
     </Box>
   );
 }

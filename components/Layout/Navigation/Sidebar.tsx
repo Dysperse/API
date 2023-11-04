@@ -358,22 +358,11 @@ export function Sidebar() {
           <Box
             sx={{
               ...styles(false),
-              "& .material-symbols-outlined": {
-                borderRadius: 99,
-                background: addHslAlpha(palette[4], 0.6),
-                transition: "all .2s",
-                "&:active": {
-                  opacity: 0.6,
-                  transition: "none",
-                },
-                width: 40,
-                height: 40,
-                fontVariationSettings:
-                  '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20!important',
-              },
+              p: 0,
+              my: 1,
             }}
           >
-            <span className="material-symbols-outlined">more_horiz</span>
+            <ProfilePicture data={session.user} size={36} />
           </Box>
         </SidebarMenu>
       </Box>
