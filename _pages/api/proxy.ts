@@ -1,31 +1,30 @@
 // pages/api/proxy.js
 
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import http from "http";
 import https from "https";
-import { parse } from "url";
+import { NextRequest, NextResponse } from "next/server";
 
-export default function handler(req, res) {
-  const { query }: any = parse(req.url, true);
-  const { url }: any = query;
+export async function GET(req: NextRequest) {
+  const url = await getApiParam(req, "url", true);
 
-  if (!url) {
-    return res.status(400).json({ error: 'Missing "url" query parameter.' });
-  }
-
-  const protocol: any = url.startsWith("https") ? https : http;
+  const protocol = url.startsWith("https") ? https : http;
 
   try {
     protocol.get(url, (response) => {
       if (response.statusCode !== 200) {
-        return res
-          .status(response.statusCode || 500)
-          .json({ error: "Failed to fetch the image." });
+        return handleApiError({ error: "Failed to fetch the image." });
       }
-
-      res.setHeader("Content-Type", response.headers["content-type"]);
-      response.pipe(res);
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch the image." });
+    return handleApiError({ error: "Failed to fetch the image." });
   }
+
+  // You need to return a response here, so I've added the following lines
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/plain", // You should set the appropriate content type here
+    },
+  });
 }

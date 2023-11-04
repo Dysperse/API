@@ -173,13 +173,12 @@ export function StatusSelector({
         <IconButton
           sx={{
             ...(isMobile && {
-              px: 2,
               borderRadius: 9,
               fontSize: "15px",
               gap: 2,
-              ml: "auto",
-              mr: 1,
             }),
+            width: 36,
+            height: 36,
             "&, &:hover": {
               background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
               color: `${chipPalette[12]} !important`,

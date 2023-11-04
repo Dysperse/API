@@ -35,6 +35,7 @@ import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
 export default function DrawerContent({
+  isPlan,
   setCreateSubTaskOpen,
   createSubTaskOpen,
   parentRef,
@@ -118,7 +119,7 @@ export default function DrawerContent({
 
       task.set(
         (oldData) => {
-          return {
+          const d = {
             ...oldData,
             completionInstances: isCompleted
               ? oldData.completionInstances.filter(
@@ -127,6 +128,8 @@ export default function DrawerContent({
                 )
               : [...task.completionInstances, newInstance],
           };
+          task.editCallback(d);
+          return d;
         },
         { revalidate: false }
       );
@@ -150,13 +153,16 @@ export default function DrawerContent({
 
       task.set(
         (oldData) => {
-          return {
+          const d = {
             ...oldData,
             completionInstances: isCompleted ? [] : [newInstance],
           };
+          task.editCallback(d);
+          return d;
         },
         { revalidate: false }
       );
+      task.close();
 
       await fetchRawApi(session, "space/tasks/task/complete", {
         method: "PUT",
@@ -171,10 +177,14 @@ export default function DrawerContent({
 
   const handlePostpone: any = useCallback(
     async (count, type) => {
-      task.set((prev) => ({
-        ...prev,
-        due: dayjs(task.due).add(count, type).toISOString(),
-      }));
+      task.set((prev) => {
+        const d = {
+          ...prev,
+          due: dayjs(task.due).add(count, type).toISOString(),
+        };
+        task.editCallback(d);
+        return d;
+      });
       await task.edit(
         task.id,
         "due",
@@ -294,6 +304,7 @@ export default function DrawerContent({
             </Button>
             {!isSubTask &&
               !isRecurring &&
+              !isPlan &&
               (task.due ? (
                 <RescheduleModal handlePostpone={handlePostpone}>
                   <Button
@@ -313,38 +324,40 @@ export default function DrawerContent({
                   </Button>
                 </RescheduleModal>
               ) : null)}
-            <IconButton
-              id="pinTask"
-              onClick={handlePriorityChange}
-              sx={{
-                flexShrink: 0,
-                ...styles.button,
-                ...(task.pinned && {
-                  background: orangePalette[3],
-                  color: orangePalette[11],
-                  "&:hover": {
-                    background: orangePalette[4],
-                  },
-                  "&:active": {
-                    background: orangePalette[5],
-                  },
-                }),
-              }}
-              disabled={shouldDisable}
-            >
-              <Icon
-                {...(!task.pinned && { className: "outlined" })}
+            {!isPlan && (
+              <IconButton
+                id="pinTask"
+                onClick={handlePriorityChange}
                 sx={{
+                  flexShrink: 0,
+                  ...styles.button,
                   ...(task.pinned && {
-                    transform: "rotate(-20deg)",
+                    background: orangePalette[3],
+                    color: orangePalette[11],
+                    "&:hover": {
+                      background: orangePalette[4],
+                    },
+                    "&:active": {
+                      background: orangePalette[5],
+                    },
                   }),
-
-                  transition: "transform .2s",
                 }}
+                disabled={shouldDisable}
               >
-                push_pin
-              </Icon>
-            </IconButton>
+                <Icon
+                  {...(!task.pinned && { className: "outlined" })}
+                  sx={{
+                    ...(task.pinned && {
+                      transform: "rotate(-20deg)",
+                    }),
+
+                    transition: "transform .2s",
+                  }}
+                >
+                  push_pin
+                </Icon>
+              </IconButton>
+            )}
             <ConfirmationModal
               title="Delete task?"
               question={
@@ -388,6 +401,7 @@ export default function DrawerContent({
                   ...prev,
                   dateOnly: dateOnly,
                 }));
+                task.editCallback(task);
                 task.edit(task.id, "dateOnly", dateOnly ? "true" : "false");
               }}
               setDate={(d) => {
@@ -396,6 +410,7 @@ export default function DrawerContent({
                   ...prev,
                   due: d ? null : d?.toISOString(),
                 }));
+                task.editCallback(task);
                 task.edit(task.id, "due", d.toISOString());
               }}
             >
@@ -425,6 +440,7 @@ export default function DrawerContent({
                         due: "",
                         dateOnly: true,
                       }));
+                      task.editCallback(task);
                       task.edit(task.id, "due", "");
                       task.edit("dateOnly", true, "");
                     },

@@ -18,7 +18,7 @@ async function query(url) {
   return result;
 }
 
-export default async function handler(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
     const body = await req.json();
     const imageUrl = JSON.parse(body.imageUrl);

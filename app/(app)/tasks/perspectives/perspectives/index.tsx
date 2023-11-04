@@ -102,7 +102,7 @@ export function PerspectivesInfo({
           },
           border: 0,
           borderRadius: 5,
-          background: palette[2],
+          background: palette[3],
           color: palette[11],
           maxHeight: "55px",
           height: "55px",
@@ -144,8 +144,8 @@ export function PerspectivesInfo({
                 mx: "auto",
                 px: 1,
                 borderRadius: 3,
-                "&:hover": { background: palette[3] },
-                "&:active": { background: palette[4] },
+                "&:hover": { background: palette[4] },
+                "&:active": { background: palette[5] },
                 textAlign: "center",
               }}
             >
@@ -168,8 +168,8 @@ export function PerspectivesInfo({
               "& .MuiIconButton-root, & .MuiButton-root": {
                 color: "inherit!important",
                 borderRadius: 3,
-                "&:hover": { background: palette[3] + "!important" },
-                "&:active": { background: palette[4] + "!important" },
+                "&:hover": { background: palette[4] + "!important" },
+                "&:active": { background: palette[5] + "!important" },
               },
             }}
             onClick={(e) => e.stopPropagation()}

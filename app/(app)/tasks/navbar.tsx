@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
-import { containerRef } from "../container";
 import { SelectionContext } from "./selection-context";
 import { taskStyles } from "./styles";
 
@@ -47,7 +46,7 @@ export function TaskNavbar({
     <>
       <AppBar
         onClick={() =>
-          containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
+          document.documentElement.scrollTo({ top: 0, behavior: "smooth" })
         }
         sx={{
           ...taskStyles(palette).appBar,
@@ -55,7 +54,7 @@ export function TaskNavbar({
             opacity: 0,
             pointerEvents: "none",
           }),
-          background: addHslAlpha(palette[3], 0.6),
+          background: addHslAlpha(palette[4], 0.5),
           maxWidth: { xs: "100dvw", md: "400px" },
           "& .MuiIcon-root": {
             color: palette[9],
@@ -66,8 +65,8 @@ export function TaskNavbar({
           <IconButton
             onClick={() => router.push("/tasks/home")}
             sx={{
-              background: addHslAlpha(palette[4], 0.6),
-              "&:active": { background: addHslAlpha(palette[4], 0.9) },
+              background: addHslAlpha(palette[5], 0.6),
+              "&:active": { background: addHslAlpha(palette[6], 0.6) },
             }}
           >
             <Icon>{closeIcon}</Icon>

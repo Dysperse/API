@@ -187,14 +187,13 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           root: ({ theme }) =>
             theme.unstable_sx({
               transition: "none",
+              color: palette[11],
               cursor: "default",
               "&:hover": {
-                background: {
-                  sm: palette[3],
-                },
+                background: { sm: palette[4] },
               },
               "&:active": {
-                background: addHslAlpha(palette[4], 0.6),
+                background: palette[5],
               },
               "&:disabled": {
                 cursor: "not-allowed!important",
@@ -349,8 +348,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           standardInfo: ({ theme }) =>
             theme.unstable_sx({
               color: palette[11],
-              background: palette[2],
-              borderColor: palette[3],
+              background: palette[3],
+              borderColor: palette[6],
               "& svg": {
                 color: palette[10],
               },
@@ -358,8 +357,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           standardWarning: ({ theme }) =>
             theme.unstable_sx({
               color: orangePalette[11],
-              background: orangePalette[2],
-              borderColor: orangePalette[3],
+              background: orangePalette[3],
+              borderColor: orangePalette[6],
               "& svg": {
                 color: orangePalette[10],
               },
@@ -367,8 +366,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           standardError: ({ theme }) =>
             theme.unstable_sx({
               color: redPalette[11],
-              background: redPalette[2],
-              borderColor: redPalette[3],
+              background: redPalette[3],
+              borderColor: redPalette[6],
               "& svg": {
                 color: redPalette[10],
               },
@@ -376,10 +375,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           root: ({ theme }) =>
             theme.unstable_sx({
               gap: 2,
-              border: "2px solid",
+              border: "1.5px solid",
               color: palette[11],
-              background: palette[2],
-              borderColor: palette[3],
+              background: palette[3],
+              borderColor: palette[6],
               "& svg": {
                 mt: 1,
                 color: palette[10],
@@ -534,13 +533,10 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               userSelect: "none",
               "&:hover": {
                 cursor: "default",
-                background: { xs: "transparent", sm: palette[2] },
+                background: { xs: "transparent", sm: palette[4] },
               },
               "&:active": {
-                background: {
-                  xs: palette[2],
-                  sm: addHslAlpha(palette[3], 0.5),
-                },
+                background: palette[5],
               },
             }),
         },
@@ -549,8 +545,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              borderColor: palette[3],
-              borderWidth: "2px",
+              borderColor: palette[6],
+              borderWidth: "1px",
               borderRadius: 99,
             }),
         },

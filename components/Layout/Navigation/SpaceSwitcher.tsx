@@ -29,7 +29,6 @@ export function PropertyButton({
     useDarkMode(session.darkMode)
   );
   const isDark = useDarkMode(session.darkMode);
-
   const groupPalette = useColor(group.profile.color, isDark);
 
   const [loading, setLoading] = useState<boolean>(false);

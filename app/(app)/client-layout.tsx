@@ -11,7 +11,6 @@ import { UpdateButton } from "@/components/Layout/Navigation/UpdateButton";
 import NotificationsPrompt from "@/components/Layout/NotificationsPrompt";
 import ReleaseModal from "@/components/Layout/ReleaseModal";
 import TosModal from "@/components/Layout/TosModal";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { SessionProvider, useSession } from "@/lib/client/session";
 import {
   AccountStorageState,
@@ -43,11 +42,15 @@ import { fetcher } from "./fetcher";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import isBetween from "dayjs/plugin/isBetween";
+import isToday from "dayjs/plugin/isToday";
+import isTomorrow from "dayjs/plugin/isTomorrow";
 import isoWeek from "dayjs/plugin/isoWeek";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 
+dayjs.extend(isTomorrow);
+dayjs.extend(isToday);
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 dayjs.extend(relativeTime);
@@ -178,7 +181,15 @@ export default function ClientLayout({ children, session }) {
                 initial={{ opacity: 0, background: palette[1] }}
                 animate={{
                   opacity: 1,
-                  background: addHslAlpha(palette[3], 0.7),
+                  background:
+                    palette[
+                      isMobile
+                        ? 3
+                        : pathname.includes("tasks") ||
+                          pathname.includes("/rooms")
+                        ? 3
+                        : 2
+                    ],
                 }}
                 onContextMenu={(e) => !isMobile && e.preventDefault()}
                 style={{
@@ -200,12 +211,12 @@ export default function ClientLayout({ children, session }) {
                   component="main"
                   sx={{
                     flexGrow: 90,
-                    height: "100dvh",
+                    height: { xs: "auto", sm: "100dvh" },
                     p: 0,
                     display: "flex",
                     flexDirection: "column",
                     ml: { md: "-85px" },
-                    position: "relative",
+                    position: { sm: "relative" },
                     width: {
                       xs: "100%",
                       sm: "calc(100% - 65px)",
@@ -216,17 +227,15 @@ export default function ClientLayout({ children, session }) {
                   <Box
                     ref={containerRef}
                     sx={{
-                      height: "100dvh",
-                      overflowY: pathname?.includes("tasks")
-                        ? "auto"
-                        : "scroll",
-                      overflowX: "hidden",
+                      height: { xs: "auto", sm: "100dvh" },
+                      overflowY: {
+                        xs: "unset",
+                        sm: pathname?.includes("tasks") ? "auto" : "scroll",
+                      },
+                      overflowX: { xs: "clip", sm: "hidden" },
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",
-                      borderRadius: {
-                        xs: shouldHide ? "0px" : "0 0 20px 20px",
-                        sm: "20px 0 0 20px",
-                      },
+                      borderRadius: { sm: "20px 0 0 20px" },
                       transition: "border-radius .3s, margin .3s",
                       ml: { md: shouldHide ? "0px" : "85px" },
                       background: palette[1],

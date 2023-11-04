@@ -448,7 +448,7 @@ const Column = React.memo(function Column({
         ...(view === "priority" && {
           borderLeft: "2px solid",
         }),
-        borderColor: { sm: addHslAlpha(palette[4], 0.5) },
+        borderColor: { sm: addHslAlpha(palette[4], 0.8) },
         ...(isMobile &&
           taskSelection.values.includes(-2) && {
             "& .header": { opacity: 0, mt: -15, pointerEvents: "none" },
@@ -524,7 +524,7 @@ const Column = React.memo(function Column({
                 alignItems: "center",
                 flexDirection: "column",
                 background: palette[2],
-                border: `2px solid ${palette[3]}`,
+                border: `2px solid ${palette[4]}`,
                 borderRadius: 5,
                 py: 5,
                 px: 4,

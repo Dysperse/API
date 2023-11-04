@@ -30,7 +30,7 @@ export function GroupModal({
   const [showMore, setShowMore] = useState(false);
   const [showInvitations, setShowInvitations] = useState(false);
 
-  const { data } = useSWR(showMore ? null : ["user/spaces"]);
+  const { data } = useSWR(!showMore ? null : ["user/spaces"]);
 
   const personPalette = useColor(
     defaultPalette || session.themeColor,
@@ -41,14 +41,8 @@ export function GroupModal({
     useDarkMode(session.darkMode)
   );
 
-  const properties = [...session.properties, ...(data || [])]
+  const properties = (data || [])
     .filter((group) => group)
-    .reduce((acc, curr) => {
-      if (!acc.find((property) => property.propertyId === curr.propertyId)) {
-        acc.push(curr);
-      }
-      return acc;
-    }, [])
     .sort((a, b) => (a.name > b.name ? 1 : -1));
 
   const drawer = (

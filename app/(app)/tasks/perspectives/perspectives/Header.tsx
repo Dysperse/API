@@ -134,7 +134,7 @@ export const Header = memo(function Header({
                   maxWidth: "100dvw",
                   mb: { xs: 0, sm: 2 },
                   borderBottom: { sm: "2px solid" },
-                  borderColor: { sm: addHslAlpha(palette[4], 0.5) },
+                  borderColor: { sm: addHslAlpha(palette[4], 0.8) },
                   height: "auto",
                 }}
                 ref={emblaRef}
@@ -202,7 +202,7 @@ export const Header = memo(function Header({
                           maxWidth: "100%",
                           overflow: "hidden",
                           minWidth: 0,
-                          background: { xs: palette[2], sm: "transparent" },
+                          background: { xs: palette[3], sm: "transparent" },
                           p: 1,
                           borderRadius: 3,
                           "&:active": {

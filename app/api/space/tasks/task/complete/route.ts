@@ -13,11 +13,11 @@ export async function PUT(req: NextRequest) {
     const { spaceId, userIdentifier } = await getIdentifiers(sessionToken);
 
     const id = await getApiParam(req, "id", true);
-    const isCompleted = await getApiParam(req, "isCompleted", false);
-    const completedAt = await getApiParam(req, "completedAt", false);
+    const isCompleted = await getApiParam(req, "isCompleted", true);
+    const completedAt = await getApiParam(req, "completedAt", true);
     const iteration = await getApiParam(req, "iteration", false);
 
-    if (isCompleted) {
+    if (isCompleted === "true") {
       const data = await prisma.completionInstance.create({
         data: {
           completedAt: new Date(completedAt),

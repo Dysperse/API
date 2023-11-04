@@ -44,6 +44,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   onClick,
   handleSelect,
   recurringInstance = new Date(),
+  editCallback = (e) => {},
+  isPlan = false,
 }: {
   isDisabled?: boolean;
   children: JSX.Element;
@@ -52,6 +54,8 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   onClick?: any;
   handleSelect?: any;
   recurringInstance?: Date;
+  editCallback?: (updatedTask: any) => void;
+  isPlan?: boolean;
 }) {
   const { session } = useSession();
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -77,13 +81,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             id: taskId,
           },
         });
+        editCallback("DELETED");
         mutateList();
         mutateTask();
       } catch (e: any) {
         toast.error(e.message);
       }
     },
-    [mutateList, session, setOpen, mutateTask]
+    [mutateList, session, setOpen, mutateTask, editCallback]
   );
 
   useHotkeys(
@@ -116,7 +121,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         populateCache: newData,
         revalidate: false,
       });
-
+      editCallback(newData);
       return await fetchRawApi(session, "space/tasks/task", {
         method: "PUT",
         params: {
@@ -125,9 +130,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
           [key]: String(value),
           createdBy: session.user.email,
         },
-      }).then(() => mutateList());
+      }).then(mutateList);
     },
-    [session, data, mutateTask, mutateList]
+    [session, data, mutateTask, mutateList, editCallback]
   );
 
   let clickCount = 0;
@@ -184,6 +189,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         close: handleClose,
         mutate: mutateTask,
         recurringInstance,
+        editCallback,
       }}
     >
       {trigger}
@@ -315,6 +321,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
             data &&
             data !== "deleted" && (
               <DrawerContent
+                isPlan={isPlan}
                 createSubTaskOpen={createSubTaskOpen}
                 setCreateSubTaskOpen={setCreateSubTaskOpen}
                 parentRef={ref}

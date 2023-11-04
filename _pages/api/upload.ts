@@ -1,4 +1,5 @@
 // import { Blob } from "buffer";
+import { handleApiError } from "@/lib/server/helpers";
 import { Formidable } from "formidable";
 import fs from "fs";
 
@@ -8,7 +9,7 @@ export const config = {
   },
 };
 
-export default async function handler(req, res) {
+export async function GET(req) {
   try {
     const formData: any = await new Promise((resolve, reject) => {
       const form = new Formidable();
@@ -31,6 +32,6 @@ export default async function handler(req, res) {
     );
     return Response.json(data);
   } catch (e) {
-    res.status(500).json({ error: "Couldn't upload image" });
+    return handleApiError({ error: "Couldn't upload image" });
   }
 }

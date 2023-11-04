@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/server/prisma";
+import { NextRequest } from "next/server";
 
 /**
  * API handler for the /api/login endpoint
@@ -6,7 +7,7 @@ import { prisma } from "@/lib/server/prisma";
  * @param {any} res
  * @returns {any}
  */
-export default async function handler(req, res) {
+export async function GET(req: NextRequest) {
   await prisma.user.findFirst({ select: { id: true } });
   return Response.json({ success: true });
 }

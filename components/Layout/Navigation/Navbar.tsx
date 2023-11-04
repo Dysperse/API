@@ -1,17 +1,19 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
+import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
-  Icon,
   IconButton,
   SxProps,
+  useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useDeferredValue } from "react";
+import { SidebarMenu } from "./Sidebar";
 
 export function Navbar({
   showLogo = false,
@@ -28,28 +30,38 @@ export function Navbar({
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
-  const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const isScrollingUp = useScrollTrigger({
-    target: containerRef?.current ? containerRef.current : document.body,
+  const _isScrollingUp = useScrollTrigger({
+    target: isMobile
+      ? undefined
+      : containerRef?.current
+      ? containerRef.current
+      : document.body,
   });
 
+  const isScrollingUp = useDeferredValue(_isScrollingUp);
+
   const isAtTop = useScrollTrigger({
-    target: containerRef?.current ? containerRef.current : document.body,
+    target: isMobile
+      ? undefined
+      : containerRef?.current
+      ? containerRef.current
+      : document.body,
     disableHysteresis: true,
   });
 
   return (
     <Box
-      onClick={() =>
-        containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
-      }
+      onClick={() => {
+        document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+      }}
       sx={{
         display: "flex",
         alignItems: "center",
-        p: "15px",
-        pt: "40px",
-        height: 100,
+        p: 3,
+        py: 2,
+        height: 75,
         "& svg": {
           display: showLogo ? { sm: "none" } : "none",
         },
@@ -59,55 +71,30 @@ export function Navbar({
         top: 0,
         transition: "transform 0.25s, border-bottom .25s",
         transitionTimingFunction: "cubic-bezier(0.1, 0.76, 0.55, 0.9)",
-        transform: isScrollingUp ? "translateY(-100px)" : "translateY(-25px)",
+        transform: isScrollingUp ? "translateY(-100px)" : "translateY(0px)",
         left: 0,
         background: addHslAlpha(palette[1], 0.8),
         backdropFilter: "blur(10px)",
         borderBottom: `2px solid transparent`,
-        borderColor: isAtTop ? `${palette[3]}` : "transparent",
+        borderColor: isAtTop
+          ? `${addHslAlpha(palette[6], 0.5)}`
+          : "transparent",
         ...sx,
+        gap: 1.5,
       }}
     >
-      <Logo />
+      <Logo style={{ marginRight: "auto" }} />
       {right}
-      {(!right || showRightContent) && (
-        <>
+      {isMobile && (
+        <SidebarMenu>
           <IconButton
-            onClick={() =>
-              router.push(
-                `/users/${session.user.username || session.user.email}`
-              )
-            }
             sx={{
-              color: palette[9],
-              ml: {
-                xs: right ? "" : "auto",
-                sm: showRightContent && right ? "" : "auto",
-              },
-              fontSize: "15px",
-              gap: 2,
-              borderRadius: 99,
-              "& .label": {
-                display: { xs: "none", sm: "block" },
-              },
+              p: 0,
             }}
           >
-            <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-              account_circle
-            </Icon>
-            <span className="label">My profile</span>
+            <ProfilePicture data={session.user} size={36} />
           </IconButton>
-          {!hideSettings && (
-            <IconButton
-              sx={{ color: palette[9] }}
-              onClick={() => router.push("/settings")}
-            >
-              <Icon className="outlined" sx={{ fontSize: "28px!important" }}>
-                &#xe8b8;
-              </Icon>
-            </IconButton>
-          )}
-        </>
+        </SidebarMenu>
       )}
     </Box>
   );

@@ -1,15 +1,16 @@
-import { handleApiError } from "@/lib/server/helpers";
+import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { validateParams } from "@/lib/server/validateParams";
 import ical from "ical-generator";
+import { NextRequest } from "next/server";
 
-export default async function handler(req) {
+export async function GET(req: NextRequest) {
   try {
-    await validateParams(req.query, ["id"]);
+    const id = await getApiParam(req, "id", true);
+    const timeZone = await getApiParam(req, "timeZone", true);
 
     const data = await prisma.task.findMany({
       where: {
-        AND: [{ propertyId: req.query.id || "-1" }, { due: { not: null } }],
+        AND: [{ propertyId: id }, { due: { not: null } }],
       },
       include: {
         column: { select: { name: true } },
@@ -20,7 +21,7 @@ export default async function handler(req) {
       name: "Dysperse",
       description: "Tasks from your Dysperse account at my.dysperse.com",
       url: "https://my.dysperse.com",
-      timezone: req.query.timeZone,
+      timezone: timeZone,
     });
 
     for (let i = 0; i < data.length; i++) {

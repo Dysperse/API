@@ -444,7 +444,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               router.push("/users/" + (friend.username || friend.email));
             }}
             sx={{
-              background: userPalette[2],
+              border: "2px solid",
+              borderColor: userPalette[3],
               borderRadius: 5,
               position: "relative",
               overflow: "hidden",
@@ -510,18 +511,21 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                   </>
                 ) : status?.status === "focusing" ? (
                   <FocusText started={status.started} />
+                ) : // this is when i updated the database
+                dayjs(friend.lastActive).toISOString() !==
+                  "2023-10-07T17:23:03.871Z" ? (
+                  <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
+                    Active{" "}
+                    {dayjs(friend.lastActive).isAfter(dayjs()) ||
+                    dayjs(friend.lastActive).fromNow() == "a few seconds ago"
+                      ? "now"
+                      : dayjs(friend.lastActive).fromNow()}
+                  </Typography>
                 ) : (
-                  // this is when i updated the database
-                  dayjs(friend.lastActive).toISOString() !==
-                    "2023-10-07T17:23:03.871Z" && (
-                    <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
-                      Active{" "}
-                      {dayjs(friend.lastActive).isAfter(dayjs()) ||
-                      dayjs(friend.lastActive).fromNow() == "a few seconds ago"
-                        ? "now"
-                        : dayjs(friend.lastActive).fromNow()}
-                    </Typography>
-                  )
+                  <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
+                    {friend.username && "@"}
+                    {friend.username || friend.email}
+                  </Typography>
                 )}
               </Box>
             </CardContent>

@@ -47,9 +47,7 @@ export default function Layout({ children }: any) {
           <Toolbar>
             <IconButton
               onClick={() => handleBack(router)}
-              sx={{
-                background: palette[2],
-              }}
+              sx={{ background: palette[3] }}
             >
               <Icon sx={{ color: palette[9] }}>
                 {pathname === "/settings" ? "close" : "arrow_back_ios_new"}

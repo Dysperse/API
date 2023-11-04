@@ -19,10 +19,8 @@ export const getTotal = (data, tasks, items) =>
  */
 export function Storage({
   propertyId,
-  accessToken,
   color,
 }: {
-  accessToken: string;
   propertyId: string;
   color: any;
 }) {

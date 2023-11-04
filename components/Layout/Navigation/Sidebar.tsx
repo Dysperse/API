@@ -19,11 +19,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { shouldHideNavigation } from "./BottomNavigation";
 
-function SidebarMenu({ styles }) {
+export function SidebarMenu({ children }) {
   const { session } = useSession();
   const router = useRouter();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -42,42 +42,29 @@ function SidebarMenu({ styles }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const trigger = cloneElement(children, { onClick: handleClick });
 
   return (
     <>
-      <Box
-        onClick={handleClick}
-        sx={{
-          ...styles(false),
-          "& .material-symbols-outlined": {
-            borderRadius: 99,
-            background: addHslAlpha(palette[4], 0.6),
-            transition: "all .2s",
-            "&:active": {
-              opacity: 0.6,
-              transition: "none",
-            },
-            width: 40,
-            height: 40,
-            fontVariationSettings:
-              '"FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20!important',
-          },
-        }}
-      >
-        <span className="material-symbols-outlined">more_horiz</span>
-      </Box>
+      {trigger}
       <Menu
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         onClick={(e) => e.stopPropagation()}
         sx={{
-          zIndex: 99,
+          zIndex: 999,
         }}
         slotProps={{
           root: {
             sx: {
-              transform: "translate(13px, -5px)!important",
+              transform: { sm: "translate(13px, -5px)!important" },
+              "& .MuiTypography-body2": {
+                textTransform: "uppercase",
+                opacity: 0.6,
+                fontWeight: 900,
+                fontSize: "13px",
+              },
             },
           },
           paper: {
@@ -96,7 +83,10 @@ function SidebarMenu({ styles }) {
           }}
         >
           <ProfilePicture data={session.user} size={35} />
-          {session.user.name}
+          <Box>
+            <Typography variant="body2">Profile</Typography>
+            <Typography>{session.user.name}</Typography>
+          </Box>
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -122,7 +112,10 @@ function SidebarMenu({ styles }) {
                 : "school"}
             </Icon>
           </Avatar>
-          <span style={{ marginRight: "15px" }}>{session.space.info.name}</span>
+          <Box>
+            <Typography variant="body2">Space</Typography>
+            <Typography>{session.space.info.name}</Typography>
+          </Box>
           <GroupModal useRightClick={false}>
             <Avatar
               sx={{
@@ -220,15 +213,18 @@ export function Sidebar() {
         justifyContent: "center",
       },
       "&:hover .material-symbols-outlined": {
-        background: palette[3],
+        background: palette[4],
       },
       "&:active .material-symbols-outlined": {
-        background: palette[4],
+        background: palette[5],
       },
       userSelect: "none",
       ...(active && {
         " .material-symbols-outlined,  .material-symbols-rounded": {
-          background: palette[4],
+          background:
+            palette[
+              pathname.includes("tasks") || pathname.includes("/rooms") ? 6 : 4
+            ],
           color: palette[11],
         },
       }),
@@ -370,7 +366,17 @@ export function Sidebar() {
         }}
       >
         <StatusSelector mutate={() => {}} profile={session.user.Profile} />
-        <SidebarMenu styles={styles} />
+        <SidebarMenu>
+          <Box
+            sx={{
+              ...styles(false),
+              p: 0,
+              my: 1,
+            }}
+          >
+            <ProfilePicture data={session.user} size={36} />
+          </Box>
+        </SidebarMenu>
       </Box>
     </Box>
   );

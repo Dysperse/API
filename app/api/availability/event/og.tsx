@@ -2,12 +2,13 @@ import { violetDark } from "@radix-ui/colors";
 import { ImageResponse } from "@vercel/og";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import { NextRequest } from "next/server";
 dayjs.extend(advancedFormat);
 
 export const runtime = "edge";
 
-export default async function handler(req) {
-  const id = req.nextUrl.search.split("?id=")[1];
+export async function GET(req: NextRequest) {
+    const id = req.nextUrl.search.split("?id=")[1];
   const hostname = req.headers.get("x-forwarded-host");
   const url = `https://${hostname}/api/availability/event?id=${id}&basic=true`;
 

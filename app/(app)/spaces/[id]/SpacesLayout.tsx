@@ -33,12 +33,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
   const { id: propertyId } = params as any;
   const isDark = useDarkMode(session.darkMode);
 
-  const accessToken = session.properties.find(
-    (property) => property.propertyId == propertyId
-  )?.accessToken;
-
   const { data, error, isLoading } = useSWR(["space", { propertyId }]);
-
   const palette = useColor(data?.profile?.color || session.themeColor, isDark);
 
   const userTheme = createTheme(
@@ -279,7 +274,6 @@ export function SpacesLayout({ parentRef, children, title }: any) {
                 <Storage
                   color={data.profile.color}
                   propertyId={data.propertyId}
-                  accessToken={accessToken}
                 />
               )}
               {!children &&

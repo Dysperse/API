@@ -27,10 +27,6 @@ export default function Page() {
   const params = useParams();
   const { id } = params as any;
 
-  const accessToken = session.properties.find(
-    (property) => property.propertyId == id
-  )?.accessToken;
-
   const { error, mutate, data } = useSWR(["space/members", { propertyId: id }]);
 
   const members = useMemo(

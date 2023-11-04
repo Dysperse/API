@@ -5,7 +5,8 @@ import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box } from "@mui/material";
+import { Badge, Box } from "@mui/material";
+import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 
 export const shouldHideNavigation = (path) => {
@@ -14,6 +15,7 @@ export const shouldHideNavigation = (path) => {
     { path: "/users", desktop: false },
     { path: "/boards/edit/", desktop: false },
     { path: "/tasks/search", desktop: false },
+    { path: "/tasks/plan", desktop: false },
     { path: "/integrations", desktop: true },
     { path: "/rooms/", desktop: false },
     { path: "/spaces", desktop: false },
@@ -72,15 +74,16 @@ export function BottomNav() {
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
           opacity: 0.5,
-          transition: "none",
+          transition: "all .2s,opacity 0s",
         },
       ...(active && {
         fontWeight: 700,
         color: `${palette[11]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
+          transition: "all .2s,opacity 0s",
           opacity: 1,
           ...iconStyles,
-          background: addHslAlpha(palette[4], 0.6),
+          background: addHslAlpha(palette[6], 0.5),
         },
       }),
     };
@@ -102,6 +105,11 @@ export function BottomNav() {
         containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
       }}
       sx={{
+        position: "fixed",
+        bottom: 0,
+        borderTop: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+        background: addHslAlpha(palette[1], 0.9),
+        backdropFilter: "blur(10px)",
         width: "100%",
         ".hideBottomNav &": {
           mb: "calc(var(--bottom-nav-height) * -1)",
@@ -122,24 +130,43 @@ export function BottomNav() {
         "&, & *": {
           overflow: "hidden!important",
         },
-        borderRadius: "20px 20px 0 0",
         alignItems: "center",
       }}
     >
       <CreateTask customTrigger="onContextMenu" disableBadge>
-        <Box
-          id="link1"
-          onClick={() => router.push("/tasks/home")}
-          sx={styles(pathname?.includes("/tasks"))}
+        <Badge
+          badgeContent={
+            dayjs(session.user.lastPlannedTasks).isBefore(
+              dayjs().startOf("day")
+            ) && !pathname.includes("/tasks")
+              ? 1
+              : 0
+          }
+          variant="dot"
+          sx={{
+            width: "33.33333%",
+            "& .MuiBadge-badge": {
+              background: palette[9],
+              right: "calc(50% - 15px)",
+              top: 4,
+              transform: "translateX(50%)",
+            },
+          }}
         >
-          <span
-            className={`material-symbols-${
-              pathname?.includes("/tasks") ? "rounded" : "outlined"
-            }`}
+          <Box
+            id="link1"
+            onClick={() => router.push("/tasks/home")}
+            sx={styles(pathname?.includes("/tasks"))}
           >
-            &#xe86c;
-          </span>
-        </Box>
+            <span
+              className={`material-symbols-${
+                pathname?.includes("/tasks") ? "rounded" : "outlined"
+              }`}
+            >
+              &#xe86c;
+            </span>
+          </Box>
+        </Badge>
       </CreateTask>
       <Box
         id="link2"

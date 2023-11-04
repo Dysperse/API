@@ -45,10 +45,9 @@ export default function Layout({ children }): JSX.Element {
             overflow: "scroll",
             width: "100%",
             maxWidth: "100dvw",
-            height: "100%",
+            height: { xs: "100%", sm: "100dvh" },
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
           }}
         >
           <Toaster />

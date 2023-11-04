@@ -20,7 +20,8 @@ model User {
   darkMode String  @default("system")
   agreeTos Boolean @default(false)
 
-  lastActive DateTime @default(now())
+  lastActive       DateTime @default(now())
+  lastPlannedTasks DateTime @default(now())
 
   color          String   @default("lime")
   unlockedColors String[]
