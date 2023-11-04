@@ -1498,7 +1498,7 @@ export default function Page() {
           ) : (
             <Virtuoso
               useWindowScroll
-              customScrollParent={containerRef.current}
+              customScrollParent={isMobile ? undefined : containerRef.current}
               totalCount={data.length}
               itemContent={(index) => (
                 <EventCard mutate={mutate} index={index} event={data[index]} />

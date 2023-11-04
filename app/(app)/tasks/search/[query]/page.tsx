@@ -1,6 +1,5 @@
 "use client";
 
-import { containerRef } from "@/app/(app)/container";
 import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
 import { Task } from "@/app/(app)/tasks/Task";
 import { ErrorHandler } from "@/components/Error";
@@ -57,7 +56,7 @@ export default function Page() {
             <Virtuoso
               useWindowScroll
               customScrollParent={
-                isMobile ? containerRef.current : scrollParentRef.current
+                isMobile ? undefined : scrollParentRef.current
               }
               data={data.data}
               itemContent={(_, task) =>

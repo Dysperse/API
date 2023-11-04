@@ -1,4 +1,3 @@
-import { containerRef } from "@/app/(app)/container";
 import SelectDateModal from "@/app/(app)/tasks/Task/DatePicker";
 import { Emoji } from "@/components/Emoji";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
@@ -592,9 +591,7 @@ const Column = React.memo(function Column({
           initialItemCount={data.length < 10 ? data.length : 10}
           useWindowScroll
           isScrolling={setIsScrolling}
-          customScrollParent={
-            isMobile ? containerRef.current : scrollParentRef.current
-          }
+          customScrollParent={isMobile ? undefined : scrollParentRef.current}
           data={
             isPushingUnfinished
               ? data.filter((d) => !completedTasks.find((f) => f.id === d.id))

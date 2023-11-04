@@ -7,6 +7,7 @@ import {
   CardActionArea,
   CircularProgress,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
@@ -32,6 +33,7 @@ export function ColoredTasks() {
   const [isScrolling, setIsScrolling] = useState(false);
 
   const { session } = useSession();
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const isDark = useDarkMode(session.darkMode);
 
   const emptyPlaceholder = (
@@ -189,7 +191,7 @@ export function ColoredTasks() {
               .sort((a, b) => (a.pinned === b.pinned ? 0 : a.pinned ? -1 : 1)),
           ]}
           useWindowScroll
-          customScrollParent={containerRef.current}
+          customScrollParent={isMobile ? undefined : containerRef.current}
           itemContent={(_, task) => (
             <Task
               key={task.id}

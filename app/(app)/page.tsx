@@ -200,7 +200,9 @@ export default function Home() {
                         initialItemCount={
                           data.friends.length < 5 ? data.friends.length : 5
                         }
-                        customScrollParent={containerRef.current}
+                        customScrollParent={
+                          isMobile ? undefined : containerRef.current
+                        }
                         useWindowScroll
                         totalCount={data.friends.length}
                         itemContent={(i) => (

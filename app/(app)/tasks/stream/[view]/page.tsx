@@ -1,5 +1,4 @@
 "use client";
-import { containerRef } from "@/app/(app)/container";
 import { Task } from "@/app/(app)/tasks/Task";
 import { ErrorHandler } from "@/components/Error";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -54,9 +53,7 @@ export default function Page() {
         <Virtuoso
           useWindowScroll
           customScrollParent={
-            isMobile
-              ? containerRef.current
-              : document.getElementById("boardContainer")
+            isMobile ? undefined : document.getElementById("boardContainer")
           }
           data={data}
           itemContent={(_, task) => (

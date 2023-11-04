@@ -1,4 +1,3 @@
-import { containerRef } from "@/app/(app)/container";
 import { HeaderSkeleton } from "@/app/(app)/tasks/perspectives/perspectives/HeaderSkeleton";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
@@ -539,9 +538,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
           <Virtuoso
             isScrolling={setIsScrolling}
             useWindowScroll
-            customScrollParent={
-              isMobile ? containerRef.current : columnRef.current
-            }
+            customScrollParent={isMobile ? undefined : columnRef.current}
             data={sortedTasks}
             itemContent={(_, task) => (
               <Task
@@ -610,7 +607,7 @@ export function Column({ useReverseAnimation, setUseReverseAnimation }) {
               <Virtuoso
                 isScrolling={setIsScrolling}
                 useWindowScroll
-                customScrollParent={columnRef.current}
+                customScrollParent={isMobile ? undefined : columnRef.current}
                 data={column.tasks.filter(
                   (task) => task.completionInstances.length !== 0
                 )}
