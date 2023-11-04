@@ -64,6 +64,8 @@ export default function RoomLayout({ children }) {
       <Box
         ref={emblaRef}
         sx={{
+          maxWidth: "100dvw",
+          overflowX: "hidden",
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
           }),

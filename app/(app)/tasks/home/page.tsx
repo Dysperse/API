@@ -211,6 +211,7 @@ export default function Home() {
         ref={emblaRef}
         style={{
           maxWidth: "100dvw",
+          overflowX: "hidden",
           ...(loadingIndex !== 0 && {
             pointerEvents: "none",
           }),
