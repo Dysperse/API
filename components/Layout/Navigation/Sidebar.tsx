@@ -58,7 +58,7 @@ export function SidebarMenu({ children }) {
         slotProps={{
           root: {
             sx: {
-              transform: "translate(13px, -5px)!important",
+              transform: { sm: "translate(13px, -5px)!important" },
               "& .MuiTypography-body2": {
                 textTransform: "uppercase",
                 opacity: 0.6,
