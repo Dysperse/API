@@ -53,7 +53,9 @@ export default function Page() {
         <Virtuoso
           useWindowScroll
           customScrollParent={
-            isMobile ? undefined : document.getElementById("boardContainer")
+            isMobile
+              ? undefined
+              : (document.getElementById("boardContainer") as any)
           }
           data={data}
           itemContent={(_, task) => (
