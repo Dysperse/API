@@ -31,7 +31,7 @@ export function AuthClientLayout({ children }) {
     <ThemeProvider theme={userTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <CssBaseline />
-        <Box sx={{ zIndex: 99 }}>{children}</Box>
+        <Box sx={{ zIndex: 99, my: "auto", pt: "120px" }}>{children}</Box>
         <Image
           alt="background"
           src={`/auth/background-${isDark ? "dark" : "light"}.png?purge=dev`}
@@ -44,6 +44,7 @@ export function AuthClientLayout({ children }) {
             left: 0,
             zIndex: -1,
             width: "100dvw",
+            background: palette[1],
             objectFit: "cover",
             height: "100dvh",
           }}

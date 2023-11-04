@@ -29,7 +29,7 @@ export const AuthBranding = ({ mobile = false }: any) => {
       }}
       onClick={() => window.open("//dysperse.com")}
     >
-      <Logo size={60} />
+      <Logo intensity={10} size={60} />
     </Box>
   );
 };

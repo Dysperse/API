@@ -93,8 +93,8 @@ function QrLogin({ handleRedirect }) {
   };
 
   const containerStyles = {
-    width: "250px",
-    height: "250px",
+    width: "255px",
+    height: "255px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -132,7 +132,7 @@ function QrLogin({ handleRedirect }) {
         }}
       >
         {error && (
-          <Box sx={{ ...containerStyles, mb: "-250px", zIndex: 1, p: 2 }}>
+          <Box sx={{ ...containerStyles, mb: "-255px", zIndex: 1, p: 2 }}>
             Something went wrong. Please try again later
           </Box>
         )}
@@ -350,24 +350,26 @@ export default function Prompt() {
       <Box
         sx={{
           ...authStyles(palette).container,
-          width: "800px",
+          width: step == 1 ? "800px" : "450px",
           maxWidth: "100vw",
+          height: { xs: "100vh", sm: "auto" },
+          display: "flex",
         }}
       >
         {isMobile && <AuthBranding mobile />}
-        <Box sx={{ display: "flex", gap: 4 }}>
+        <Box sx={{ display: "flex", gap: 4, my: "auto" }}>
           <Box sx={{ flexGrow: 1 }}>
             <form onSubmit={handleSubmit}>
               {step === 1 ? (
-                <Box sx={{ pt: 3 }}>
+                <Box>
                   <Typography
                     variant="h2"
-                    sx={{ mt: { xs: 3, sm: 0 } }}
                     className="font-heading"
+                    sx={authStyles(palette).heading}
                   >
                     Welcome back!
                   </Typography>
-                  <Typography sx={{ mb: 3 }}>
+                  <Typography sx={authStyles(palette).subheading}>
                     We&apos;re so excited to see you again! Please sign in with
                     your Dysperse ID.
                   </Typography>
@@ -464,12 +466,12 @@ export default function Prompt() {
                 <Box>
                   <Typography
                     variant="h2"
-                    sx={{ mt: { xs: 6, sm: 0 } }}
+                    sx={authStyles(palette).heading}
                     className="font-heading"
                   >
                     Verifying...
                   </Typography>
-                  <Typography sx={{ mb: 3 }}>
+                  <Typography sx={authStyles(palette).subheading}>
                     Hang on while we verify that you&apos;re a human.
                   </Typography>
                   <NoSsr>
@@ -551,15 +553,17 @@ export default function Prompt() {
               </Box>
             )}
           </Box>
-          <Box
-            sx={{
-              width: "250px",
-              flexShrink: 0,
-              display: { xs: "none", sm: "block" },
-            }}
-          >
-            <QrLogin handleRedirect={handleRedirect} />
-          </Box>
+          {step == 1 && (
+            <Box
+              sx={{
+                width: "255px",
+                flexShrink: 0,
+                display: { xs: "none", sm: "block" },
+              }}
+            >
+              <QrLogin handleRedirect={handleRedirect} />
+            </Box>
+          )}
         </Box>
       </Box>
 
