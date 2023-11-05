@@ -558,7 +558,7 @@ const Column = React.memo(function Column({
                   </Button>
                 </RandomTask>
                 <CreateTask
-                  onSuccess={() => mutateList}
+                  onSuccess={() => mutateList()}
                   defaultDate={dayjs(column).utc().toDate()}
                 >
                   <Button variant="contained" sx={{ px: 2 }}>
