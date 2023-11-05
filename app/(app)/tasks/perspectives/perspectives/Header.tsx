@@ -305,7 +305,7 @@ export const Header = memo(function Header({
           >
             {session.permission !== "read-only" && (
               <CreateTask
-                onSuccess={mutateList}
+                onSuccess={()=>mutateList()}
                 defaultDate={dayjs(column).utc().toDate()}
                 sx={{ flexGrow: 1 }}
               >
