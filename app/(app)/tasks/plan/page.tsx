@@ -230,7 +230,7 @@ function PastTasks({ data }) {
   useEffect(() => {
     if (
       ((slide === 2 && !done) || (_data && _data.length === 0)) &&
-      dayjs(session.user.lastPlannedTasks).diff(dayjs(), "hour") > 24
+      dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24
     ) {
       setDone(true);
       setSlide(3);
