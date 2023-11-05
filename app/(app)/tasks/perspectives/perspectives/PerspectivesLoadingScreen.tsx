@@ -52,13 +52,13 @@ export function PerspectivesLoadingScreen(): any {
         overflow: "hidden",
       }}
     >
-      <Box sx={{ p: 2, width: "100%", mt: { xs: "-25px", sm: 0 } }}>
+      <Box sx={{ p: 2, width: "100%", mb: { xs: "-79px", sm: 0 } }}>
         <Skeleton
           animation="wave"
           variant="rectangular"
           sx={{
-            display: { xs: "none", sm: "flex" },
-            height: "55px",
+            display: { xs: "flex", sm: "flex" },
+            height: { xs: "50px", sm: "55px" },
             borderRadius: 5,
             opacity: 0.7,
           }}
