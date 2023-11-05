@@ -220,11 +220,12 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (slide === 2 && !done) {
+    if ((slide === 2 && !done) || (_data && _data.length === 0)) {
       setDone(true);
+      setSlide(3);
       finishPlanning();
     }
-  }, [finishPlanning, done, slide]);
+  }, [finishPlanning, done, slide, _data, setSlide]);
 
   return (
     <>
@@ -261,12 +262,6 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
           <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
             Overdue tasks
           </Typography>
-          {_data.length === 0 && (
-            <Box sx={{ p: 2, borderRadius: 5, background: palette[4] }}>
-              You&apos;ve reviewed enough tasks for today. Come back tomorrow
-              for more suggestions!
-            </Box>
-          )}
           {_data.map((task) => (
             <TaskDrawer
               key={task.id}
