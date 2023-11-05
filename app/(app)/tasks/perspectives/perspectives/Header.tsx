@@ -115,7 +115,10 @@ export const Header = memo(function Header({
         exit={{ opacity: 0 }}
         style={{ width: "100%" }}
       >
-        <Box ref={emblaRef} sx={{ width: { xs: "100dvw", sm: "100%" } }}>
+        <Box
+          ref={emblaRef}
+          sx={{ width: { xs: "100dvw", sm: "100%" }, overflow: "hidden" }}
+        >
           <Box sx={{ display: "flex" }}>
             {isMobile && (
               <Box

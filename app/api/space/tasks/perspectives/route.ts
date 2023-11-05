@@ -37,8 +37,8 @@ export async function GET(req: NextRequest) {
 
     if (!map[type]) return Response.json({ error: "Invalid `type`" });
 
-    const start = dayjs(_start);
-    const end = dayjs(_end);
+    const start = dayjs(_start).utcOffset(parseInt(utcOffset) / 60);
+    const end = dayjs(_end).utcOffset(parseInt(utcOffset) / 60);
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
@@ -49,6 +49,8 @@ export async function GET(req: NextRequest) {
         tasks: [],
       })
     );
+
+    console.log(units);
 
     // Retrieve tasks in a single query
     const tasks = await prisma.task.findMany({
