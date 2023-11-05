@@ -372,7 +372,7 @@ function PlanNavbar({ subtitle }: { subtitle?: string }) {
   const palette = useColor(session.themeColor, isDark);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2, py: 1 }}>
       <ConfirmationModal
         callback={() => {
           if (isMobile) router.push("/tasks/home");
@@ -1080,16 +1080,14 @@ export default function Page() {
               color: palette[11],
               background: palette[3],
               m: 3,
-              mt: { xs: 4, sm: 6 },
+              mt: { xs: 5, sm: 6 },
             }}
           >
             <Icon className="outlined">add</Icon>
           </IconButton>
         </CreateTask>
       )}
-      <Box sx={{ maxWidth: "100dvw", width: "500px" }}>
-        <PlanNavbar subtitle={navbarText} />
-      </Box>
+      <PlanNavbar subtitle={navbarText} />
       <Box
         sx={{
           pt: { xs: 2, sm: 7 },
