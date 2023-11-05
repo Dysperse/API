@@ -337,23 +337,27 @@ function PastTasks({ data }) {
               Go to agenda
             </Button>
           </Box>
-          <Box
-            sx={{
-              px: 2,
-              fontWeight: 600,
-              textTransform: "uppercase",
-              opacity: 0.6,
-              fontSize: "13px",
-              textAlign: "center",
-            }}
-          >
-            New suggestions in:{" "}
-            <Countdown
-              daysInHours
-              precision={2}
-              date={dayjs(session.user.lastPlannedTasks).add(1, "day").toDate()}
-            />
-          </Box>
+          {dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24 && (
+            <Box
+              sx={{
+                px: 2,
+                fontWeight: 600,
+                textTransform: "uppercase",
+                opacity: 0.6,
+                fontSize: "13px",
+                textAlign: "center",
+              }}
+            >
+              New suggestions in:{" "}
+              <Countdown
+                daysInHours
+                precision={2}
+                date={dayjs(session.user.lastPlannedTasks)
+                  .add(1, "day")
+                  .toDate()}
+              />
+            </Box>
+          )}
         </Box>
       )}
     </>
