@@ -114,6 +114,7 @@ function SetGoals({ setNavbarText, setGroupProgress }) {
         </Typography>
         {step === 0 ? (
           <CreateTask
+            closeOnCreate
             defaultDate={dayjs().startOf("day").toDate()}
             disableBadge
             isSimple
@@ -204,7 +205,7 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
   const router = useRouter();
   const { session } = useSession();
   const [slide, setSlide] = useState(
-    dayjs(session.user.lastPlannedTasks).diff(dayjs(), "hour") < 24
+    dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24
       ? 2
       : data.length === 0
       ? 2
@@ -253,9 +254,6 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
             in a while.
           </Typography>
           <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
-            <Button variant="contained" fullWidth onClick={() => setSlide(1)}>
-              Let&apos;s do it
-            </Button>
             <ConfirmationModal
               callback={() => setSlide(1)}
               title="Skip?"
@@ -265,6 +263,9 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
                 Skip for now
               </Button>
             </ConfirmationModal>
+            <Button variant="contained" fullWidth onClick={() => setSlide(1)}>
+              Let&apos;s do it
+            </Button>
           </Box>
         </Box>
       ) : slide === 1 ? (
@@ -506,7 +507,7 @@ function Slides({ setNavbarText, data, setGroupProgress }) {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const maxLength = data.length;
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(-1);
   const slide = data[progress];
 
   const styles: SxProps = {
@@ -633,291 +634,334 @@ function Slides({ setNavbarText, data, setGroupProgress }) {
 
   return (
     <>
-      <ProgressBar group={1} progress={((progress + 1) / maxLength) * 100} />
-      <TaskDrawer
-        isPlan
-        id={slide.id}
-        mutateList={() => {}}
-        editCallback={(updatedTask) => {
-          if (updatedTask === "DELETED") {
-            setIsDeleted(true);
-            setTimeout(() => {
-              setProgress((p) => p + 1);
-              setIsDeleted(false);
-            }, 800);
-          } else if (
-            dayjs(updatedTask.due).isAfter(
-              dayjs().startOf("day").add(1, "day")
-            ) ||
-            updatedTask.completionInstances.length > 0
-          ) {
-            setIsPostponed(true);
-            setTimeout(() => {
-              setProgress((p) => p + 1);
-              setIsPostponed(false);
-            }, 800);
-          }
-        }}
-      >
-        <Box
-          sx={{
-            transformOrigin: "top center",
-            transform: postponeOpen ? "scale(.9)" : "scale(1)",
-            transition: "all .2s",
-            mt: { xs: "auto", sm: "0" },
-            "& .opacity": {
-              height: { xs: "100%", sm: 350 },
-              maxHeight: { xs: 250, sm: 350 },
-              width: { xs: 500, sm: 700 },
-              maxWidth: "calc(100dvw - 80px)",
-              border: `2px solid ${palette[4]}`,
-              overflow: "hidden",
-              boxShadow: `0 0 100px ${palette[4]}`,
-              "&:hover": {
-                background: { sm: palette[2] },
-                border: { sm: `2px solid ${palette[5]}` },
-              },
-              "&:active": {
-                filter: "opacity(.6)",
-              },
-              borderRadius: 5,
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              p: 4,
-              gap: 2,
-              zIndex: 99,
-              transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-              ...(isToday && {
-                animation:
-                  "today .3s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
-                ["@keyframes today"]: {
-                  from: { transform: "translateY(0px)", opacity: 1 },
-                  to: { transform: "translateY(-50dvh)", opacity: 0 },
-                },
-              }),
-              ...(isPinned && {
-                animation: "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
-                ["@keyframes pin"]: {
-                  from: { transform: "scale(1)" },
-                  to: { transform: "scale(1.1)" },
-                },
-              }),
-              ...(isPostponed && {
-                animation:
-                  "postpone .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-                ["@keyframes postpone"]: {
-                  "20%": {
-                    opacity: 1,
-                    transform: "scale(.9) rotate(2deg)",
-                    boxShadow: "none",
-                  },
-                  "60%": {
-                    opacity: 1,
-                    transform: "scale(.9) rotate(2deg)",
-                    boxShadow: "none",
-                  },
-                  "100%": {
-                    // filter: "blur(5px)",
-                    opacity: 0,
-                    transform:
-                      "scale(.5) rotate(5deg) translate(100vh, -100vh)",
-                    boxShadow: "none",
-                  },
-                },
-              }),
-              ...(isDeleted && {
-                animation: "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
-                ["@keyframes delete"]: {
-                  "20%": {
-                    opacity: 1,
-                    transform: "scale(.9) rotate(-2deg)",
-                    boxShadow: "none",
-                  },
-                  "60%": {
-                    opacity: 1,
-                    transform: "scale(.9) rotate(-2deg)",
-                    boxShadow: "none",
-                  },
-                  "100%": {
-                    // filter: "blur(5px)",
-                    opacity: 0,
-                    transform:
-                      "scale(.5) rotate(-5deg) translate(-100vh, 100vh)",
-                    boxShadow: "none",
-                  },
-                },
-              }),
-            },
-          }}
-        >
-          <motion.div
-            key={progress}
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="opacity"
-          >
-            {isPinned && (
-              <Box
-                sx={{
-                  transform: "skew(-10deg,-0deg)",
-                  width: "300px",
-                  display: "block",
-                  height: "100dvh",
-                  position: "absolute",
-                  zIndex: 99,
-                  top: 0,
-                  left: 0,
-                  background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
-                  opacity: 0.3,
-                  animation: "slide .8s forwards ",
-                  ["@keyframes slide"]: {
-                    from: {
-                      transform: "skew(-10deg,-0deg) translateX(-1000px)",
-                    },
-                    to: { transform: "skew(-10deg,-0deg) translateX(1000px)" },
-                  },
-                }}
-              />
-            )}
-            <Box sx={{ flexWrap: "wrap", display: "flex", gap: 1.5 }}>
-              {slide.pinned && (
-                <Chip
-                  sx={{
-                    color: `${orangePalette[11]}!important`,
-                    background: `${orangePalette[5]}!important`,
-                  }}
-                  icon={
-                    <Icon sx={{ color: `${orangePalette[11]}!important` }}>
-                      priority_high
-                    </Icon>
-                  }
-                  label="Urgent"
-                />
-              )}
-              <Chip
-                icon={<Icon className="outlined">calendar_today</Icon>}
-                label={`${
-                  dayjs(slide.due).isTomorrow()
-                    ? "Tomorrow"
-                    : dayjs(slide.due).isToday()
-                    ? "Today"
-                    : dayjs(slide.due).fromNow()
-                }`}
-              />
-              {!slide.dateOnly && (
-                <Chip
-                  label={dayjs(slide.due).format("h:mm A")}
-                  sx={{ background: palette[3] }}
-                  icon={<Icon className="outlined">access_time</Icon>}
-                />
-              )}
-              {slide.column && (
-                <Tooltip title={slide.column?.name}>
-                  <Chip
-                    label={slide.column?.board?.name}
-                    sx={{ background: palette[3] }}
-                    avatar={
-                      <Avatar
-                        sx={{ borderRadius: 0 }}
-                        src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
-                      />
-                    }
-                  />
-                </Tooltip>
-              )}
-            </Box>
-            <Typography
-              sx={{
-                fontSize: { xs: "40px", sm: "50px" },
-                lineHeight: { xs: "40px", sm: "50px" },
-              }}
-              className="font-heading"
-            >
-              {slide.name}
-            </Typography>
-            {slide.description && <Typography>{slide.description}</Typography>}
-          </motion.div>
-        </Box>
-      </TaskDrawer>
-      <Box
-        sx={{
-          display: "flex",
-          width: { xs: 500, sm: 700 },
-          maxWidth: "calc(100dvw - 20px)",
-          mt: { xs: "auto", sm: 2 },
-          mb: 3,
-          gap: 1,
-          transition: "all .3s",
-          ...((isPinned || isDeleted || postponeOpen) && {
-            opacity: 0,
-          }),
-        }}
-      >
-        <Tooltip title="1" enterDelay={1000}>
-          <Box sx={styles} onClick={handlePrioritize}>
-            <Icon
-              sx={{
-                ...(slide.pinned && {
-                  background: `${palette[9]}!important`,
-                  color: `${palette[1]}!important`,
-                }),
-              }}
-            >
-              release_alert
-            </Icon>
-            Prioritize{slide.pinned && "d"}
-          </Box>
-        </Tooltip>
-        <Tooltip title="2" enterDelay={1000}>
-          <Box sx={styles} onClick={handleToday}>
-            <Icon>priority</Icon>
-            Today
-          </Box>
-        </Tooltip>
-        <Tooltip title="3" enterDelay={1000}>
-          <Box sx={styles} onClick={() => setPostponeOpen(true)}>
-            <Icon>dark_mode</Icon>
-            Postpone
-          </Box>
-        </Tooltip>
-        <Tooltip title="4" enterDelay={1000}>
-          <Box sx={styles} onClick={handleNext}>
-            <Icon>
-              {dayjs(slide.due).isTomorrow() ? "outbound" : "next_plan"}
-            </Icon>
-            {dayjs(slide.due).isTomorrow() ? "Tomorrow" : "Next"}
-          </Box>
-        </Tooltip>
-      </Box>
-      <Tooltip title="backspace" enterDelay={1000}>
-        <IconButton
-          sx={{
-            transition: "all .2s",
-            ...((progress == 0 || postponeOpen) && {
-              opacity: 0,
-              pointerEvents: "none",
-            }),
-            position: "fixed",
-            top: 0,
-            right: 55,
-            color: palette[11],
-            background: palette[3],
-            m: 3,
-            mt: 4,
-          }}
-          onClick={handleBack}
-        >
-          <Icon>undo</Icon>
-        </IconButton>
-      </Tooltip>
-      <PostponeModal
-        setOpen={setPostponeOpen}
-        open={postponeOpen}
-        task={slide}
-        handlePostpone={handlePostpone}
+      <ProgressBar
+        group={1}
+        progress={((progress + 2) / (maxLength + 1)) * 100}
       />
+      {progress === -1 ? (
+        <Box sx={{ my: "auto" }}>
+          <Avatar sx={{ width: 70, height: 70, mb: 1, borderRadius: 3 }}>
+            <Emoji emoji="1F331" size={40} />
+          </Avatar>
+          <Typography variant="h2" className="font-heading">
+            Upcoming tasks
+          </Typography>
+          <Typography sx={{ mb: 1 }}>
+            Now, let&apos;s review some of your upcoming tasks.
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+            <ConfirmationModal
+              callback={() => setGroupProgress(2)}
+              title="Skip?"
+              question="Skip reviewing old tasks?"
+            >
+              <Button variant="outlined" sx={{ px: 5 }}>
+                Skip for now
+              </Button>
+            </ConfirmationModal>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => setProgress(0)}
+            >
+              Let&apos;s do it
+            </Button>
+          </Box>
+        </Box>
+      ) : (
+        <>
+          <TaskDrawer
+            isPlan
+            id={slide.id}
+            mutateList={() => {}}
+            editCallback={(updatedTask) => {
+              if (updatedTask === "DELETED") {
+                setIsDeleted(true);
+                setTimeout(() => {
+                  setProgress((p) => p + 1);
+                  setIsDeleted(false);
+                }, 800);
+              } else if (
+                dayjs(updatedTask.due).isAfter(
+                  dayjs().startOf("day").add(1, "day")
+                ) ||
+                updatedTask.completionInstances.length > 0
+              ) {
+                setIsPostponed(true);
+                setTimeout(() => {
+                  setProgress((p) => p + 1);
+                  setIsPostponed(false);
+                }, 800);
+              }
+            }}
+          >
+            <Box
+              sx={{
+                transformOrigin: "top center",
+                transform: postponeOpen ? "scale(.9)" : "scale(1)",
+                transition: "all .2s",
+                mt: { xs: "auto", sm: "0" },
+                "& .opacity": {
+                  height: { xs: "100%", sm: 350 },
+                  maxHeight: { xs: 250, sm: 350 },
+                  width: { xs: 500, sm: 700 },
+                  maxWidth: "calc(100dvw - 80px)",
+                  border: `2px solid ${palette[4]}`,
+                  overflow: "hidden",
+                  boxShadow: `0 0 100px ${palette[4]}`,
+                  "&:hover": {
+                    background: { sm: palette[2] },
+                    border: { sm: `2px solid ${palette[5]}` },
+                  },
+                  "&:active": {
+                    filter: "opacity(.6)",
+                  },
+                  borderRadius: 5,
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  p: 4,
+                  gap: 2,
+                  zIndex: 99,
+                  transition: "all .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+                  ...(isToday && {
+                    animation:
+                      "today .3s forwards cubic-bezier(0.1, 0.76, 0.55, 0.9)",
+                    ["@keyframes today"]: {
+                      from: { transform: "translateY(0px)", opacity: 1 },
+                      to: { transform: "translateY(-50dvh)", opacity: 0 },
+                    },
+                  }),
+                  ...(isPinned && {
+                    animation:
+                      "pin .3s forwards cubic-bezier(.17,.67,.41,1.35)",
+                    ["@keyframes pin"]: {
+                      from: { transform: "scale(1)" },
+                      to: { transform: "scale(1.1)" },
+                    },
+                  }),
+                  ...(isPostponed && {
+                    animation:
+                      "postpone .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+                    ["@keyframes postpone"]: {
+                      "20%": {
+                        opacity: 1,
+                        transform: "scale(.9) rotate(2deg)",
+                        boxShadow: "none",
+                      },
+                      "60%": {
+                        opacity: 1,
+                        transform: "scale(.9) rotate(2deg)",
+                        boxShadow: "none",
+                      },
+                      "100%": {
+                        // filter: "blur(5px)",
+                        opacity: 0,
+                        transform:
+                          "scale(.5) rotate(5deg) translate(100vh, -100vh)",
+                        boxShadow: "none",
+                      },
+                    },
+                  }),
+                  ...(isDeleted && {
+                    animation:
+                      "delete .8s forwards cubic-bezier(.17,.67,.41,1.35)",
+                    ["@keyframes delete"]: {
+                      "20%": {
+                        opacity: 1,
+                        transform: "scale(.9) rotate(-2deg)",
+                        boxShadow: "none",
+                      },
+                      "60%": {
+                        opacity: 1,
+                        transform: "scale(.9) rotate(-2deg)",
+                        boxShadow: "none",
+                      },
+                      "100%": {
+                        // filter: "blur(5px)",
+                        opacity: 0,
+                        transform:
+                          "scale(.5) rotate(-5deg) translate(-100vh, 100vh)",
+                        boxShadow: "none",
+                      },
+                    },
+                  }),
+                },
+              }}
+            >
+              <motion.div
+                key={progress}
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="opacity"
+              >
+                {isPinned && (
+                  <Box
+                    sx={{
+                      transform: "skew(-10deg,-0deg)",
+                      width: "300px",
+                      display: "block",
+                      height: "100dvh",
+                      position: "absolute",
+                      zIndex: 99,
+                      top: 0,
+                      left: 0,
+                      background: `linear-gradient(90deg, transparent, ${palette[9]}, transparent)`,
+                      opacity: 0.3,
+                      animation: "slide .8s forwards ",
+                      ["@keyframes slide"]: {
+                        from: {
+                          transform: "skew(-10deg,-0deg) translateX(-1000px)",
+                        },
+                        to: {
+                          transform: "skew(-10deg,-0deg) translateX(1000px)",
+                        },
+                      },
+                    }}
+                  />
+                )}
+                <Box sx={{ flexWrap: "wrap", display: "flex", gap: 1.5 }}>
+                  {slide.pinned && (
+                    <Chip
+                      sx={{
+                        color: `${orangePalette[11]}!important`,
+                        background: `${orangePalette[5]}!important`,
+                      }}
+                      icon={
+                        <Icon sx={{ color: `${orangePalette[11]}!important` }}>
+                          priority_high
+                        </Icon>
+                      }
+                      label="Urgent"
+                    />
+                  )}
+                  <Chip
+                    icon={<Icon className="outlined">calendar_today</Icon>}
+                    label={`${
+                      dayjs(slide.due).isTomorrow()
+                        ? "Tomorrow"
+                        : dayjs(slide.due).isToday()
+                        ? "Today"
+                        : dayjs(slide.due).fromNow()
+                    }`}
+                  />
+                  {!slide.dateOnly && (
+                    <Chip
+                      label={dayjs(slide.due).format("h:mm A")}
+                      sx={{ background: palette[3] }}
+                      icon={<Icon className="outlined">access_time</Icon>}
+                    />
+                  )}
+                  {slide.column && (
+                    <Tooltip title={slide.column?.name}>
+                      <Chip
+                        label={slide.column?.board?.name}
+                        sx={{ background: palette[3] }}
+                        avatar={
+                          <Avatar
+                            sx={{ borderRadius: 0 }}
+                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${slide.column?.emoji}.png`}
+                          />
+                        }
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: { xs: "40px", sm: "50px" },
+                    lineHeight: { xs: "40px", sm: "50px" },
+                  }}
+                  className="font-heading"
+                >
+                  {slide.name}
+                </Typography>
+                {slide.description && (
+                  <Typography>{slide.description}</Typography>
+                )}
+              </motion.div>
+            </Box>
+          </TaskDrawer>
+          <Box
+            sx={{
+              display: "flex",
+              width: { xs: 500, sm: 700 },
+              maxWidth: "calc(100dvw - 20px)",
+              mt: { xs: "auto", sm: 2 },
+              mb: 3,
+              gap: 1,
+              transition: "all .3s",
+              ...((isPinned || isDeleted || postponeOpen) && {
+                opacity: 0,
+              }),
+            }}
+          >
+            <Tooltip title="1" enterDelay={1000}>
+              <Box sx={styles} onClick={handlePrioritize}>
+                <Icon
+                  sx={{
+                    ...(slide.pinned && {
+                      background: `${palette[9]}!important`,
+                      color: `${palette[1]}!important`,
+                    }),
+                  }}
+                >
+                  release_alert
+                </Icon>
+                Prioritize{slide.pinned && "d"}
+              </Box>
+            </Tooltip>
+            <Tooltip title="2" enterDelay={1000}>
+              <Box sx={styles} onClick={handleToday}>
+                <Icon>priority</Icon>
+                Today
+              </Box>
+            </Tooltip>
+            <Tooltip title="3" enterDelay={1000}>
+              <Box sx={styles} onClick={() => setPostponeOpen(true)}>
+                <Icon>dark_mode</Icon>
+                Postpone
+              </Box>
+            </Tooltip>
+            <Tooltip title="4" enterDelay={1000}>
+              <Box sx={styles} onClick={handleNext}>
+                <Icon>
+                  {dayjs(slide.due).isTomorrow() ? "outbound" : "next_plan"}
+                </Icon>
+                {dayjs(slide.due).isTomorrow() ? "Tomorrow" : "Next"}
+              </Box>
+            </Tooltip>
+          </Box>
+          <Tooltip title="backspace" enterDelay={1000}>
+            <IconButton
+              sx={{
+                transition: "all .2s",
+                ...((progress == 0 || postponeOpen) && {
+                  opacity: 0,
+                  pointerEvents: "none",
+                }),
+                position: "fixed",
+                top: 0,
+                right: 55,
+                color: palette[11],
+                background: palette[3],
+                m: 3,
+                mt: 4,
+              }}
+              onClick={handleBack}
+            >
+              <Icon>undo</Icon>
+            </IconButton>
+          </Tooltip>
+          <PostponeModal
+            setOpen={setPostponeOpen}
+            open={postponeOpen}
+            task={slide}
+            handlePostpone={handlePostpone}
+          />
+        </>
+      )}
     </>
   );
 }
@@ -983,7 +1027,7 @@ export default function Page() {
 
   const [showIntro, setShowIntro] = useState(true);
   const [groupProgress, setGroupProgress] = useState(
-    dayjs(session.user.lastPlannedTasks).diff(dayjs(), "hour") < 24 ? 2 : 0
+    dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24 ? 2 : 0
   );
 
   useEffect(() => {
@@ -1046,9 +1090,12 @@ export default function Page() {
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          height: "100%",
+          height: { xs: "100%", sm: "100dvh" },
           ...(groupProgress !== 2 && {
             justifyContent: "center",
+          }),
+          ...(groupProgress === 1 && {
+            overflow: { sm: "hidden" },
           }),
         }}
       >

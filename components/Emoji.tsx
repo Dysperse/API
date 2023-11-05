@@ -10,7 +10,7 @@ export function Emoji({
   return (
     <img
       alt="Emoji"
-      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
+      src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji.toLowerCase()}.png`}
       width={size}
       height={size}
       style={style}
