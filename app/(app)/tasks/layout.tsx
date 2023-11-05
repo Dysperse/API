@@ -191,6 +191,7 @@ export default function TasksLayout({
             transform: "translate(-50%, -100px)",
             pointerEvents: "none",
           }),
+          WebkitAppRegion: "no-drag",
           zIndex: 99999999,
           background: addHslAlpha(palette[4], 0.5),
           maxWidth: { md: "400px" },
