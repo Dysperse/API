@@ -261,6 +261,12 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
           <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
             Overdue tasks
           </Typography>
+          {_data.length === 0 && (
+            <Box sx={{ p: 2, borderRadius: 5, background: palette[4] }}>
+              You&apos;ve reviewed enough tasks for today. Come back tomorrow
+              for more suggestions!
+            </Box>
+          )}
           {_data.map((task) => (
             <TaskDrawer
               key={task.id}
@@ -296,7 +302,12 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
               </Box>
             </TaskDrawer>
           ))}
-          <Button variant="contained" fullWidth onClick={() => setSlide(2)}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => setSlide(2)}
+            sx={{ my: 2 }}
+          >
             Done
           </Button>
         </Container>
