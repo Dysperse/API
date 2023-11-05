@@ -201,7 +201,7 @@ function SetGoals({ setNavbarText, setGroupProgress }) {
   );
 }
 
-function PastTasks({ data }) {
+function PastTasks({ setNavbarText, data }) {
   const router = useRouter();
   const { session } = useSession();
   const [slide, setSlide] = useState(
@@ -237,7 +237,9 @@ function PastTasks({ data }) {
       finishPlanning();
     }
   }, [finishPlanning, done, slide, _data, setSlide, session]);
-
+  useEffect(() => {
+    if (slide === 2) setNavbarText(`Finished`);
+  }, [setNavbarText, slide]);
   return (
     <>
       <ProgressBar group={2} progress={(slide / 2) * 100} />
@@ -1116,7 +1118,7 @@ export default function Page() {
           />
         )}
         {!showIntro && data && groupProgress === 2 && (
-          <PastTasks data={data.oldTasks} />
+          <PastTasks data={data.oldTasks} setNavbarText={setNavbarText} />
         )}
         {error && <ErrorHandler callback={mutate} />}
         {isLoading && !showIntro && <Loader />}
