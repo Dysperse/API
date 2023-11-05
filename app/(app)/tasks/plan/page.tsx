@@ -201,7 +201,7 @@ function SetGoals({ setNavbarText, setGroupProgress }) {
   );
 }
 
-function PastTasks({ setNavbarText, data, setGroupProgress }) {
+function PastTasks({ data }) {
   const router = useRouter();
   const { session } = useSession();
   const [slide, setSlide] = useState(
@@ -240,7 +240,7 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
 
   return (
     <>
-      <ProgressBar group={2} progress={(slide / 3) * 100} />
+      <ProgressBar group={2} progress={(slide / 2) * 100} />
       {slide === 0 ? (
         <Box sx={{ my: "auto" }}>
           <Avatar sx={{ width: 70, height: 70, mb: 1, borderRadius: 3 }}>
@@ -255,7 +255,7 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
           </Typography>
           <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
             <ConfirmationModal
-              callback={() => setSlide(1)}
+              callback={() => setSlide(2)}
               title="Skip?"
               question="Skip reviewing old tasks?"
             >
@@ -1060,6 +1060,9 @@ export default function Page() {
         height: "100dvh",
         maxWidth: "100dvw",
         position: "relative",
+        ...(groupProgress === 1 && {
+          overflowY: { sm: "hidden" },
+        }),
       }}
     >
       {isMobile && (
@@ -1094,9 +1097,6 @@ export default function Page() {
           ...(groupProgress !== 2 && {
             justifyContent: "center",
           }),
-          ...(groupProgress === 1 && {
-            overflow: { sm: "hidden" },
-          }),
         }}
       >
         {showIntro && <Intro />}
@@ -1114,11 +1114,7 @@ export default function Page() {
           />
         )}
         {!showIntro && data && groupProgress === 2 && (
-          <PastTasks
-            setNavbarText={setNavbarText}
-            data={data.oldTasks}
-            setGroupProgress={setGroupProgress}
-          />
+          <PastTasks data={data.oldTasks} />
         )}
         {error && <ErrorHandler callback={mutate} />}
         {isLoading && !showIntro && <Loader />}
