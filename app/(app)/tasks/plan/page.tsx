@@ -233,7 +233,7 @@ function PastTasks({ data }) {
       dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") > 24
     ) {
       setDone(true);
-      setSlide(3);
+      setSlide(2);
       finishPlanning();
     }
   }, [finishPlanning, done, slide, _data, setSlide, session]);
