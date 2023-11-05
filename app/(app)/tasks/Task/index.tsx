@@ -412,7 +412,7 @@ export const Task: any = React.memo(function Task({
                 board={board}
                 isAgenda={isAgenda}
                 columnId={columnId}
-                mutateList={mutateList}
+                mutateList={() => mutateList()}
                 task={subtask}
                 checkList={checkList}
               />
@@ -436,7 +436,7 @@ export const Task: any = React.memo(function Task({
       <TaskDrawer
         recurringInstance={recurringInstance}
         id={taskData.id}
-        mutateList={mutateList}
+        mutateList={() => mutateList()}
         isDisabled={isDisabled}
         handleSelect={handleSelect}
         {...(selection.values.length > 0 && { onClick: handleSelect })}
