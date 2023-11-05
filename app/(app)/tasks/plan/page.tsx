@@ -30,6 +30,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import randomQuotes from "random-quotes";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Countdown from "react-countdown";
 import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { CreateTask } from "../Task/Create";
@@ -202,7 +203,13 @@ function SetGoals({ setNavbarText, setGroupProgress }) {
 function PastTasks({ setNavbarText, data, setGroupProgress }) {
   const router = useRouter();
   const { session } = useSession();
-  const [slide, setSlide] = useState(data.length === 0 ? 2 : 0);
+  const [slide, setSlide] = useState(
+    dayjs(session.user.lastPlannedTasks).diff(dayjs(), "hour") < 24
+      ? 2
+      : data.length === 0
+      ? 2
+      : 0
+  );
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
@@ -220,16 +227,19 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if ((slide === 2 && !done) || (_data && _data.length === 0)) {
+    if (
+      ((slide === 2 && !done) || (_data && _data.length === 0)) &&
+      dayjs(session.user.lastPlannedTasks).diff(dayjs(), "hour") > 24
+    ) {
       setDone(true);
       setSlide(3);
       finishPlanning();
     }
-  }, [finishPlanning, done, slide, _data, setSlide]);
+  }, [finishPlanning, done, slide, _data, setSlide, session]);
 
   return (
     <>
-      <ProgressBar group={2} progress={50} />
+      <ProgressBar group={2} progress={(slide / 3) * 100} />
       {slide === 0 ? (
         <Box sx={{ my: "auto" }}>
           <Avatar sx={{ width: 70, height: 70, mb: 1, borderRadius: 3 }}>
@@ -317,7 +327,7 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
           <Typography sx={{ mb: 1 }}>
             You&apos;re all set to be productive today!
           </Typography>
-          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+          <Box sx={{ display: "flex", gap: 1, mt: 2, mb: 1 }}>
             <Button
               variant="contained"
               fullWidth
@@ -325,6 +335,23 @@ function PastTasks({ setNavbarText, data, setGroupProgress }) {
             >
               Go to agenda
             </Button>
+          </Box>
+          <Box
+            sx={{
+              px: 2,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              opacity: 0.6,
+              fontSize: "13px",
+              textAlign: "center",
+            }}
+          >
+            New suggestions in:{" "}
+            <Countdown
+              daysInHours
+              precision={2}
+              date={dayjs(session.user.lastPlannedTasks).add(1, "day").toDate()}
+            />
           </Box>
         </Box>
       )}
@@ -913,6 +940,7 @@ function Intro() {
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
+        style={{ marginTop: "auto" }}
         transition={{ delay: 0.5, duration: 1.5 }}
       >
         <Typography
@@ -930,6 +958,7 @@ function Intro() {
         initial={{ y: -10, opacity: 0 }}
         animate={{ y: 1, opacity: 1 }}
         transition={{ delay: 2, duration: 0.5 }}
+        style={{ marginBottom: "auto" }}
       >
         <Typography
           variant={isMobile ? undefined : "h5"}
@@ -949,10 +978,13 @@ function Intro() {
 export default function Page() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(session.themeColor, isDark);
 
   const [showIntro, setShowIntro] = useState(true);
-  const [groupProgress, setGroupProgress] = useState(2);
+  const [groupProgress, setGroupProgress] = useState(
+    dayjs(session.user.lastPlannedTasks).diff(dayjs(), "hour") < 24 ? 2 : 0
+  );
 
   useEffect(() => {
     const timeout = setTimeout(() => setShowIntro(false), 5000);
@@ -986,22 +1018,24 @@ export default function Page() {
         position: "relative",
       }}
     >
-      <CreateTask defaultDate={dayjs().startOf("day").toDate()}>
-        <IconButton
-          sx={{
-            transition: "all .2s",
-            position: "fixed",
-            top: 0,
-            right: 0,
-            color: palette[11],
-            background: palette[3],
-            m: 3,
-            mt: { xs: 4, sm: 6 },
-          }}
-        >
-          <Icon className="outlined">add</Icon>
-        </IconButton>
-      </CreateTask>
+      {isMobile && (
+        <CreateTask defaultDate={dayjs().startOf("day").toDate()}>
+          <IconButton
+            sx={{
+              transition: "all .2s",
+              position: "fixed",
+              top: 0,
+              right: 0,
+              color: palette[11],
+              background: palette[3],
+              m: 3,
+              mt: { xs: 4, sm: 6 },
+            }}
+          >
+            <Icon className="outlined">add</Icon>
+          </IconButton>
+        </CreateTask>
+      )}
       <Box sx={{ maxWidth: "100dvw", width: "500px" }}>
         <PlanNavbar subtitle={navbarText} />
       </Box>

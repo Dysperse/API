@@ -67,6 +67,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-calendar": "^4.6.0",
     "react-confetti": "^6.1.0",
+    "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
     "react-email": "^1.9.5",
