@@ -74,22 +74,22 @@ function ActivitySave() {
 export default function ClientLayout({ children, session }) {
   const router = useRouter();
   const pathname = usePathname();
-  const isDark = useDarkMode(session.darkMode);
+  const [_session, _setSession] = useState(session);
+  const isDark = useDarkMode(_session.darkMode);
   const shouldHide = shouldHideNavigation(pathname);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isTablet = useMediaQuery("(max-width: 900px)");
-  const palette = useColor(session.themeColor, isDark);
+  const palette = useColor(_session.themeColor, isDark);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
-  const [_session, _setSession] = useState(session);
 
   const [isReached, setIsReached]: any =
     useState<AccountStorageState>("loading");
 
   const userTheme = createTheme(
     useCustomTheme({
-      darkMode: useDarkMode(session.darkMode),
-      themeColor: session.themeColor,
+      darkMode: useDarkMode(_session.darkMode),
+      themeColor: _session.themeColor,
     })
   );
 
@@ -120,7 +120,7 @@ export default function ClientLayout({ children, session }) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <SWRConfig value={{ fetcher: (d) => fetcher(d, session) }}>
+      <SWRConfig value={{ fetcher: (d) => fetcher(d, _session) }}>
         <SessionProvider
           session={_session}
           setSession={_setSession}
@@ -132,7 +132,7 @@ export default function ClientLayout({ children, session }) {
               <ReleaseModal />
               <KeyboardShortcutsModal />
               <UpdateButton />
-              {!session.user.agreeTos && <TosModal />}
+              {!_session.user.agreeTos && <TosModal />}
 
               <Snackbar
                 open={Boolean(error)}
@@ -163,7 +163,7 @@ export default function ClientLayout({ children, session }) {
                     </Button>
                     <Button
                       onClick={() =>
-                        router.push(`/spaces/${session.space.info.id}`)
+                        router.push(`/spaces/${_session.space.info.id}`)
                       }
                       color="inherit"
                       size="small"
