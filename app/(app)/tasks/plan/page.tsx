@@ -12,12 +12,15 @@ import {
   Box,
   Button,
   Chip,
+  Container,
   Icon,
   IconButton,
+  InputAdornment,
   LinearProgress,
   Skeleton,
   SwipeableDrawer,
   SxProps,
+  TextField,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -31,6 +34,297 @@ import { useHotkeys } from "react-hotkeys-hook";
 import useSWR from "swr";
 import { CreateTask } from "../Task/Create";
 import { TaskDrawer } from "../Task/Drawer";
+
+function ProgressBar({ group, progress }: { group: number; progress: number }) {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const palette = useColor(session.themeColor, isDark);
+
+  const maxGroups = 3;
+
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: 999,
+        width: "100%",
+        display: "flex",
+        gap: 2,
+        p: 2,
+      }}
+    >
+      {[...new Array(maxGroups)].map((_, i) => (
+        <LinearProgress
+          value={group > i ? 100 : group === i ? progress : 0}
+          variant="determinate"
+          key={i}
+          sx={{
+            borderRadius: 99,
+            height: 5,
+            width: "100%",
+            background: palette[5],
+            "& *": {
+              borderRadius: 999,
+              background: `linear-gradient(${palette[11]}, ${palette[7]})`,
+            },
+          }}
+        />
+      ))}
+    </Box>
+  );
+}
+
+function SetGoals({ setNavbarText, setGroupProgress }) {
+  const [step, setStep] = useState(0);
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const greenPalette = useColor("green", isDark);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const palette = useColor(session.themeColor, isDark);
+  const [createdTasks, setCreatedTasks] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (createdTasks.length === 3 && step === 1) {
+      setGroupProgress(1);
+    }
+  }, [createdTasks.length, step, setGroupProgress]);
+
+  return (
+    <>
+      <ProgressBar
+        group={0}
+        progress={((step + 1 + createdTasks.length) / 5) * 100}
+      />
+      <Box sx={{ width: "500px", maxWidth: "calc(100dvw - 40px)" }}>
+        <Typography variant="h3" className="font-heading">
+          {step === 1 ? "Supercharge your schedule" : "Kickstart your day"}
+        </Typography>
+        <Typography sx={{ mb: 2 }}>
+          {step == 1 ? (
+            <>Write down three main things you want to focus on.</>
+          ) : (
+            <>
+              Write down one <u>easy</u> task that could make your day.
+            </>
+          )}
+        </Typography>
+        {step === 0 ? (
+          <CreateTask
+            defaultDate={dayjs().startOf("day").toDate()}
+            disableBadge
+            isSimple
+            onSuccess={() => {
+              setStep(1);
+            }}
+          >
+            <TextField
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Icon>add</Icon>
+                  </InputAdornment>
+                ),
+              }}
+              inputProps={{ readOnly: true }}
+              placeholder="Make breakfast"
+              sx={{ fontStyle: "italic", "&, & *": { cursor: "default" } }}
+            />
+          </CreateTask>
+        ) : (
+          [...new Array(3)].map((_, i) => (
+            <CreateTask
+              defaultDate={dayjs().startOf("day").toDate()}
+              disableBadge
+              closeOnCreate
+              key={i}
+              onSuccess={(res) =>
+                setCreatedTasks((c) => [...c, { name: res.name, id: res.id }])
+              }
+            >
+              <TextField
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Icon>target</Icon>
+                    </InputAdornment>
+                  ),
+                }}
+                value={createdTasks[i]?.name}
+                disabled={Boolean(createdTasks[i]?.name)}
+                inputProps={{ readOnly: true }}
+                placeholder="Make breakfast"
+                sx={{
+                  mb: 1,
+                  ...(createdTasks[i]
+                    ? {
+                        "&, & *": {
+                          borderColor: `${greenPalette[9]}!important`,
+                          color: `${greenPalette[9]}!important`,
+                        },
+                      }
+                    : {
+                        fontStyle: "italic",
+                        "&, & *": { cursor: "default" },
+                      }),
+                }}
+              />
+            </CreateTask>
+          ))
+        )}
+        <ConfirmationModal
+          callback={() => {
+            if (step === 1) {
+              setGroupProgress(1);
+            } else {
+              setStep(1);
+            }
+          }}
+          title="Skip?"
+          buttonText="Skip"
+          question={
+            step === 1
+              ? "Writing down three focus goals could make your day's vision clearer."
+              : "Small tasks may only take a few minutes but could make a big difference in your day."
+          }
+        >
+          <Button fullWidth size="small" sx={{ mt: 1, opacity: 0.7 }}>
+            Skip for now
+          </Button>
+        </ConfirmationModal>
+      </Box>
+    </>
+  );
+}
+
+function PastTasks({ setNavbarText, data, setGroupProgress }) {
+  const router = useRouter();
+  const { session } = useSession();
+  const [slide, setSlide] = useState(data.length === 0 ? 2 : 0);
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+  const [_data, setData] = useState(data);
+
+  const finishPlanning = useCallback(async () => {
+    fetchRawApi(session, "user/settings", {
+      method: "PUT",
+      params: {
+        lastPlannedTasks: dayjs().toISOString(),
+      },
+    });
+  }, [session]);
+
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (slide === 2 && !done) {
+      setDone(true);
+      finishPlanning();
+    }
+  }, [finishPlanning, done, slide]);
+
+  return (
+    <>
+      <ProgressBar group={2} progress={50} />
+      {slide === 0 ? (
+        <Box sx={{ my: "auto" }}>
+          <Avatar sx={{ width: 70, height: 70, mb: 1, borderRadius: 3 }}>
+            <Emoji emoji="1f4a4" size={40} />
+          </Avatar>
+          <Typography variant="h2" className="font-heading">
+            Overdue tasks
+          </Typography>
+          <Typography sx={{ mb: 1 }}>
+            We&apos;ve picked <b>five tasks</b> which you haven&apos;t completed
+            in a while.
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+            <Button variant="contained" fullWidth onClick={() => setSlide(1)}>
+              Let&apos;s do it
+            </Button>
+            <ConfirmationModal
+              callback={() => setSlide(1)}
+              title="Skip?"
+              question="Skip reviewing old tasks?"
+            >
+              <Button variant="outlined" sx={{ px: 5 }}>
+                Skip for now
+              </Button>
+            </ConfirmationModal>
+          </Box>
+        </Box>
+      ) : slide === 1 ? (
+        <Container>
+          <Typography variant="h3" className="font-heading" sx={{ mb: 2 }}>
+            Overdue tasks
+          </Typography>
+          {_data.map((task) => (
+            <TaskDrawer
+              key={task.id}
+              id={task.id}
+              mutateList={() => {}}
+              editCallback={(updatedTask) => {
+                if (!updatedTask) {
+                } else if (
+                  updatedTask === "DELETED" ||
+                  dayjs(updatedTask.due).isAfter(dayjs().startOf("day")) ||
+                  updatedTask.completionInstances.length === 1
+                ) {
+                  setData(_data.filter((i) => i.id !== task.id));
+                } else {
+                  setData(
+                    _data.map((i) => {
+                      if (i.id === updatedTask.id) {
+                        return updatedTask;
+                      } else {
+                        return i;
+                      }
+                    })
+                  );
+                }
+              }}
+            >
+              <Box
+                sx={{ mb: 2, background: palette[2], borderRadius: 5, p: 2 }}
+              >
+                <Typography variant="h6">{task.name}</Typography>
+                <Typography sx={{ mb: 0.5 }}>{task.description}</Typography>
+                <Chip label={dayjs(task.due).fromNow()} />
+              </Box>
+            </TaskDrawer>
+          ))}
+          <Button variant="contained" fullWidth onClick={() => setSlide(2)}>
+            Done
+          </Button>
+        </Container>
+      ) : (
+        <Box sx={{ my: "auto" }}>
+          <Avatar sx={{ width: 70, height: 70, mb: 1, borderRadius: 3 }}>
+            <Emoji emoji="1f4ab" size={40} />
+          </Avatar>
+          <Typography variant="h2" className="font-heading">
+            Reach for the stars!
+          </Typography>
+          <Typography sx={{ mb: 1 }}>
+            You&apos;re all set to be productive today!
+          </Typography>
+          <Box sx={{ display: "flex", gap: 1, mt: 2 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => router.push("/tasks/perspectives/days")}
+            >
+              Go to agenda
+            </Button>
+          </Box>
+        </Box>
+      )}
+    </>
+  );
+}
 
 function PlanNavbar({ subtitle }: { subtitle?: string }) {
   const router = useRouter();
@@ -169,7 +463,7 @@ function Loader() {
   );
 }
 
-function Slides({ setNavbarText, data }) {
+function Slides({ setNavbarText, data, setGroupProgress }) {
   const { session } = useSession();
   const quote = randomQuotes();
   const router = useRouter();
@@ -179,11 +473,7 @@ function Slides({ setNavbarText, data }) {
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const maxLength = data.length;
-  const [progress, setProgress] = useState(
-    dayjs(session.user.lastPlannedTasks).isAfter(dayjs().startOf("day"))
-      ? maxLength - 1
-      : 0
-  );
+  const [progress, setProgress] = useState(0);
   const slide = data[progress];
 
   const styles: SxProps = {
@@ -243,15 +533,6 @@ function Slides({ setNavbarText, data }) {
     [setProgress]
   );
 
-  const finishPlanning = useCallback(async () => {
-    fetchRawApi(session, "user/settings", {
-      method: "PUT",
-      params: {
-        lastPlannedTasks: dayjs().toISOString(),
-      },
-    });
-  }, [session]);
-
   const handlePrioritize = useCallback(() => {
     fetchRawApi(session, "space/tasks/task", {
       method: "PUT",
@@ -306,98 +587,20 @@ function Slides({ setNavbarText, data }) {
 
   useHotkeys("1", handlePrioritize);
   useHotkeys("2", handleToday);
-  useHotkeys("3", handleNext);
-  useHotkeys("4", () => setPostponeOpen(true));
+  useHotkeys("3", () => setPostponeOpen(true));
+  useHotkeys("4", handleNext);
   useHotkeys("backspace", handleBack);
 
   useEffect(() => {
     if (progress === maxLength - 1) {
-      finishPlanning();
+      setGroupProgress(2);
+      // finishPlanning();
     }
-  }, [progress, maxLength, finishPlanning]);
+  }, [progress, maxLength, setGroupProgress]);
 
-  return progress === maxLength - 1 ? (
-    <Box
-      sx={{
-        maxWidth: "100dvw",
-        p: 3,
-        width: "100%",
-      }}
-    >
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Emoji
-          emoji="1f4ab"
-          size={isMobile ? 50 : 60}
-          style={{ marginBottom: "10px" }}
-        />
-        <Typography variant={isMobile ? "h3" : "h2"} className="font-heading">
-          Sky&apos;s the limit.
-        </Typography>
-        <Typography variant="h6" sx={{ opacity: 0.6 }}>
-          {maxLength == 1
-            ? "What will you achieve today!?"
-            : "Reach for the stars. Today's gonna be a great day!"}
-        </Typography>
-        <Box sx={{ my: 2, borderRadius: 5, background: palette[3], p: 3 }}>
-          <Typography>{quote.body}</Typography>
-          <Typography variant="body2" sx={{ opacity: 0.6 }}>
-            &#8212; {quote.author}
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          {maxLength !== 1 && (
-            <Button variant="outlined" onClick={() => setProgress(0)}>
-              <Icon>undo</Icon>Restart
-            </Button>
-          )}
-          {maxLength == 1 ? (
-            <CreateTask defaultDate={dayjs().startOf("day").toDate()}>
-              <Button variant="contained" fullWidth>
-                Create a task
-                <Icon>add_circle</Icon>
-              </Button>
-            </CreateTask>
-          ) : (
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={() => router.push("/tasks/days")}
-            >
-              Go to agenda
-              <Icon>rocket_launch</Icon>
-            </Button>
-          )}
-        </Box>
-      </motion.div>
-    </Box>
-  ) : (
+  return (
     <>
-      <LinearProgress
-        value={((progress + 1) / maxLength) * 100}
-        variant="determinate"
-        sx={{
-          height: 2,
-          overflow: "visible",
-          background: palette[3],
-          "& *": {
-            borderRadius: 999,
-            color: palette[9],
-            boxShadow: `0 0 10px ${palette[9]}`,
-          },
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: 999,
-          width: "100%",
-        }}
-      />
+      <ProgressBar group={1} progress={((progress + 1) / maxLength) * 100} />
       <TaskDrawer
         isPlan
         id={slide.id}
@@ -641,17 +844,17 @@ function Slides({ setNavbarText, data }) {
           </Box>
         </Tooltip>
         <Tooltip title="3" enterDelay={1000}>
+          <Box sx={styles} onClick={() => setPostponeOpen(true)}>
+            <Icon>dark_mode</Icon>
+            Postpone
+          </Box>
+        </Tooltip>
+        <Tooltip title="4" enterDelay={1000}>
           <Box sx={styles} onClick={handleNext}>
             <Icon>
               {dayjs(slide.due).isTomorrow() ? "outbound" : "next_plan"}
             </Icon>
-            {dayjs(slide.due).isTomorrow() ? "Tomorrow" : "Skip"}
-          </Box>
-        </Tooltip>
-        <Tooltip title="4" enterDelay={1000}>
-          <Box sx={styles} onClick={() => setPostponeOpen(true)}>
-            <Icon>dark_mode</Icon>
-            Postpone
+            {dayjs(slide.due).isTomorrow() ? "Tomorrow" : "Next"}
           </Box>
         </Tooltip>
       </Box>
@@ -743,6 +946,7 @@ export default function Page() {
   const palette = useColor(session.themeColor, isDark);
 
   const [showIntro, setShowIntro] = useState(true);
+  const [groupProgress, setGroupProgress] = useState(2);
 
   useEffect(() => {
     const timeout = setTimeout(() => setShowIntro(false), 5000);
@@ -753,8 +957,8 @@ export default function Page() {
     return [
       "space/tasks/plan",
       {
-        start: dayjs().subtract(7, "day").toISOString(),
-        end: dayjs().add(1, "day").toISOString(),
+        start: dayjs().startOf("day").toISOString(),
+        end: dayjs().endOf("day").toISOString(),
       },
     ];
   }, []);
@@ -801,14 +1005,33 @@ export default function Page() {
           flexGrow: 1,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
           flexDirection: "column",
           height: "100%",
+          ...(groupProgress !== 2 && {
+            justifyContent: "center",
+          }),
         }}
       >
         {showIntro && <Intro />}
-        {!showIntro && data && (
-          <Slides setNavbarText={setNavbarText} data={data} />
+        {!showIntro && data && groupProgress === 0 && (
+          <SetGoals
+            setNavbarText={setNavbarText}
+            setGroupProgress={setGroupProgress}
+          />
+        )}
+        {!showIntro && data && groupProgress === 1 && (
+          <Slides
+            setNavbarText={setNavbarText}
+            data={data.tasksToday}
+            setGroupProgress={setGroupProgress}
+          />
+        )}
+        {!showIntro && data && groupProgress === 2 && (
+          <PastTasks
+            setNavbarText={setNavbarText}
+            data={data.oldTasks}
+            setGroupProgress={setGroupProgress}
+          />
         )}
         {error && <ErrorHandler callback={mutate} />}
         {isLoading && !showIntro && <Loader />}

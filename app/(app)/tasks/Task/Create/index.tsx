@@ -41,7 +41,7 @@ const MemoizedTextField = memo(TextField);
 
 interface TaskCreationProps {
   children: JSX.Element;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   closeOnCreate?: boolean;
   defaultDate?: Date | null;
   isSubTask?: boolean;
@@ -58,6 +58,7 @@ interface TaskCreationProps {
   sx?: SxProps;
   customTrigger?: string;
   disableBadge?: boolean;
+  isSimple?: boolean;
 }
 
 const ColumnData = memo(function ColumnData({ boardData }: any) {
@@ -101,6 +102,7 @@ export function CreateTask({
   sx = {},
   customTrigger = "onClick",
   disableBadge = false,
+  isSimple = false,
 }: TaskCreationProps) {
   const { session } = useSession();
   const titleRef: any = useRef();
@@ -282,7 +284,7 @@ export function CreateTask({
             ...(parentId && { parent: parentId }),
             createdBy: session.user.email,
           },
-        }).then(() => onSuccess && onSuccess());
+        }).then((res) => onSuccess && onSuccess(res));
         toast.dismiss();
         toast.success("Created task!");
 
@@ -479,17 +481,19 @@ export function CreateTask({
           },
         }}
       >
-        <ChipBar
-          locationRef={locationRef}
-          titleRef={titleRef}
-          showedFields={showedFields}
-          setShowedFields={setShowedFields}
-          data={formData}
-          boardData={boardData}
-          setData={setFormData}
-          chipStyles={styles.chip}
-          isSubTask={isSubTask}
-        />
+        {!isSimple && (
+          <ChipBar
+            locationRef={locationRef}
+            titleRef={titleRef}
+            showedFields={showedFields}
+            setShowedFields={setShowedFields}
+            data={formData}
+            boardData={boardData}
+            setData={setFormData}
+            chipStyles={styles.chip}
+            isSubTask={isSubTask}
+          />
+        )}
         {boardData && !isMobile && <ColumnData boardData={boardData} />}
         <Box
           sx={{
@@ -624,9 +628,9 @@ export function CreateTask({
             }}
           >
             {emojiTrigger}
-            {locationTrigger}
-            {descriptionTrigger}
-            {fileTrigger}
+            {!isSimple && locationTrigger}
+            {!isSimple && descriptionTrigger}
+            {!isSimple && fileTrigger}
             <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
               <LoadingButton
                 disableRipple

@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     const end = dayjs(_end);
 
     // Retrieve tasks in a single query
-    const tasks = await prisma.task.findMany({
+    const tasksToday = await prisma.task.findMany({
       where: {
         AND: [
           { parentTasks: { none: { property: { id: spaceId } } } },
@@ -57,9 +57,45 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(tasks.length);
+    const oldTasks = await prisma.task.findMany({
+      where: {
+        AND: [
+          { parentTasks: { none: { property: { id: spaceId } } } },
+          { property: { id: spaceId } },
+          { recurrenceRule: null },
+          { due: { lte: start.toDate() } },
+          { due: { not: null } },
+          { completionInstances: { none: { taskId: { contains: "-" } } } },
+        ],
+      },
+      take: 5,
+      orderBy: { due: "asc" },
+      include: {
+        parentTasks: true,
+        subTasks: { include: { completionInstances: { take: 1 } } },
+        completionInstances: true,
+        column: {
+          include: {
+            board: { select: { id: true, name: true, public: true } },
+          },
+        },
+        createdBy: {
+          select: {
+            name: true,
+            color: true,
+            email: true,
+            Profile: {
+              select: { picture: true },
+            },
+          },
+        },
+      },
+    });
 
-    return Response.json(tasks);
+    return Response.json({
+      oldTasks,
+      tasksToday,
+    });
   } catch (e) {
     return handleApiError(e);
   }
