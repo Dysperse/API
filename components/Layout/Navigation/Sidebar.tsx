@@ -9,6 +9,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Avatar,
+  Badge,
   Box,
   Divider,
   Icon,
@@ -18,6 +19,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 import { cloneElement, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -259,9 +261,9 @@ export function Sidebar() {
   );
   return (
     <Box
-      onClick={() => {
-        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
-      }}
+      onClick={() =>
+        containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
+      }
       sx={{
         ".priorityMode &": {
           opacity: "0!important",
@@ -295,18 +297,39 @@ export function Sidebar() {
         onClick={() => router.push("/tasks/perspectives/days")}
         onMouseDown={() => router.push("/tasks/perspectives/days")}
       >
-        <Tooltip
-          title={generateLabel("Tasks", ["ctrl", "shift", "1"])}
-          placement="right"
+        <Badge
+          badgeContent={
+            dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") > 24 &&
+            !pathname.includes("/tasks")
+              ? 1
+              : 0
+          }
+          variant="dot"
+          sx={{
+            width: "100%",
+            "& .MuiBadge-badge": {
+              background: palette[9],
+              right: 12,
+              top: 12,
+              borderRadius: 99,
+              // transform: "translateX(40%)",
+            },
+          }}
         >
-          <span
-            className={`material-symbols-${
-              pathname?.includes("/tasks") ? "rounded" : "outlined"
-            }`}
+          {" "}
+          <Tooltip
+            title={generateLabel("Tasks", ["ctrl", "shift", "1"])}
+            placement="right"
           >
-            &#xe86c;
-          </span>
-        </Tooltip>
+            <span
+              className={`material-symbols-${
+                pathname?.includes("/tasks") ? "rounded" : "outlined"
+              }`}
+            >
+              &#xe86c;
+            </span>
+          </Tooltip>
+        </Badge>
       </Box>
       <Box
         sx={styles(pathname === "/")}

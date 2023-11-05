@@ -74,13 +74,13 @@ export function BottomNav() {
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
           opacity: 0.5,
-          transition: "all .2s,opacity 0s",
+          transition: "all .2s,opacity 0s,background 0s",
         },
       ...(active && {
         fontWeight: 700,
         color: `${palette[11]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
-          transition: "all .2s,opacity 0s",
+          transition: "all .2s,opacity 0s,background 0s",
           opacity: 1,
           ...iconStyles,
           background: addHslAlpha(palette[6], 0.5),
@@ -136,20 +136,19 @@ export function BottomNav() {
       <CreateTask customTrigger="onContextMenu" disableBadge>
         <Badge
           badgeContent={
-            dayjs(session.user.lastPlannedTasks).isBefore(
-              dayjs().startOf("day")
-            ) && !pathname.includes("/tasks")
+            dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") > 24 &&
+            !pathname.includes("/tasks")
               ? 1
-              : 0
+              : 1
           }
           variant="dot"
           sx={{
             width: "33.33333%",
             "& .MuiBadge-badge": {
               background: palette[9],
-              right: "calc(50% - 15px)",
-              top: 4,
-              transform: "translateX(50%)",
+              right: "calc(50% - 20px)",
+              top: 7,
+              // transform: "translateX(50%)",
             },
           }}
         >
