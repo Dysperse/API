@@ -503,9 +503,12 @@ export function Agenda({ type, date }) {
             data.map((column: any) => (
               <Column
                 key={column.start}
-                column={dayjs(
-                  column[isMobile && view === "days" ? "start" : "end"]
-                ).utc()}
+                column={
+                  // why??? does this happen?
+                  dayjs(
+                    column[isMobile && view === "days" ? "start" : "end"]
+                  ).utc()
+                }
                 data={sortedTasks(column.tasks, column)}
                 view={view}
               />
