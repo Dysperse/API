@@ -43,7 +43,7 @@ export default function AddFriend() {
   const addFriend = async () => {
     try {
       setLoading("1");
-      const data = await fetchRawApi(session, "user/friends", {
+      const data = await fetchRawApi(session, "user/friends/request", {
         method: "POST",
         params: {
           followerEmail: session.user.email,
@@ -70,7 +70,7 @@ export default function AddFriend() {
   });
 
   const { data, error, mutate } = useSWR([
-    "user/friends/requests",
+    "user/friends/request/requests",
     { email: session.user.email },
   ]);
 
@@ -78,7 +78,7 @@ export default function AddFriend() {
     data: pendingData,
     mutate: pendingMutate,
     error: pendingError,
-  } = useSWR(["user/friends/pending", { email: session.user.email }]);
+  } = useSWR(["user/friends/request/pending", { email: session.user.email }]);
 
   const [loading, setLoading] = useState("");
 
