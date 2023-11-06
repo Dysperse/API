@@ -506,7 +506,7 @@ export function Agenda({ type, date }) {
                 column={
                   // why??? does this happen?
                   dayjs(
-                    column[isMobile && view === "days" ? "start" : "end"]
+                    column[isMobile && type === "days" ? "start" : "end"]
                   ).utc()
                 }
                 data={sortedTasks(column.tasks, column)}
