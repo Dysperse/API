@@ -10,6 +10,7 @@ export async function PUT(req: NextRequest) {
     const userData = await getApiParam(req, "userData", false);
 
     let user: any = {};
+    console.log(availability)
     if (email) {
       user = await prisma.eventParticipant.findFirst({
         where: {

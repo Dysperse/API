@@ -1,7 +1,7 @@
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box, Button, Icon, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Icon, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -11,7 +11,6 @@ import { ParticipantMissingError } from "./ParticipantMissingError";
 
 export function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
   const { session } = useSession();
-  const isMobile = useMediaQuery(`(max-width: 600px)`);
 
   const identity = session?.user?.email || userData?.email;
   const participant = data.participants.find(
@@ -96,7 +95,9 @@ export function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
     overflowX: "hidden",
   };
 
-  const [showEarlyHours, setShowEarlyHours] = useState(false);
+  const [showEarlyHours, setShowEarlyHours] = useState(
+    grid.length === 1 ? true : false
+  );
 
   const handleRowSelect = (hour) => {
     // repeat `handleSelect` for cells in the hour row of the grid
@@ -185,7 +186,10 @@ export function AvailabilityCalendar({ setIsSaving, mutate, data, userData }) {
                 )?.availability
               : participant.availability
           ),
-        })
+        }),
+      {
+        method: "PUT",
+      }
     );
 
     setIsSaving("saved");

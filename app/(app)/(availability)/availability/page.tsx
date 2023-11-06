@@ -909,7 +909,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
         throw new Error("");
       }
 
-      await fetchRawApi(session, "availability/create", {
+      await fetchRawApi(session, "availability", {
         method: "POST",
         params: {
           name,
@@ -1098,6 +1098,7 @@ function CreateAvailability({ mutate, setShowMargin }) {
               bottom: "calc(100dvh - 310px) !important",
               height: "220px",
             }),
+            "::-webkit-scrollbar, & *::-webkit-scrollbar": { display: "none" },
             maxWidth: {
               xs: submitted ? "calc(100dvw - 65px)" : "100dvw",
               sm: submitted ? "500px" : "550px",
