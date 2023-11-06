@@ -50,8 +50,6 @@ export async function GET(req: NextRequest) {
       })
     );
 
-    console.log(units);
-
     // Retrieve tasks in a single query
     const tasks = await prisma.task.findMany({
       where: {
