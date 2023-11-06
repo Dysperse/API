@@ -1,9 +1,8 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Button } from "@mui/material";
-import React from "react";
 
-export const AvailabilityButton = React.memo(function AvailabilityButton({
+export const AvailabilityButton = function AvailabilityButton({
   showEarlyHours,
   hour,
   col,
@@ -58,4 +57,4 @@ export const AvailabilityButton = React.memo(function AvailabilityButton({
       </span>
     </Button>
   );
-});
+};
