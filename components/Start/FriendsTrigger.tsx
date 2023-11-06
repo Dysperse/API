@@ -7,7 +7,7 @@ export function FriendsTrigger() {
   const { session } = useSession();
 
   const { data } = useSWR([
-    "user/followers/requests",
+    "user/friends/request/requests",
     { email: session.user.email, basic: true },
   ]);
   const router = useRouter();
