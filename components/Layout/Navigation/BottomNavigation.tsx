@@ -139,7 +139,7 @@ export function BottomNav() {
             dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") > 24 &&
             !pathname.includes("/tasks")
               ? 1
-              : 1
+              : 0
           }
           variant="dot"
           sx={{
