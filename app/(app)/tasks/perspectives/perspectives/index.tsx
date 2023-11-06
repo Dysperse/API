@@ -48,7 +48,7 @@ export function PerspectivesInfo({
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isToday =
     pathname ===
-      `/tasks/perspectives/${type}/${dayjs().format("YYYY-MM-DD")}` ||
+      `/tasks/perspectives/${type}/${dayjs().utc().format("YYYY-MM-DD")}` ||
     pathname === `/tasks/perspectives/${type}`;
 
   const heading = {
@@ -503,7 +503,9 @@ export function Agenda({ type, date }) {
             data.map((column: any) => (
               <Column
                 key={column.start}
-                column={dayjs(column.end).utc()}
+                column={dayjs(
+                  column[isMobile && view === "days" ? "start" : "end"]
+                ).utc()}
                 data={sortedTasks(column.tasks, column)}
                 view={view}
               />
