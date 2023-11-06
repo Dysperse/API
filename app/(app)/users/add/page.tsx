@@ -1,5 +1,6 @@
 "use client";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { ErrorHandler } from "@/components/Error";
 import { OptionsGroup } from "@/components/OptionsGroup";
 import { FriendPopover } from "@/components/Start/Friend";
 import { handleBack } from "@/lib/client/handleBack";
@@ -17,6 +18,7 @@ import {
   InputAdornment,
   ListItem,
   ListItemText,
+  Skeleton,
   TextField,
   Toolbar,
   Typography,
@@ -67,7 +69,7 @@ export default function AddFriend() {
     }
   });
 
-  const { data, mutate } = useSWR([
+  const { data, error, mutate } = useSWR([
     "user/friends/requests",
     { email: session.user.email },
   ]);
@@ -169,32 +171,45 @@ export default function AddFriend() {
                 Pending requests will appear here
               </Alert>
             )}
-            {pendingData?.map((person) => (
-              <FriendPopover
-                email={person.following.email}
-                key={person.followerId}
-              >
-                <Box>
-                  <ListItem disableGutters>
-                    <ProfilePicture data={person.following} size={40} />
-                    <ListItemText primary={person.following.name} />
-                    <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
-                      <Button
-                        disabled={loading === person.following.email}
-                        size="small"
-                        variant="contained"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleCancel(person.following.email);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </Box>
-                  </ListItem>
-                </Box>
-              </FriendPopover>
-            ))}
+            {pendingData ? (
+              pendingData.map((person) => (
+                <FriendPopover
+                  email={person.following.email}
+                  key={person.followerId}
+                >
+                  <Box>
+                    <ListItem disableGutters>
+                      <ProfilePicture data={person.following} size={40} />
+                      <ListItemText primary={person.following.name} />
+                      <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
+                        <Button
+                          disabled={loading === person.following.email}
+                          size="small"
+                          variant="contained"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCancel(person.following.email);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </Box>
+                    </ListItem>
+                  </Box>
+                </FriendPopover>
+              ))
+            ) : pendingError ? (
+              <ErrorHandler callback={pendingMutate} />
+            ) : (
+              [...new Array(5)].map((_, i) => (
+                <Skeleton
+                  sx={{ mb: 2 }}
+                  key={i}
+                  variant="rectangular"
+                  height={50}
+                />
+              ))
+            )}
           </motion.div>
         ) : (
           <motion.div
@@ -207,29 +222,44 @@ export default function AddFriend() {
                 People who want to add you will appear here.
               </Alert>
             )}
-            {data?.map((person) => (
-              <ListItem key={person.followerId} disableGutters>
-                <ProfilePicture data={person.follower} size={40} />
-                <ListItemText primary={person.follower.name} />
-                <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
-                  <Button
-                    disabled={loading === person.email}
-                    size="small"
-                    onClick={() => handleRequest(person.follower.email, false)}
-                  >
-                    Decline
-                  </Button>
-                  <Button
-                    disabled={loading === person.email}
-                    size="small"
-                    variant="contained"
-                    onClick={() => handleRequest(person.follower.email, true)}
-                  >
-                    Accept
-                  </Button>
-                </Box>
-              </ListItem>
-            ))}
+            {data ? (
+              data.map((person) => (
+                <ListItem key={person.followerId} disableGutters>
+                  <ProfilePicture data={person.follower} size={40} />
+                  <ListItemText primary={person.follower.name} />
+                  <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
+                    <Button
+                      disabled={loading === person.email}
+                      size="small"
+                      onClick={() =>
+                        handleRequest(person.follower.email, false)
+                      }
+                    >
+                      Decline
+                    </Button>
+                    <Button
+                      disabled={loading === person.email}
+                      size="small"
+                      variant="contained"
+                      onClick={() => handleRequest(person.follower.email, true)}
+                    >
+                      Accept
+                    </Button>
+                  </Box>
+                </ListItem>
+              ))
+            ) : error ? (
+              <ErrorHandler callback={mutate} />
+            ) : (
+              [...new Array(5)].map((_, i) => (
+                <Skeleton
+                  sx={{ mb: 2 }}
+                  key={i}
+                  variant="rectangular"
+                  height={50}
+                />
+              ))
+            )}
           </motion.div>
         )}
       </Box>

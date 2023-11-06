@@ -380,11 +380,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               background: palette[3],
               borderColor: palette[6],
               "& svg": {
-                mt: 1,
                 color: palette[10],
               },
-              px: 3,
-              py: 2,
               borderRadius: 5,
             }),
         },
