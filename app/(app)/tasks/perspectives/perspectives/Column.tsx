@@ -349,13 +349,12 @@ const Column = React.memo(function Column({
 
   const { mutateList, type } = useContext(PerspectiveContext);
 
-  const columnStart = dayjs(column).startOf(type).toDate();
+  const columnStart = dayjs(column).toDate();
   const columnEnd = dayjs(columnStart).endOf(type).toDate();
 
   const [isScrolling, setIsScrolling] = useState(false);
 
-  const isToday = dayjs(columnStart).isSame(dayjs(), type);
-
+  const isToday = dayjs(columnStart).utc().isSame(dayjs().utc(), type);
   const taskSelection = useContext(SelectionContext);
   const isPushingUnfinished = taskSelection.values.includes(-2);
 

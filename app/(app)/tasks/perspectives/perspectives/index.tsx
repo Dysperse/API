@@ -398,8 +398,8 @@ export function Agenda({ type, date }) {
 
   const { session } = useSession();
 
-  const start = dayjs(date).startOf(columnMap(isMobile)[type]);
-  const end = dayjs(start).endOf(columnMap(isMobile)[type]);
+  const start = dayjs(date).startOf(columnMap(isMobile)[type]).utc();
+  const end = dayjs(start).endOf(columnMap(isMobile)[type]).utc();
 
   // Create an array of columns for each [type] in [columnMap]
   const columns = Array.from(
