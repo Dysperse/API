@@ -450,7 +450,6 @@ export const Task: any = React.memo(function Task({
           sx={{
             ...(taskData.name === taskData.name.toUpperCase() &&
               !isCompleted && {
-                mb: selection.values.length > 0 ? 0 : 0.5,
                 background: palette[2] + "!important",
               }),
             fontWeight: 700,
