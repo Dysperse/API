@@ -354,7 +354,7 @@ const Column = React.memo(function Column({
 
   const [isScrolling, setIsScrolling] = useState(false);
 
-  const isToday = dayjs(column).isSame(dayjs(), type);
+  const isToday = dayjs(columnStart).isSame(dayjs(), type);
 
   const taskSelection = useContext(SelectionContext);
   const isPushingUnfinished = taskSelection.values.includes(-2);

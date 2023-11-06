@@ -205,7 +205,7 @@ function PastTasks({ setNavbarText, data }) {
   const router = useRouter();
   const { session } = useSession();
   const [slide, setSlide] = useState(
-    dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24
+    dayjs(session.user.lastPlannedTasks).isToday()
       ? 2
       : data.length === 0
       ? 2
@@ -230,7 +230,7 @@ function PastTasks({ setNavbarText, data }) {
   useEffect(() => {
     if (
       ((slide === 2 && !done) || (_data && _data.length === 0)) &&
-      dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") > 24
+      !dayjs(session.user.lastPlannedTasks).isToday()
     ) {
       setDone(true);
       setSlide(2);
@@ -339,7 +339,7 @@ function PastTasks({ setNavbarText, data }) {
               Go to agenda
             </Button>
           </Box>
-          {dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24 && (
+          {dayjs(session.user.lastPlannedTasks).isToday() && (
             <Box
               sx={{
                 px: 2,
@@ -1033,7 +1033,7 @@ export default function Page() {
 
   const [showIntro, setShowIntro] = useState(true);
   const [groupProgress, setGroupProgress] = useState(
-    dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") < 24 ? 2 : 0
+    dayjs(session.user.lastPlannedTasks).isToday() ? 2 : 0
   );
 
   useEffect(() => {

@@ -299,7 +299,7 @@ export function Sidebar() {
       >
         <Badge
           badgeContent={
-            dayjs().diff(dayjs(session.user.lastPlannedTasks), "hour") > 24 &&
+            !dayjs(session.user.lastPlannedTasks).isToday() &&
             !pathname.includes("/tasks")
               ? 1
               : 0
