@@ -72,6 +72,7 @@ export function PerspectivesLoadingScreen(): any {
               sx={{
                 borderRight: `2px solid ${addHslAlpha(palette[4], 0.5)}`,
                 width: { xs: "100%", sm: "320px" },
+                minHeight: "100%",
                 flex: { xs: "0 0 100%", sm: "0 0 320px" },
                 pt: { xs: "var(--navbar-height)", sm: 0 },
                 overflow: "hidden",
