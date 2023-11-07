@@ -3,7 +3,12 @@ import { createContext, useContext } from "react";
 import useSWR from "swr";
 
 export const SessionContext = createContext(null);
-export const useSession = () => useContext(SessionContext) as any;
+export const useSession = () =>
+  useContext<{
+    session: any;
+    setSession: any;
+    isLoading: any;
+  }>(SessionContext as any);
 export const SessionProvider = ({
   isLoading,
   session,

@@ -13,7 +13,27 @@ export async function GET(req: NextRequest) {
 
     const data = await prisma.propertyInvite.findMany({
       include: {
-        profile: true,
+        profile: {
+          include: {
+            members: {
+              select: {
+                user: {
+                  select: {
+                    name: true,
+                    email: true,
+                    color: true,
+                    Profile: { select: { picture: true } },
+                  },
+                },
+              },
+            },
+          },
+        },
+        user: {
+          select: {
+            selectedProperty: { select: { id: true } },
+          },
+        },
       },
       where: {
         AND: [
@@ -28,7 +48,9 @@ export async function GET(req: NextRequest) {
         ],
       },
     });
-    return Response.json(data);
+    return Response.json([
+      ...new Map(data.map((item) => [item.propertyId, item])).values(),
+    ]);
   } catch (e) {
     return handleApiError(e);
   }
