@@ -13,23 +13,34 @@ export async function GET(req: NextRequest) {
     const sessionToken = await getSessionToken();
     const propertyId = req.nextUrl.searchParams.get("propertyId");
     if (!propertyId) throw new Error("Missing parameters");
+    const { userIdentifier, spaceId } = await getIdentifiers(sessionToken);
 
-    const space = await prisma.session.findFirstOrThrow({
-      where: { id: sessionToken },
-      select: {
-        user: {
-          select: {
-            properties: {
-              where: { propertyId },
-              include: { profile: true },
-              take: 1,
+    const space = await prisma.propertyInvite.findFirstOrThrow({
+      where: {
+        profile: { id: spaceId },
+      },
+      include: {
+        profile: {
+          include: {
+            members: {
+              select: {
+                user: {
+                  select: {
+                    name: true,
+                    email: true,
+                    color: true,
+                    Profile: { select: { picture: true } },
+                  },
+                },
+              },
             },
+            _count: true,
           },
         },
       },
     });
 
-    return Response.json(space.user.properties[0]);
+    return Response.json(space);
   } catch (e) {
     return handleApiError(e);
   }
