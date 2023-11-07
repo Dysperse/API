@@ -67,7 +67,7 @@ function FriendProgressBar({ started, until, userPalette }) {
         top: 0,
         left: 0,
         height: "100%",
-        borderRadius: 0,
+        borderRadius: 5,
         background: userPalette[3],
         "& *": {
           background: userPalette[5] + "!important",
