@@ -17,6 +17,7 @@ import {
   IconButton,
   ListItemButton,
   ListItemText,
+  Skeleton,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -161,7 +162,14 @@ export default function Page() {
             )}
           />
         ) : (
-          <CircularProgress />
+          [...new Array(5)].map((_, i) => (
+            <Skeleton
+              key={i}
+              variant="rectangular"
+              height={72.02}
+              sx={{ mb: 2 }}
+            />
+          ))
         )}
         {error && <ErrorHandler />}
       </Box>
