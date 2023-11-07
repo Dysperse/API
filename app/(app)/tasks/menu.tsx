@@ -205,9 +205,7 @@ export const MenuChildren = memo(function MenuChildren({
               </Icon>
               Plan
               <Box sx={{ ml: "auto", mr: { xs: -1, sm: 0 } }}>
-                {dayjs(session.user.lastPlannedTasks).isBefore(
-                  dayjs().startOf("day")
-                ) && (
+                {!dayjs(session.user.lastPlannedTasks).isToday() && (
                   <Box
                     sx={{
                       transform: pathname?.includes(`/tasks/plan`)

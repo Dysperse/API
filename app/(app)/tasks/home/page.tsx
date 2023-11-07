@@ -68,9 +68,7 @@ function PlanTrigger() {
         <Typography sx={{ fontWeight: 900 }}>Plan your day</Typography>
       </Box>
       <Box sx={{ ml: "auto", display: "flex", alignItems: "center", gap: 1.5 }}>
-        {dayjs(session.user.lastPlannedTasks).isBefore(
-          dayjs().startOf("day")
-        ) && (
+        {!dayjs(session.user.lastPlannedTasks).isToday() && (
           <Box
             sx={{
               transition: "all .2s",
