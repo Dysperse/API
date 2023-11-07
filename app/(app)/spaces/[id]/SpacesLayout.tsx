@@ -1,5 +1,4 @@
 "use client";
-import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
 import Integrations from "@/app/(app)/spaces/Group/Integrations";
 import { Storage } from "@/app/(app)/spaces/Group/Storage";
 import { handleBack } from "@/lib/client/handleBack";
@@ -92,6 +91,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
         sx={{
           ...(data && { background: palette[children ? 3 : 9] }),
           overflowX: "hidden",
+          "&::-webkit-scrollbar": { display: "none" },
           "& .container": {
             p: 3,
             py: 4,
@@ -126,22 +126,18 @@ export function SpacesLayout({ parentRef, children, title }: any) {
                 </IconButton>
                 {!children && (
                   <>
-                    <GroupModal
-                      useRightClick={false}
-                      defaultPalette={data?.profile?.color}
+                    <IconButton
+                      onClick={() => router.push("/spaces")}
+                      sx={{
+                        ml: "auto",
+                        mr: 1,
+                        fontSize: "15px",
+                        color: "inherit",
+                        borderRadius: 99,
+                      }}
                     >
-                      <IconButton
-                        sx={{
-                          ml: "auto",
-                          mr: 1,
-                          fontSize: "15px",
-                          color: "inherit",
-                          borderRadius: 99,
-                        }}
-                      >
-                        Switch
-                      </IconButton>
-                    </GroupModal>
+                      Switch
+                    </IconButton>
                     <IconButton
                       onClick={() =>
                         router.push(`/spaces/${data?.profile?.id}/edit`)
