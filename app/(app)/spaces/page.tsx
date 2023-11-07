@@ -44,8 +44,12 @@ function SpaceButton({ invite, mutate }) {
 
   const handleSwitch = async () => {
     try {
-      setLoading(true);
       const propertyId = invite.propertyId;
+      if (isSelected) {
+        router.push(`/spaces/${propertyId}`);
+        return;
+      }
+      setLoading(true);
       await fetchRawApi(session, "space/switch", {
         method: "PUT",
         params: { propertyId },
