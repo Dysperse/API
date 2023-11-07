@@ -5,6 +5,7 @@ import { Emoji } from "@/components/Emoji";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
+import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -203,7 +204,7 @@ function SetGoals({ setNavbarText, setGroupProgress }) {
 
 function PastTasks({ setNavbarText, data }) {
   const router = useRouter();
-  const { session } = useSession();
+  const { session, setSession } = useSession();
   const [slide, setSlide] = useState(
     dayjs(session.user.lastPlannedTasks).isToday()
       ? 2
@@ -217,13 +218,11 @@ function PastTasks({ setNavbarText, data }) {
   const [_data, setData] = useState(data);
 
   const finishPlanning = useCallback(async () => {
-    fetchRawApi(session, "user/settings", {
-      method: "PUT",
-      params: {
-        lastPlannedTasks: dayjs().toISOString(),
-      },
+    updateSettings(["lastPlannedTasks", dayjs().toISOString()], {
+      session,
+      setSession,
     });
-  }, [session]);
+  }, [session, setSession]);
 
   const [done, setDone] = useState(false);
 
