@@ -1,6 +1,5 @@
 "use client";
 import { containerRef } from "@/app/(app)/container";
-import { GroupModal } from "@/app/(app)/spaces/Group/GroupModal";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
 import { StatusSelector } from "@/components/Start/StatusSelector";
@@ -118,19 +117,18 @@ export function SidebarMenu({ children }) {
             <Typography variant="body2">Space</Typography>
             <Typography>{session.space.info.name}</Typography>
           </Box>
-          <GroupModal useRightClick={false}>
-            <Avatar
-              sx={{
-                background: addHslAlpha(palette[5], 0.6),
-                color: palette[9],
-                width: 30,
-                height: 30,
-                ml: "auto",
-              }}
-            >
-              <Icon className="outlined">sync_alt</Icon>
-            </Avatar>
-          </GroupModal>
+          <Avatar
+            onClick={() => router.push("/spaces")}
+            sx={{
+              background: addHslAlpha(palette[5], 0.6),
+              color: palette[9],
+              width: 30,
+              height: 30,
+              ml: "auto",
+            }}
+          >
+            <Icon className="outlined">sync_alt</Icon>
+          </Avatar>
         </MenuItem>
         <Divider />
         <MenuItem
