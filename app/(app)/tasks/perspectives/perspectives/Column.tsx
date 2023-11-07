@@ -337,7 +337,8 @@ function RandomTask({ children, date }) {
 }
 
 const Column = React.memo(function Column({
-  column,
+  start,
+  end,
   data,
   view,
 }: any): JSX.Element {
@@ -349,13 +350,9 @@ const Column = React.memo(function Column({
 
   const { mutateList, type } = useContext(PerspectiveContext);
 
-  const columnStart = dayjs(column).toDate();
-  const columnEnd = dayjs(columnStart).endOf(type).toDate();
-
   const [isScrolling, setIsScrolling] = useState(false);
 
-  const isToday = dayjs(columnStart).utc().isSame(dayjs().utc(), type);
-  // alert(dayjs(columnStart).utc().format("YYYY-MM-DD"));
+  const isToday = dayjs().isBetween(start, end, undefined, "[]");
   const taskSelection = useContext(SelectionContext);
   const isPushingUnfinished = taskSelection.values.includes(-2);
 
@@ -389,7 +386,7 @@ const Column = React.memo(function Column({
       mutateList(
         (oldDates) => {
           const index = oldDates.findIndex(({ start, end }) =>
-            dayjs(column).isBetween(
+            dayjs(start).isBetween(
               start,
               end,
               {
@@ -418,7 +415,7 @@ const Column = React.memo(function Column({
         }
       );
     },
-    [column, type, mutateList]
+    [type, mutateList]
   );
 
   return (
@@ -484,10 +481,10 @@ const Column = React.memo(function Column({
       }}
     >
       <Header
-        column={column}
+        column={start}
         isToday={isToday}
         sortedTasks={data}
-        columnEnd={columnEnd}
+        columnEnd={end}
         type={type}
       />
       <Box sx={{ px: { sm: 1 } }} className="content">
@@ -552,14 +549,14 @@ const Column = React.memo(function Column({
                   alignItems: "center",
                 }}
               >
-                <RandomTask date={column}>
+                <RandomTask date={start}>
                   <Button variant="outlined" sx={{ px: 2 }}>
                     <Icon className="outlined">casino</Icon>
                   </Button>
                 </RandomTask>
                 <CreateTask
                   onSuccess={() => mutateList()}
-                  defaultDate={dayjs(column).utc().toDate()}
+                  defaultDate={dayjs(start).utc().toDate()}
                 >
                   <Button variant="contained" sx={{ px: 2 }}>
                     <Icon className="outlined">add_circle</Icon>New
@@ -571,7 +568,7 @@ const Column = React.memo(function Column({
         </Box>
         {/* unfinished tasks indicator */}
         {!isToday &&
-          dayjs(column).isBefore(dayjs()) &&
+          dayjs(start).isBefore(dayjs()) &&
           completedTasks.length !== data?.length &&
           data?.length !== 0 && (
             <Box
@@ -583,7 +580,7 @@ const Column = React.memo(function Column({
               <UnfinishedTasks
                 data={data}
                 completedTasks={completedTasks}
-                column={column}
+                column={start}
               />
             </Box>
           )}

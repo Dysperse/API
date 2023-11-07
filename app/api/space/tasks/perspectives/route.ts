@@ -37,15 +37,16 @@ export async function GET(req: NextRequest) {
 
     if (!map[type]) return Response.json({ error: "Invalid `type`" });
 
-    const start = dayjs(_start).utcOffset(parseInt(utcOffset) / 60);
-    const end = dayjs(_end).utcOffset(parseInt(utcOffset) / 60);
+    console.log(utcOffset);
+    const start = dayjs(_start).utc();
+    const end = dayjs(_end).utc();
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
       { length: end.diff(start, map[type]) + 1 },
       (_, i) => ({
-        start: dayjs(start).add(i, map[type]).startOf(map[type]).toISOString(),
-        end: dayjs(start).add(i, map[type]).endOf(map[type]).toISOString(),
+        start: start.add(i, map[type]).toISOString(),
+        end: start.add(i, map[type]).endOf(map[type]).toISOString(),
         tasks: [],
       })
     );
@@ -103,9 +104,7 @@ export async function GET(req: NextRequest) {
       ).between(start.toDate(), end.toDate(), true);
 
       for (const dueDate of rule) {
-        const due = dayjs(dueDate)
-          .utc()
-          .utcOffset(parseInt(utcOffset) / 60);
+        const due = dayjs(dueDate).utc();
         const unit = units.find(({ start, end }) =>
           due.isBetween(start, end, map[type], "[]")
         );
@@ -115,9 +114,7 @@ export async function GET(req: NextRequest) {
     }
 
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
-      const due = dayjs(task.due)
-        .utc()
-        .utcOffset(parseInt(utcOffset) / 60);
+      const due = dayjs(task.due).utc();
       const unit = units.find(({ start, end }) =>
         due.isBetween(start, end, map[type], "[]")
       );

@@ -424,11 +424,13 @@ export default function DrawerContent({
                         ).toText()
                       )
                     : task.due
-                    ? dayjs(task.due).format(
-                        task.dateOnly
-                          ? "MMMM D, YYYY"
-                          : "MMMM D, YYYY [at] h:mm A"
-                      )
+                    ? dayjs(task.due)
+                        .utc()
+                        .format(
+                          task.dateOnly
+                            ? "MMMM D, YYYY"
+                            : "MMMM D, YYYY [at] h:mm A"
+                        )
                     : "Tap to schedule"
                 }
                 disabled={shouldDisable}

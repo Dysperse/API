@@ -401,6 +401,8 @@ export function Agenda({ type, date }) {
   const start = dayjs(date).startOf(columnMap(isMobile)[type]).utc();
   const end = dayjs(start).endOf(columnMap(isMobile)[type]).utc();
 
+  console.log(start.toDate(), end.toDate());
+
   // Create an array of columns for each [type] in [columnMap]
   const columns = Array.from(
     { length: Math.ceil(end.diff(start, type, true)) },
@@ -414,7 +416,6 @@ export function Agenda({ type, date }) {
   } = useSWR([
     "space/tasks/perspectives",
     {
-      timezone: session.user.timeZone,
       utcOffset: dayjs().utcOffset(),
       start: start.toISOString(),
       end: end.toISOString(),
@@ -449,11 +450,15 @@ export function Agenda({ type, date }) {
     }
   }, [data, alreadyScrolled]);
 
-  useHotkeys("esc", () => {
-    if (view === "priority") {
-      document.getElementById("exitFocus")?.click();
-    }
-  });
+  useHotkeys(
+    "esc",
+    () => {
+      if (view === "priority") {
+        document.getElementById("exitFocus")?.click();
+      }
+    },
+    [view]
+  );
 
   return (
     <PerspectiveContext.Provider
@@ -503,12 +508,8 @@ export function Agenda({ type, date }) {
             data.map((column: any) => (
               <Column
                 key={column.start}
-                column={
-                  // why??? does this happen?
-                  dayjs(
-                    column[isMobile && type === "days" ? "start" : "end"]
-                  ).utc()
-                }
+                start={dayjs(column.start).utc()}
+                end={dayjs(column.start).utc()}
                 data={sortedTasks(column.tasks, column)}
                 view={view}
               />

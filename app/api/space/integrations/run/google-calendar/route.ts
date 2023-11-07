@@ -56,11 +56,11 @@ export async function GET(req: NextRequest) {
     where: event.hangoutLink || event.location || event.htmlLink,
     lastUpdated: dayjs(event.updated)
       .utc()
-      .utcOffset(parseInt(offset) / 60)
+      .utcOffset(parseInt(offset))
       .toDate(),
     due: dayjs(event.start?.dateTime)
       .utc()
-      .utcOffset(parseInt(offset) / 60)
+      .utcOffset(parseInt(offset))
       .toDate(),
     property: { connect: { id: spaceId } },
     createdBy: {
