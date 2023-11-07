@@ -136,7 +136,7 @@ export default function Page() {
           options={["Spaces", "Invitations"]}
           sx={{ mb: 2 }}
         />
-        {filteredData.length === 0 && (
+        {filteredData?.length === 0 && (
           <Alert severity="info" sx={{ p: 2 }}>
             <Typography sx={{ fontWeight: 900, mt: -1 }}>
               Spaces you&apos;ve been invited to will appear here

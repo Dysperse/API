@@ -118,7 +118,10 @@ export function SidebarMenu({ children }) {
             <Typography>{session.space.info.name}</Typography>
           </Box>
           <Avatar
-            onClick={() => router.push("/spaces")}
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push("/spaces");
+            }}
             sx={{
               background: addHslAlpha(palette[5], 0.6),
               color: palette[9],
