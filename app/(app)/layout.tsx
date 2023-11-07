@@ -32,7 +32,12 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      style={{
+        background: palette[1],
+      }}
+    >
       <head>
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
@@ -119,7 +124,6 @@ export default async function RootLayout({
           ["--toast-bg" as any]: addHslAlpha(palette[3], 0.8),
           ["--toast-text" as any]: palette[11],
           ["--toast-solid" as any]: palette[7],
-          background: palette[1],
         }}
       >
         <ClientLayout session={s}>{children}</ClientLayout>
