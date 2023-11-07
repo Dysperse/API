@@ -171,7 +171,6 @@ export function CreateTask({
               ? 1
               : 0
           }
-          color="primary"
           variant="dot"
           sx={sx}
         >
