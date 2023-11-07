@@ -17,7 +17,9 @@ export const metadata = {
 
 export default async function RootLayout({
   children,
+  spaceModal,
 }: {
+  spaceModal: any;
   children: React.ReactNode;
 }) {
   const data = await getSession();
@@ -126,7 +128,10 @@ export default async function RootLayout({
           ["--toast-solid" as any]: palette[7],
         }}
       >
-        <ClientLayout session={s}>{children}</ClientLayout>
+        <ClientLayout session={s}>
+          {spaceModal}
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );
