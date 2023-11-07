@@ -3,7 +3,6 @@ import { containerRef } from "@/app/(app)/container";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
 import { StatusSelector } from "@/components/Start/StatusSelector";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -92,7 +91,7 @@ export function SidebarMenu({ children }) {
         <MenuItem
           onClick={() => {
             handleClose();
-            router.push(`/spaces/${session.space.info.id}`);
+            router.push(`/spaces/`);
           }}
         >
           <Avatar
@@ -117,21 +116,6 @@ export function SidebarMenu({ children }) {
             <Typography variant="body2">Space</Typography>
             <Typography>{session.space.info.name}</Typography>
           </Box>
-          <Avatar
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push("/spaces");
-            }}
-            sx={{
-              background: addHslAlpha(palette[5], 0.6),
-              color: palette[9],
-              width: 30,
-              height: 30,
-              ml: "auto",
-            }}
-          >
-            <Icon className="outlined">sync_alt</Icon>
-          </Avatar>
         </MenuItem>
         <Divider />
         <MenuItem
