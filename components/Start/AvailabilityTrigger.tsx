@@ -13,7 +13,6 @@ export function AvailabilityTrigger() {
   return (
     <Badge
       badgeContent={showDot ? 1 : 0}
-      color="info"
       variant="dot"
       sx={{
         "& .MuiBadge-badge": {

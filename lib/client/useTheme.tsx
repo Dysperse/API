@@ -82,6 +82,17 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           },
         },
       },
+      MuiBadge: {
+        styleOverrides: {
+          root: ({ theme }) =>
+            theme.unstable_sx({
+              "& .MuiBadge-badge": {
+                background: palette[9],
+                borderRadius: 99,
+              },
+            }),
+        },
+      },
       MuiBackdrop: {
         styleOverrides: {
           root: ({ theme }) =>

@@ -308,11 +308,8 @@ export function Sidebar() {
           sx={{
             width: "100%",
             "& .MuiBadge-badge": {
-              background: palette[9],
               right: 12,
               top: 12,
-              borderRadius: 99,
-              // transform: "translateX(40%)",
             },
           }}
         >

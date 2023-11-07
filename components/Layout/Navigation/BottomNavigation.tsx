@@ -145,10 +145,8 @@ export function BottomNav() {
           sx={{
             width: "33.33333%",
             "& .MuiBadge-badge": {
-              background: palette[9],
               right: "calc(50% - 20px)",
               top: 7,
-              // transform: "translateX(50%)",
             },
           }}
         >
