@@ -415,7 +415,7 @@ const Column = React.memo(function Column({
         }
       );
     },
-    [type, mutateList]
+    [type, mutateList, start]
   );
 
   return (

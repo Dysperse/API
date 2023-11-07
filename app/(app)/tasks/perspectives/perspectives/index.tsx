@@ -401,8 +401,6 @@ export function Agenda({ type, date }) {
   const start = dayjs(date).startOf(columnMap(isMobile)[type]).utc();
   const end = dayjs(start).endOf(columnMap(isMobile)[type]).utc();
 
-  console.log(start.toDate(), end.toDate());
-
   // Create an array of columns for each [type] in [columnMap]
   const columns = Array.from(
     { length: Math.ceil(end.diff(start, type, true)) },
