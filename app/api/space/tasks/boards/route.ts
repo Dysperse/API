@@ -198,7 +198,9 @@ export async function GET(req: NextRequest) {
                   select: {
                     tasks: {
                       where: {
-                        completed: false,
+                        completionInstances: {
+                          none: { completedAt: { not: null } },
+                        },
                       },
                     },
                   },
