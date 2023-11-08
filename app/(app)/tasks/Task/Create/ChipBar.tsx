@@ -228,7 +228,11 @@ const ChipBar = React.memo(function ChipBar({
             label={
               dayjs(data.date).isValid()
                 ? data.dateOnly
-                  ? dayjs(data.date).utc().format("MMMM Do")
+                  ? dayjs(data.date).utc().isToday()
+                    ? "Today"
+                    : dayjs(data.date).utc().isTomorrow()
+                    ? "Tomorrow"
+                    : dayjs(data.date).utc().format("MMMM Do")
                   : dayjs(data.date).utc().fromNow()
                 : ""
             }
