@@ -507,7 +507,7 @@ export function Agenda({ type, date }) {
               <Column
                 key={column.start}
                 start={dayjs(column.start).utc()}
-                end={dayjs(column.start).utc()}
+                end={dayjs(column.end).utc()}
                 data={sortedTasks(column.tasks, column)}
                 view={view}
               />
