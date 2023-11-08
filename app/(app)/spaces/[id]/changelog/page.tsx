@@ -39,6 +39,7 @@ export default function Page() {
   return (
     <SpacesLayout title="Changelog" parentRef={parentRef}>
       {error && <ErrorHandler />}
+      {data?.length === 0 && <Box>No changes made yet!</Box>}
       {data ? (
         <Timeline
           sx={{
@@ -82,7 +83,6 @@ export default function Page() {
       ) : (
         <CircularProgress />
       )}
-      {data?.length === 0 && <Box>No changes made yet!</Box>}
     </SpacesLayout>
   );
 }

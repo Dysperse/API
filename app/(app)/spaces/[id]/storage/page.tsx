@@ -26,10 +26,7 @@ export default function Page() {
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.space.info.color, isDark);
-  const { error, data } = useSWR([
-    "space/storage",
-    {propertyId: id,},
-  ]);
+  const { error, data } = useSWR(["space/storage", { propertyId: id }]);
 
   const parentRef = useRef();
 
@@ -163,7 +160,6 @@ export default function Page() {
           </Typography>
         </Alert>
       )}
-      {data?.length === 0 && <Box>No changes made yet!</Box>}
     </SpacesLayout>
   );
 }

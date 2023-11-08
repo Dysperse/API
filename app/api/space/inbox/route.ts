@@ -3,7 +3,8 @@ import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const property = await getApiParam(req, "property", true);
+  const property = await getApiParam(req, "propertyId", true);
+
   try {
     const data = await prisma.inboxItem.findMany({
       where: {

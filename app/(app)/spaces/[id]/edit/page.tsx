@@ -236,7 +236,6 @@ export default function Page() {
       ) : (
         <CircularProgress />
       )}
-      {data?.length === 0 && <Box>No changes made yet!</Box>}
     </SpacesLayout>
   );
 }
