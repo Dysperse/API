@@ -1,15 +1,14 @@
 "use client";
-import { SpacesLayout } from "@/app/(app)/spaces/[id]/SpacesLayout";
+import Page from "@/app/(app)/spaces/[id]/members/page";
 import { SwipeableDrawer } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
 export default function Modal() {
-  const router = useRouter();
   const [open, setOpen] = useState(true);
+  const router = useRouter();
 
   const onDismiss = useCallback(() => {
-    setOpen(false);
     router.back();
   }, [router]);
 
@@ -22,7 +21,7 @@ export default function Modal() {
         sx: { maxHeight: "calc(100dvh - 100px)" },
       }}
     >
-      <SpacesLayout modal handleCloseModal={setOpen} />
+      <Page />
     </SwipeableDrawer>
   );
 }

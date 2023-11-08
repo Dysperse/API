@@ -119,12 +119,12 @@ export default function Page() {
   );
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const [view, setView] = useState<"Spaces" | "Invitations">("Spaces");
+  const [view, setView] = useState<"All" | "Invitations">("All");
   const { data, mutate, error } = useSWR(["user/spaces"]);
 
-  const filteredData = data?.filter((p) =>
-    view === "Invitations" ? !p.accepted : p.accepted
-  );
+  const filteredData = data
+    ?.filter((p) => (view === "Invitations" ? !p.accepted : p.accepted))
+    .sort((e) => (e.propertyId === session.user.selectedPropertyId ? -1 : 0));
 
   return (
     <>
@@ -138,12 +138,15 @@ export default function Page() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box sx={{ p: 3, maxWidth: "700px", mx: "auto" }}>
+      <Box sx={{ p: 3, maxWidth: "500px", mx: "auto" }}>
+        <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
+          Spaces
+        </Typography>
         <OptionsGroup
           currentOption={view}
           setOption={setView}
-          options={["Spaces", "Invitations"]}
-          sx={{ mb: 2 }}
+          options={["All", "Invitations"]}
+          sx={{ mb: 1 }}
         />
         {filteredData?.length === 0 && (
           <Alert severity="info" sx={{ p: 2 }}>

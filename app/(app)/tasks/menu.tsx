@@ -224,12 +224,6 @@ export const MenuChildren = memo(function MenuChildren({
             </Button>
           </Link>
         )}
-        {error && (
-          <ErrorHandler
-            callback={() => mutate()}
-            error="An error occurred while loading your tasks"
-          />
-        )}
         <Divider sx={taskStyles(palette).divider} />
         {!(isMobile && hiddenPerspectives.length == 6) && (
           <Typography
@@ -425,6 +419,12 @@ export const MenuChildren = memo(function MenuChildren({
           >
             Boards
           </Typography>
+          {error && (
+            <ErrorHandler
+              callback={() => mutate()}
+              error="Couldn't load boards"
+            />
+          )}
           {boards.active.map((board) => (
             <Tab
               editMode={editMode}
@@ -439,8 +439,8 @@ export const MenuChildren = memo(function MenuChildren({
                 <Skeleton
                   variant="rectangular"
                   key={i}
-                  height={30}
-                  sx={{ mb: 1.5 }}
+                  height={39.03}
+                  sx={{ mb: 1, borderRadius: 3 }}
                 />
               ))}
             </Box>

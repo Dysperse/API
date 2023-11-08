@@ -19,13 +19,14 @@ import {
   Toolbar,
   Typography,
   createTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 
-export function SpacesLayout({ parentRef, children, title }: any) {
+export function SpacesLayout({ modal, parentRef, children, title }: any) {
   const { session } = useSession();
   const router = useRouter();
   const params = useParams();
@@ -33,6 +34,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
   const isDark = useDarkMode(session.darkMode);
 
   const { data, error, isLoading } = useSWR(["space", { propertyId }]);
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const palette = useColor(data?.profile?.color || session.themeColor, isDark);
 
   const userTheme = createTheme(
@@ -67,7 +69,7 @@ export function SpacesLayout({ parentRef, children, title }: any) {
     }
   }, [children]);
 
-  useStatusBar(palette[children ? 3 : scrolled ? 2 : 9]);
+  useStatusBar(modal ? undefined : palette[children ? 3 : scrolled ? 2 : 9]);
 
   const members = useMemo(
     () => [
@@ -112,17 +114,28 @@ export function SpacesLayout({ parentRef, children, title }: any) {
                 "& *": { color: palette[children ? 9 : scrolled ? 9 : 1] },
                 "& .MuiIconButton-root": {
                   "&:hover": {
-                    background: { sm: "rgba(0,0,0,0.05)" },
+                    background: { xs: "rgba(0,0,0,0.15)" },
                   },
                   "&:active": {
-                    background: "rgba(0,0,0,0.1)",
+                    background: { xs: "rgba(0,0,0,0.17)" },
                   },
                 },
               }}
             >
               <Toolbar sx={{ gap: { xs: 0 } }}>
-                <IconButton onClick={() => handleBack(router)}>
-                  <Icon>arrow_back_ios_new</Icon>
+                <IconButton
+                  onClick={() => handleBack(router)}
+                  sx={{
+                    background: { sm: "rgba(0,0,0,0.1)" },
+                  }}
+                >
+                  <Icon>
+                    {modal
+                      ? isMobile
+                        ? "expand_more"
+                        : "close"
+                      : "arrow_back_ios_new"}
+                  </Icon>
                 </IconButton>
                 {!children && (
                   <>
