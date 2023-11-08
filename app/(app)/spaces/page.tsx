@@ -111,6 +111,7 @@ function SpaceButton({ invite, mutate }) {
 }
 
 export default function Page() {
+  const router = useRouter();
   const { session } = useSession();
   const palette = useColor(
     session.themeColor,
@@ -129,7 +130,10 @@ export default function Page() {
     <>
       <AppBar sx={{ border: 0 }}>
         <Toolbar>
-          <IconButton sx={{ background: palette[3] }}>
+          <IconButton
+            sx={{ background: palette[3] }}
+            onClick={() => router.push("/")}
+          >
             <Icon>close</Icon>
           </IconButton>
         </Toolbar>
