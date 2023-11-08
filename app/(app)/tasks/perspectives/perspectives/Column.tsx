@@ -385,10 +385,10 @@ const Column = React.memo(function Column({
       }
       mutateList(
         (oldDates) => {
-          const index = oldDates.findIndex(({ start, end }) =>
+          const index = oldDates.findIndex(({ start: _start, end: _end }) =>
             dayjs(start).isBetween(
-              start,
-              end,
+              _start,
+              _end,
               {
                 days: "day",
                 weeks: "week",
