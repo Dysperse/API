@@ -56,6 +56,7 @@ function ProgressBar({ group, progress }: { group: number; progress: number }) {
         display: "flex",
         gap: 2,
         p: 2,
+        mt: "env(titlebar-area-height, 0px)",
       }}
     >
       {[...new Array(maxGroups)].map((_, i) => (
@@ -354,7 +355,7 @@ function PastTasks({ setNavbarText, data }) {
                 daysInHours
                 precision={2}
                 date={dayjs(session.user.lastPlannedTasks)
-                  .add(1, "day")
+                  .endOf("day")
                   .toDate()}
               />
             </Box>
@@ -373,7 +374,14 @@ function PlanNavbar({ subtitle }: { subtitle?: string }) {
   const palette = useColor(session.themeColor, isDark);
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 2, py: 1 }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+        pt: "env(titlebar-area-height, 0px)",
+      }}
+    >
       <ConfirmationModal
         callback={() => {
           if (isMobile) router.push("/tasks/home");
