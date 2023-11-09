@@ -22,6 +22,7 @@ export default function Layout({ children }): JSX.Element {
           as="style"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
         />
+        <link href="/manifest.json" rel="manifest" />
         {[57, 72, 76, 114, 120, 144, 152, 180].map((size) => (
           <link
             key={size}
