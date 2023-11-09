@@ -143,7 +143,8 @@ export function BottomNav() {
           }
           variant="dot"
           sx={{
-            width: "33.33333%",
+            width:
+              session.space.info.type == "study group" ? "50%" : "33.33333%",
             "& .MuiBadge-badge": {
               right: "calc(50% - 20px)",
               top: 7,
@@ -178,29 +179,31 @@ export function BottomNav() {
           &#xf07e;
         </span>
       </Box>
-      <Box
-        id="link3"
-        sx={styles(
-          pathname === "/rooms" ||
-            pathname?.includes("rooms") ||
-            pathname === "/starred" ||
-            pathname === "/trash"
-        )}
-        onClick={() => router.push("/rooms")}
-      >
-        <span
-          className={`material-symbols-${
+      {session.space.info.type !== "study group" && (
+        <Box
+          id="link3"
+          sx={styles(
             pathname === "/rooms" ||
-            pathname?.includes("rooms") ||
-            pathname === "/starred" ||
-            pathname === "/trash"
-              ? "rounded"
-              : "outlined"
-          }`}
+              pathname?.includes("rooms") ||
+              pathname === "/starred" ||
+              pathname === "/trash"
+          )}
+          onClick={() => router.push("/rooms")}
         >
-          &#xf569;
-        </span>
-      </Box>
+          <span
+            className={`material-symbols-${
+              pathname === "/rooms" ||
+              pathname?.includes("rooms") ||
+              pathname === "/starred" ||
+              pathname === "/trash"
+                ? "rounded"
+                : "outlined"
+            }`}
+          >
+            &#xf569;
+          </span>
+        </Box>
+      )}
     </Box>
   );
 }

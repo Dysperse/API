@@ -174,7 +174,7 @@ export function Sidebar() {
 
   useHotkeys("ctrl+shift+3", (e) => {
     e.preventDefault();
-    router.push("/rooms");
+    if (session.space.info.type !== "study group") router.push("/rooms");
   });
 
   useHotkeys("ctrl+shift+1", (e) => {
@@ -331,34 +331,36 @@ export function Sidebar() {
           </span>
         </Tooltip>
       </Box>
-      <Box
-        sx={styles(
-          pathname === "/rooms" ||
-            pathname === "/trash" ||
-            pathname === "/starred" ||
-            pathname?.includes("rooms")
-        )}
-        onClick={() => router.push("/rooms")}
-        onMouseDown={() => router.push("/rooms")}
-      >
-        <Tooltip
-          title={generateLabel("Tasks", ["ctrl", "shift", "3"])}
-          placement="right"
-        >
-          <span
-            className={`material-symbols-${
-              pathname === "/rooms" ||
+      {session.space.info.type !== "study group" && (
+        <Box
+          sx={styles(
+            pathname === "/rooms" ||
               pathname === "/trash" ||
               pathname === "/starred" ||
               pathname?.includes("rooms")
-                ? "rounded"
-                : "outlined"
-            }`}
+          )}
+          onClick={() => router.push("/rooms")}
+          onMouseDown={() => router.push("/rooms")}
+        >
+          <Tooltip
+            title={generateLabel("Tasks", ["ctrl", "shift", "3"])}
+            placement="right"
           >
-            &#xf569;
-          </span>
-        </Tooltip>
-      </Box>
+            <span
+              className={`material-symbols-${
+                pathname === "/rooms" ||
+                pathname === "/trash" ||
+                pathname === "/starred" ||
+                pathname?.includes("rooms")
+                  ? "rounded"
+                  : "outlined"
+              }`}
+            >
+              &#xf569;
+            </span>
+          </Tooltip>
+        </Box>
+      )}
 
       <Box
         sx={{

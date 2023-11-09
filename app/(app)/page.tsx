@@ -263,7 +263,7 @@ export default function Home() {
               <Toolbar />
             </motion.div>
           </Box>
-          {isMobile && (
+          {isMobile && session.space.info.type !== "study group" && (
             <Box
               sx={{
                 flex: "0 0 100dvw",
