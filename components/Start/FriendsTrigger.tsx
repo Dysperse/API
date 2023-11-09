@@ -1,4 +1,5 @@
 import { useSession } from "@/lib/client/session";
+import { useColor } from "@/lib/client/useColor";
 import { Badge, Button, Icon } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
@@ -16,7 +17,6 @@ export function FriendsTrigger() {
     <Badge
       badgeContent={data?.length || 0}
       color="error"
-      variant="dot"
       sx={{
         "& .MuiBadge-badge": {
           mt: 0.5,
