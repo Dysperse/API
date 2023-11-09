@@ -188,6 +188,14 @@ export default function Page() {
             setting with caution.
           </Alert>
 
+          {session.space.info.type == "study group" && (
+            <Alert severity="info" sx={{ mb: 3 }}>
+              We&apos;ve hidden our inventory feature for you. To add it back
+              again, change your space type from &apos;Study Group&apos; to
+              something else
+            </Alert>
+          )}
+
           <Typography
             variant="body2"
             sx={{ mt: 4, opacity: 0.7, color: "#fff" }}

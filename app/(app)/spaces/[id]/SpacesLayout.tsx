@@ -139,22 +139,25 @@ export function SpacesLayout({ modal, parentRef, children, title }: any) {
                 </IconButton>
                 {!children && (
                   <>
-                    <IconButton
-                      onClick={() => router.push("/spaces")}
-                      sx={{
-                        ml: "auto",
-                        mr: 1,
-                        fontSize: "15px",
-                        color: "inherit",
-                        borderRadius: 99,
-                      }}
-                    >
-                      Switch
-                    </IconButton>
+                    {!modal && (
+                      <IconButton
+                        onClick={() => router.push("/spaces")}
+                        sx={{
+                          ml: "auto",
+                          mr: 1,
+                          fontSize: "15px",
+                          color: "inherit",
+                          borderRadius: 99,
+                        }}
+                      >
+                        Switch
+                      </IconButton>
+                    )}
                     <IconButton
                       onClick={() =>
                         router.push(`/spaces/${data?.profile?.id}/edit`)
                       }
+                      {...(modal && { sx: { ml: "auto" } })}
                     >
                       <Icon className="outlined">edit</Icon>
                     </IconButton>
