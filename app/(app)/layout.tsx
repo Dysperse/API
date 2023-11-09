@@ -14,6 +14,7 @@ export const metadata = {
   description: "Dysperse dashboard",
   applicationName: "Dysperse",
 };
+export const dynamic = "force-dynamic";
 
 export default async function RootLayout({
   children,
