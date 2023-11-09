@@ -34,7 +34,7 @@ export default function AddFriend() {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const [view, setView] = useState<"Add friend" | "Requests" | "Pending">(
+  const [view, setView] = useState<"Add" | "Requests" | "Pending">(
     "Requests"
   );
 
@@ -62,7 +62,7 @@ export default function AddFriend() {
   };
 
   useEffect(() => {
-    if (view === "Add friend") {
+    if (view === "Add") {
       setTimeout(() => {
         document.getElementById("searchFriend")?.focus();
       });
@@ -118,15 +118,25 @@ export default function AddFriend() {
         </Toolbar>
       </AppBar>
       <Box sx={{ p: 3, maxWidth: "700px", mx: "auto" }}>
+        <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
+          Friends
+        </Typography>
         <OptionsGroup
           setOption={setView}
           currentOption={view}
-          options={["Requests", "Pending", "Add friend"]}
+          options={["Requests", "Pending", "Add"]}
+          sx={{ mb: 2 }}
         />
-        <Typography variant="h2" className="font-heading" sx={{ mt: 4, mb: 1 }}>
-          {view}
-        </Typography>
-        {view === "Add friend" ? (
+        {(!data || !pendingData) &&
+          [...new Array(5)].map((_, i) => (
+            <Skeleton
+              sx={{ mb: 2 }}
+              key={i}
+              variant="rectangular"
+              height={50}
+            />
+          ))}
+        {view === "Add" ? (
           <motion.div
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -181,18 +191,27 @@ export default function AddFriend() {
                   <Box>
                     <ListItem disableGutters>
                       <ProfilePicture data={person.following} size={40} />
-                      <ListItemText
-                        primary={
-                          <Button
-                            size="small"
-                            variant="contained"
-                            sx={{ color: "#fff", background: palette[2] }}
-                          >
-                            {person.following.name}
-                          </Button>
-                        }
-                      />
-                      <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
+                      <Button
+                        size="small"
+                        sx={{
+                          color: "#fff",
+                          "&:hover": {
+                            background: palette[2],
+                          },
+                          p: 1,
+                          borderRadius: 2,
+                        }}
+                      >
+                        {person.following.name}
+                      </Button>
+                      <Box
+                        sx={{
+                          flexShrink: 0,
+                          display: "flex",
+                          gap: 2,
+                          ml: "auto",
+                        }}
+                      >
                         <Button
                           disabled={loading === person.following.email}
                           size="small"
@@ -211,16 +230,7 @@ export default function AddFriend() {
               ))
             ) : pendingError ? (
               <ErrorHandler callback={pendingMutate} />
-            ) : (
-              [...new Array(5)].map((_, i) => (
-                <Skeleton
-                  sx={{ mb: 2 }}
-                  key={i}
-                  variant="rectangular"
-                  height={50}
-                />
-              ))
-            )}
+            ) : undefined}
           </motion.div>
         ) : (
           <motion.div
@@ -261,16 +271,7 @@ export default function AddFriend() {
               ))
             ) : error ? (
               <ErrorHandler callback={mutate} />
-            ) : (
-              [...new Array(5)].map((_, i) => (
-                <Skeleton
-                  sx={{ mb: 2 }}
-                  key={i}
-                  variant="rectangular"
-                  height={50}
-                />
-              ))
-            )}
+            ) : undefined}
           </motion.div>
         )}
       </Box>

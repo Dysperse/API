@@ -31,7 +31,6 @@ import {
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -177,9 +176,10 @@ export default function ClientLayout({ children, session }) {
               />
               <NotificationsPrompt />
               {/* Start container */}
-              <motion.div
-                initial={{ background: palette[1] }}
-                animate={{
+              <Box
+                onContextMenu={(e) => !isMobile && e.preventDefault()}
+                sx={{
+                  display: "flex",
                   background:
                     palette[
                       isMobile
@@ -189,10 +189,6 @@ export default function ClientLayout({ children, session }) {
                         ? 3
                         : 2
                     ],
-                }}
-                onContextMenu={(e) => !isMobile && e.preventDefault()}
-                style={{
-                  display: "flex",
                 }}
               >
                 {/* Start Sidebar */}
@@ -255,7 +251,7 @@ export default function ClientLayout({ children, session }) {
                   {isTablet && <BottomNav />}
                 </Box>
                 {/* End content */}
-              </motion.div>
+              </Box>
               {/* End container */}
             </ThemeProvider>
           </StorageContext.Provider>
