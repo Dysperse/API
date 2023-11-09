@@ -3,12 +3,6 @@ import { handleApiError } from "@/lib/server/helpers";
 import { Formidable } from "formidable";
 import fs from "fs";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function GET(req) {
   try {
     const formData: any = await new Promise((resolve, reject) => {

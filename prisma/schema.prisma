@@ -96,10 +96,12 @@ model NotificationSettings {
   pushSubscription Json?
 
   todoListUpdates Boolean @default(true)
+  planDay         Boolean @default(true)
   followerUpdates Boolean @default(true)
   statusUpdates   Boolean @default(true)
   boardUpdates    Boolean @default(true)
 
+  planDayHour                   Int     @default(6)
   notifyFriendsForStatusUpdates Boolean @default(true)
 
   boards Boolean @default(true)
