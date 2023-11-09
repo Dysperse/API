@@ -27,12 +27,12 @@ export default function Layout({ children }): JSX.Element {
             key={size}
             rel="apple-touch-icon"
             sizes={`${size}x${size}`}
-            href={`https://assets.dysperse.com/v9-ios/${size}.png`}
+            href={`https://assets.dysperse.com/v10-ios/${size}.png`}
           />
         ))}
         <link
           rel="shortcut icon"
-          href="https://assets.dysperse.com/v9/android/android-launchericon-48-48.png"
+          href="https://assets.dysperse.com/v10/android/android-launchericon-48-48.png"
         />
         <link
           rel="stylesheet"

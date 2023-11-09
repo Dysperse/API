@@ -80,7 +80,7 @@ export default async function RootLayout({
         />
         <link
           rel="shortcut icon"
-          href="https://assets.dysperse.com/v9/android/android-launchericon-48-48.png"
+          href="https://assets.dysperse.com/v10/android/android-launchericon-48-48.png"
         />
         <meta name="theme-color" content={palette[1]} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -101,7 +101,7 @@ export default async function RootLayout({
             key={size}
             rel="apple-touch-icon"
             sizes={`${size}x${size}`}
-            href={`https://assets.dysperse.com/v9-ios/${size}.png`}
+            href={`https://assets.dysperse.com/v10-ios/${size}.png`}
           />
         ))}
         <link href="/manifest.json" rel="manifest" />
