@@ -13,16 +13,18 @@ export async function GET(req: NextRequest) {
     const { userIdentifier } = await getIdentifiers(sessionId);
     const email = await getApiParam(req, "email", true);
     const userEmail = await getApiParam(req, "userEmail", true);
+
     await prisma.user.findFirstOrThrow({
       where: {
         identifier: userIdentifier,
       },
     });
+
     await prisma.follows.delete({
       where: {
         followerId_followingId: {
-          followerId: email,
-          followingId: userEmail,
+          followerId: userEmail,
+          followingId: email,
         },
       },
     });

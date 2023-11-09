@@ -43,7 +43,7 @@ export default function AddFriend() {
   const addFriend = async () => {
     try {
       setLoading("1");
-      const data = await fetchRawApi(session, "user/friends/request", {
+      const data = await fetchRawApi(session, "user/friends", {
         method: "POST",
         params: {
           followerEmail: session.user.email,
@@ -100,6 +100,7 @@ export default function AddFriend() {
     await fetchRawApi(session, "user/friends/request/cancel", {
       params: { email, userEmail: session.user.email },
     });
+    await pendingMutate();
     await mutate();
     setLoading("");
   };
@@ -180,7 +181,17 @@ export default function AddFriend() {
                   <Box>
                     <ListItem disableGutters>
                       <ProfilePicture data={person.following} size={40} />
-                      <ListItemText primary={person.following.name} />
+                      <ListItemText
+                        primary={
+                          <Button
+                            size="small"
+                            variant="contained"
+                            sx={{ color: "#fff", background: palette[2] }}
+                          >
+                            {person.following.name}
+                          </Button>
+                        }
+                      />
                       <Box sx={{ flexShrink: 0, display: "flex", gap: 2 }}>
                         <Button
                           disabled={loading === person.following.email}

@@ -178,9 +178,8 @@ export default function ClientLayout({ children, session }) {
               <NotificationsPrompt />
               {/* Start container */}
               <motion.div
-                initial={{ opacity: 0, background: palette[1] }}
+                initial={{ background: palette[1] }}
                 animate={{
-                  opacity: 1,
                   background:
                     palette[
                       isMobile
