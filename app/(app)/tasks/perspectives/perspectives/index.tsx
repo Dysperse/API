@@ -505,8 +505,16 @@ export function Agenda({ type, date }) {
             data.map((column: any) => (
               <Column
                 key={column.start}
-                start={dayjs(column.start).startOf(type)}
-                end={dayjs(column.start).endOf(type)}
+                isToday={dayjs()
+                  .utc()
+                  .isBetween(
+                    dayjs(column.start).utc().startOf(type),
+                    dayjs(column.start).utc().endOf(type),
+                    undefined,
+                    "[]"
+                  )}
+                start={dayjs(column.start).utc()}
+                end={dayjs(column.start).utc()}
                 data={sortedTasks(column.tasks, column)}
                 view={view}
               />

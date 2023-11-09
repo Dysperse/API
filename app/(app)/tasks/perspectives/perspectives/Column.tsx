@@ -341,6 +341,7 @@ const Column = React.memo(function Column({
   end,
   data,
   view,
+  isToday
 }: any): JSX.Element {
   const scrollParentRef = useRef();
   const { session } = useSession();
@@ -351,8 +352,6 @@ const Column = React.memo(function Column({
   const { mutateList, type } = useContext(PerspectiveContext);
 
   const [isScrolling, setIsScrolling] = useState(false);
-
-  const isToday = dayjs().utc().isBetween(start, end, undefined, "[]");
 
   const taskSelection = useContext(SelectionContext);
   const isPushingUnfinished = taskSelection.values.includes(-2);
