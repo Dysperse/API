@@ -100,6 +100,9 @@ export default function Home() {
         sx={{
           maxWidth: "100dvw",
           overflowX: "hidden",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
           mt: "env(titlebar-area-height)",
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
