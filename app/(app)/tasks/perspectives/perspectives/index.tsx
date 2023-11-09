@@ -426,7 +426,6 @@ export function Agenda({ type, date }) {
   }
 
   const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
 
   const scrollIntoView = () => {
     const column = document.getElementById("active");
@@ -506,8 +505,8 @@ export function Agenda({ type, date }) {
             data.map((column: any) => (
               <Column
                 key={column.start}
-                start={dayjs(column.start).utc()}
-                end={dayjs(column.end).utc()}
+                start={dayjs(column.start).startOf(type)}
+                end={dayjs(column.start).endOf(type)}
                 data={sortedTasks(column.tasks, column)}
                 view={view}
               />
