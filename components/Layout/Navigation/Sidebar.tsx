@@ -96,7 +96,7 @@ export function SidebarMenu({ children }) {
         >
           <Avatar
             sx={{
-              background: groupPalette[9],
+              background: `linear-gradient(45deg, ${groupPalette[9]}, ${groupPalette[7]})`,
               color: groupPalette[1],
               width: 35,
               height: 35,
