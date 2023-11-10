@@ -18,63 +18,21 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { base64ToUint8Array } from "./base64ToUint8Array";
 
 /**
  * Top-level component for the notification settings page.
  */
 export default function Notifications() {
+  const { session } = useSession();
   const { data, mutate, error } = useSWR(["user/settings/notifications"]);
-  const { setSession } = useSession();
 
   const {
     subscription,
-    isSubscribed,
-    registration,
-    setSubscription,
-    setIsSubscribed,
-  } = useNotificationSubscription();
-
-  const subscribeButtonOnClick = async (event) => {
-    event.preventDefault();
-    const sub = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: base64ToUint8Array(
-        process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY
-      ),
-    });
-    setSubscription(sub);
-    setIsSubscribed(true);
-    await fetchRawApi(session, "user/settings/notifications", {
-      method: "POST",
-      params: {
-        sub: JSON.stringify(sub),
-      },
-    });
-    fetchRawApi(session, "/user/settings/notifications/test", {
-      params: { subscription: JSON.stringify(sub) },
-    });
-  };
-  const { session } = useSession();
-
-  const unsubscribeButtonOnClick = async (event) => {
-    event.preventDefault();
-    await subscription?.unsubscribe();
-    fetchRawApi(session, "/user/settings/notifications", {
-      method: "DELETE",
-    });
-    setSubscription(null);
-    setIsSubscribed(false);
-  };
-
-  const sendNotificationButtonOnClick = async (event) => {
-    event.preventDefault();
-    fetchRawApi(session, "/user/settings/notifications/test", {
-      params: {
-        subscription: session.user.notificationSubscription,
-      },
-    });
-  };
+    enabledOnCurrentDevice,
+    subscribeButtonOnClick,
+    unsubscribeButtonOnClick,
+    sendNotificationButtonOnClick,
+  } = useNotificationSubscription(session);
 
   const handleNotificationChange = async (name, value) => {
     const promise = new Promise(async (resolve, reject) => {
@@ -101,9 +59,7 @@ export default function Notifications() {
   };
 
   const enabledOnAnotherDevice =
-    (!isSubscribed && session.user.notificationSubscription) ||
-    session.user.notificationSubscription !== JSON.stringify(subscription);
-
+    subscription !== null && enabledOnCurrentDevice === false;
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const notificationSettings = [
@@ -198,9 +154,7 @@ export default function Notifications() {
                   </span>
                   <Button
                     onClick={sendNotificationButtonOnClick}
-                    disabled={
-                      !isSubscribed && !session.user.notificationSubscription
-                    }
+                    disabled={!enabledOnCurrentDevice}
                     variant="outlined"
                     size="small"
                     sx={{
@@ -230,9 +184,9 @@ export default function Notifications() {
               </ConfirmationModal>
             ) : (
               <Switch
-                checked={isSubscribed}
+                checked={enabledOnCurrentDevice === true}
                 onClick={(event) => {
-                  if (isSubscribed) {
+                  if (enabledOnCurrentDevice === true) {
                     unsubscribeButtonOnClick(event);
                   } else {
                     subscribeButtonOnClick(event);

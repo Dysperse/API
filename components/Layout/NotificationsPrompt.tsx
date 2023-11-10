@@ -9,10 +9,24 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Logo } from "../Logo";
 
-export const useNotificationSubscription = () => {
+export const useNotificationSubscription = (session) => {
   const [subscription, setSubscription] = useState<any>(null);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [registration, setRegistration] = useState<any>(null);
+
+  const [enabledOnCurrentDevice, setEnabledOnCurrentDevice] = useState<
+    "loading" | boolean
+  >("loading");
+
+  function deepEqual(x, y) {
+    const ok = Object.keys,
+      tx = typeof x,
+      ty = typeof y;
+    return x && y && tx === "object" && tx === ty
+      ? ok(x).length === ok(y).length &&
+          ok(x).every((key) => deepEqual(x[key], y[key]))
+      : x === y;
+  }
 
   useEffect(() => {
     const subscribeToNotifications = async () => {
@@ -25,6 +39,12 @@ export const useNotificationSubscription = () => {
         try {
           const reg = await navigator.serviceWorker.ready;
           const sub: any = await reg.pushManager.getSubscription();
+          if (
+            sub.endpoint ===
+            session.user.notifications.pushSubscription?.endpoint
+          ) {
+            setEnabledOnCurrentDevice(true);
+          }
 
           if (
             sub &&
@@ -45,9 +65,55 @@ export const useNotificationSubscription = () => {
     };
 
     subscribeToNotifications();
-  }, []);
+  }, [session.user.notifications.pushSubscription]);
+
+  const subscribeButtonOnClick = async (event) => {
+    event.preventDefault();
+    const sub = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: base64ToUint8Array(
+        process.env.NEXT_PUBLIC_WEB_PUSH_PUBLIC_KEY
+      ),
+    });
+    setSubscription(sub);
+    setIsSubscribed(true);
+    await fetchRawApi(session, "user/settings/notifications", {
+      method: "POST",
+      params: {
+        sub: JSON.stringify(sub),
+      },
+    });
+    fetchRawApi(session, "/user/settings/notifications/test", {
+      params: { subscription: JSON.stringify(sub) },
+    });
+  };
+
+  const unsubscribeButtonOnClick = async (event) => {
+    event.preventDefault();
+    await subscription?.unsubscribe();
+    fetchRawApi(session, "/user/settings/notifications", {
+      method: "DELETE",
+    });
+    setSubscription(null);
+    setIsSubscribed(false);
+  };
+
+  const sendNotificationButtonOnClick = async (event) => {
+    event.preventDefault();
+    fetchRawApi(session, "/user/settings/notifications/test", {
+      params: {
+        subscription: JSON.stringify(
+          session.user.notifications.pushSubscription
+        ),
+      },
+    });
+  };
 
   return {
+    enabledOnCurrentDevice,
+    subscribeButtonOnClick,
+    unsubscribeButtonOnClick,
+    sendNotificationButtonOnClick,
     subscription,
     isSubscribed,
     registration,
@@ -65,7 +131,7 @@ export default function NotificationsPrompt() {
   const [loading, setLoading] = useState(false);
 
   const { subscription, isSubscribed, registration } =
-    useNotificationSubscription();
+    useNotificationSubscription(session);
 
   const handleClose = () => {
     localStorage.setItem("notificationPrompt", "true");
@@ -96,7 +162,9 @@ export default function NotificationsPrompt() {
       });
       await fetchRawApi(session, "/user/settings/notifications/test", {
         params: {
-          subscription: session.user.notificationSubscription,
+          subscription: JSON.stringify(
+            session.user.notifications.pushSubscription
+          ),
         },
       });
       setLoading(false);
