@@ -2,7 +2,6 @@
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ErrorHandler } from "@/components/Error";
 import { OptionsGroup } from "@/components/OptionsGroup";
-import { FriendPopover } from "@/components/Start/Friend";
 import { handleBack } from "@/lib/client/handleBack";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -34,9 +33,7 @@ export default function AddFriend() {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  const [view, setView] = useState<"Add" | "Requests" | "Pending">(
-    "Requests"
-  );
+  const [view, setView] = useState<"Add" | "Requests" | "Pending">("Requests");
 
   const [query, setQuery] = useState("");
 
@@ -184,49 +181,49 @@ export default function AddFriend() {
             )}
             {pendingData ? (
               pendingData.map((person) => (
-                <FriendPopover
-                  email={person.following.email}
-                  key={person.followerId}
+                <Box
+                  key={person.following.email}
+                  onClick={() =>
+                    router.push(`/users/${person.following.email}`)
+                  }
                 >
-                  <Box>
-                    <ListItem disableGutters>
-                      <ProfilePicture data={person.following} size={40} />
+                  <ListItem disableGutters>
+                    <ProfilePicture data={person.following} size={40} />
+                    <Button
+                      size="small"
+                      sx={{
+                        color: "#fff",
+                        "&:hover": {
+                          background: palette[2],
+                        },
+                        p: 1,
+                        borderRadius: 2,
+                      }}
+                    >
+                      {person.following.name}
+                    </Button>
+                    <Box
+                      sx={{
+                        flexShrink: 0,
+                        display: "flex",
+                        gap: 2,
+                        ml: "auto",
+                      }}
+                    >
                       <Button
+                        disabled={loading === person.following.email}
                         size="small"
-                        sx={{
-                          color: "#fff",
-                          "&:hover": {
-                            background: palette[2],
-                          },
-                          p: 1,
-                          borderRadius: 2,
+                        variant="contained"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCancel(person.following.email);
                         }}
                       >
-                        {person.following.name}
+                        Cancel
                       </Button>
-                      <Box
-                        sx={{
-                          flexShrink: 0,
-                          display: "flex",
-                          gap: 2,
-                          ml: "auto",
-                        }}
-                      >
-                        <Button
-                          disabled={loading === person.following.email}
-                          size="small"
-                          variant="contained"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleCancel(person.following.email);
-                          }}
-                        >
-                          Cancel
-                        </Button>
-                      </Box>
-                    </ListItem>
-                  </Box>
-                </FriendPopover>
+                    </Box>
+                  </ListItem>
+                </Box>
               ))
             ) : pendingError ? (
               <ErrorHandler callback={pendingMutate} />

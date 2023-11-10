@@ -90,9 +90,11 @@ export const dynamic = "force-dynamic";
 export default async function RootLayout({
   children,
   spaceModal,
+  userModal,
 }: {
   spaceModal: any;
   children: React.ReactNode;
+  userModal: React.ReactNode;
 }) {
   const data = await getSession();
 
@@ -200,8 +202,9 @@ export default async function RootLayout({
         }}
       >
         <ClientLayout session={s}>
-          {spaceModal}
           {children}
+          {userModal}
+          {spaceModal}
         </ClientLayout>
       </body>
     </html>

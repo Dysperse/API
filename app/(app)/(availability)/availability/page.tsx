@@ -5,7 +5,6 @@ import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { Puller } from "@/components/Puller";
-import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -757,18 +756,19 @@ function EventCard({ mutate, index, event }) {
                   )}
                   {event.participants.map((participant, index) =>
                     participant?.user?.email ? (
-                      <FriendPopover
-                        email={participant?.user?.email}
-                        key={index}
+                      <Box
+                        sx={{ width: 30, height: 30 }}
+                        onClick={() =>
+                          router.push(`/users/${participant.user.email}`)
+                        }
+                        key={participant.user.email}
                       >
-                        <Box sx={{ width: 30, height: 30 }}>
-                          <ProfilePicture
-                            avatarComponentOnly
-                            size={30}
-                            data={participant.user}
-                          />
-                        </Box>
-                      </FriendPopover>
+                        <ProfilePicture
+                          avatarComponentOnly
+                          size={30}
+                          data={participant.user}
+                        />
+                      </Box>
                     ) : (
                       <Avatar
                         sx={{

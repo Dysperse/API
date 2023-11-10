@@ -1,96 +1,45 @@
+"use client";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { Emoji } from "@/components/Emoji";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-  Badge,
   Box,
   Button,
-  Card,
-  CardContent,
   Chip,
   Icon,
-  LinearProgress,
   Skeleton,
   SwipeableDrawer,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { cloneElement, memo, useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
-import { ConfirmationModal } from "../ConfirmationModal";
-import { Emoji } from "../Emoji";
 
-function calculatePercentage(startDate, endDate) {
-  // Convert the dates to timestamps (milliseconds since January 1, 1970)
-  const startTime = startDate.getTime();
-  const endTime = endDate.getTime();
-
-  // Get the current date and time
-  const currentTime = new Date().getTime();
-
-  // Calculate the time difference between the two dates
-  const totalTime = endTime - startTime;
-
-  // Calculate the time difference between the start date and the current date
-  const elapsedTime = currentTime - startTime;
-
-  // Calculate the percentage of time that has passed
-  const percentage = (elapsedTime / totalTime) * 100;
-
-  // Ensure the percentage is within the 0-100 range
-  return Math.min(100, Math.max(0, percentage));
+interface FriendModalPageProps {
+  params: {
+    id: string;
+  };
 }
 
-function FriendProgressBar({ started, until, userPalette }) {
-  const [value, setValue] = useState(
-    calculatePercentage(new Date(started), new Date(until))
-  );
-
-  useEffect(() => {
-    const interval = setInterval(
-      () => setValue(calculatePercentage(new Date(started), new Date(until))),
-      1000
-    );
-    return () => clearInterval(interval);
-  }, [started, until]);
-
-  return (
-    <LinearProgress
-      sx={{
-        width: "100%",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        height: "100%",
-        borderRadius: 5,
-        background: userPalette[3],
-        "& *": {
-          background: userPalette[5] + "!important",
-        },
-      }}
-      variant="determinate"
-      value={value}
-    />
-  );
-}
-
-export function FriendPopover({ children, email }) {
-  const { session } = useSession();
+export default function Modal({ params }: FriendModalPageProps) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
+  const { session } = useSession();
 
-  const trigger = cloneElement(children, {
-    onClick: () => {
-      // setOpen(true);
-    },
-  });
+  const onDismiss = useCallback(() => {
+    setOpen(false);
+    router.back();
+  }, [router]);
 
-  const { data, mutate } = useSWR(open ? ["user/profile", { email }] : null);
+  const { data, mutate } = useSWR(
+    open ? ["user/profile", { email: params.id }] : null
+  );
 
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(data?.color || "gray", isDark);
@@ -163,10 +112,9 @@ export function FriendPopover({ children, email }) {
 
   return (
     <>
-      {trigger}
       <SwipeableDrawer
         onClick={(e) => e.stopPropagation()}
-        onClose={() => setOpen(false)}
+        onClose={onDismiss}
         open={open}
         anchor="bottom"
         PaperProps={{
@@ -228,10 +176,7 @@ export function FriendPopover({ children, email }) {
                 opacity: 0.6,
               },
             }}
-            onClick={() => {
-              setOpen(false);
-              setTimeout(() => router.push("/users/" + email), 700);
-            }}
+            onClick={onDismiss}
             size="small"
           >
             Full profile <Icon>north_east</Icon>
@@ -408,163 +353,3 @@ export function FriendPopover({ children, email }) {
     </>
   );
 }
-
-function FocusText({ started }) {
-  const [currentTime, setCurrentTime] = useState(dayjs());
-
-  const formatTimeAgo = (currentTime) => {
-    const diff = currentTime.diff(started, "second");
-    const hours = String(Math.floor(diff / 3600)).padStart(2, "0");
-    const minutes = String(Math.floor((diff % 3600) / 60));
-    const seconds = String(diff % 60).padStart(2, "0");
-    return `${hours !== "00" ? `${hours}:` : ""}${minutes}:${seconds}`;
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(dayjs()); // Update the current time every second
-    }, 1000);
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, []);
-
-  return (
-    <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
-      Focusing for {formatTimeAgo(currentTime)}
-    </Typography>
-  );
-}
-
-export const Friend = memo(function Friend({ mutate, friend }: any) {
-  const { session } = useSession();
-  const router = useRouter();
-  const isDark = useDarkMode(session.darkMode);
-  const userPalette = useColor(session.themeColor, isDark);
-
-  const status = friend?.Status
-    ? (friend.Status && !friend.Status.until) ||
-      dayjs(friend?.Status?.until).isAfter(dayjs())
-      ? friend.Status
-      : null
-    : null;
-  // refactor later...
-  const redPalette = useColor("red", useDarkMode(session.darkMode));
-  const grayPalette = useColor("gray", useDarkMode(session.darkMode));
-  const greenPalette = useColor("green", useDarkMode(session.darkMode));
-  const orangePalette = useColor("orange", useDarkMode(session.darkMode));
-  const bluePalette = useColor("blue", useDarkMode(session.darkMode));
-
-  const chipPalette =
-    status?.status === "available"
-      ? greenPalette
-      : status?.status === "busy"
-      ? redPalette
-      : status?.status === "away"
-      ? orangePalette
-      : status?.status === "focusing"
-      ? bluePalette
-      : grayPalette;
-  // end refactor later
-
-  return (
-    <motion.div initial={{ scaleX: 1.05 }} animate={{ scaleX: 1 }}>
-      <Box sx={{ pb: 2 }}>
-        <Card
-          onClick={() =>
-            router.push("/users/" + (friend.username || friend.email))
-          }
-          sx={{
-            border: "2px solid",
-            borderColor: userPalette[3],
-            borderRadius: 5,
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <CardContent
-            sx={{
-              display: "flex",
-              gap: 2,
-              zIndex: 99,
-              position: "sticky",
-              alignItems: "center",
-            }}
-          >
-            <Badge
-              variant="dot"
-              badgeContent={1}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              sx={{
-                "& .MuiBadge-badge": {
-                  background: chipPalette[9],
-                  border: `4px solid ${userPalette[status ? 3 : 2]}`,
-                  ...((!status && dayjs(friend.lastActive).isAfter(dayjs())) ||
-                  dayjs(friend.lastActive).fromNow() == "a few seconds ago"
-                    ? {
-                        background: chipPalette[9],
-                      }
-                    : !status && {
-                        boxShadow: `0 0 0 2px inset ${chipPalette[9]}`,
-                        background: userPalette[2],
-                      }),
-                  width: 20,
-                  height: 20,
-                  borderRadius: 99,
-                  transform: "translate(3px, 3px)",
-                },
-              }}
-            >
-              <ProfilePicture data={friend} size={50} sx={{ flexShrink: 0 }} />
-            </Badge>
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h6">
-                {friend.name.split(" ")?.[0]}
-              </Typography>
-              {status?.emoji && status?.emoji !== "null" ? (
-                <>
-                  <Typography sx={{ display: "flex", gap: 2 }}>
-                    <Emoji
-                      emoji={status.emoji}
-                      size={24}
-                      style={{ marginTop: "4px" }}
-                    />
-                    {status.text}
-                  </Typography>
-                </>
-              ) : status?.status === "focusing" ? (
-                <FocusText started={status.started} />
-              ) : // this is when i updated the database
-              dayjs(friend.lastActive).toISOString() !==
-                "2023-10-07T17:23:03.871Z" ? (
-                <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
-                  Active{" "}
-                  {dayjs(friend.lastActive).isAfter(dayjs()) ||
-                  dayjs(friend.lastActive).fromNow() == "a few seconds ago"
-                    ? "now"
-                    : dayjs(friend.lastActive).fromNow()}
-                </Typography>
-              ) : (
-                <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
-                  {friend.username && "@"}
-                  {friend.username || friend.email}
-                </Typography>
-              )}
-            </Box>
-          </CardContent>
-          {status && (
-            <FriendProgressBar
-              started={status.started}
-              until={status.until}
-              userPalette={userPalette}
-            />
-          )}
-        </Card>
-      </Box>
-    </motion.div>
-  );
-});
