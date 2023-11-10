@@ -284,8 +284,9 @@ export function Sidebar() {
       >
         <Badge
           badgeContent={
-            !dayjs(session.user.lastPlannedTasks).isToday() &&
-            !pathname.includes("/tasks")
+            dayjs(session.user.lastPlannedTasks).isToday()
+              ? 0
+              : pathname.includes("/tasks")
               ? 1
               : 0
           }
@@ -298,7 +299,6 @@ export function Sidebar() {
             },
           }}
         >
-          {" "}
           <Tooltip
             title={generateLabel("Tasks", ["ctrl", "shift", "1"])}
             placement="right"

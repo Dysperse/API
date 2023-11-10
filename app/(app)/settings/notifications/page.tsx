@@ -4,7 +4,6 @@ import { ConfirmationModal } from "@/components/ConfirmationModal";
 import { ErrorHandler } from "@/components/Error";
 import { useNotificationSubscription } from "@/components/Layout/NotificationsPrompt";
 import { useSession } from "@/lib/client/session";
-import { updateSettings } from "@/lib/client/updateSettings";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -61,7 +60,9 @@ export default function Notifications() {
   const unsubscribeButtonOnClick = async (event) => {
     event.preventDefault();
     await subscription?.unsubscribe();
-    updateSettings(["notificationSubscription", ""], { session, setSession });
+    fetchRawApi(session, "/user/settings/notifications", {
+      method: "DELETE",
+    });
     setSubscription(null);
     setIsSubscribed(false);
   };

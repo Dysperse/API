@@ -1,5 +1,6 @@
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
+import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -10,7 +11,7 @@ dayjs.extend(utc);
 export async function POST(req: NextRequest) {
   const _subscriptions = await prisma.notificationSettings.findMany({
     where: {
-      planDay: true,
+      AND: [{ planDay: true }, { pushSubscription: { not: Prisma.JsonNull } }],
     },
     select: {
       pushSubscription: true,
@@ -19,18 +20,16 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const subscriptions = _subscriptions
-    .filter((e) => e.pushSubscription)
-    .filter((user) => {
-      if (
-        process.env.NODE_ENV !== "production" &&
-        user.user.email !== "manusvathgurudath@gmail.com"
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    });
+  const subscriptions = _subscriptions.filter((user) => {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      user.user.email !== "manusvathgurudath@gmail.com"
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  });
 
   const prompts = [
     "What will you do to make your day impactful?",
@@ -64,5 +63,5 @@ export async function POST(req: NextRequest) {
   );
 
   await Promise.allSettled(notificationPromises);
-  return Response.json({ success: true, subscriptions: subscriptions });
+  return Response.json({ success: true });
 }

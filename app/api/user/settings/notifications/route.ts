@@ -5,6 +5,7 @@ import {
   handleApiError,
 } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
+import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 export async function GET() {
@@ -19,6 +20,23 @@ export async function GET() {
       where: { userId: userIdentifier },
     });
     return Response.json(data || {});
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function DELETE() {
+  try {
+    const sessionToken = await getSessionToken();
+    const { userIdentifier } = await getIdentifiers(sessionToken);
+
+    const data = await prisma.notificationSettings.update({
+      where: { userId: userIdentifier },
+      data: {
+        pushSubscription: Prisma.JsonNull,
+      },
+    });
+    return Response.json(data);
   } catch (e) {
     return handleApiError(e);
   }
