@@ -13,6 +13,19 @@ export const metadata = {
   title: "Dysperse",
   description: "Dysperse dashboard",
   applicationName: "Dysperse",
+  appleWebApp: {
+    capable: true,
+    title: "Dysperse",
+    startupImage: [
+      { media: "2048x2732", url: "/ios-splash/2048x2732.png" },
+      { media: "1668x2224", url: "/ios-splash/1668x2224.png" },
+      { media: "1536x2048", url: "/ios-splash/1536x2048.png" },
+      { media: "1125x2436", url: "/ios-splash/1125x2436.png" },
+      { media: "1242x2208", url: "/ios-splash/1242x2208.png" },
+      { media: "750x1334", url: "/ios-splash/750x1334.png" },
+      { media: "640x1136", url: "/ios-splash/640x1136.png" },
+    ],
+  },
 };
 export const dynamic = "force-dynamic";
 
@@ -83,7 +96,6 @@ export default async function RootLayout({
           href="https://assets.dysperse.com/v10/android/android-launchericon-48-48.png"
         />
         <meta name="theme-color" content={palette[1]} />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="description" content="Dysperse dashboard" />
         <meta name="theme-color" content="#fff" />
         <meta
