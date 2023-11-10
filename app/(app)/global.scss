@@ -340,3 +340,10 @@ body {
     opacity: 0.5;
   }
 }
+
+div.MuiModal-root:has(> div[style*="opacity: 0"]) {
+  pointer-events: none;
+}
+div.MuiDrawer-root:has(> div[style*="opacity: 0"]) {
+  pointer-events: none;
+}

@@ -247,8 +247,8 @@ export async function POST(req: NextRequest) {
       try {
         await DispatchNotification({
           subscription: victim.notifications.pushSubscription as any,
-          title: "You have a new follower!",
-          body: "Tap to view profile",
+          title: "You have a new friend request",
+          body: "Tap to manage",
         });
       } catch {}
     }

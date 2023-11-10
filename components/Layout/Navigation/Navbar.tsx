@@ -31,31 +31,23 @@ export function Navbar({
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const target = isMobile
+    ? undefined
+    : containerRef?.current
+    ? containerRef.current
+    : typeof document === "undefined"
+    ? undefined
+    : document.body;
 
-  const _isScrollingUp = useScrollTrigger({
-    target: isMobile
-      ? undefined
-      : containerRef?.current
-      ? containerRef.current
-      : document.body,
-  });
-
+  const _isScrollingUp = useScrollTrigger({ target });
   const isScrollingUp = useDeferredValue(_isScrollingUp);
-
-  const isAtTop = useScrollTrigger({
-    target: isMobile
-      ? undefined
-      : containerRef?.current
-      ? containerRef.current
-      : document.body,
-    disableHysteresis: true,
-  });
+  const isAtTop = useScrollTrigger({ target, disableHysteresis: true });
 
   return (
     <Box
-      onClick={() => {
-        document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
-      }}
+      onClick={() =>
+        document.documentElement.scrollTo({ top: 0, behavior: "smooth" })
+      }
       sx={{
         display: "flex",
         alignItems: "center",

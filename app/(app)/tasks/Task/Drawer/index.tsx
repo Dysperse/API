@@ -2,7 +2,6 @@ import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
-import { useBackButton } from "@/lib/client/useBackButton";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   AppBar,
@@ -13,6 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import toast from "react-hot-toast";
@@ -63,6 +63,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const ref: any = useRef();
+  const router = useRouter();
 
   const {
     data,
@@ -71,10 +72,14 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     error,
   } = useSWR([!open ? null : "space/tasks/task", { id }]);
 
+  const closeDrawer = useCallback(() => {
+    setOpen(false);
+  }, []);
+
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
       try {
-        setOpen(false);
+        closeDrawer();
         await fetchRawApi(session, "space/tasks/task", {
           method: "DELETE",
           params: {
@@ -88,7 +93,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         toast.error(e.message);
       }
     },
-    [mutateList, session, setOpen, mutateTask, editCallback]
+    [mutateList, session, mutateTask, editCallback, closeDrawer]
   );
 
   useHotkeys(
@@ -96,18 +101,17 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     () => {
       if (!open) return;
       handleDelete(id);
-      setOpen(false);
+      closeDrawer();
     },
-    [id]
+    [id, closeDrawer]
   );
 
   // Callback function when drawer is closed
   const handleClose = useCallback(() => {
-    window.location.hash = "";
-    setOpen(false);
     mutateTask();
     mutateList();
-  }, [mutateTask, mutateList]);
+    closeDrawer();
+  }, [mutateTask, mutateList, closeDrawer]);
 
   const handleEdit = useCallback(
     async function handleEdit(id, key, value) {
@@ -142,7 +146,9 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     // Handle the single click logic here
     timer = setTimeout(() => {
       onClick && onClick();
-      if (!onClick) setOpen(true);
+      if (!onClick) {
+        setOpen(true);
+      }
       toast.dismiss();
       clickCount = 0;
     }, 200);
@@ -151,7 +157,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [createSubTaskOpen, setCreateSubTaskOpen] = useState(false);
 
   const handleDoubleClick = () => {
-    // Handle the double click logic here
     clearTimeout(timer);
     setOpen(true);
     setCreateSubTaskOpen(true);
@@ -172,12 +177,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
         clickCount = 0; // Reset the click count
       }
     },
-  });
-
-  useBackButton({
-    open,
-    callback: () => setOpen(false),
-    hash: `task/${id}`,
   });
 
   return (

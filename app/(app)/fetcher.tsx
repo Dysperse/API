@@ -2,15 +2,7 @@
 
 export const fetcher = ([url, params], session) => {
   if (url === null) return;
-  const _params = {
-    sessionId: session?.current?.token,
-    property: session?.property?.propertyId,
-    accessToken: session?.property?.accessToken,
-    userIdentifier: session?.user?.identifier,
-    ...params,
-  };
-
-  const _url = `/api/${url}?${new URLSearchParams(_params)}`;
+  const _url = `/api/${url}?${new URLSearchParams(params)}`;
   return fetch(_url, {
     headers: new Headers({
       Authorization: `Bearer ${session?.current?.token}`,

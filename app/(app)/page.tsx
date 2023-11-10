@@ -32,16 +32,14 @@ import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
-export default function Home() {
+function Home() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const params: any = typeof window !== "undefined" && [
-    "user/friends",
-    { email: session.user.email },
-  ];
+  const params: any = ["user/friends", { email: session.user.email }];
+
   const { data, error, mutate } = useSWR(
     params,
     fetcher(params, session) as any,
@@ -288,6 +286,14 @@ export default function Home() {
           )}
         </Box>
       </Box>
+    </NoSsr>
+  );
+}
+
+export default function Page() {
+  return (
+    <NoSsr>
+      <Home />
     </NoSsr>
   );
 }
