@@ -1,11 +1,5 @@
-const { withSentryConfig } = require("@sentry/nextjs");
-
-const withPWA = require("next-pwa")({
+const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
-  reloadOnOnline: false,
-  dynamicStartUrl: false,
-  cacheOnFrontEndNav: true,
-  maximumFileSizeToCacheInBytes: 1000000,
 });
 
 const moduleExports = {
@@ -13,15 +7,12 @@ const moduleExports = {
     images: {
       unoptimized: true,
     },
+    reactStrictMode: true, 
+    swcMinify: true,
     reactStrictMode: true,
     transpilePackages: ['@mui/x-charts'],
     async redirects() {
       return [
-        {
-          source: "/zen",
-          destination: "/",
-          permanent: false,
-        },
         {
           source: "/api/user",
           destination: "/api/session",
@@ -30,11 +21,6 @@ const moduleExports = {
         {
           source: "/api/property/tasks/agenda",
           destination: "/api/property/tasks/perspectives",
-          permanent: false,
-        },
-        {
-          source: "/onboarding",
-          destination: "/",
           permanent: false,
         },
         {

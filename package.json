@@ -13,6 +13,7 @@
     "build-desktop": "nativefier --darwin-dark-mode-support --name 'Dysperse' 'https://my.dysperse.com' --electron-version '26.0.0' --platform windows"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^9.7.2",
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.11.1",
