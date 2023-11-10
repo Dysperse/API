@@ -61,6 +61,9 @@ export default function Home() {
 
   useEffect(() => {
     if (emblaApi) {
+      emblaApi.on("init", (e) => {
+        e.scrollTo(1);
+      });
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
           setLoadingIndex(0);
