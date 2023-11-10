@@ -612,8 +612,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         defaultProps: {
           elevation: 0,
           ModalProps: { keepMounted: false },
-          TransitionComponent: DrawerTransition,
-        } as any,
+          ["TransitionComponent" as any]: DrawerTransition as any,
+        },
         styleOverrides: {
           paperAnchorBottom: {
             borderRadius: "20px 20px 0 0",
