@@ -148,7 +148,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     timer = setTimeout(() => {
       onClick && onClick();
       if (!onClick) {
-        router.push(`/tasks/t/${id}`);
         setOpen(true);
       }
       toast.dismiss();
@@ -159,8 +158,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
   const [createSubTaskOpen, setCreateSubTaskOpen] = useState(false);
 
   const handleDoubleClick = () => {
-    // Handle the double click logic here
-    router.push(`/tasks/t/${id}`);
     clearTimeout(timer);
     setOpen(true);
     setCreateSubTaskOpen(true);
@@ -183,8 +180,6 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     },
   });
 
-  const params: any = useParams();
-
   return (
     <TaskContext.Provider
       value={{
@@ -199,7 +194,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     >
       {trigger}
       <SwipeableDrawer
-        open={open && params?.id === id}
+        open={open}
         onClose={handleClose}
         anchor={isMobile ? "bottom" : "right"}
         PaperProps={{
