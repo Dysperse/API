@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { cloneElement, useCallback, useRef, useState } from "react";
 import { toArray } from "react-emoji-render";
 import toast from "react-hot-toast";
@@ -74,8 +74,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
 
   const closeDrawer = useCallback(() => {
     setOpen(false);
-    setTimeout(() => router.back(), 500);
-  }, [router]);
+  }, []);
 
   const handleDelete = useCallback(
     async function handleDelete(taskId) {
