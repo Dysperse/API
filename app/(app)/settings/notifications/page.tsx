@@ -80,6 +80,14 @@ export default function Notifications() {
       secondary: "Nudge to plan your day every morning",
     },
     {
+      key: "followerUpdates",
+      comingSoon: false,
+      disabled: false,
+      enabled: null,
+      primary: "Friend requests",
+      secondary: "",
+    },
+    {
       key: "todoListUpdates",
       comingSoon: false,
       disabled: false,
@@ -102,14 +110,6 @@ export default function Notifications() {
       enabled: null,
       primary: "Boards",
       secondary: "Updating/deleting a column, etc.",
-    },
-    {
-      key: "followerUpdates",
-      comingSoon: false,
-      disabled: false,
-      enabled: null,
-      primary: "Friend requests",
-      secondary: "",
     },
     {
       key: "lowItemCount",

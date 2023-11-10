@@ -11,7 +11,7 @@ dayjs.extend(utc);
 export async function POST(req: NextRequest) {
   const _subscriptions = await prisma.notificationSettings.findMany({
     where: {
-      AND: [{ planDay: true }, { pushSubscription: { not: Prisma.JsonNull } }],
+      AND: [{ planDay: true }, { pushSubscription: { not: Prisma.AnyNull } }],
     },
     select: {
       pushSubscription: true,
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
             resolve(
               DispatchNotification({
                 actions: [{ action: "plan", title: "👉 Let's go" }],
-                subscription: JSON.stringify(subscription.pushSubscription),
+                subscription: subscription.pushSubscription,
                 title: "Good morning!",
                 body: prompt,
               })

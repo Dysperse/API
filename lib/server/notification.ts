@@ -1,9 +1,10 @@
 const webPush = require("web-push");
 import { prisma } from "@/lib/server/prisma";
+import { Prisma } from "@prisma/client";
 
 export namespace Dysperse {
   export interface Notification {
-    subscription: string;
+    subscription: any;
     title: string;
     body?: string;
     actions?: { title: string; action: string }[];
@@ -26,7 +27,9 @@ export const DispatchNotification = async ({
     );
 
     await webPush.sendNotification(
-      JSON.parse(subscription),
+      typeof subscription === "string"
+        ? JSON.parse(subscription)
+        : subscription,
       JSON.stringify({
         title: title,
         body,
@@ -45,23 +48,15 @@ export const DispatchGroupNotification = async (propertyId, options) => {
     let members = await prisma.notificationSettings.findMany({
       where: {
         AND: [
-          { boards: true },
+          { pushSubscription: { not: Prisma.AnyNull } },
           {
             user: {
-              AND: [
-                {
-                  properties: {
-                    some: { propertyId },
-                  },
-                },
-              ],
+              AND: [{ properties: { some: { propertyId } } }],
             },
           },
         ],
       },
     });
-
-    members = members.filter((e) => e.pushSubscription);
 
     for (const member of members) {
       await DispatchNotification({
