@@ -35,9 +35,7 @@ export function ShareBoard({ mutate, board }) {
   const { data, error } = useSWR([
     "space/shareTokens",
     {
-      params: {
-        board: board.id,
-      },
+      board: board.id,
     },
   ]);
 
