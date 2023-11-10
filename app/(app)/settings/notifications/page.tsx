@@ -41,7 +41,7 @@ export default function Notifications() {
           method: "PUT",
           params: {
             name: name,
-            value: value,
+            value: value ? "true" : "false",
           },
         });
         await mutate();
@@ -70,6 +70,14 @@ export default function Notifications() {
       enabled: true,
       primary: "Account",
       secondary: "Recieve security notifications",
+    },
+    {
+      key: "planDay",
+      comingSoon: false,
+      disabled: false,
+      enabled: null,
+      primary: "Plan my day",
+      secondary: "Nudge to plan your day every morning",
     },
     {
       key: "todoListUpdates",
