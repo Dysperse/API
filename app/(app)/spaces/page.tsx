@@ -30,7 +30,7 @@ import useSWR from "swr";
 import { containerRef } from "../container";
 import { ProfilePicture } from "../users/[id]/ProfilePicture";
 
-function SpaceButton({ invite, mutate }) {
+function SpaceButton({ invite }) {
   const router = useRouter();
   const { session, setSession } = useSession();
   const isSelected = invite.user.selectedProperty.id === invite.propertyId;
@@ -166,7 +166,6 @@ export default function Page() {
             totalCount={filteredData.length}
             itemContent={(index) => (
               <SpaceButton
-                mutate={mutate}
                 key={index}
                 invite={filteredData[index]}
               />

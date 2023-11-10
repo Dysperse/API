@@ -44,7 +44,6 @@ export async function GET(req: NextRequest) {
               },
             },
           },
-          { selected: false },
         ],
       },
     });
