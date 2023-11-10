@@ -46,13 +46,14 @@ export default function Notifications() {
     });
     setSubscription(sub);
     setIsSubscribed(true);
-    updateSettings(["notificationSubscription", JSON.stringify(sub)], {
-      session,
-      setSession,
-    }).then(() => {
-      fetchRawApi(session, "/user/settings/notifications/test", {
-        params: { subscription: JSON.stringify(sub) },
-      });
+    await fetchRawApi(session, "user/settings/notifications", {
+      method: "POST",
+      params: {
+        sub: JSON.stringify(sub),
+      },
+    });
+    fetchRawApi(session, "/user/settings/notifications/test", {
+      params: { subscription: JSON.stringify(sub) },
     });
   };
   const { session } = useSession();

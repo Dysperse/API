@@ -45,6 +45,9 @@ self.addEventListener("notificationclick", function (event) {
     case "startDailyRoutine":
       path = "/coach#daily-routine";
       break;
+    case "plan":
+      path = "/tasks/plan";
+      break;
     default:
       const regex = /^routine-(\d+)$/;
       const match = event.action.match(regex);

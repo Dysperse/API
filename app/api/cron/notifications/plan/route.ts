@@ -25,13 +25,14 @@ export async function POST(req: NextRequest) {
   const prompts = [
     "What will you do to make your day impactful?",
     "What are your top three goals for today!?",
-    "Let's plan your day",
+    "Let's plan your day!",
     "How will you manage and prioritize your time efficiently today?",
   ];
 
   for (const subscription of subscriptions) {
     await DispatchNotification({
-      subscription: JSON.stringify(subscription),
+      actions: [{ action: "plan", title: "👉 Let's go" }],
+      subscription: JSON.stringify(subscription.pushSubscription),
       title: "Good morning!",
       body: prompts[Math.floor(Math.random() * prompts.length)],
     });

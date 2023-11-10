@@ -24,6 +24,35 @@ export async function GET() {
   }
 }
 
+export async function POST(req: NextRequest) {
+  try {
+    const sessionToken = await getSessionToken();
+    const { userIdentifier } = await getIdentifiers(sessionToken);
+    const sub = await getApiParam(req, "sub", true);
+
+    console.log(sub);
+    const data = await prisma.notificationSettings.upsert({
+      where: {
+        userId: userIdentifier,
+      },
+      create: {
+        pushSubscription: JSON.parse(sub),
+        user: {
+          connect: {
+            identifier: userIdentifier,
+          },
+        },
+      },
+      update: {
+        pushSubscription: JSON.parse(sub),
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function PUT(req: NextRequest) {
   const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
