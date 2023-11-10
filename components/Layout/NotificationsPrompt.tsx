@@ -41,7 +41,7 @@ export const useNotificationSubscription = (session) => {
           const sub: any = await reg.pushManager.getSubscription();
           if (
             sub.endpoint ===
-            session.user.notifications.pushSubscription?.endpoint
+            session.user.notifications?.pushSubscription?.endpoint
           ) {
             setEnabledOnCurrentDevice(true);
           }
@@ -65,7 +65,7 @@ export const useNotificationSubscription = (session) => {
     };
 
     subscribeToNotifications();
-  }, [session.user.notifications.pushSubscription]);
+  }, [session.user.notifications]);
 
   const subscribeButtonOnClick = async (event) => {
     event.preventDefault();
@@ -103,7 +103,7 @@ export const useNotificationSubscription = (session) => {
     fetchRawApi(session, "/user/settings/notifications/test", {
       params: {
         subscription: JSON.stringify(
-          session.user.notifications.pushSubscription
+          session.user.notifications?.pushSubscription
         ),
       },
     });
@@ -163,7 +163,7 @@ export default function NotificationsPrompt() {
       await fetchRawApi(session, "/user/settings/notifications/test", {
         params: {
           subscription: JSON.stringify(
-            session.user.notifications.pushSubscription
+            session.user.notifications?.pushSubscription
           ),
         },
       });
