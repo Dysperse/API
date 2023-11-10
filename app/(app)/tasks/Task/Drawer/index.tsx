@@ -183,7 +183,7 @@ export const TaskDrawer = React.memo(function TaskDrawer({
     },
   });
 
-  const params = useParams();
+  const params: any = useParams();
 
   return (
     <TaskContext.Provider
