@@ -657,10 +657,12 @@ function Page() {
 }
 
 export default function App() {
-  const { id } = useParams();
+  const params = useParams();
+  const email = params?.id;
+
   return (
     <motion.div initial={{ x: 100 }} animate={{ x: 0 }}>
-      {id ? <Page /> : <></>}
+      {email ? <Page /> : <></>}
     </motion.div>
   );
 }

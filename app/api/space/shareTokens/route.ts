@@ -12,7 +12,6 @@ import { Resend } from "resend";
 export async function GET(req: NextRequest) {
   try {
     const board = await getApiParam(req, "board", true);
-
     const data = await prisma.shareToken.findMany({
       where: {
         board: { id: board },
@@ -40,8 +39,8 @@ export async function POST(req: NextRequest) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const expiresAt = await getApiParam(req, "expiresAt", true);
   const readOnly = await getApiParam(req, "readOnly", true);
-  const board = await getApiParam(req, "board", true);
-  const email = await getApiParam(req, "email", true);
+  const board = await getApiParam(req, "board", false);
+  const email = await getApiParam(req, "email", false);
   const name = await getApiParam(req, "name", false);
 
   try {

@@ -35,7 +35,9 @@ export function ShareBoard({ mutate, board }) {
   const { data, error } = useSWR([
     "space/shareTokens",
     {
-      board: board.id,
+      params: {
+        board: board.id,
+      },
     },
   ]);
 
@@ -63,9 +65,11 @@ export function ShareBoard({ mutate, board }) {
     try {
       setLoading(true);
       if (
-        data?.find((share) => share.user.email === email) ||
+        data?.find((share) => share.user.email === deferredEmail) ||
         (board.public &&
-          board.property.members.find((member) => member.user.email === email))
+          board.property.members.find(
+            (member) => member.user.email === deferredEmail
+          ))
       ) {
         toast.error("This person already has access to this board");
         setLoading(false);
@@ -77,7 +81,7 @@ export function ShareBoard({ mutate, board }) {
           params: {
             board: board.id,
             readOnly: permissions,
-            email,
+            email: deferredEmail,
             boardProperty: board.property.id,
             name: session.user.name,
             expiresAt: dayjs().add(parseInt(expiration), "day").toISOString(),
@@ -158,6 +162,7 @@ export function ShareBoard({ mutate, board }) {
           onChange={(_, e: any) => {
             if (e && typeof e === "object") {
               const email = (e.following || e.follower).email;
+              // alert(email);
               setEmail(email);
             } else {
               setEmail(e);
@@ -357,7 +362,7 @@ export function ShareBoard({ mutate, board }) {
               {board.user.email === member.user.email && <Chip label="Owner" />}
             </ListItem>
           ))}
-        {data?.length > 0 && <Divider />}
+        {data && data.length > 0 && <Divider />}
         {data ? (
           data.map((share) => (
             <ListItem

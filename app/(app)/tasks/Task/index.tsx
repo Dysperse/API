@@ -1,5 +1,6 @@
 import { SelectionContext } from "@/app/(app)/tasks/selection-context";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
+import { FriendPopover } from "@/components/Start/Friend";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
@@ -198,20 +199,19 @@ const TaskChips = React.memo(function TaskChips({
                 taskData.createdBy.name
               )}`}
             >
-              <Chip
-                size="small"
-                className="date"
-                label={taskData.createdBy?.name}
-                sx={{ background: palette[3] }}
-                onClick={() =>
-                  router.push(`/users/${taskData.createdBy.email}`)
-                }
-                avatar={
-                  <Box>
-                    <ProfilePicture size={17} data={taskData.createdBy} />
-                  </Box>
-                }
-              />
+              <FriendPopover email={taskData.createdBy.email}>
+                <Chip
+                  size="small"
+                  className="date"
+                  label={taskData.createdBy?.name}
+                  sx={{ background: palette[3] }}
+                  avatar={
+                    <Box>
+                      <ProfilePicture size={17} data={taskData.createdBy} />
+                    </Box>
+                  }
+                />
+              </FriendPopover>
             </Tooltip>
           </Box>
         )}
