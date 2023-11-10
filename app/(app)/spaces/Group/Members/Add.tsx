@@ -208,8 +208,8 @@ export function AddPersonModal({
         <Box sx={{ p: 3, pt: 0 }}>
           <Typography variant="h5">Invite a person</Typography>
           <Alert severity="warning" sx={{ my: 2 }}>
-            Make sure you trust who you are inviting. Anyone you invite can
-            access everything you see.
+            People you invite will be able to access publicly-visible tasks
+            &amp; items.
           </Alert>
           <TextField
             value={email}
