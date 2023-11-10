@@ -1375,20 +1375,12 @@ export default function Page() {
             }}
           >
             Availability
-            <Chip
-              label="BETA"
-              sx={{
-                fontWeight: 900,
-                background: `linear-gradient(90deg, hsla(113, 96%, 81%, 1) 0%, hsla(188, 90%, 51%, 1) 100%)!important`,
-                color: "#000!important",
-              }}
-              size="small"
-            />
           </Typography>
           <IconButton
             onClick={() => setShowAbout((s) => !s)}
             sx={{
               ...(showAbout && { background: palette[3] }),
+              ...(data?.length === 0 && { visibility: "hidden" }),
             }}
           >
             <Icon className="outlined">{showAbout ? "close" : "help"}</Icon>
@@ -1439,15 +1431,6 @@ export default function Page() {
                 <Typography variant="h4" className="font-heading">
                   Availability
                 </Typography>
-                <Chip
-                  label="BETA"
-                  sx={{
-                    fontWeight: 900,
-                    background: `linear-gradient(90deg, hsla(113, 96%, 81%, 1) 0%, hsla(188, 90%, 51%, 1) 100%)`,
-                    color: "#000!important",
-                  }}
-                  size="small"
-                />
               </Box>
               <Typography variant="body1" sx={{ opacity: 0.6 }}>
                 Blazingly fast event coordination
