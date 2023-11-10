@@ -287,8 +287,8 @@ export function Sidebar() {
             dayjs(session.user.lastPlannedTasks).isToday()
               ? 0
               : pathname.includes("/tasks")
-              ? 1
-              : 0
+              ? 0
+              : 1
           }
           variant="dot"
           sx={{

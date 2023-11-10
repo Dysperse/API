@@ -188,7 +188,6 @@ export default function Home() {
           <Button
             sx={{
               ml: "auto",
-              mr: 1,
               mb: -0.4,
               color: palette[9],
               minWidth: 0,
