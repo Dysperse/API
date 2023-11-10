@@ -1,7 +1,9 @@
+const { withSentryConfig } = require("@sentry/nextjs");
+
 const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
   cacheOnFrontendNav: true,
-  reloadOnOnline: false
+  reloadOnOnline: false,
 });
 
 const moduleExports = {
@@ -9,10 +11,10 @@ const moduleExports = {
     images: {
       unoptimized: true,
     },
-    reactStrictMode: true, 
+    reactStrictMode: true,
     swcMinify: true,
     reactStrictMode: true,
-    transpilePackages: ['@mui/x-charts'],
+    transpilePackages: ["@mui/x-charts"],
     async redirects() {
       return [
         {

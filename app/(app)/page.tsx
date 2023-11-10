@@ -61,9 +61,6 @@ export default function Home() {
 
   useEffect(() => {
     if (emblaApi) {
-      emblaApi.on("init", (e) => {
-        e.scrollTo(1);
-      });
       emblaApi.on("scroll", (e) => {
         if (e.selectedScrollSnap() == 0) {
           setLoadingIndex(0);
@@ -81,7 +78,6 @@ export default function Home() {
   }, [emblaApi, router]);
 
   return (
-    // <NoSsr> cuz embla doesn't get initialized idk why
     <NoSsr>
       {isMobile ? (
         <Navbar
