@@ -425,8 +425,6 @@ export function Agenda({ type, date }) {
     throw new Error("Failed to load perspectives");
   }
 
-  const isDark = useDarkMode(session.darkMode);
-
   const scrollIntoView = () => {
     const column = document.getElementById("active");
     if (column) {
@@ -442,7 +440,7 @@ export function Agenda({ type, date }) {
 
   useEffect(() => {
     if (data && !alreadyScrolled) {
-      scrollIntoView();
+      setTimeout(scrollIntoView, 200);
       setAlreadyScrolled(true);
     }
   }, [data, alreadyScrolled]);
