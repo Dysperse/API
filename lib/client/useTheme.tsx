@@ -369,6 +369,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               mb: 0.5,
               mt: -0.5,
+              fontWeight: 900,
             }),
         },
       },

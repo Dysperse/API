@@ -1,6 +1,6 @@
-import { isEmail } from "@/app/(app)/spaces/Group/Members/isEmail";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { isEmail } from "@/utils/isEmail";
 import {
   Box,
   Button,

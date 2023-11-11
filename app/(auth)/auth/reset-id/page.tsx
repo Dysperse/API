@@ -1,6 +1,6 @@
 "use client";
-import { isEmail } from "@/app/(app)/spaces/Group/Members/isEmail";
 import { useColor } from "@/lib/client/useColor";
+import { isEmail } from "@/utils/isEmail";
 import { Turnstile } from "@marsidev/react-turnstile";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {

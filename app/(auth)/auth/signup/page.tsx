@@ -1,6 +1,5 @@
 "use client";
 import themes from "@/app/(app)/settings/themes.json";
-import { isEmail } from "@/app/(app)/spaces/Group/Members/isEmail";
 import { templates } from "@/app/(app)/tasks/boards/[id]/Board/Create";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Emoji } from "@/components/Emoji";
@@ -11,6 +10,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { useStatusBar } from "@/lib/client/useStatusBar";
 import { useCustomTheme } from "@/lib/client/useTheme";
 import useWindowDimensions from "@/lib/client/useWindowDimensions";
+import { isEmail } from "@/utils/isEmail";
 import styled from "@emotion/styled";
 import { Turnstile } from "@marsidev/react-turnstile";
 import {
