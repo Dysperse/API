@@ -230,6 +230,11 @@ export function SpacesLayout({ modal, parentRef, children, title }: any) {
                         justifyContent: "start",
                         "& .MuiAvatar-root": {
                           borderColor: palette[9],
+                          width: 30,
+                          height: 30,
+                          fontSize: 13,
+                          background: palette[8],
+                          color: palette[1],
                         },
                       }}
                     >
@@ -237,13 +242,6 @@ export function SpacesLayout({ modal, parentRef, children, title }: any) {
                         <Avatar
                           key={member.id}
                           src={member.user?.Profile?.picture}
-                          sx={{
-                            width: 30,
-                            height: 30,
-                            fontSize: 13,
-                            background: palette[8],
-                            color: palette[1],
-                          }}
                         >
                           {member?.user?.name?.substring(0, 2)?.toUpperCase()}
                         </Avatar>
@@ -278,7 +276,7 @@ export function SpacesLayout({ modal, parentRef, children, title }: any) {
               initial={{ y: 50 }}
               animate={{ y: 0 }}
               style={{
-                ...(data && { background: palette[1], minHeight: "100dvh" }),
+                ...(data && { background: palette[1], minHeight: "100%" }),
               }}
             >
               {children}
