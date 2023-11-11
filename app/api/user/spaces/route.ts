@@ -4,9 +4,8 @@ import {
   handleApiError,
 } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const sessionToken = await getSessionToken();
     const { userIdentifier } = await getIdentifiers(sessionToken);
