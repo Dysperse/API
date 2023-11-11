@@ -147,7 +147,7 @@ function Home() {
                     sx={{ fontWeight: 700, color: palette[11], opacity: 0.4 }}
                     variant="h6"
                   >
-                    Welcome back, {session.user.name.split(" ")?.[0]}
+                    Welcome back, {session.user.name.split(" ")?.[0]}.
                   </Typography>
                 </Box>
               </Box>
