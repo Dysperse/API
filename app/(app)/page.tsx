@@ -19,7 +19,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -148,7 +147,7 @@ function Home() {
                     sx={{ fontWeight: 700, color: palette[11], opacity: 0.4 }}
                     variant="h6"
                   >
-                    {dayjs().format("MMMM D")}
+                    Welcome back, {session.user.name.split(" ")?.[0]}
                   </Typography>
                 </Box>
               </Box>
