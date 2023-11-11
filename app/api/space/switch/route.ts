@@ -23,6 +23,15 @@ export async function PUT(req: NextRequest) {
       data: { selectedProperty: { connect: { id: propertyId } } },
     });
 
+    await prisma.propertyInvite.updateMany({
+      where: {
+        AND: [{ user: { identifier: userIdentifier } }, { propertyId }],
+      },
+      data: {
+        accepted: true,
+      },
+    });
+
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);

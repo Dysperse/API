@@ -261,7 +261,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           text: {
             color: palette[11],
             "&:hover": {
-              background: { sm: palette[3] },
+              background: { xs: "transparent", sm: palette[3] },
             },
             "&:active": {
               background: palette[4],
@@ -280,6 +280,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               px: "30px",
               "&.MuiButton-sizeSmall": {
                 px: "10px !important",
+              },
+              "&:hover": {
+                background: { xs: "transparent", sm: palette[3] },
               },
               userSelect: "none",
               textTransform: "none",

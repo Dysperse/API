@@ -1,8 +1,4 @@
-import {
-  getIdentifiers,
-  getSessionToken,
-  handleApiError,
-} from "@/lib/server/helpers";
+import { getIdentifiers, getSessionToken } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
 
@@ -36,21 +32,14 @@ export async function GET(req: NextRequest) {
         },
       },
       where: {
-        AND: [
-          {
-            user: {
-              is: {
-                identifier: userIdentifier,
-              },
-            },
-          },
-        ],
+        user: {
+          identifier: userIdentifier,
+        },
       },
     });
+    console.log(data)
     return Response.json([
       ...new Map(data.map((item) => [item.propertyId, item])).values(),
     ]);
-  } catch (e) {
-    return handleApiError(e);
-  }
+  } catch (e) {}
 }

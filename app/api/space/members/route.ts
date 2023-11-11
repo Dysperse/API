@@ -38,12 +38,35 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   try {
     const sessionId = await getSessionToken();
-    const { spaceId } = await getIdentifiers(sessionId);
+    const { userIdentifier, spaceId } = await getIdentifiers(sessionId);
     const removerName = await getApiParam(req, "removerName", true);
     const removeeName = await getApiParam(req, "removeeName", true);
     const timestamp = await getApiParam(req, "timestamp", true);
-    const permission = await getApiParam(req, "permission", true);
     const id = await getApiParam(req, "id", true);
+
+    //   Delete user from `propertyInvite` table
+    const data = await prisma.propertyInvite.delete({
+      where: { id },
+    });
+
+    const nextProperty = await prisma.propertyInvite.findFirstOrThrow({
+      where: {
+        user: { identifier: userIdentifier },
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        identifier: userIdentifier,
+      },
+      data: {
+        selectedProperty: {
+          connect: {
+            id: nextProperty.propertyId,
+          },
+        },
+      },
+    });
 
     await createInboxNotification(
       removerName,
@@ -51,10 +74,6 @@ export async function DELETE(req: NextRequest) {
       new Date(timestamp),
       spaceId
     );
-    //   Delete user from `propertyInvite` table
-    const data = await prisma.propertyInvite.delete({
-      where: { id },
-    });
 
     return Response.json(data);
   } catch (e) {
