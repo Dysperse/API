@@ -44,6 +44,6 @@ export async function GET() {
       ...new Map(data.map((item) => [item.propertyId, item])).values(),
     ]);
   } catch (e) {
-    handleApiError(e);
+    return handleApiError(e);
   }
 }
