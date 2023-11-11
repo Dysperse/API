@@ -7,6 +7,7 @@ import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
 import { StatusSelector } from "@/components/Start/StatusSelector";
+import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -147,7 +148,8 @@ function Home() {
                     sx={{ fontWeight: 700, color: palette[11], opacity: 0.4 }}
                     variant="h6"
                   >
-                    Welcome back, {session.user.name.split(" ")?.[0]}.
+                    Welcome back,{" "}
+                    {capitalizeFirstLetter(session.user.name.split(" ")?.[0])}
                   </Typography>
                 </Box>
               </Box>
