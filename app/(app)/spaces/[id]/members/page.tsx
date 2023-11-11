@@ -1,7 +1,7 @@
 "use client";
 
-import { AddPersonModal } from "@/app/(app)/spaces/Group/Members/Add";
 import { ConfirmationModal } from "@/components/ConfirmationModal";
+import { ErrorHandler } from "@/components/Error";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -23,8 +23,8 @@ import { SpacesLayout } from "../SpacesLayout";
 
 export default function Page() {
   const { session } = useSession();
-  const router = useRouter();
   const params = useParams();
+  const router = useRouter();
   const { id } = params as any;
 
   const { error, mutate, data } = useSWR(["space/members", { propertyId: id }]);
@@ -98,21 +98,18 @@ export default function Page() {
             )}
           </ListItem>
         ))
+      ) : error ? (
+        <ErrorHandler callback={mutate} />
       ) : (
         <CircularProgress />
       )}
       <Divider sx={{ my: 2, maxWidth: "90%", mx: "auto" }} />
-      <AddPersonModal
-        members={members.map((e: any) => e.user.email)}
-        mutate={mutate}
-      >
-        <ListItem>
-          <Avatar sx={{ width: 30, height: 30 }}>
-            <Icon>add</Icon>
-          </Avatar>
-          <ListItemText primary="Invite..." />
-        </ListItem>
-      </AddPersonModal>
+      <ListItem onClick={() => router.push(`/spaces/${id}/members/add`)}>
+        <Avatar sx={{ width: 30, height: 30 }}>
+          <Icon>add</Icon>
+        </Avatar>
+        <ListItemText primary="Invite..." />
+      </ListItem>
     </SpacesLayout>
   );
 }

@@ -347,11 +347,28 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             }),
         },
       },
+      MuiAutocomplete: {
+        styleOverrides: {
+          paper: ({ theme }) =>
+            theme.unstable_sx({
+              border: "2px solid",
+              borderRadius: 5,
+              mt: 2,
+              p: 1,
+              background: palette[2],
+              borderColor: palette[3],
+              "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+                display: "none",
+              },
+            }),
+        },
+      },
       MuiAlertTitle: {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
               mb: 0.5,
+              mt: -0.5,
             }),
         },
       },

@@ -160,7 +160,6 @@ export function ShareBoard({ mutate, board }) {
           onChange={(_, e: any) => {
             if (e && typeof e === "object") {
               const email = (e.following || e.follower).email;
-              // alert(email);
               setEmail(email);
             } else {
               setEmail(e);
@@ -178,18 +177,6 @@ export function ShareBoard({ mutate, board }) {
             );
 
             return displayOptions;
-          }}
-          slotProps={{
-            paper: {
-              sx: {
-                border: "2px solid",
-                borderRadius: 5,
-                mt: 2,
-                p: 1,
-                background: palette[2],
-                borderColor: palette[3],
-              },
-            },
           }}
           blurOnSelect
           renderOption={(props, option, state, ownerState) => {

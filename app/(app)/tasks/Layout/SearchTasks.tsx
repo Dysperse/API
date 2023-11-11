@@ -138,15 +138,6 @@ export function SearchTasks({
           paper: {
             sx: {
               width: "300px",
-              background: palette[3],
-              "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-                display: "none",
-              },
-              border: `2px solid ${palette[4]}`,
-              borderRadius: 5,
-              mt: 2,
-              p: 1,
-              py: 0,
             },
           },
         }}

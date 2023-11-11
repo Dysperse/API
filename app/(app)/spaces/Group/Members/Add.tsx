@@ -206,7 +206,7 @@ export function AddPersonModal({
       >
         <Puller />
         <Box sx={{ p: 3, pt: 0 }}>
-          <Typography variant="h5">Invite a person</Typography>
+          <Typography variant="h5">Invite</Typography>
           <Alert severity="warning" sx={{ my: 2 }}>
             People you invite will be able to access publicly-visible tasks
             &amp; items.

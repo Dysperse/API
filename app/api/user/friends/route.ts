@@ -1,4 +1,9 @@
-import { getApiParam, handleApiError } from "@/lib/server/helpers";
+import {
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
@@ -50,12 +55,11 @@ export function shuffle(array) {
 
 export async function GET(req: NextRequest) {
   try {
-    // const sessionToken = await getSessionToken();
-    const email = req.nextUrl.searchParams.get("email");
-    if (!email) throw new Error("Missing parameters");
+    const sessionToken = await getSessionToken();
+    const { userIdentifier } = await getIdentifiers(sessionToken);
 
     const user = await prisma.user.findFirstOrThrow({
-      where: { email },
+      where: { identifier: userIdentifier },
       select: {
         name: true,
         email: true,
@@ -70,10 +74,10 @@ export async function GET(req: NextRequest) {
       where: {
         OR: [
           {
-            AND: [{ following: { email } }, { accepted: true }],
+            AND: [{ following: { email: user.email } }, { accepted: true }],
           },
           {
-            AND: [{ follower: { email } }, { accepted: true }],
+            AND: [{ follower: { email: user.email } }, { accepted: true }],
           },
         ],
       },
@@ -131,9 +135,9 @@ export async function GET(req: NextRequest) {
     });
 
     let unique = removeDuplicateFriends(friends).map((friend) => {
-      if (friend.following.email === email)
+      if (friend.following.email === user.email)
         return { ...friend, following: undefined };
-      if (friend.follower.email === email)
+      if (friend.follower.email === user.email)
         return { ...friend, follower: undefined };
 
       return friend;
