@@ -341,7 +341,7 @@ const Column = React.memo(function Column({
   end,
   data,
   view,
-  isToday
+  isToday,
 }: any): JSX.Element {
   const scrollParentRef = useRef();
   const { session } = useSession();

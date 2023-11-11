@@ -506,10 +506,11 @@ export function Agenda({ type, date }) {
               <Column
                 key={column.start}
                 isToday={dayjs()
+                  .startOf("day")
                   .utc()
                   .isBetween(
                     dayjs(column.start).utc().startOf(type),
-                    dayjs(column.start).utc().endOf(type),
+                    dayjs(column.end).utc().endOf(type),
                     undefined,
                     "[]"
                   )}
