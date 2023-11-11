@@ -42,7 +42,13 @@ export function SidebarMenu({ children }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const trigger = cloneElement(children, { onClick: handleClick });
+  const trigger = cloneElement(children, {
+    id: "appMenuTrigger",
+    onClick: handleClick,
+  });
+  useHotkeys("ctrl+m", () =>
+    document.getElementById("appMenuTrigger")?.click()
+  );
 
   return (
     <>
