@@ -126,7 +126,7 @@ export function SpacesLayout({ modal, parentRef, children, title }: any) {
                 <IconButton
                   onClick={() => handleBack(router)}
                   sx={{
-                    background: { sm: "rgba(0,0,0,0.1)" },
+                    background: { xs: "rgba(0,0,0,0.1)" },
                   }}
                 >
                   <Icon>
