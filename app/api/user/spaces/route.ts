@@ -37,7 +37,6 @@ export async function GET(req: NextRequest) {
         },
       },
     });
-    console.log(data)
     return Response.json([
       ...new Map(data.map((item) => [item.propertyId, item])).values(),
     ]);
