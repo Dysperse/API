@@ -68,8 +68,8 @@ export default function KeyboardShortcutsModal() {
                 keys: ["ctrl", "u"],
               },
               {
-                name: "Toggle app drawer",
-                keys: ["ctrl", "q"],
+                name: "Toggle app menu",
+                keys: ["ctrl", "."],
               },
             ],
           },

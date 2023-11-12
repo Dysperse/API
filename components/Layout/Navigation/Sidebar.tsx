@@ -46,7 +46,7 @@ export function SidebarMenu({ children }) {
     id: "appMenuTrigger",
     onClick: handleClick,
   });
-  useHotkeys("ctrl+m", () =>
+  useHotkeys("ctrl+.", () =>
     document.getElementById("appMenuTrigger")?.click()
   );
 
@@ -153,14 +153,9 @@ export function Sidebar() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  useHotkeys("ctrl+g", (e) => {
+  useHotkeys("ctrl+s", (e) => {
     e.preventDefault();
-    router.push(`/spaces/${session.space.info.id}`);
-  });
-
-  useHotkeys("ctrl+u", (e) => {
-    e.preventDefault();
-    router.push(`/users`);
+    router.push(`/spaces`);
   });
 
   useHotkeys("ctrl+comma", (e) => {
