@@ -186,7 +186,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             },
             style: {
               fontVariationSettings:
-                '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                '"FILL" 0, "wght" 100, "GRAD" 0, "opsz" 40!important',
             },
           },
         ],

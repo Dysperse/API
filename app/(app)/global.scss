@@ -8,7 +8,7 @@ body {
 
 :root {
   --navbar-height: calc(70px + env(titlebar-area-height, 0px));
-  --bottom-nav-height: 60px;
+  --bottom-nav-height: 65px;
   --transition-defaults: 0.25s cubic-bezier(0.1, 0.76, 0.55, 0.9);
 
   --toast-bg: hsla(240, 11%, 10%, 0.8);

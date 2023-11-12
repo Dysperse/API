@@ -100,110 +100,126 @@ export function BottomNav() {
    * @returns {any}
    */
   return (
-    <Box
-      onClick={() => {
-        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
-      }}
-      sx={{
-        position: "fixed",
-        bottom: 0,
-        borderTop: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
-        background: addHslAlpha(palette[1], 0.9),
-        backdropFilter: "blur(10px)",
-        width: "100%",
-        ".hideBottomNav &": {
-          mb: "calc(var(--bottom-nav-height) * -1)",
-        },
-        mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
-        visibility: shouldHide ? "hidden" : "visible",
-        left: 0,
-        transition: "margin-bottom .25s var(--transition-defaults)",
-        overflowX: "hidden",
-        display: {
-          xs: "flex",
-          md: "none",
-        },
-        zIndex: 998,
-        minHeight: "var(--bottom-nav-height)",
-        paddingBottom: "calc(var(--sab) - 20px)",
-        userSelect: "none",
-        "&, & *": {
-          overflow: "hidden!important",
-        },
-        alignItems: "center",
-      }}
-    >
-      <CreateTask customTrigger="onContextMenu" disableBadge>
-        <Badge
-          badgeContent={
-            !dayjs(session.user.lastPlannedTasks).isToday() &&
-            !pathname.includes("/tasks")
-              ? 1
-              : 0
-          }
-          variant="dot"
-          sx={{
-            width:
-              session.space.info.type == "study group" ? "50%" : "33.33333%",
-            "& .MuiBadge-badge": {
-              right: "calc(50% - 20px)",
-              top: 7,
-            },
-          }}
-        >
-          <Box
-            id="link1"
-            onClick={() => router.push("/tasks/home")}
-            sx={styles(pathname?.includes("/tasks"))}
-          >
-            <span
-              className={`material-symbols-${
-                pathname?.includes("/tasks") ? "rounded" : "outlined"
-              }`}
-            >
-              &#xe86c;
-            </span>
-          </Box>
-        </Badge>
-      </CreateTask>
+    <>
       <Box
-        id="link2"
-        onClick={() => router.push("/")}
-        sx={styles(pathname === "/" || pathname === "")}
+        onClick={() => {
+          containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        sx={{
+          position: "fixed",
+          bottom: "20px",
+          left: "20px",
+          border: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+          background: addHslAlpha(palette[1], 0.9),
+          width: "calc(100% - 40px)",
+          ".hideBottomNav &": {
+            mb: "calc(calc(var(--bottom-nav-height) * -1) - 20px)",
+          },
+          mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
+          visibility: shouldHide ? "hidden" : "visible",
+          transition: "margin-bottom .25s var(--transition-defaults)",
+          borderRadius: 999,
+          overflowX: "hidden",
+          display: {
+            xs: "flex",
+            md: "none",
+          },
+          zIndex: 998,
+          minHeight: "var(--bottom-nav-height)",
+          paddingBottom: "calc(var(--sab) - 20px)",
+          userSelect: "none",
+          "&, & *": {
+            overflow: "hidden!important",
+          },
+          alignItems: "center",
+        }}
       >
-        <span
-          className={`material-symbols-${
-            pathname === "/" || pathname === "" ? "rounded" : "outlined"
-          }`}
-        >
-          &#xf07e;
-        </span>
-      </Box>
-      {session.space.info.type !== "study group" && (
+        <CreateTask customTrigger="onContextMenu" disableBadge>
+          <Badge
+            badgeContent={
+              !dayjs(session.user.lastPlannedTasks).isToday() &&
+              !pathname.includes("/tasks")
+                ? 1
+                : 0
+            }
+            variant="dot"
+            sx={{
+              width:
+                session.space.info.type == "study group"
+                  ? "calc(50% - 10px)"
+                  : "calc(33.33333% - 10px)",
+              "& .MuiBadge-badge": {
+                right: "calc(50% - 20px)",
+                top: 7,
+              },
+            }}
+          >
+            <Box
+              id="link1"
+              onClick={() => router.push("/tasks/home")}
+              sx={styles(pathname?.includes("/tasks"))}
+            >
+              <span
+                className={`material-symbols-${
+                  pathname?.includes("/tasks") ? "rounded" : "outlined"
+                }`}
+              >
+                &#xe86c;
+              </span>
+            </Box>
+          </Badge>
+        </CreateTask>
         <Box
-          id="link3"
-          sx={styles(
-            pathname === "/rooms" ||
-              pathname?.includes("rooms") ||
-              pathname === "/starred" ||
-              pathname === "/trash"
-          )}
-          onClick={() => router.push("/rooms")}
+          id="link2"
+          onClick={() => router.push("/")}
+          sx={styles(pathname === "/" || pathname === "")}
         >
           <span
             className={`material-symbols-${
-              pathname === "/rooms" ||
-              pathname?.includes("rooms") ||
-              pathname === "/starred" ||
-              pathname === "/trash"
-                ? "rounded"
-                : "outlined"
+              pathname === "/" || pathname === "" ? "rounded" : "outlined"
             }`}
           >
-            &#xf569;
+            &#xf07e;
           </span>
         </Box>
-      )}
-    </Box>
+        {session.space.info.type !== "study group" && (
+          <Box
+            id="link3"
+            sx={styles(
+              pathname === "/rooms" ||
+                pathname?.includes("rooms") ||
+                pathname === "/starred" ||
+                pathname === "/trash"
+            )}
+            onClick={() => router.push("/rooms")}
+          >
+            <span
+              className={`material-symbols-${
+                pathname === "/rooms" ||
+                pathname?.includes("rooms") ||
+                pathname === "/starred" ||
+                pathname === "/trash"
+                  ? "rounded"
+                  : "outlined"
+              }`}
+            >
+              &#xf569;
+            </span>
+          </Box>
+        )}
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          background: `linear-gradient(transparent, ${palette[1]})`,
+          backdropFilter: "blur(2px)",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "calc(var(--bottom-nav-height) + 20px)",
+          zIndex: 997,
+        }}
+      />
+    </>
   );
 }

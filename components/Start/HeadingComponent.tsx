@@ -29,10 +29,10 @@ export const HeadingComponent = ({ palette, isMobile }) => {
   }, [isHover]);
 
   const getGreeting = useMemo(() => {
-    if (time < 12) return "Good morning";
-    else if (time < 17) return "Good afternoon";
-    else if (time < 20) return "Good evening";
-    else return "Good night";
+    if (time < 12) return "morning";
+    else if (time < 17) return "afternoon";
+    else if (time < 20) return "evening";
+    else return "night";
   }, [time]);
 
   const [greeting, setGreeting] = useState(getGreeting);
@@ -47,44 +47,31 @@ export const HeadingComponent = ({ palette, isMobile }) => {
   return (
     <Typography
       className="font-heading"
-      {...(isMobile
-        ? {
-            onTouchStart: open,
-            onTouchEnd: close,
-          }
-        : {
-            onMouseEnter: open,
-            onMouseLeave: close,
-          })}
       sx={{
         fontSize: {
-          xs: "50px",
-          sm: "55px",
-          md: "60px",
-          lg: "65px",
-          xl: "67px",
+          xs: "55px",
+          sm: "60px",
+          md: "65px",
+          lg: "67px",
+          xl: "70px",
         },
-        width: { sm: "400px" },
-        justifyContent: { sm: "center" },
-        background: `linear-gradient(${palette[11]}, ${palette[5]})`,
-        textShadow: `0 0 50px ${palette[6]}`,
+        mb: 1,
+        mt: 1,
+        background: `linear-gradient(${palette[12]}, ${palette[11]})`,
+        textShadow: `0 0 40px ${palette[9]}`,
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
         userSelect: "none",
         overflow: "visible",
         textOverflow: "ellipsis",
+        lineHeight: "1",
         whiteSpace: "nowrap",
         display: "inline-flex",
-        border: `2px solid transparent`,
         borderRadius: 4,
-        px: { sm: 2 },
-        "&:hover": {
-          border: { sm: `2px solid ${palette[3]}` },
-        },
       }}
       variant="h4"
     >
-      {isHover ? currentTime : greeting}
+      Good {greeting}.
     </Typography>
   );
 };

@@ -6,7 +6,6 @@ import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
-import { StatusSelector } from "@/components/Start/StatusSelector";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -14,12 +13,14 @@ import {
   Alert,
   Box,
   Icon,
+  IconButton,
   NoSsr,
   Skeleton,
   Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -31,6 +32,88 @@ import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
+
+function Weather() {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  return (
+    <Box
+      sx={{
+        p: 3,
+        borderRadius: 5,
+        background: palette[3],
+        color: palette[11],
+      }}
+    >
+      <Icon sx={{ fontSize: "40px!important" }} className="outlined">
+        light_mode
+      </Icon>
+      <Typography sx={{ ml: 0.2 }} variant="h5">
+        72&deg;
+      </Typography>
+      <Typography sx={{ ml: 0.2 }} variant="body2">
+        Sunny
+      </Typography>
+    </Box>
+  );
+}
+
+function TodaysDate() {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  return (
+    <Box
+      sx={{
+        p: 3,
+        borderRadius: 5,
+        background: palette[3],
+        color: palette[11],
+      }}
+    >
+      <Icon sx={{ fontSize: "40px!important" }} className="outlined">
+        calendar_today
+      </Icon>
+      <Typography sx={{ ml: 0.2 }} variant="h5">
+        Sunday
+      </Typography>
+      <Typography sx={{ ml: 0.2 }} variant="body2">
+        November 12th
+      </Typography>
+    </Box>
+  );
+}
+
+function TodaysTasks() {
+  const { session } = useSession();
+  const isDark = useDarkMode(session.darkMode);
+  const palette = useColor(session.themeColor, isDark);
+
+  return (
+    <Box
+      sx={{
+        p: 3,
+        borderRadius: 5,
+        background: palette[3],
+        color: palette[11],
+        display: "flex",
+        alignItems: "center",
+        gap: 2,
+      }}
+    >
+      <Icon sx={{ fontSize: "40px!important" }} className="outlined">
+        check_circle
+      </Icon>
+      <Box>
+        <Typography variant="h5">5 tasks</Typography>
+        <Typography variant="body2">3 complete</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 function Home() {
   const { session } = useSession();
@@ -75,19 +158,33 @@ function Home() {
     }
   }, [emblaApi, router]);
 
+  const sectionHeaderStyles = {
+    textTransform: "uppercase",
+    fontWeight: 900,
+    fontSize: "14px",
+    opacity: 0.6,
+    mb: 1.5,
+    mt: 3,
+    color: palette[11],
+  };
+
   return (
-    <NoSsr>
+    <Box
+      sx={{
+        background: `radial-gradient(${palette[2]} 5px, transparent 0)`,
+        backgroundSize: "50px 50px",
+        backgroundAttachment: "fixed",
+        backgroundPosition: "-25px -25px",
+      }}
+    >
       {isMobile ? (
         <Navbar
           showLogo={isMobile}
           showRightContent={isMobile}
           right={
-            !isMobile ? undefined : (
-              <StatusSelector
-                mutate={() => {}}
-                profile={session.user.Profile}
-              />
-            )
+            <IconButton sx={{ background: palette[3] }}>
+              <Icon className="outlined">workspaces</Icon>
+            </IconButton>
           }
         />
       ) : (
@@ -140,30 +237,63 @@ function Home() {
                   sx={{
                     mb: { xs: 2, sm: 2 },
                     px: { xs: 4, sm: 6 },
-                    textAlign: { sm: "center" },
                   }}
                 >
+                  <Typography
+                    sx={{
+                      ...sectionHeaderStyles,
+                      mb: 0,
+                      ml: 0.1,
+                      textShadow: `0 0 40px ${palette[8]}`,
+                    }}
+                  >
+                    Hey{" "}
+                    {capitalizeFirstLetter(session.user.name.split(" ")?.[0])},
+                  </Typography>
                   <HeadingComponent palette={palette} isMobile={isMobile} />
                   <Typography
-                    sx={{ fontWeight: 700, color: palette[11], opacity: 0.4 }}
+                    sx={{
+                      mt: -1,
+                      ml: 0.2,
+                      fontWeight: 700,
+                      color: palette[11],
+                      opacity: 0.8,
+                      textShadow: `0 0 40px ${palette[8]}`,
+                    }}
                     variant="h6"
                   >
-                    Welcome back,{" "}
-                    {capitalizeFirstLetter(session.user.name.split(" ")?.[0])}
+                    Are you ready to seize the day?
                   </Typography>
                 </Box>
               </Box>
               <Box
                 sx={{
-                  display: "flex",
-                  gap: 2,
-                  justifyContent: { sm: "center" },
-                  mb: 2,
                   px: 4,
+                  maxWidth: "100dvw",
+                  "& .button": {
+                    background: palette[3],
+                    borderRadius: 5,
+                    display: "flex",
+                    width: "100%",
+                    alignItems: "center",
+                    p: 2,
+                    gap: 2,
+                    fontWeight: 700,
+                    color: palette[11],
+                    "& .MuiIcon-root": {
+                      fontSize: "30px!important",
+                    },
+                  },
                 }}
               >
-                <AvailabilityTrigger />
-                <FriendsTrigger />
+                <Grid container spacing={2} sx={{ mb: 2 }}>
+                  <Grid xs={6}>
+                    <AvailabilityTrigger />
+                  </Grid>
+                  <Grid xs={6}>
+                    <FriendsTrigger />
+                  </Grid>
+                </Grid>
               </Box>
               <Box
                 sx={{
@@ -175,7 +305,26 @@ function Home() {
                   flexDirection: "column",
                 }}
               >
+                <Typography sx={sectionHeaderStyles}>
+                  Today&apos;s rundown
+                </Typography>
+                <Box>
+                  <Grid container sx={{ mb: 2 }} spacing={2}>
+                    <Grid xs={6}>
+                      <Weather />
+                    </Grid>
+                    <Grid xs={6}>
+                      <TodaysDate />
+                    </Grid>
+                    <Grid xs={12}>
+                      <TodaysTasks />
+                    </Grid>
+                  </Grid>
+                </Box>
                 <Box sx={{ mb: 5 }}>
+                  <Typography sx={sectionHeaderStyles}>
+                    Recent activity
+                  </Typography>
                   {data?.length === 0 && (
                     <Alert
                       sx={{
@@ -287,7 +436,7 @@ function Home() {
           )}
         </Box>
       </Box>
-    </NoSsr>
+    </Box>
   );
 }
 
