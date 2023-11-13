@@ -95,10 +95,14 @@ function Weather() {
         }}
       >
         <Box sx={{ p: 3 }}>
-          <Typography variant="h2" className="font-heading" sx={{ mb: -0.5 }}>
+          <Typography
+            variant="h1"
+            className="font-heading"
+            sx={{ mb: -0.5, ml: 2, textAlign: "center" }}
+          >
             {-~weatherData.current_weather.temperature}&deg;
           </Typography>
-          <Typography variant="h6">
+          <Typography variant="h6" sx={{ textAlign: "center" }}>
             {isNight()
               ? weatherCodes[weatherData.current_weather.weathercode].night
                   .description
@@ -108,6 +112,7 @@ function Weather() {
           <Box
             sx={{
               display: "flex",
+              justifyContent: "center",
               alignItems: "center",
               flexWrap: "wrap",
               gap: 1,
