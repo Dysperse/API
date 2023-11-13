@@ -12,6 +12,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
   Box,
+  Chip,
   Icon,
   IconButton,
   NoSsr,
@@ -78,6 +79,13 @@ function Weather() {
         anchor="bottom"
         PaperProps={{
           sx: {
+            "& .MuiChip-root": {
+              background: "rgba(255,255,255,.1)",
+              color: "inherit",
+              "& .MuiIcon-root": {
+                color: "inherit",
+              },
+            },
             color:
               weatherCodes[weatherData.current_weather.weathercode][
                 isNight() ? "night" : "day"
@@ -94,89 +102,93 @@ function Weather() {
           },
         }}
       >
-        <Box sx={{ p: 3 }}>
-          <Typography
-            variant="h1"
-            className="font-heading"
-            sx={{ mb: -0.5, ml: 2, textAlign: "center" }}
-          >
-            {-~weatherData.current_weather.temperature}&deg;
-          </Typography>
-          <Typography variant="h6" sx={{ textAlign: "center" }}>
-            {isNight()
-              ? weatherCodes[weatherData.current_weather.weathercode].night
-                  .description
-              : weatherCodes[weatherData.current_weather.weathercode].day
-                  .description}
-          </Typography>
-          <Box
+        <Grid container sx={{ p: 3 }}>
+          <Grid xs={6}>
+            <Icon sx={{ fontSize: "80px!important" }} className="outlined">
+              {isNight()
+                ? weatherCodes[weatherData.current_weather.weathercode].night
+                    .icon
+                : weatherCodes[weatherData.current_weather.weathercode].day
+                    .icon}
+            </Icon>
+            <Typography>
+              {isNight()
+                ? weatherCodes[weatherData.current_weather.weathercode].night
+                    .description
+                : weatherCodes[weatherData.current_weather.weathercode].day
+                    .description}
+            </Typography>
+            <Chip
+              sx={{ mt: 1 }}
+              icon={<Icon>water_drop</Icon>}
+              label={
+                <>
+                  {Math.round(
+                    weatherData.hourly.precipitation_probability[dayjs().hour()]
+                  )}
+                  %
+                </>
+              }
+            />
+          </Grid>
+          <Grid
+            xs={6}
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: 1,
-              mt: 1,
               "& .MuiTypography-root": {
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
-                px: 2,
-                py: 1,
-                background: "rgba(255,255,255,.1)",
-                borderRadius: 5,
               },
             }}
           >
-            <Typography>
-              <Icon>north</Icon>
-              {-~weatherData.daily.temperature_2m_max[0]}&deg;
+            <Typography variant="h1" className="font-heading">
+              {-~weatherData.current_weather.temperature}&deg;
             </Typography>
             <Typography>
-              <Icon>south</Icon>
-              {-~weatherData.daily.temperature_2m_min[0]}&deg;
+              Feels like{" "}
+              {-~weatherData.hourly.apparent_temperature[dayjs().hour()]}&deg;
             </Typography>
-            <Typography>
-              <Icon className="outlined">water_drop</Icon>
-              {Math.round(
-                weatherData.hourly.precipitation_probability[dayjs().hour()]
-              )}
-              %
-            </Typography>
-          </Box>
-          <motion.div
-            initial={{ opacity: 0 }}
-            transition={{ delay: 1 }}
-            animate={{ opacity: 1 }}
+            <Chip
+              icon={<Icon>north</Icon>}
+              label={<>{-~weatherData.daily.temperature_2m_max[0]}&deg;</>}
+            />
+            <Chip
+              icon={<Icon>south</Icon>}
+              label={<>{-~weatherData.daily.temperature_2m_min[0]}&deg;</>}
+            />
+          </Grid>
+        </Grid>
+        <motion.div
+          initial={{ opacity: 0 }}
+          transition={{ delay: 1 }}
+          animate={{ opacity: 1 }}
+        >
+          <Sparklines
+            data={weatherData.hourly.temperature_2m}
+            style={{
+              position: "absolute",
+              left: 0,
+              bottom: 0,
+              zIndex: 0,
+              opacity: 0.2,
+              width: "100%",
+            }}
           >
-            <Sparklines
-              data={weatherData.hourly.temperature_2m}
+            <SparklinesSpots style={{ display: "none" }} />
+            <SparklinesLine
               style={{
-                position: "absolute",
-                left: 0,
-                bottom: 0,
-                zIndex: 0,
-                opacity: 0.2,
-                width: "100%",
+                fill: weatherCodes[weatherData.current_weather.weathercode][
+                  isNight() ? "night" : "day"
+                ].textColor,
+                strokeWidth: 2,
               }}
-            >
-              <SparklinesSpots style={{ display: "none" }} />
-              <SparklinesLine
-                style={{
-                  fill: weatherCodes[weatherData.current_weather.weathercode][
-                    isNight() ? "night" : "day"
-                  ].textColor,
-                  strokeWidth: 2,
-                }}
-                color={
-                  weatherCodes[weatherData.current_weather.weathercode][
-                    isNight() ? "night" : "day"
-                  ].textColor
-                }
-              />
-            </Sparklines>
-          </motion.div>
-        </Box>
+              color={
+                weatherCodes[weatherData.current_weather.weathercode][
+                  isNight() ? "night" : "day"
+                ].textColor
+              }
+            />
+          </Sparklines>
+        </motion.div>
       </SwipeableDrawer>
       <Box
         sx={{
