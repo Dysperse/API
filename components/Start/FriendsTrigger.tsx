@@ -33,7 +33,6 @@ export function FriendsTrigger() {
       <Icon className="outlined" sx={{ mt: -0.3, mb: 0.3 }}>
         groups_2
       </Icon>
-      Friends
     </Box>
     // </Badge>
   );

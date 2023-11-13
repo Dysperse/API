@@ -16,47 +16,188 @@ import {
   IconButton,
   NoSsr,
   Skeleton,
+  SwipeableDrawer,
   Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
+import weatherCodes from "./tasks/Layout/widgets/weatherCodes.json";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
-
 function Weather() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
 
-  return (
-    <Box
-      sx={{
-        p: 3,
-        borderRadius: 5,
-        background: palette[3],
-        color: palette[11],
-      }}
-    >
-      <Icon sx={{ fontSize: "40px!important" }} className="outlined">
-        light_mode
-      </Icon>
-      <Typography sx={{ ml: 0.2 }} variant="h5">
-        72&deg;
-      </Typography>
-      <Typography sx={{ ml: 0.2 }} variant="body2">
-        Sunny
-      </Typography>
-    </Box>
+  const [locationData, setLocationData] = useState<any>(null);
+  const [weatherData, setWeatherData] = useState<any>(null);
+
+  const isNight = () => {
+    const currentHour = new Date().getHours();
+    return currentHour >= 18 || currentHour <= 6; // Assuming night is between 6 PM and 6 AM
+  };
+
+  const getWeather = async () => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      let lat = position.coords.latitude;
+      let long = position.coords.longitude;
+      fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${long}`)
+        .then((res) => res.json())
+        .then((res) => setLocationData(res));
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=1&daily=temperature_2m_max,temperature_2m_min`;
+      const res = await fetch(url).then((res) => res.json());
+      setWeatherData(res);
+    });
+  };
+
+  useEffect(() => {
+    getWeather();
+    const interval = setInterval(getWeather, 5 * 60 * 1000); // Update every 5 minutes
+    return () => clearInterval(interval);
+  }, []);
+
+  const [open, setOpen] = useState(false);
+
+  return weatherData ? (
+    <>
+      <SwipeableDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor="bottom"
+        PaperProps={{
+          sx: {
+            color:
+              weatherCodes[weatherData.current_weather.weathercode][
+                isNight() ? "night" : "day"
+              ].textColor,
+            background: `linear-gradient(${
+              weatherCodes[weatherData.current_weather.weathercode][
+                isNight() ? "night" : "day"
+              ].backgroundGradient[0]
+            },${
+              weatherCodes[weatherData.current_weather.weathercode][
+                isNight() ? "night" : "day"
+              ].backgroundGradient[1]
+            })`,
+          },
+        }}
+      >
+        <Box sx={{ p: 3 }}>
+          <Typography variant="h2" className="font-heading" sx={{ mb: -0.5 }}>
+            {-~weatherData.current_weather.temperature}&deg;
+          </Typography>
+          <Typography variant="h6">
+            {isNight()
+              ? weatherCodes[weatherData.current_weather.weathercode].night
+                  .description
+              : weatherCodes[weatherData.current_weather.weathercode].day
+                  .description}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 1,
+              mt: 1,
+              "& .MuiTypography-root": {
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                px: 2,
+                py: 1,
+                background: "rgba(255,255,255,.1)",
+                borderRadius: 5,
+              },
+            }}
+          >
+            <Typography>
+              <Icon>north</Icon>
+              {-~weatherData.daily.temperature_2m_max[0]}&deg;
+            </Typography>
+            <Typography>
+              <Icon>south</Icon>
+              {-~weatherData.daily.temperature_2m_min[0]}&deg;
+            </Typography>
+            <Typography>
+              <Icon className="outlined">water_drop</Icon>
+              {-~weatherData.hourly.precipitation_probability[dayjs().hour()]}%
+            </Typography>
+          </Box>
+          <motion.div
+            initial={{ opacity: 0 }}
+            transition={{ delay: 1 }}
+            animate={{ opacity: 1 }}
+          >
+            <Sparklines
+              data={weatherData.hourly.temperature_2m}
+              style={{
+                position: "absolute",
+                left: 0,
+                bottom: 0,
+                zIndex: 0,
+                opacity: 0.2,
+                width: "100%",
+              }}
+            >
+              <SparklinesSpots style={{ display: "none" }} />
+              <SparklinesLine
+                style={{
+                  fill: weatherCodes[weatherData.current_weather.weathercode][
+                    isNight() ? "night" : "day"
+                  ].textColor,
+                  strokeWidth: 2,
+                }}
+                color={
+                  weatherCodes[weatherData.current_weather.weathercode][
+                    isNight() ? "night" : "day"
+                  ].textColor
+                }
+              />
+            </Sparklines>
+          </motion.div>
+        </Box>
+      </SwipeableDrawer>
+      <Box
+        sx={{
+          position: "relative",
+          p: { xs: 2, sm: 3 },
+          borderRadius: 5,
+          background: palette[3],
+          color: palette[11],
+          height: "130px",
+        }}
+        onClick={() => setOpen(true)}
+      >
+        <Icon sx={{ fontSize: "40px!important" }} className="outlined">
+          light_mode
+        </Icon>
+        <Typography sx={{ ml: 0.2 }} variant="h5">
+          {-~weatherData.current_weather.temperature}&deg;
+        </Typography>
+        <Typography sx={{ ml: 0.2 }} variant="body2">
+          {isNight()
+            ? weatherCodes[weatherData.current_weather.weathercode].night
+                .description
+            : weatherCodes[weatherData.current_weather.weathercode].day
+                .description}
+        </Typography>
+      </Box>
+    </>
+  ) : (
+    <Skeleton variant="rectangular" width="100%" height={130} />
   );
 }
 
@@ -68,7 +209,7 @@ function TodaysDate() {
   return (
     <Box
       sx={{
-        p: 3,
+        p: { xs: 2, sm: 3 },
         borderRadius: 5,
         background: palette[3],
         color: palette[11],
@@ -81,7 +222,7 @@ function TodaysDate() {
         Sunday
       </Typography>
       <Typography sx={{ ml: 0.2 }} variant="body2">
-        November 12th
+        Nov 12th
       </Typography>
     </Box>
   );
@@ -95,7 +236,7 @@ function TodaysTasks() {
   return (
     <Box
       sx={{
-        p: 3,
+        p: { xs: 2, sm: 3 },
         borderRadius: 5,
         background: palette[3],
         color: palette[11],
@@ -171,9 +312,9 @@ function Home() {
   return (
     <Box
       sx={{
-        background: `radial-gradient(${palette[2]} 5px, transparent 0)`,
+        background: `radial-gradient(${palette[2]} 4px, ${palette[1]} 5px, transparent 0)`,
         backgroundSize: "50px 50px",
-        backgroundAttachment: "fixed",
+        // backgroundAttachment: "fixed",
         backgroundPosition: "-25px -25px",
       }}
     >
@@ -268,13 +409,14 @@ function Home() {
               </Box>
               <Box
                 sx={{
-                  px: 4,
+                  px: 3,
                   maxWidth: "100dvw",
+                  display: "flex",
+                  gap: 2,
                   "& .button": {
                     background: palette[3],
                     borderRadius: 5,
                     display: "flex",
-                    width: "100%",
                     alignItems: "center",
                     p: 2,
                     gap: 2,
@@ -286,14 +428,8 @@ function Home() {
                   },
                 }}
               >
-                <Grid container spacing={2} sx={{ mb: 2 }}>
-                  <Grid xs={6}>
-                    <AvailabilityTrigger />
-                  </Grid>
-                  <Grid xs={6}>
-                    <FriendsTrigger />
-                  </Grid>
-                </Grid>
+                <AvailabilityTrigger />
+                <FriendsTrigger />
               </Box>
               <Box
                 sx={{
@@ -301,7 +437,7 @@ function Home() {
                   mx: "auto",
                   width: "100%",
                   maxWidth: { sm: "500px" },
-                  px: 4,
+                  px: 3,
                   flexDirection: "column",
                 }}
               >
@@ -414,11 +550,7 @@ function Home() {
             </motion.div>
           </Box>
           {isMobile && session.space.info.type !== "study group" && (
-            <Box
-              sx={{
-                flex: "0 0 100dvw",
-              }}
-            >
+            <Box sx={{ flex: "0 0 100dvw" }}>
               <Box
                 sx={{
                   transform: `scale(${loadingIndex === 2 ? 1.5 : 1})`,

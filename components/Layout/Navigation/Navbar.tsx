@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
-import { useDeferredValue } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { SidebarMenu } from "./Sidebar";
 
 export function Navbar({

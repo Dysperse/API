@@ -29,6 +29,7 @@ export function AvailabilityTrigger() {
     // >
     <Box
       className="button"
+      sx={{ width: "100%" }}
       onClick={() => {
         router.push("/availability");
         localStorage.setItem("availability", "true");
