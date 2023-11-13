@@ -190,7 +190,9 @@ function Weather() {
         onClick={() => setOpen(true)}
       >
         <Icon sx={{ fontSize: "40px!important" }} className="outlined">
-          light_mode
+          {isNight()
+            ? weatherCodes[weatherData.current_weather.weathercode].night.icon
+            : weatherCodes[weatherData.current_weather.weathercode].day.icon}
         </Icon>
         <Typography sx={{ ml: 0.2 }} variant="h5">
           {-~weatherData.current_weather.temperature}&deg;
