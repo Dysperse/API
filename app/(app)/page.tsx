@@ -133,7 +133,10 @@ function Weather() {
             </Typography>
             <Typography>
               <Icon className="outlined">water_drop</Icon>
-              {-~weatherData.hourly.precipitation_probability[dayjs().hour()]}%
+              {Math.round(
+                weatherData.hourly.precipitation_probability[dayjs().hour()]
+              )}
+              %
             </Typography>
           </Box>
           <motion.div
