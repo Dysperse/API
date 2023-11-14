@@ -654,7 +654,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       },
       MuiTooltip: {
         defaultProps: {
-          // enterDelay: 0,
           arrow: true,
           disableInteractive: true,
         },
@@ -671,6 +670,16 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               padding: "6px 14px",
               boxShadow:
                 "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+            }),
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          body2: ({ theme }) =>
+            theme.unstable_sx({
+              textTransform: "uppercase",
+              opacity: 0.6,
+              fontVariationSettings: `"wght" 600!important`,
             }),
         },
       },

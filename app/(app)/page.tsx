@@ -9,6 +9,7 @@ import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
+import useLocation from "@/lib/client/useLocation";
 import {
   Alert,
   Box,
@@ -30,7 +31,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -64,7 +65,9 @@ function Weather() {
     return currentHour >= 18 || currentHour <= 6; // Assuming night is between 6 PM and 6 AM
   };
 
-  const getWeather = async () => {
+  const [locationStatus, requestLocation] = useLocation();
+
+  const getWeather = useCallback(async () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
       let lat = position.coords.latitude;
       let long = position.coords.longitude;
@@ -82,23 +85,27 @@ function Weather() {
         .then((res) => res.json())
         .then((res) => setWeatherData(res));
     });
-  };
+  }, []);
 
   useEffect(() => {
     if (open) {
       setTimeout(() => {
-        document
-          ?.getElementById("activeHour")
-          ?.scrollIntoView({ block: "center", inline: "center" });
+        document?.getElementById("activeHour")?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
       }, 200);
     }
   }, [open]);
 
   useEffect(() => {
-    getWeather();
-    const interval = setInterval(getWeather, 5 * 60 * 1000); // Update every 5 minutes
-    return () => clearInterval(interval);
-  }, []);
+    if (locationStatus === "active") {
+      getWeather();
+      const interval = setInterval(getWeather, 5 * 60 * 1000); // Update every 5 minutes
+      return () => clearInterval(interval);
+    }
+  }, [getWeather, locationStatus]);
 
   return weatherData ? (
     <>
@@ -300,6 +307,7 @@ function Weather() {
           <Typography
             sx={{
               mt: 2,
+              mb: 1,
               textTransform: "uppercase",
               fontWeight: "900",
               fontSize: "13px",
@@ -341,6 +349,10 @@ function Weather() {
                 top: "50%",
                 transform: "translateY(-50%)",
                 width: "100%",
+                gap: 2,
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
               }}
               ref={hourlyRef}
             >
@@ -350,9 +362,10 @@ function Weather() {
                   {...(i === dayjs().hour() && { id: "activeHour" })}
                   sx={{
                     flexShrink: 0,
-                    p: 1,
+                    px: 2,
+                    py: 1,
                     borderRadius: 5,
-                    width: "80px",
+                    width: "70px",
                     display: "flex",
                     flexDirection: "column",
                     alignItem: "center",
@@ -387,6 +400,7 @@ function Weather() {
           <Typography
             sx={{
               mt: 2,
+              mb: 1,
               textTransform: "uppercase",
               fontWeight: "900",
               fontSize: "13px",
@@ -399,7 +413,7 @@ function Weather() {
             sx={{
               background: "rgba(255,255,255,.1)",
               borderRadius: 5,
-              my: 2,
+              mb: 2,
             }}
           >
             {weatherData.daily.weather_code.map((code, i) => (
@@ -434,7 +448,7 @@ function Weather() {
       <Box
         sx={{
           position: "relative",
-          p: { xs: 2, sm: 3 },
+          p: 2,
           borderRadius: 5,
           background: palette[3],
           color: palette[11],
@@ -459,8 +473,39 @@ function Weather() {
         </Typography>
       </Box>
     </>
+  ) : locationStatus === "active" ? (
+    <Skeleton variant="rectangular" height={130} />
   ) : (
-    <Skeleton variant="rectangular" width="100%" height={130} />
+    <Box
+      onClick={requestLocation}
+      sx={{
+        position: "relative",
+        p: 2,
+        borderRadius: 5,
+        background: palette[3],
+        color: palette[11],
+        height: "130px",
+      }}
+    >
+      <Icon sx={{ fontSize: "40px!important" }} className="outlined">
+        {locationStatus === "pending"
+          ? "near_me"
+          : locationStatus === "failed"
+          ? "near_me_disabled"
+          : ""}
+      </Icon>
+      <Typography sx={{ ml: 0.2 }} variant="h5">
+        Weather
+      </Typography>
+      <Typography sx={{ ml: 0.2 }} variant="body2">
+        {locationStatus === "pending"
+          ? "Tap to enable location"
+          : locationStatus === "failed"
+          ? "Couldn't get location. Please allow location in your site settings."
+          : ""}
+      </Typography>
+    </Box>
+    // <Skeleton variant="rectangular" width="100%" height={130} />
   );
 }
 
@@ -472,7 +517,8 @@ function TodaysDate() {
   return (
     <Box
       sx={{
-        p: { xs: 2, sm: 3 },
+        p: 2,
+        height: "130px",
         borderRadius: 5,
         background: palette[3],
         color: palette[11],

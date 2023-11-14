@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=League+Gothic&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://use.typekit.net/vjj3nss.css");
 
 /* Ensure immediate display of content with system fonts */
 body {
@@ -132,12 +133,15 @@ img {
   ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-family: "Hanken Grotesk", sans-serif !important;
+  font-family: "mozaic-hum-variable", sans-serif !important;
+  font-variation-settings: "wght" 100;
 }
 
 .font-heading,
 .font-heading * {
-  font-family: "League Gothic", serif !important;
+  font-family: "headline-gothic-atf", sans-serif;
+  font-weight: 400;
+  font-style: normal;
   text-transform: uppercase;
 }
 
