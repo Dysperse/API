@@ -12,12 +12,14 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Alert,
   Box,
-  Chip,
   Icon,
   IconButton,
+  List,
+  ListItem,
   NoSsr,
   Skeleton,
   SwipeableDrawer,
+  TextField,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -29,7 +31,6 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Sparklines, SparklinesLine, SparklinesSpots } from "react-sparklines";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
@@ -57,7 +58,7 @@ function Weather() {
       fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${long}`)
         .then((res) => res.json())
         .then((res) => setLocationData(res));
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=temperature_2m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=1&daily=temperature_2m_max,temperature_2m_min`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=10&daily=weather_code,temperature_2m_max,temperature_2m_min`;
       const res = await fetch(url).then((res) => res.json());
       setWeatherData(res);
     });
@@ -79,6 +80,7 @@ function Weather() {
         anchor="bottom"
         PaperProps={{
           sx: {
+            maxHeight: "calc(100dvh - 200px)",
             "& .MuiChip-root": {
               background: "rgba(255,255,255,.1)",
               color: "inherit",
@@ -102,93 +104,192 @@ function Weather() {
           },
         }}
       >
-        <Grid container sx={{ p: 3 }}>
-          <Grid xs={6}>
-            <Icon sx={{ fontSize: "80px!important" }} className="outlined">
-              {isNight()
-                ? weatherCodes[weatherData.current_weather.weathercode].night
-                    .icon
-                : weatherCodes[weatherData.current_weather.weathercode].day
-                    .icon}
-            </Icon>
-            <Typography>
-              {isNight()
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            my: 5,
+          }}
+        >
+          <Icon sx={{ fontSize: "70px!important" }} className="outlined">
+            {isNight()
+              ? weatherCodes[weatherData.current_weather.weathercode].night.icon
+              : weatherCodes[weatherData.current_weather.weathercode].day.icon}
+          </Icon>
+          <Typography variant="h2" sx={{ fontWeight: 200, ml: 2 }}>
+            {-~weatherData.current_weather.temperature}&deg;
+          </Typography>
+          <Typography sx={{ opacity: 0.6 }}>
+            {capitalizeFirstLetter(
+              (isNight()
                 ? weatherCodes[weatherData.current_weather.weathercode].night
                     .description
                 : weatherCodes[weatherData.current_weather.weathercode].day
-                    .description}
-            </Typography>
-            <Chip
-              sx={{ mt: 1 }}
-              icon={<Icon>water_drop</Icon>}
-              label={
-                <>
-                  {Math.round(
-                    weatherData.hourly.precipitation_probability[dayjs().hour()]
-                  )}
-                  %
-                </>
-              }
-            />
-          </Grid>
+                    .description
+              ).toLowerCase()
+            )}
+          </Typography>
+        </Box>
+        <Box sx={{ px: 3 }}>
           <Grid
-            xs={6}
+            container
+            spacing={2}
             sx={{
-              "& .MuiTypography-root": {
+              "& .card": {
                 display: "flex",
                 alignItems: "center",
+                background: "rgba(255,255,255,.1)",
+                borderRadius: 5,
+                p: 1,
+                gap: 2,
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                "& *": {
+                  minWidth: 0,
+                  maxWidth: "100%",
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                },
+                width: "100%",
+                "& .MuiIcon-root": {
+                  fontSize: "30px!important",
+                  fontVariationSettings:
+                    '"FILL" 0, "wght" 200, "GRAD" 0, "opsz" 40!important',
+                },
               },
             }}
           >
-            <Typography variant="h1" className="font-heading">
-              {-~weatherData.current_weather.temperature}&deg;
-            </Typography>
-            <Typography>
-              Feels like{" "}
-              {-~weatherData.hourly.apparent_temperature[dayjs().hour()]}&deg;
-            </Typography>
-            <Chip
-              icon={<Icon>north</Icon>}
-              label={<>{-~weatherData.daily.temperature_2m_max[0]}&deg;</>}
-            />
-            <Chip
-              icon={<Icon>south</Icon>}
-              label={<>{-~weatherData.daily.temperature_2m_min[0]}&deg;</>}
-            />
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>waving_hand</Icon>
+                <Box>
+                  <Typography>Feels like</Typography>
+                  <Typography variant="h6">
+                    {-~weatherData.hourly.apparent_temperature[dayjs().hour()]}
+                    &deg;
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>water_drop</Icon>
+                <Box>
+                  <Typography>Precipitation</Typography>
+                  <Typography variant="h6">
+                    {Math.round(
+                      weatherData.hourly.precipitation_probability[
+                        dayjs().hour()
+                      ]
+                    )}
+                    %
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>airwave</Icon>
+                <Box>
+                  <Typography>Wind</Typography>
+                  <Typography variant="h6">
+                    {Math.round(
+                      weatherData.hourly.wind_speed_10m[dayjs().hour()]
+                    )}{" "}
+                    mph
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>visibility</Icon>
+                <Box>
+                  <Typography>Visibility</Typography>
+                  <Typography variant="h6">
+                    {Math.round(weatherData.hourly.visibility[dayjs().hour()])}{" "}
+                    mph
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>north</Icon>
+                <Box>
+                  <Typography>High</Typography>
+                  <Typography variant="h6">
+                    {-~weatherData.daily.temperature_2m_max[0]}&deg;
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>south</Icon>
+                <Box>
+                  <Typography>Low</Typography>
+                  <Typography variant="h6">
+                    {-~weatherData.daily.temperature_2m_min[0]}&deg;
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-        <motion.div
-          initial={{ opacity: 0 }}
-          transition={{ delay: 1 }}
-          animate={{ opacity: 1 }}
-        >
-          <Sparklines
-            data={weatherData.hourly.temperature_2m}
-            style={{
-              position: "absolute",
-              left: 0,
-              bottom: 0,
-              zIndex: 0,
-              opacity: 0.2,
-              width: "100%",
+          <Typography
+            sx={{
+              mt: 2,
+              textTransform: "uppercase",
+              fontWeight: "900",
+              fontSize: "13px",
+              opacity: 0.6,
             }}
           >
-            <SparklinesSpots style={{ display: "none" }} />
-            <SparklinesLine
-              style={{
-                fill: weatherCodes[weatherData.current_weather.weathercode][
-                  isNight() ? "night" : "day"
-                ].textColor,
-                strokeWidth: 2,
-              }}
-              color={
-                weatherCodes[weatherData.current_weather.weathercode][
-                  isNight() ? "night" : "day"
-                ].textColor
-              }
-            />
-          </Sparklines>
-        </motion.div>
+            Hourly
+          </Typography>
+          <List
+            sx={{
+              background: "rgba(255,255,255,.1)",
+              borderRadius: 5,
+              my: 2,
+            }}
+          >
+            {weatherData.daily.weather_code.map((code, i) => (
+              <ListItem
+                key={code}
+                sx={{
+                  "&:not(:last-child)": {
+                    borderBottom: "1px solid rgba(255,255,255,.1)",
+                  },
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{ fontWeight: "900", opacity: 0.6, mr: "auto" }}
+                >
+                  {dayjs().startOf("day").add(i, "day").format("ddd")}
+                </Typography>
+                {capitalizeFirstLetter(
+                  (isNight()
+                    ? weatherCodes[code]?.night?.description
+                    : weatherCodes[code]?.day?.description
+                  )?.toLowerCase() || ""
+                )}
+                <Icon className="outlined">
+                  {isNight()
+                    ? weatherCodes[code].night.icon
+                    : weatherCodes[code].day.icon}
+                </Icon>
+              </ListItem>
+            ))}
+            <TextField value={JSON.stringify(weatherData)} />
+          </List>
+        </Box>
       </SwipeableDrawer>
       <Box
         sx={{
