@@ -87,7 +87,9 @@ function Weather() {
   useEffect(() => {
     if (open) {
       setTimeout(() => {
-        document.getElementById("activeHour").scrollIntoView();
+        document
+          .getElementById("activeHour")
+          .scrollIntoView({ block: "center", inline: "center" });
       }, 200);
     }
   }, [open]);
