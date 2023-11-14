@@ -19,7 +19,6 @@ import {
   NoSsr,
   Skeleton,
   SwipeableDrawer,
-  TextField,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -31,20 +30,32 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
+import airQuality from "./tasks/Layout/widgets/airQuality.json";
 import weatherCodes from "./tasks/Layout/widgets/weatherCodes.json";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
+
+function getAirQualityInfo(index) {
+  const result = airQuality.find(
+    (category) => index >= category.index.min && index <= category.index.max
+  );
+
+  return result || null; // Return null if no matching category is found
+}
+
 function Weather() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
-
+  const [open, setOpen] = useState(false);
   const [locationData, setLocationData] = useState<any>(null);
   const [weatherData, setWeatherData] = useState<any>(null);
+  const [airQualityData, setAirQualityData] = useState<any>(null);
 
   const isNight = () => {
     const currentHour = new Date().getHours();
@@ -58,9 +69,16 @@ function Weather() {
       fetch(`https://geocode.maps.co/reverse?lat=${lat}&lon=${long}`)
         .then((res) => res.json())
         .then((res) => setLocationData(res));
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=10&daily=weather_code,temperature_2m_max,temperature_2m_min`;
-      const res = await fetch(url).then((res) => res.json());
-      setWeatherData(res);
+      fetch(
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${long}&current=pm2_5`
+      )
+        .then((r) => r.json())
+        .then((r) => setAirQualityData(r))
+        .catch((e) => toast.error("Couldn't get air quality"));
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=relative_humidity_2m&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=10&daily=weather_code,temperature_2m_max,temperature_2m_min`;
+      fetch(url)
+        .then((res) => res.json())
+        .then((res) => setWeatherData(res));
     });
   };
 
@@ -69,8 +87,6 @@ function Weather() {
     const interval = setInterval(getWeather, 5 * 60 * 1000); // Update every 5 minutes
     return () => clearInterval(interval);
   }, []);
-
-  const [open, setOpen] = useState(false);
 
   return weatherData ? (
     <>
@@ -241,6 +257,33 @@ function Weather() {
                 </Box>
               </Box>
             </Grid>
+            {airQualityData ? (
+              <Grid xs={12}>
+                <Box className="card">
+                  <Icon>eco</Icon>
+                  <Box>
+                    <Typography>Air quality</Typography>
+                    <Typography variant="h6">
+                      {
+                        getAirQualityInfo(airQualityData?.current?.pm2_5)
+                          ?.category
+                      }
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ whiteSpace: "normal!important" }}
+                    >
+                      {
+                        getAirQualityInfo(airQualityData?.current?.pm2_5)
+                          ?.meaning
+                      }
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            ) : (
+              <Skeleton variant="rectangular" height={80} />
+            )}
           </Grid>
           <Typography
             sx={{
@@ -276,12 +319,9 @@ function Weather() {
                 >
                   {dayjs().startOf("day").add(i, "day").format("ddd")}
                 </Typography>
-                {capitalizeFirstLetter(
-                  (isNight()
-                    ? weatherCodes[code]?.night?.description
-                    : weatherCodes[code]?.day?.description
-                  )?.toLowerCase() || ""
-                )}
+                {-~weatherData.daily.temperature_2m_min[i]}
+                {" - "}
+                {-~weatherData.daily.temperature_2m_max[i]}&deg;
                 <Icon className="outlined">
                   {isNight()
                     ? weatherCodes[code].night.icon
@@ -289,7 +329,6 @@ function Weather() {
                 </Icon>
               </ListItem>
             ))}
-            <TextField value={JSON.stringify(weatherData)} />
           </List>
         </Box>
       </SwipeableDrawer>
