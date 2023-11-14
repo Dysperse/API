@@ -88,8 +88,8 @@ function Weather() {
     if (open) {
       setTimeout(() => {
         document
-          .getElementById("activeHour")
-          .scrollIntoView({ block: "center", inline: "center" });
+          ?.getElementById("activeHour")
+          ?.scrollIntoView({ block: "center", inline: "center" });
       }, 200);
     }
   }, [open]);
