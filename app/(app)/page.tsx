@@ -91,10 +91,10 @@ function Weather() {
     if (open) {
       setTimeout(() => {
         document?.getElementById("activeHour")?.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
+          block: "start",
           inline: "center",
         });
+        document.getElementById("scrollContainer")?.scrollTo({ top: 0 });
       }, 200);
     }
   }, [open]);
@@ -114,6 +114,7 @@ function Weather() {
         onClose={() => setOpen(false)}
         anchor="bottom"
         PaperProps={{
+          id: "scrollContainer",
           sx: {
             maxHeight: "calc(100dvh - 150px)",
             "& .MuiChip-root": {
@@ -623,7 +624,6 @@ function Home() {
       sx={{
         background: `radial-gradient(${palette[2]} 4px, ${palette[1]} 5px, transparent 0)`,
         backgroundSize: "50px 50px",
-        // backgroundAttachment: "fixed",
         backgroundPosition: "-25px -25px",
       }}
     >
@@ -632,7 +632,10 @@ function Home() {
           showLogo={isMobile}
           showRightContent={isMobile}
           right={
-            <IconButton sx={{ background: palette[3] }}>
+            <IconButton
+              sx={{ background: palette[3] }}
+              onClick={() => router.push("/spaces")}
+            >
               <Icon className="outlined">workspaces</Icon>
             </IconButton>
           }
