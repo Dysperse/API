@@ -211,8 +211,10 @@ function Weather() {
                 <Box>
                   <Typography>Visibility</Typography>
                   <Typography variant="h6">
-                    {Math.round(weatherData.hourly.visibility[dayjs().hour()])}{" "}
-                    mph
+                    {Math.round(
+                      weatherData.hourly.visibility[dayjs().hour()] / 1609
+                    )}{" "}
+                    mi
                   </Typography>
                 </Box>
               </Box>
