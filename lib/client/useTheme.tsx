@@ -679,7 +679,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               textTransform: "uppercase",
               opacity: 0.6,
-              fontVariationSettings: `"wght" 600!important`,
+              fontVariationSettings: `"wght" 500!important`,
             }),
         },
       },
