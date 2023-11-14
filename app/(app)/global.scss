@@ -127,14 +127,15 @@ body {
 img {
   user-select: none;
 }
-
+body {
+  font-weight: 300;
+}
 :not(.font-heading, .font-heading *):not(.MuiIcon-root):not(
     .material-symbols-outlined
   ):not(.outlined):not(.material-symbols-rounded) {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-family: "mozaic-hum-variable", sans-serif !important;
-  font-variation-settings: "wght" 100;
+  font-family: "bilo", sans-serif !important;
 }
 
 .font-heading,
