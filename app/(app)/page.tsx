@@ -24,12 +24,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -49,6 +50,7 @@ function getAirQualityInfo(index) {
 }
 
 function Weather() {
+  const hourlyRef = useRef();
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -83,6 +85,14 @@ function Weather() {
   };
 
   useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        document.getElementById("activeHour").scrollIntoView();
+      }, 200);
+    }
+  }, [open]);
+
+  useEffect(() => {
     getWeather();
     const interval = setInterval(getWeather, 5 * 60 * 1000); // Update every 5 minutes
     return () => clearInterval(interval);
@@ -96,7 +106,7 @@ function Weather() {
         anchor="bottom"
         PaperProps={{
           sx: {
-            maxHeight: "calc(100dvh - 200px)",
+            maxHeight: "calc(100dvh - 150px)",
             "& .MuiChip-root": {
               background: "rgba(255,255,255,.1)",
               color: "inherit",
@@ -295,6 +305,93 @@ function Weather() {
             }}
           >
             Hourly
+          </Typography>
+          <Box
+            sx={{
+              borderRadius: 5,
+              background: "rgba(255,255,255,.1)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <SparkLineChart
+              data={weatherData.hourly.temperature_2m.slice(0, 24)}
+              height={100}
+              curve="natural"
+              area
+              colors={["#fff"]}
+              margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
+              sx={{
+                border: 0,
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                opacity: 0.3,
+              }}
+            />
+            <Box
+              sx={{
+                overflow: "scroll",
+                display: "flex",
+                alignItems: "center",
+                position: "absolute",
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: "100%",
+              }}
+              ref={hourlyRef}
+            >
+              {weatherData.hourly.temperature_2m.slice(0, 24).map((temp, i) => (
+                <Box
+                  key={i}
+                  {...(i === dayjs().hour() && { id: "activeHour" })}
+                  sx={{
+                    flexShrink: 0,
+                    p: 1,
+                    borderRadius: 5,
+                    width: "80px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItem: "center",
+                    justifyContent: "center",
+                    ...(i === dayjs().hour() && {
+                      background: "rgba(255,255,255,.1)",
+                    }),
+                  }}
+                >
+                  <Icon>
+                    {
+                      weatherCodes[weatherData.hourly.weathercode[i]][
+                        isNight() ? "night" : "day"
+                      ].icon
+                    }
+                  </Icon>
+                  <Typography>{-~temp}&deg;</Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      opacity: 0.6,
+                      textTransform: "uppercase",
+                      fontWeight: 900,
+                    }}
+                  >
+                    {dayjs().startOf("day").add(i, "hours").format("hA")}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+          <Typography
+            sx={{
+              mt: 2,
+              textTransform: "uppercase",
+              fontWeight: "900",
+              fontSize: "13px",
+              opacity: 0.6,
+            }}
+          >
+            Daily
           </Typography>
           <List
             sx={{
