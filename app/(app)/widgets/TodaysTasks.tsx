@@ -11,13 +11,15 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { Task } from "../tasks/Task";
 import { CreateTask } from "../tasks/Task/Create";
 import { SelectionContext } from "../tasks/selection-context";
 
 export function TodaysTasks() {
+  const parent = useRef();
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -51,12 +53,18 @@ export function TodaysTasks() {
       {data && (
         <SwipeableDrawer
           anchor="bottom"
+          keepMounted
           open={open}
           onClose={() => setOpen(false)}
+          ModalProps={{
+            keepMounted: true,
+          }}
           PaperProps={{
             sx: {
               maxHeight: "calc(100dvh - 50px)",
+              minHeight: "50vh",
             },
+            ref: parent,
           }}
         >
           <Puller />
@@ -77,18 +85,24 @@ export function TodaysTasks() {
               set: () => {},
             }}
           >
-            {data[0].tasks.map((task) => (
-              <Task
-                recurringInstance={task.recurrenceDay}
-                isAgenda
-                isDateDependent={true}
-                key={task.id}
-                board={task.board || false}
-                columnId={task.column ? task.column.id : -1}
-                mutateList={() => mutate()}
-                task={task}
-              />
-            ))}
+            <Virtuoso
+              data={data[0].tasks}
+              initialItemCount={data.length < 10 ? data.length : 10}
+              itemContent={(i, task) => (
+                <Task
+                  recurringInstance={task.recurrenceDay}
+                  isAgenda
+                  isDateDependent={true}
+                  key={task.id}
+                  board={task.board || false}
+                  columnId={task.column ? task.column.id : -1}
+                  mutateList={() => mutate()}
+                  task={task}
+                />
+              )}
+              useWindowScroll
+              customScrollParent={parent.current}
+            />
           </SelectionContext.Provider>
         </SwipeableDrawer>
       )}
