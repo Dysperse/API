@@ -192,7 +192,7 @@ function QrLogin({ handleRedirect }) {
           }}
         >
           <Typography variant="h6">Log in with QR Code</Typography>
-          <Typography variant="body2">
+          <Typography sx={{ fontSize: "14px" }}>
             Scan this QR code with any logged in phone to sign in instantly
           </Typography>
         </Box>

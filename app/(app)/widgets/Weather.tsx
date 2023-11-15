@@ -6,6 +6,8 @@ import useLocation from "@/lib/client/useLocation";
 import {
   Box,
   Icon,
+  IconButton,
+  Link,
   List,
   ListItem,
   Skeleton,
@@ -16,6 +18,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { getAirQualityInfo } from "../page";
 import weatherCodes from "../tasks/Layout/widgets/weatherCodes.json";
 
@@ -261,18 +264,24 @@ export function Weather() {
                       {
                         getAirQualityInfo(airQualityData?.current?.pm2_5)
                           ?.category
-                      }
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{ whiteSpace: "normal!important" }}
-                    >
-                      {
-                        getAirQualityInfo(airQualityData?.current?.pm2_5)
-                          ?.meaning
-                      }
+                      }{" "}
+                      <span style={{ opacity: 0.5 }}>
+                        — {airQualityData.current.pm2_5}
+                        {airQualityData.current_units.pm2_5}
+                      </span>
                     </Typography>
                   </Box>
+                  <IconButton
+                    onClick={() =>
+                      toast(
+                        getAirQualityInfo(airQualityData.current.pm2_5)
+                          ?.meaning || ""
+                      )
+                    }
+                    sx={{ background: "transparent!important", ml: "auto" }}
+                  >
+                    <Icon sx={{ color: "#000" }}>help</Icon>
+                  </IconButton>
                 </Box>
               </Grid>
             ) : (
@@ -480,13 +489,26 @@ export function Weather() {
         Weather
       </Typography>
       <Typography sx={{ ml: 0.2 }} variant="body2">
-        {error
-          ? "Something went wrong"
-          : locationStatus === "pending"
-          ? "Tap to enable location"
-          : locationStatus === "failed"
-          ? "Couldn't get location. Please allow location in your site settings."
-          : ""}
+        {error ? (
+          "Something went wrong"
+        ) : locationStatus === "pending" ? (
+          "Tap to enable"
+        ) : locationStatus === "failed" ? (
+          <span style={{ textTransform: "none" }}>
+            Blocked -{" "}
+            <Link
+              onClick={() =>
+                alert(
+                  "Your device has blocked location access. To fix this, go to your site settings and allow location access."
+                )
+              }
+            >
+              See why
+            </Link>
+          </span>
+        ) : (
+          ""
+        )}
       </Typography>
     </Box>
     // <Skeleton variant="rectangular" width="100%" height={130} />
