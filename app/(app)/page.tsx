@@ -32,6 +32,7 @@ import { useEffect, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
+import { TodaysTasks } from "./widgets/TodaysTasks";
 import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
@@ -124,59 +125,6 @@ function TodaysDate() {
         <Typography sx={{ ml: 0.2 }} variant="body2">
           {dayjs().format("MMM Do")}
         </Typography>
-      </Box>
-    </>
-  );
-}
-
-function TodaysTasks() {
-  const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  const { data, error } = useSWR([
-    "space/tasks/perspectives",
-    {
-      utcOffset: dayjs().utcOffset(),
-      start: dayjs().startOf("day").toISOString(),
-      end: dayjs().endOf("day").toISOString(),
-      type: "week",
-    },
-  ]);
-
-  return (
-    <>
-      {data && (
-        <SwipeableDrawer
-          anchor="bottom"
-          open={open}
-          onClose={() => setOpen(false)}
-        >
-          <Puller />
-          {JSON.stringify(data[0].length)}
-        </SwipeableDrawer>
-      )}
-      <Box
-        onClick={() => setOpen(true)}
-        sx={{
-          p: { xs: 2, sm: 3 },
-          borderRadius: 5,
-          background: palette[3],
-          color: palette[11],
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        <Icon sx={{ fontSize: "40px!important" }} className="outlined">
-          check_circle
-        </Icon>
-        <Box>
-          <Typography variant="h5">5 tasks</Typography>
-          <Typography variant="body2">3 complete</Typography>
-        </Box>
       </Box>
     </>
   );

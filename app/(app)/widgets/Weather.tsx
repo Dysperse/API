@@ -444,7 +444,7 @@ export function Weather() {
         </Typography>
       </Box>
     </>
-  ) : locationStatus === "active" ? (
+  ) : locationStatus === "active" || locationStatus === "unknown" ? (
     <Skeleton variant="rectangular" height={130} />
   ) : (
     <Box

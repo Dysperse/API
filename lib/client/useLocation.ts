@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 
-type LocationStatus = "pending" | "active" | "failed" | "unsupported";
+type LocationStatus =
+  | "unknown"
+  | "pending"
+  | "active"
+  | "failed"
+  | "unsupported";
 
 const useLocation = (): [LocationStatus, () => void] => {
   const [locationStatus, setLocationStatus] =
-    useState<LocationStatus>("pending");
+    useState<LocationStatus>("unknown");
 
   const requestLocation = async () => {
     // Check if the browser supports the Geolocation API
     if (navigator.geolocation) {
+      setLocationStatus("pending");
       navigator.geolocation.getCurrentPosition(
         function (position) {
           // Access the latitude and longitude from the position object
