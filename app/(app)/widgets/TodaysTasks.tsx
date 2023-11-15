@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -51,6 +52,39 @@ export function TodaysTasks() {
 
   return (
     <>
+      {!dayjs(session.user.lastPlannedTasks).isToday() && (
+        <motion.div
+          initial={{ height: 0 }}
+          animate={{ height: "auto" }}
+          style={{ marginBottom: "15px" }}
+        >
+          <Box
+            sx={{
+              background: palette[3],
+              p: 2,
+              borderRadius: 5,
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
+            }}
+          >
+            <Icon
+              className="outlined"
+              sx={{
+                color: palette[11],
+                fontSize: "40px!important",
+              }}
+            >
+              emoji_objects
+            </Icon>
+            <Box>
+              <Typography variant="body2">Stay on top</Typography>
+              <Typography sx={{ fontWeight: 700 }}>Plan my day</Typography>
+            </Box>
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+          </Box>
+        </motion.div>
+      )}
       {data && (
         <SwipeableDrawer
           anchor="bottom"
@@ -68,7 +102,7 @@ export function TodaysTasks() {
             ref: parent,
           }}
         >
-          <Puller />
+          <Puller showOnDesktop />
           <Box sx={{ px: 4 }}>
             <CreateTask
               defaultDate={dayjs().startOf("day").toDate()}

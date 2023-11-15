@@ -12,7 +12,6 @@ import {
   Icon,
   IconButton,
   NoSsr,
-  SwipeableDrawer,
   Toolbar,
   Typography,
   useMediaQuery,
@@ -27,6 +26,7 @@ import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
 import { Friends } from "./widgets/Friends";
+import { TodaysDate } from "./widgets/TodaysDate";
 import { TodaysTasks } from "./widgets/TodaysTasks";
 import { Weather } from "./widgets/Weather";
 
@@ -38,7 +38,7 @@ export function getAirQualityInfo(index) {
   return result || null; // Return null if no matching category is found
 }
 
-function Time() {
+export function Time() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -78,46 +78,6 @@ function Time() {
         </Typography>
       </Box>
     </Box>
-  );
-}
-
-function TodaysDate() {
-  const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
-
-  const [open, setOpen] = useState<boolean>(false);
-
-  return (
-    <>
-      <SwipeableDrawer
-        open={open}
-        onClose={() => setOpen(false)}
-        anchor="bottom"
-      >
-        <Time />
-      </SwipeableDrawer>
-      <Box
-        onClick={() => setOpen(true)}
-        sx={{
-          p: 2,
-          height: "130px",
-          borderRadius: 5,
-          background: palette[3],
-          color: palette[11],
-        }}
-      >
-        <Icon sx={{ fontSize: "40px!important" }} className="outlined">
-          calendar_today
-        </Icon>
-        <Typography sx={{ ml: 0.2 }} variant="h5">
-          {dayjs().format("dddd")}
-        </Typography>
-        <Typography sx={{ ml: 0.2 }} variant="body2">
-          {dayjs().format("MMM Do")}
-        </Typography>
-      </Box>
-    </>
   );
 }
 
