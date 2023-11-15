@@ -135,10 +135,8 @@ function BulkColorCode({ children }) {
 
 export default function TasksLayout({
   children,
-  taskModal,
 }: {
   children: React.ReactNode;
-  taskModal: React.ReactNode;
 }) {
   const router = useRouter();
   const { session } = useSession();
@@ -382,7 +380,6 @@ export default function TasksLayout({
           id="boardContainer"
         >
           {children}
-          {taskModal}
         </Box>
       </Box>
     </SelectionContext.Provider>
