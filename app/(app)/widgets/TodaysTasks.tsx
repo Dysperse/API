@@ -55,8 +55,13 @@ export function TodaysTasks() {
       {!dayjs(session.user.lastPlannedTasks).isToday() && (
         <motion.div
           initial={{ height: 0 }}
-          animate={{ height: "auto" }}
-          style={{ marginBottom: "15px" }}
+          animate={{ height: "76px" }}
+          style={{
+            marginBottom: "15px",
+            overflow: "hidden",
+            borderRadius: "20px",
+          }}
+          transition={{ duration: 1 }}
         >
           <Box
             sx={{
