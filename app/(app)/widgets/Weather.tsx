@@ -16,7 +16,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import dayjs from "dayjs";
 import { useCallback, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
 import { getAirQualityInfo } from "../page";
 import weatherCodes from "../tasks/Layout/widgets/weatherCodes.json";
 
@@ -29,6 +28,7 @@ export function Weather() {
   const [locationData, setLocationData] = useState<any>(null);
   const [weatherData, setWeatherData] = useState<any>(null);
   const [airQualityData, setAirQualityData] = useState<any>(null);
+  const [error, setError] = useState(false);
 
   const isNight = () => {
     const currentHour = new Date().getHours();
@@ -49,11 +49,12 @@ export function Weather() {
       )
         .then((r) => r.json())
         .then((r) => setAirQualityData(r))
-        .catch((e) => toast.error("Couldn't get air quality"));
+        .catch((res) => setError(true));
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=relative_humidity_2m&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=10&daily=weather_code,temperature_2m_max,temperature_2m_min`;
       fetch(url)
         .then((res) => res.json())
-        .then((res) => setWeatherData(res));
+        .then((res) => setWeatherData(res))
+        .catch((res) => setError(true));
     });
   }, []);
 
@@ -77,7 +78,7 @@ export function Weather() {
     }
   }, [getWeather, locationStatus]);
 
-  return weatherData ? (
+  return weatherData && !error ? (
     <>
       <SwipeableDrawer
         open={open}
@@ -444,7 +445,8 @@ export function Weather() {
         </Typography>
       </Box>
     </>
-  ) : locationStatus === "active" || locationStatus === "unknown" ? (
+  ) : (locationStatus === "active" || locationStatus === "unknown") &&
+    !error ? (
     <Skeleton variant="rectangular" height={130} />
   ) : (
     <Box
@@ -459,7 +461,9 @@ export function Weather() {
       }}
     >
       <Icon sx={{ fontSize: "40px!important" }} className="outlined">
-        {locationStatus === "pending"
+        {error
+          ? "near_me_disabled"
+          : locationStatus === "pending"
           ? "near_me"
           : locationStatus === "failed"
           ? "near_me_disabled"
@@ -469,7 +473,9 @@ export function Weather() {
         Weather
       </Typography>
       <Typography sx={{ ml: 0.2 }} variant="body2">
-        {locationStatus === "pending"
+        {error
+          ? "Something went wrong"
+          : locationStatus === "pending"
           ? "Tap to enable location"
           : locationStatus === "failed"
           ? "Couldn't get location. Please allow location in your site settings."
