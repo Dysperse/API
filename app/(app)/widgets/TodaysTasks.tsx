@@ -64,6 +64,7 @@ export function TodaysTasks() {
             <CreateTask
               defaultDate={dayjs().startOf("day").toDate()}
               onSuccess={() => mutate()}
+              sx={{ width: "100%" }}
             >
               <Button variant="contained" fullWidth>
                 <Icon>add_circle</Icon>New task
