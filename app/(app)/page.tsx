@@ -1,7 +1,5 @@
 "use client";
 
-import { containerRef } from "@/app/(app)/container";
-import patterns from "@/app/(app)/settings/patterns.json";
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { Puller } from "@/components/Puller";
@@ -30,7 +28,6 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { fetcher } from "./fetcher";
@@ -186,12 +183,14 @@ function Home() {
 
   return (
     <Box
-      sx={{
-        // background: `url("${patterns["topography"].replace(
-        //   "[FILL_COLOR]",
-        //   encodeURIComponent(palette[3])
-        // )}")`,
-      }}
+      sx={
+        {
+          // background: `url("${patterns["topography"].replace(
+          //   "[FILL_COLOR]",
+          //   encodeURIComponent(palette[3])
+          // )}")`,
+        }
+      }
     >
       {isMobile ? (
         <Navbar
@@ -359,28 +358,16 @@ function Home() {
                   )}
 
                   {data ? (
-                    data?.friends?.length > 0 && (
-                      <Virtuoso
-                        initialItemCount={
-                          data.friends.length < 5 ? data.friends.length : 5
-                        }
-                        customScrollParent={
-                          isMobile ? undefined : containerRef.current
-                        }
-                        useWindowScroll
-                        totalCount={data.friends.length}
-                        itemContent={(i) => (
-                          <Friend
-                            mutate={mutate}
-                            friend={
-                              data.friends[i].follower ||
-                              data.friends[i].following
-                            }
-                            key={i}
-                          />
-                        )}
-                      />
-                    )
+                    data?.friends?.length > 0 &&
+                    data.friends
+                      .slice(0, 5)
+                      .map((friend, i) => (
+                        <Friend
+                          mutate={mutate}
+                          friend={friend.follower || friend.following}
+                          key={i}
+                        />
+                      ))
                   ) : error ? (
                     <ErrorHandler
                       callback={mutate}

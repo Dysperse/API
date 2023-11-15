@@ -8,7 +8,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   Chip,
   Icon,
   LinearProgress,
@@ -22,7 +21,6 @@ import { cloneElement, memo, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 import { ConfirmationModal } from "../ConfirmationModal";
-import { Emoji } from "../Emoji";
 
 function calculatePercentage(startDate, endDate) {
   // Convert the dates to timestamps (milliseconds since January 1, 1970)
@@ -325,7 +323,6 @@ export function FriendPopover({ children, email }) {
                 }),
               }}
             >
-              Active{" "}
               {dayjs(data.lastActive).isAfter(dayjs()) ||
               dayjs(data.lastActive).fromNow() == "a few seconds ago"
                 ? "now"
@@ -361,14 +358,7 @@ export function FriendPopover({ children, email }) {
                 STATUS&nbsp;&bull;&nbsp;UNTIL&nbsp;
                 {dayjs(data.Status.until).format("h:mm A")}
               </Typography>
-              <Typography sx={{ mt: 1 }}>
-                <Emoji
-                  emoji={data.Status.emoji}
-                  size={24}
-                  style={{ verticalAlign: "middle", marginRight: "5px" }}
-                />
-                {data.Status.text}
-              </Typography>
+              <Typography sx={{ mt: 1 }}>{data.Status.text}</Typography>
             </Box>
           ) : data ? null : (
             <Skeleton />
@@ -475,93 +465,63 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             router.push("/users/" + (friend.username || friend.email));
           }}
           sx={{
-            border: "2px solid",
-            borderColor: userPalette[3],
-            borderRadius: 5,
             position: "relative",
             overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
           }}
         >
-          <CardContent
+          <Badge
+            badgeContent={
+              dayjs(friend.lastActive).isAfter(dayjs()) ||
+              dayjs(friend.lastActive).fromNow() == ""
+                ? ""
+                : dayjs(friend.lastActive)
+                    .fromNow(true)
+                    .replace("inute", "")
+                    .replace("our", "")
+                    .replace("ay", "")
+                    .replace("ay", "")
+                    .replace("s", "")
+                    .replace("ear", "")
+                    .replace("an", "")
+                    .replace("a ", "1")
+                    .replaceAll(" ", "")
+            }
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
             sx={{
-              display: "flex",
-              gap: 2,
-              zIndex: 99,
-              position: "sticky",
-              alignItems: "center",
+              "& .MuiBadge-badge": {
+                background: chipPalette[9],
+                border: `4px solid ${userPalette[status ? 3 : 2]}`,
+                ...((!status && dayjs(friend.lastActive).isAfter(dayjs())) ||
+                dayjs(friend.lastActive).fromNow() == "a few seconds ago"
+                  ? {
+                      background: chipPalette[9],
+                    }
+                  : !status && {
+                      boxShadow: `0 0 0 2px inset ${chipPalette[9]}`,
+                      background: chipPalette[9],
+                    }),
+                width: 33,
+                whiteSpace: "nowrap",
+                height: 25,
+                borderRadius: 99,
+                transform: "translate(3px, 3px)",
+              },
             }}
           >
-            <Badge
-              variant="dot"
-              badgeContent={1}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              sx={{
-                "& .MuiBadge-badge": {
-                  background: chipPalette[9],
-                  border: `4px solid ${userPalette[status ? 3 : 2]}`,
-                  ...((!status && dayjs(friend.lastActive).isAfter(dayjs())) ||
-                  dayjs(friend.lastActive).fromNow() == "a few seconds ago"
-                    ? {
-                        background: chipPalette[9],
-                      }
-                    : !status && {
-                        boxShadow: `0 0 0 2px inset ${chipPalette[9]}`,
-                        background: userPalette[2],
-                      }),
-                  width: 20,
-                  height: 20,
-                  borderRadius: 99,
-                  transform: "translate(3px, 3px)",
-                },
-              }}
-            >
-              <ProfilePicture data={friend} size={50} sx={{ flexShrink: 0 }} />
-            </Badge>
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h6">
-                {friend.name.split(" ")?.[0]}
-              </Typography>
-              {status?.emoji && status?.emoji !== "null" ? (
-                <>
-                  <Typography sx={{ display: "flex", gap: 2 }}>
-                    <Emoji
-                      emoji={status.emoji}
-                      size={24}
-                      style={{ marginTop: "4px" }}
-                    />
-                    {status.text}
-                  </Typography>
-                </>
-              ) : status?.status === "focusing" ? (
-                <FocusText started={status.started} />
-              ) : // this is when i updated the database
-              dayjs(friend.lastActive).toISOString() !==
-                "2023-10-07T17:23:03.871Z" ? (
-                <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
-                  Active{" "}
-                  {dayjs(friend.lastActive).isAfter(dayjs()) ||
-                  dayjs(friend.lastActive).fromNow() == "a few seconds ago"
-                    ? "now"
-                    : dayjs(friend.lastActive).fromNow()}
-                </Typography>
-              ) : (
-                <Typography sx={{ display: "flex", gap: 2, opacity: 0.6 }}>
-                  {friend.username && "@"}
-                  {friend.username || friend.email}
-                </Typography>
-              )}
-            </Box>
-          </CardContent>
-          {status && (
-            <FriendProgressBar
-              started={status.started}
-              until={status.until}
-              userPalette={userPalette}
-            />
-          )}
+            <ProfilePicture data={friend} size={50} sx={{ flexShrink: 0 }} />
+          </Badge>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="h6">{friend.name.split(" ")?.[0]}</Typography>
+            {status?.status === "focusing" && (
+              <FocusText started={status.started} />
+            )}
+          </Box>
         </Card>
       </FriendPopover>
     </Box>
