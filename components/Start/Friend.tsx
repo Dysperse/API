@@ -470,6 +470,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             display: "flex",
             alignItems: "center",
             gap: 2,
+            background: "transparent",
           }}
         >
           <Badge
@@ -485,7 +486,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     .replace("ay", "")
                     .replace("s", "")
                     .replace("ear", "")
-                    .replace("an", "")
+                    .replace("an", "1")
                     .replace("a ", "1")
                     .replaceAll(" ", "")
             }
@@ -495,8 +496,10 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             }}
             sx={{
               "& .MuiBadge-badge": {
+                fontWeight: 700,
+                textTransform: "uppercase",
                 background: chipPalette[9],
-                border: `4px solid ${userPalette[status ? 3 : 2]}`,
+                border: `4px solid ${userPalette[3]}`,
                 ...((!status && dayjs(friend.lastActive).isAfter(dayjs())) ||
                 dayjs(friend.lastActive).fromNow() == "a few seconds ago"
                   ? {
@@ -506,7 +509,6 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                       boxShadow: `0 0 0 2px inset ${chipPalette[9]}`,
                       background: chipPalette[9],
                     }),
-                width: 33,
                 whiteSpace: "nowrap",
                 height: 25,
                 borderRadius: 99,
@@ -514,7 +516,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               },
             }}
           >
-            <ProfilePicture data={friend} size={50} sx={{ flexShrink: 0 }} />
+            <ProfilePicture data={friend} size={45} sx={{ flexShrink: 0 }} />
           </Badge>
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="h6">{friend.name.split(" ")?.[0]}</Typography>

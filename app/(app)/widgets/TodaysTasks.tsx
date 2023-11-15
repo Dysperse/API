@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Icon,
+  LinearProgress,
   Skeleton,
   SwipeableDrawer,
   Typography,
@@ -117,13 +118,17 @@ export function TodaysTasks() {
             color: palette[11],
             display: "flex",
             alignItems: "center",
+            position: "relative",
             gap: 2,
           }}
         >
-          <Icon sx={{ fontSize: "40px!important" }} className="outlined">
+          <Icon
+            sx={{ zIndex: 1, fontSize: "40px!important" }}
+            className="outlined"
+          >
             check_circle
           </Icon>
-          <Box>
+          <Box sx={{ zIndex: 1 }}>
             <Typography variant="h5">
               {data?.[0]?.tasks?.length} task
               {data?.[0]?.tasks?.length !== 1 && "s"}
@@ -132,6 +137,22 @@ export function TodaysTasks() {
               {completedTasksLength} complete
             </Typography>
           </Box>
+          <LinearProgress
+            variant="determinate"
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              borderRadius: 5,
+              background: "transparent",
+              "& *": {
+                background: palette[4] + "!important",
+              },
+            }}
+            value={(completedTasksLength / data[0].tasks.length) * 100}
+          />
         </Box>
       ) : (
         <Skeleton height={84} variant="rectangular" />

@@ -1,21 +1,17 @@
 "use client";
 
-import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { Puller } from "@/components/Puller";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
-import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
-  Alert,
   Box,
   Icon,
   IconButton,
   NoSsr,
-  Skeleton,
   SwipeableDrawer,
   Toolbar,
   Typography,
@@ -25,17 +21,14 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
-import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
+import { Friends } from "./widgets/Friends";
 import { TodaysTasks } from "./widgets/TodaysTasks";
 import { Weather } from "./widgets/Weather";
-const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
 export function getAirQualityInfo(index) {
   const result = airQuality.find(
@@ -133,16 +126,6 @@ function Home() {
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
   const isMobile = useMediaQuery("(max-width: 600px)");
-
-  const params: any = ["user/friends", { email: session.user.email }];
-
-  const { data, error, mutate } = useSWR(
-    params,
-    fetcher(params, session) as any,
-    {
-      refreshInterval: 5000,
-    }
-  );
 
   const router = useRouter();
 
@@ -338,78 +321,9 @@ function Home() {
                   <Typography sx={sectionHeaderStyles}>
                     Recent activity
                   </Typography>
-                  {data?.length === 0 && (
-                    <Alert
-                      sx={{
-                        mb: -2,
-                        mt: 2,
-                        background: palette[3],
-                        color: palette[12],
-                      }}
-                      severity="info"
-                      icon={
-                        <Icon sx={{ color: palette[12] }} className="outlined">
-                          info
-                        </Icon>
-                      }
-                    >
-                      Friends will appear here!
-                    </Alert>
-                  )}
 
-                  {data ? (
-                    data?.friends?.length > 0 &&
-                    data.friends
-                      .slice(0, 5)
-                      .map((friend, i) => (
-                        <Friend
-                          mutate={mutate}
-                          friend={friend.follower || friend.following}
-                          key={i}
-                        />
-                      ))
-                  ) : error ? (
-                    <ErrorHandler
-                      callback={mutate}
-                      error="Couldn't load your friends. Try again later."
-                    />
-                  ) : (
-                    <>
-                      {[...new Array(5)].map((_, i) => (
-                        <Box
-                          key={i}
-                          sx={{
-                            mb: 2,
-                            px: 2,
-                            display: "flex",
-                            gap: 2,
-                            alignItems: "center",
-                            border: "2px solid",
-                            borderColor: palette[3],
-                            borderRadius: 5,
-                            height: 95,
-                          }}
-                        >
-                          <Skeleton
-                            variant="circular"
-                            width={50}
-                            height={50}
-                            sx={{ mt: -1 }}
-                          />
-                          <Box sx={{ flexGrow: 1 }}>
-                            <Skeleton
-                              width={"90%"}
-                              height={35}
-                              sx={{ mt: -1 }}
-                            />
-                            <Skeleton width={"50%"} sx={{ mt: -0.1 }} />
-                          </Box>
-                        </Box>
-                      ))}
-                    </>
-                  )}
+                  <Friends />
                 </Box>
-                <ContactSync showFriends={data?.friends?.length === 0} />
               </Box>
               <Toolbar />
             </motion.div>

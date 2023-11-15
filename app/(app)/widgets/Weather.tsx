@@ -312,7 +312,7 @@ export function Weather() {
                 bottom: 0,
                 left: 0,
                 width: "100%",
-                opacity: 0.3,
+                opacity: 0.1,
               }}
             />
             <Box
@@ -325,6 +325,7 @@ export function Weather() {
                 transform: "translateY(-50%)",
                 width: "100%",
                 gap: 2,
+                px: 0.8,
               }}
               ref={hourlyRef}
             >
@@ -344,7 +345,7 @@ export function Weather() {
                     justifyContent: "center",
                     textAlign: "center",
                     ...(i === dayjs().hour() && {
-                      background: "rgba(255,255,255,.1)",
+                      background: "rgba(255,255,255,.15)",
                     }),
                   }}
                 >
