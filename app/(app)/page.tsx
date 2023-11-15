@@ -187,10 +187,10 @@ function Home() {
   return (
     <Box
       sx={{
-        background: `url("${patterns["topography"].replace(
-          "[FILL_COLOR]",
-          encodeURIComponent(palette[3])
-        )}")`,
+        // background: `url("${patterns["topography"].replace(
+        //   "[FILL_COLOR]",
+        //   encodeURIComponent(palette[3])
+        // )}")`,
       }}
     >
       {isMobile ? (

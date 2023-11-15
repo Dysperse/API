@@ -87,6 +87,9 @@ export function Weather() {
         PaperProps={{
           id: "scrollContainer",
           sx: {
+            "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+              display: "none",
+            },
             maxHeight: "calc(100dvh - 150px)",
             "& .MuiChip-root": {
               background: "rgba(255,255,255,.1)",
@@ -322,9 +325,6 @@ export function Weather() {
                 transform: "translateY(-50%)",
                 width: "100%",
                 gap: 2,
-                "&::-webkit-scrollbar": {
-                  display: "none",
-                },
               }}
               ref={hourlyRef}
             >
@@ -388,7 +388,7 @@ export function Weather() {
               mb: 2,
             }}
           >
-            {weatherData.daily.weather_code.map((code, i) => (
+            {weatherData.daily.weather_code.slice(1).map((code, i) => (
               <ListItem
                 key={code}
                 sx={{
@@ -402,11 +402,14 @@ export function Weather() {
                 <Typography
                   sx={{ fontWeight: "900", opacity: 0.6, mr: "auto" }}
                 >
-                  {dayjs().startOf("day").add(i, "day").format("ddd")}
+                  {dayjs()
+                    .startOf("day")
+                    .add(i + 1, "day")
+                    .format("ddd")}
                 </Typography>
-                {-~weatherData.daily.temperature_2m_min[i]}
+                {-~weatherData.daily.temperature_2m_min[i + 1]}
                 {" - "}
-                {-~weatherData.daily.temperature_2m_max[i]}&deg;
+                {-~weatherData.daily.temperature_2m_max[i + 1]}&deg;
                 <Icon className="outlined">
                   {isNight()
                     ? weatherCodes[code].night.icon
