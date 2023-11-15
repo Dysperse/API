@@ -342,18 +342,21 @@ export function Weather() {
                     flexDirection: "column",
                     alignItem: "center",
                     justifyContent: "center",
+                    textAlign: "center",
                     ...(i === dayjs().hour() && {
                       background: "rgba(255,255,255,.1)",
                     }),
                   }}
                 >
-                  <Icon>
-                    {
-                      weatherCodes[weatherData.hourly.weathercode[i]][
-                        isNight() ? "night" : "day"
-                      ].icon
-                    }
-                  </Icon>
+                  <Typography>
+                    <Icon>
+                      {
+                        weatherCodes[weatherData.hourly.weathercode[i]][
+                          isNight() ? "night" : "day"
+                        ].icon
+                      }
+                    </Icon>
+                  </Typography>
                   <Typography>{-~temp}&deg;</Typography>
                   <Typography
                     variant="body2"
