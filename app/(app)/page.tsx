@@ -7,6 +7,7 @@ import { Puller } from "@/components/Puller";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -32,10 +33,10 @@ import { useEffect, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
-import { TodaysTasks } from "./widgets/TodaysTasks";
 import { fetcher } from "./fetcher";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
+import { TodaysTasks } from "./widgets/TodaysTasks";
 import { Weather } from "./widgets/Weather";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
@@ -186,7 +187,9 @@ function Home() {
   return (
     <Box
       sx={{
-        background: `radial-gradient(${palette[2]} 4px, ${palette[1]} 5px, transparent 0)`,
+        background: `radial-gradient(${addHslAlpha(palette[3], 0.8)} 4px, ${
+          palette[1]
+        } 5px, transparent 0)`,
         backgroundSize: "50px 50px",
         backgroundPosition: "-25px -25px",
       }}
