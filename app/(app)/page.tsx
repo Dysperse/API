@@ -1,13 +1,13 @@
 "use client";
 
 import { containerRef } from "@/app/(app)/container";
+import patterns from "@/app/(app)/settings/patterns.json";
 import { ErrorHandler } from "@/components/Error";
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { Puller } from "@/components/Puller";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { Friend } from "@/components/Start/Friend";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
-import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -187,11 +187,10 @@ function Home() {
   return (
     <Box
       sx={{
-        background: `radial-gradient(${addHslAlpha(palette[3], 0.8)} 4px, ${
-          palette[1]
-        } 5px, transparent 0)`,
-        backgroundSize: "50px 50px",
-        backgroundPosition: "-25px -25px",
+        background: `url("${patterns["topography"].replace(
+          "[FILL_COLOR]",
+          encodeURIComponent(palette[3])
+        )}")`,
       }}
     >
       {isMobile ? (

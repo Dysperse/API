@@ -14,7 +14,6 @@ const useLocation = (): [LocationStatus, () => void] => {
   const requestLocation = async () => {
     // Check if the browser supports the Geolocation API
     if (navigator.geolocation) {
-      setLocationStatus("pending");
       navigator.geolocation.getCurrentPosition(
         function (position) {
           // Access the latitude and longitude from the position object
@@ -54,6 +53,7 @@ const useLocation = (): [LocationStatus, () => void] => {
             requestLocation();
           }
           // Otherwise, wait for the user to click the button
+          setLocationStatus("pending");
         });
     }
   }, []);
