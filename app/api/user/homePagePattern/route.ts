@@ -2,6 +2,8 @@ import patterns from "@/app/(app)/settings/patterns.json";
 import { getApiParam } from "@/lib/server/helpers";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const pattern = await getApiParam(req, "pattern", true);
