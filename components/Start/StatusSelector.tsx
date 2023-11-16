@@ -171,13 +171,14 @@ export function StatusSelector({
             }),
             width: 36,
             height: 36,
-            "&, &:hover": {
-              background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
-              color: `${chipPalette[12]} !important`,
-              "&:active": {
-                background: `linear-gradient(-90deg, ${chipPalette[6]}, ${chipPalette[3]}) !important`,
-              },
-            },
+            background: palette[3],
+            // "&, &:hover": {
+            //   background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
+            //   color: `${chipPalette[12]} !important`,
+            //   "&:active": {
+            //     background: `linear-gradient(-90deg, ${chipPalette[6]}, ${chipPalette[3]}) !important`,
+            //   },
+            // },
           }}
         >
           <Icon className="outlined">
