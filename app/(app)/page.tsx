@@ -11,10 +11,10 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
+  CircularProgress,
   Icon,
   IconButton,
   NoSsr,
-  Skeleton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -407,12 +407,17 @@ export default function Page() {
   return (
     <NoSsr
       fallback={
-        <>
-          <Skeleton animation="wave" height={21} variant="rectangular" />
-          <Skeleton animation="wave" height={60} variant="rectangular" />
-          <Skeleton animation="wave" height={32} variant="rectangular" />
-          <Skeleton animation="wave" height={21} variant="rectangular" />
-        </>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
       }
     >
       <Home />
