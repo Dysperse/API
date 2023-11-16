@@ -4,6 +4,7 @@ import { swipeablePageStyles } from "@/app/(app)/swipeablePageStyles";
 import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
 import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
+import { headingStyles } from "@/components/Start/HeadingComponent";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -25,7 +26,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MenuChildren } from "../menu";
 import { recentlyAccessed } from "../recently-accessed";
-import { headingStyles } from "@/components/Start/HeadingComponent";
 
 function PlanTrigger() {
   const router = useRouter();
@@ -216,6 +216,7 @@ export default function Home() {
         <Box
           sx={{
             display: "flex",
+            overflowX: "clip",
             maxWidth: "100dvw",
           }}
         >

@@ -45,7 +45,7 @@ export default function Page() {
         ref={emblaRef}
         sx={{
           maxWidth: "100dvw",
-          // overflowX: "hidden",
+          overflowX: "clip",
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
           }),

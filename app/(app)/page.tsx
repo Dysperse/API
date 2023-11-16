@@ -244,6 +244,7 @@ function Home() {
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
           }),
+          overflowX: "clip",
         }}
         ref={emblaRef}
       >
