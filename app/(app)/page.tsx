@@ -33,6 +33,8 @@ import { TodaysDate } from "./widgets/TodaysDate";
 import { TodaysTasks } from "./widgets/TodaysTasks";
 import { Weather } from "./widgets/Weather";
 
+import patterns from "@/app/(app)/settings/patterns.json";
+
 export function getAirQualityInfo(index) {
   const result = airQuality.find(
     (category) => index >= category.index.min && index <= category.index.max
@@ -184,12 +186,13 @@ function Home() {
   return (
     <Box
       sx={
-        {
-          // background: `url("${patterns["topography"].replace(
-          //   "[FILL_COLOR]",
-          //   encodeURIComponent(palette[3])
-          // )}")`,
-        }
+        session.user.homePagePattern
+          ? {
+              background: `url("${patterns[
+                session.user.homePagePattern
+              ].replace("[FILL_COLOR]", encodeURIComponent(palette[3]))}")`,
+            }
+          : undefined
       }
     >
       {isMobile && (

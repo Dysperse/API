@@ -21,9 +21,9 @@ export async function PUT(req: NextRequest) {
   const twoFactorSecret = await getApiParam(req, "twoFactorSecret", false);
   const darkMode = await getApiParam(req, "darkMode", false);
   const lastPlannedTasks = await getApiParam(req, "lastPlannedTasks", false);
+  const homePagePattern = await getApiParam(req, "homePagePattern", false);
   const agreeTos = await getApiParam(req, "agreeTos", false);
   const color = await getApiParam(req, "color", false);
-
   const user = await prisma.user.update({
     where: {
       identifier: userIdentifier,
@@ -43,6 +43,9 @@ export async function PUT(req: NextRequest) {
       ...(lastPlannedTasks && { lastPlannedTasks: new Date(lastPlannedTasks) }),
       ...(agreeTos && { agreeTos: agreeTos === "true" }),
       color: color || undefined,
+      ...(homePagePattern && {
+        homePagePattern: homePagePattern === "SOLID" ? null : homePagePattern,
+      }),
     },
   });
   return Response.json(user);
