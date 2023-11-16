@@ -1,4 +1,3 @@
-import { Puller } from "@/components/Puller";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { fetchRawApi } from "@/lib/client/useApi";
@@ -222,9 +221,13 @@ export function StatusSelector({
           setOpen(false);
           resetStatus();
         }}
+        PaperProps={{
+          sx: {
+            height: "calc(100dvh - 200px)",
+          },
+        }}
       >
         <Box sx={{ width: "100%" }}>
-          <Puller showOnDesktop />
           <AppBar>
             <Toolbar>
               <IconButton onClick={() => setOpen(false)}>
