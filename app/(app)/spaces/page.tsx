@@ -36,7 +36,7 @@ import { ProfilePicture } from "../users/[id]/ProfilePicture";
 function SpaceButton({ editMode, mutate, invite }) {
   const router = useRouter();
   const { session, setSession } = useSession();
-  const isSelected = invite.user.selectedProperty.id === invite.propertyId;
+  const isSelected = invite.user?.selectedProperty?.id === invite.propertyId;
   const space = invite.profile;
 
   const members = [

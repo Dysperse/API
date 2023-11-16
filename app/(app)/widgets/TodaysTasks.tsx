@@ -3,6 +3,7 @@ import { Puller } from "@/components/Puller";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Alert,
   Box,
   Button,
   Icon,
@@ -125,26 +126,35 @@ export function TodaysTasks() {
               set: () => {},
             }}
           >
-            <Virtuoso
-              data={data[0].tasks}
-              initialItemCount={
-                data[0].tasks.length < 10 ? data[0].tasks.length : 10
-              }
-              itemContent={(i, task) => (
-                <Task
-                  recurringInstance={task.recurrenceDay}
-                  isAgenda
-                  isDateDependent={true}
-                  key={task.id}
-                  board={task.board || false}
-                  columnId={task.column ? task.column.id : -1}
-                  mutateList={() => mutate()}
-                  task={task}
-                />
-              )}
-              useWindowScroll
-              customScrollParent={parent.current}
-            />
+            {data[0].tasks.length === 0 && (
+              <Box sx={{ p: 4 }}>
+                <Alert severity="info">
+                  You don&apos;t have any tasks for today!
+                </Alert>
+              </Box>
+            )}
+            {data[0].tasks.length !== 0 && (
+              <Virtuoso
+                data={data[0].tasks}
+                initialItemCount={
+                  data[0].tasks.length < 10 ? data[0].tasks.length : 10
+                }
+                itemContent={(i, task) => (
+                  <Task
+                    recurringInstance={task.recurrenceDay}
+                    isAgenda
+                    isDateDependent={true}
+                    key={task.id}
+                    board={task.board || false}
+                    columnId={task.column ? task.column.id : -1}
+                    mutateList={() => mutate()}
+                    task={task}
+                  />
+                )}
+                useWindowScroll
+                customScrollParent={parent.current}
+              />
+            )}
           </SelectionContext.Provider>
         </SwipeableDrawer>
       )}
