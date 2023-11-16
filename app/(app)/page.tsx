@@ -1,6 +1,7 @@
 "use client";
 
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
+import { Logo } from "@/components/Logo";
 import { Puller } from "@/components/Puller";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
@@ -404,7 +405,22 @@ function Home() {
 
 export default function Page() {
   return (
-    <NoSsr>
+    <NoSsr
+      fallback={
+        <Box
+          sx={{
+            "& .logo": {
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,-50%)",
+            },
+          }}
+        >
+          <Logo />
+        </Box>
+      }
+    >
       <Home />
     </NoSsr>
   );
