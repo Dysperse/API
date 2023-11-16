@@ -109,6 +109,7 @@ export function BottomNav() {
         left: "50%",
         transform: "translateX(-50%)",
         border: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+        boxShadow: `0 20px 70px 20px ${palette[1]}`,
         background: addHslAlpha(palette[1], 0.9),
         width: "auto",
         ".hideBottomNav &": {
