@@ -140,7 +140,7 @@ function Home() {
     <Box
       sx={{
         mt: { xs: 4, sm: 0 },
-        mb: { xs: 10, sm: 2 },
+        mb: { xs: 15, sm: 2 },
         display: "flex",
         justifyContent: { xs: "center", sm: "flex-end" },
       }}
