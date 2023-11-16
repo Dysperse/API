@@ -614,6 +614,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               cursor: "default",
               boxShadow: "none!important",
+              textTransform: "none!important",
               background: palette[3],
               borderWidth: "2px",
               borderColor: palette[4],
