@@ -20,7 +20,6 @@ import {
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
@@ -136,7 +135,7 @@ function Home() {
         }
       }
     >
-      {isMobile ? (
+      {isMobile && (
         <Navbar
           showLogo={isMobile}
           showRightContent={isMobile}
@@ -149,8 +148,6 @@ function Home() {
             </IconButton>
           }
         />
-      ) : (
-        <Toolbar />
       )}
       <Box
         sx={{
@@ -159,7 +156,6 @@ function Home() {
           "&::-webkit-scrollbar": {
             display: "none",
           },
-          mt: "env(titlebar-area-height)",
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
           }),
@@ -188,9 +184,26 @@ function Home() {
               </Box>
             </Box>
           )}
-          <Box sx={{ flex: "0 0 100dvw" }}>
-            <motion.div initial={{ y: 100 }} animate={{ y: 0 }}>
-              <Box
+          <Box
+            sx={{
+              "& .motion": {
+                flex: { xs: "0 0 100dvw", sm: "0 0 100%" },
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+              },
+              "& .card": {
+                borderRadius: 5,
+                color: palette[11],
+                background: palette[3],
+                "&:hover": { background: { sm: palette[4] } },
+                "&:active": { background: palette[5] },
+              },
+            }}
+          >
+            <Grid container>
+              <Grid
+                xs={12}
+                sm={6}
                 sx={{
                   pt: { xs: 7, sm: 15 },
                 }}
@@ -226,81 +239,63 @@ function Home() {
                   >
                     Are you ready to seize the day?
                   </Typography>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  px: 3,
-                  maxWidth: "100dvw",
-                  display: "flex",
-                  gap: 2,
-                  "& .button": {
-                    background: palette[3],
-                    borderRadius: 5,
-                    display: "flex",
-                    alignItems: "center",
-                    p: 2,
-                    gap: 2,
-                    fontWeight: 700,
-                    color: palette[11],
-                    "& .MuiIcon-root": {
-                      fontSize: "30px!important",
-                    },
-                  },
-                }}
-              >
-                <AvailabilityTrigger />
-                <FriendsTrigger />
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  mx: "auto",
-                  width: "100%",
-                  maxWidth: { sm: "500px" },
-                  px: 3,
-                  flexDirection: "column",
-                  "& .card": {
-                    borderRadius: 5,
-                    color: palette[11],
-                    background: palette[3],
-                    "&:hover": { background: { sm: palette[4] } },
-                    "&:active": { background: palette[5] },
-                  },
-                }}
-              >
-                <Typography sx={sectionHeaderStyles}>
-                  Today&apos;s rundown
-                </Typography>
-                <Box>
-                  <Grid container sx={{ mb: 2 }} spacing={2}>
-                    <Grid xs={6}>
-                      <Weather />
-                    </Grid>
-                    <Grid xs={6}>
-                      <TodaysDate />
-                    </Grid>
-                    <Grid xs={12}>
-                      <TodaysTasks />
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Box sx={{ mb: 5 }}>
+                  <Box
+                    sx={{
+                      px: 3,
+                      maxWidth: "100%",
+                      display: "flex",
+                      gap: 2,
+                      "& .button": {
+                        background: palette[3],
+                        borderRadius: 5,
+                        display: "flex",
+                        alignItems: "center",
+                        p: 2,
+                        gap: 2,
+                        fontWeight: 700,
+                        color: palette[11],
+                        "& .MuiIcon-root": {
+                          fontSize: "30px!important",
+                        },
+                      },
+                    }}
+                  >
+                    <AvailabilityTrigger />
+                    <FriendsTrigger />
+                  </Box>
                   <Typography sx={sectionHeaderStyles}>
-                    Recent activity
+                    Today&apos;s rundown
                   </Typography>
-                  <Friends />
-
-                  <Box sx={{ mt: 3, display: "flex" }}>
-                    <Button sx={{ mx: "auto" }} variant="outlined">
-                      <Icon>palette</Icon>
-                      Customize
-                    </Button>
+                  <Box>
+                    <Grid container sx={{ mb: 2 }} spacing={2}>
+                      <Grid xs={6}>
+                        <Weather />
+                      </Grid>
+                      <Grid xs={6}>
+                        <TodaysDate />
+                      </Grid>
+                      <Grid xs={12}>
+                        <TodaysTasks />
+                      </Grid>
+                    </Grid>
                   </Box>
                 </Box>
-              </Box>
+              </Grid>
+              <Grid xs={12} sm={6} sx={{ pb: 5 }}>
+                <Typography sx={sectionHeaderStyles}>
+                  Recent activity
+                </Typography>
+                <Friends />
+
+                <Box sx={{ mt: 3, display: "flex" }}>
+                  <Button sx={{ mx: "auto" }} variant="outlined">
+                    <Icon>palette</Icon>
+                    Customize
+                  </Button>
+                </Box>
+              </Grid>
               <Toolbar />
-            </motion.div>
+            </Grid>
           </Box>
           {isMobile && session.space.info.type !== "study group" && (
             <Box sx={{ flex: "0 0 100dvw" }}>

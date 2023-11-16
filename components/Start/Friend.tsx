@@ -478,7 +478,9 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
               dayjs(friend.lastActive).isAfter(dayjs()) ||
               dayjs(friend.lastActive).fromNow() == ""
                 ? ""
-                : dayjs(friend.lastActive)
+                : dayjs().fromNow().includes("second")
+                ? ""
+                : dayjs()
                     .fromNow(true)
                     .replace("inute", "")
                     .replace("our", "")
@@ -511,6 +513,9 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     }),
                 whiteSpace: "nowrap",
                 height: 25,
+                "&:empty": {
+                  width: 25,
+                },
                 borderRadius: 99,
                 transform: "translate(3px, 3px)",
               },

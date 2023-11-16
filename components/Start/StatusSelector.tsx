@@ -8,15 +8,12 @@ import {
   Box,
   Button,
   CircularProgress,
-  Divider,
   FormControl,
   Icon,
   IconButton,
-  InputAdornment,
   MenuItem,
   Select,
   SwipeableDrawer,
-  TextField,
   Toolbar,
   Tooltip,
   Typography,
@@ -33,7 +30,6 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import useSWR from "swr";
-import EmojiPicker from "../EmojiPicker";
 
 export function StatusSelector({
   children,
@@ -106,8 +102,6 @@ export function StatusSelector({
         timeZone: session.user.timeZone,
         profile: JSON.stringify(profile),
         email: session.user.email,
-        emoji,
-        text: textRef?.current?.value,
         notifyFriendsForStatusUpdates:
           notificationData.notifyFriendsForStatusUpdates ? "true" : "false",
       },
@@ -127,7 +121,6 @@ export function StatusSelector({
     profile,
     setLoading,
     mutateStatus,
-    emoji,
     notificationData,
   ]);
 
@@ -306,48 +299,6 @@ export function StatusSelector({
                 ))}
               </Select>
             </FormControl>
-          </Box>
-          <Box sx={{ px: 2, mt: 4 }}>
-            <Divider />
-          </Box>
-          <Typography variant="body2" sx={typographyStyles}>
-            What&apos;s up?
-          </Typography>
-          <Box sx={{ px: 2, mb: 2 }}>
-            <TextField
-              placeholder="What's on your mind?"
-              autoComplete="off"
-              inputRef={textRef}
-              onKeyDown={(e) => {
-                if (e.code === "Enter") handleSubmit();
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <EmojiPicker
-                      setEmoji={(s) => {
-                        setTimeout(() => {
-                          setEmoji(s);
-                          textRef?.current?.focus();
-                        });
-                      }}
-                    >
-                      <IconButton size="small">
-                        {emoji ? (
-                          <img
-                            src={`https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/${emoji}.png`}
-                            alt="Crying emoji"
-                            width={25}
-                          />
-                        ) : (
-                          <Icon className="outlined">add_reaction</Icon>
-                        )}
-                      </IconButton>
-                    </EmojiPicker>
-                  </InputAdornment>
-                ),
-              }}
-            />
           </Box>
         </Box>
       </SwipeableDrawer>
