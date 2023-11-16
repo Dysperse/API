@@ -38,6 +38,13 @@ export function Weather() {
     return currentHour >= 18 || currentHour <= 6; // Assuming night is between 6 PM and 6 AM
   };
 
+  const base =
+    weatherCodes[weatherData?.current_weather?.weathercode]?.[
+      isNight() ? "night" : "day"
+    ].textColor === "#fff"
+      ? `255,255,255`
+      : `0,0,0`;
+
   const [locationStatus, requestLocation] = useLocation();
 
   const getWeather = useCallback(async () => {
@@ -95,7 +102,7 @@ export function Weather() {
             },
             maxHeight: "calc(100dvh - 150px)",
             "& .MuiChip-root": {
-              background: "rgba(255,255,255,.1)",
+              background: `rgba(${base},.1)`,
               color: "inherit",
               "& .MuiIcon-root": {
                 color: "inherit",
@@ -153,7 +160,7 @@ export function Weather() {
               "& .card": {
                 display: "flex",
                 alignItems: "center",
-                background: "rgba(255,255,255,.1)",
+                background: `rgba(${base},.1)`,
                 borderRadius: 5,
                 p: 1,
                 gap: 2,
@@ -280,7 +287,16 @@ export function Weather() {
                     }
                     sx={{ background: "transparent!important", ml: "auto" }}
                   >
-                    <Icon sx={{ color: "#000" }}>help</Icon>
+                    <Icon
+                      sx={{
+                        color:
+                          weatherCodes[weatherData.current_weather.weathercode][
+                            isNight() ? "night" : "day"
+                          ].textColor,
+                      }}
+                    >
+                      help
+                    </Icon>
                   </IconButton>
                 </Box>
               </Grid>
@@ -303,7 +319,7 @@ export function Weather() {
           <Box
             sx={{
               borderRadius: 5,
-              background: "rgba(255,255,255,.1)",
+              background: `rgba(${base},.1)`,
               position: "relative",
               overflow: "hidden",
             }}
@@ -354,7 +370,7 @@ export function Weather() {
                     justifyContent: "center",
                     textAlign: "center",
                     ...(i === dayjs().hour() && {
-                      background: "rgba(255,255,255,.15)",
+                      background: `rgba(${base},.15)`,
                     }),
                   }}
                 >
@@ -396,7 +412,7 @@ export function Weather() {
           </Typography>
           <List
             sx={{
-              background: "rgba(255,255,255,.1)",
+              background: `rgba(${base},.1)`,
               borderRadius: 5,
               mb: 2,
             }}
@@ -406,7 +422,7 @@ export function Weather() {
                 key={code}
                 sx={{
                   "&:not(:last-child)": {
-                    borderBottom: "1px solid rgba(255,255,255,.1)",
+                    borderBottom: `1px solid rgba(${base},.1)`,
                   },
                   display: "flex",
                   alignItems: "center",
