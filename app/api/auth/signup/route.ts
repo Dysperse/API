@@ -108,6 +108,13 @@ export async function POST(req: NextRequest) {
       color: "cyan",
     },
   });
+
+  await prisma.user.update({
+    where: { id },
+    data: {
+      selectedProperty: { connect: { id: property.id } },
+    },
+  });
   //   Get property id from property
   const propertyId = property.id;
 

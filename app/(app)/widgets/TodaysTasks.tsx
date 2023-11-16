@@ -92,7 +92,10 @@ export function TodaysTasks() {
           anchor="bottom"
           keepMounted
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={() => {
+            setOpen(false);
+            mutate();
+          }}
           ModalProps={{
             keepMounted: true,
           }}
