@@ -201,7 +201,7 @@ function Home() {
       sx={
         session.user.homePagePattern && patterns[session.user.homePagePattern]
           ? {
-              transition: "background 2s",
+              transition: "background 1s",
               backgroundPosition: "center",
               background: `url("/api/user/homePagePattern?${new URLSearchParams(
                 {
