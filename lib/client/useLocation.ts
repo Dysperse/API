@@ -51,9 +51,10 @@ const useLocation = (): [LocationStatus, () => void] => {
           if (permissionStatus.state === "granted") {
             // Location is enabled, automatically fetch
             requestLocation();
+          } else if (permissionStatus.state === "prompt") {
+            setLocationStatus("pending");
           }
           // Otherwise, wait for the user to click the button
-          setLocationStatus("pending");
         });
     }
   }, []);

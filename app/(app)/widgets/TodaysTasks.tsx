@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -52,33 +53,39 @@ export function TodaysTasks() {
   return (
     <>
       {!dayjs(session.user.lastPlannedTasks).isToday() && (
-        <Box
-          className="card"
-          sx={{
-            p: 2,
-            mb: 2,
-            display: "flex",
-            gap: 2,
-            alignItems: "center",
-          }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, bounce: 0 }}
         >
-          <Icon
-            className="outlined"
+          <Box
+            className="card"
             sx={{
-              color: palette[11],
-              fontSize: "40px!important",
+              p: 2,
+              mb: 2,
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
             }}
           >
-            emoji_objects
-          </Icon>
-          <Box>
-            <Typography variant="body2">Stay on top</Typography>
-            <Typography sx={{ fontWeight: 700 }} variant="h6">
-              Plan my day
-            </Typography>
+            <Icon
+              className="outlined"
+              sx={{
+                color: palette[11],
+                fontSize: "40px!important",
+              }}
+            >
+              emoji_objects
+            </Icon>
+            <Box>
+              <Typography variant="body2">Stay on top</Typography>
+              <Typography sx={{ fontWeight: 700 }} variant="h6">
+                Plan my day
+              </Typography>
+            </Box>
+            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
           </Box>
-          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-        </Box>
+        </motion.div>
       )}
       {data && (
         <SwipeableDrawer
@@ -137,52 +144,58 @@ export function TodaysTasks() {
         </SwipeableDrawer>
       )}
       {data ? (
-        <Box
-          onClick={() => setOpen(true)}
-          sx={{
-            height: "84px",
-            p: { xs: 2, sm: 3 },
-            borderRadius: 5,
-            background: palette[3],
-            color: palette[11],
-            display: "flex",
-            alignItems: "center",
-            position: "relative",
-            gap: 2,
-          }}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
         >
-          <Icon
-            sx={{ zIndex: 1, fontSize: "40px!important" }}
-            className="outlined"
-          >
-            check_circle
-          </Icon>
-          <Box sx={{ zIndex: 1 }}>
-            <Typography variant="h5">
-              {data?.[0]?.tasks?.length} task
-              {data?.[0]?.tasks?.length !== 1 && "s"}
-            </Typography>
-            <Typography variant="body2">
-              {completedTasksLength} complete
-            </Typography>
-          </Box>
-          <LinearProgress
-            variant="determinate"
+          <Box
+            onClick={() => setOpen(true)}
             sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              height: "84px",
+              p: { xs: 2, sm: 3 },
               borderRadius: 5,
-              background: "transparent",
-              "& *": {
-                background: palette[4] + "!important",
-              },
+              background: palette[3],
+              color: palette[11],
+              display: "flex",
+              alignItems: "center",
+              position: "relative",
+              gap: 2,
             }}
-            value={(completedTasksLength / data[0].tasks.length) * 100}
-          />
-        </Box>
+          >
+            <Icon
+              sx={{ zIndex: 1, fontSize: "40px!important" }}
+              className="outlined"
+            >
+              check_circle
+            </Icon>
+            <Box sx={{ zIndex: 1 }}>
+              <Typography variant="h5">
+                {data?.[0]?.tasks?.length} task
+                {data?.[0]?.tasks?.length !== 1 && "s"}
+              </Typography>
+              <Typography variant="body2">
+                {completedTasksLength} complete
+              </Typography>
+            </Box>
+            <LinearProgress
+              variant="determinate"
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                borderRadius: 5,
+                background: "transparent",
+                "& *": {
+                  background: palette[4] + "!important",
+                },
+              }}
+              value={(completedTasksLength / data[0].tasks.length) * 100}
+            />
+          </Box>
+        </motion.div>
       ) : (
         <Skeleton height={84} variant="rectangular" />
       )}

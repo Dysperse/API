@@ -20,12 +20,14 @@ import {
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HeadingComponent } from "../../components/Start/HeadingComponent";
 import { swipeablePageStyles } from "./swipeablePageStyles";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
 import { Friends } from "./widgets/Friends";
+import { HomePageCustomization } from "./widgets/HomePageCustomization";
 import { TodaysDate } from "./widgets/TodaysDate";
 import { TodaysTasks } from "./widgets/TodaysTasks";
 import { Weather } from "./widgets/Weather";
@@ -94,6 +96,13 @@ function Home() {
     active: isMobile,
   });
 
+  useEffect(() => {
+    emblaApi?.reInit({
+      startIndex: 1,
+      active: isMobile,
+    });
+  }, [emblaApi, isMobile]);
+
   const [loadingIndex, setLoadingIndex] = useState(1);
 
   useEffect(() => {
@@ -133,10 +142,12 @@ function Home() {
         justifyContent: { xs: "center", sm: "flex-end" },
       }}
     >
-      <Button variant="outlined">
-        <Icon>palette</Icon>
-        Customize
-      </Button>
+      <HomePageCustomization>
+        <Button variant="outlined">
+          <Icon>palette</Icon>
+          Customize
+        </Button>
+      </HomePageCustomization>
     </Box>
   );
 
@@ -275,31 +286,39 @@ function Home() {
               }}
             >
               <Box sx={{ width: "100%", mt: { xs: 5, sm: 0 } }}>
-                <Typography
-                  sx={{
-                    ...sectionHeaderStyles,
-                    mb: 0,
-                    ml: 0.1,
-                    textShadow: `0 0 40px ${palette[8]}`,
-                  }}
-                >
-                  Hey {capitalizeFirstLetter(session.user.name.split(" ")?.[0])}
-                  ,
-                </Typography>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <Typography
+                    sx={{
+                      ...sectionHeaderStyles,
+                      mb: 0,
+                      ml: 0.1,
+                      textShadow: `0 0 40px ${palette[8]}`,
+                    }}
+                  >
+                    Hey{" "}
+                    {capitalizeFirstLetter(session.user.name.split(" ")?.[0])},
+                  </Typography>
+                </motion.div>
                 <HeadingComponent palette={palette} isMobile={isMobile} />
-                <Typography
-                  sx={{
-                    mt: -1,
-                    ml: 0.2,
-                    fontWeight: 700,
-                    color: palette[11],
-                    opacity: 0.8,
-                    textShadow: `0 0 40px ${palette[8]}`,
-                  }}
-                  variant="h6"
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
                 >
-                  Are you ready to seize the day?
-                </Typography>
+                  <Typography
+                    sx={{
+                      mt: -1,
+                      ml: 0.2,
+                      fontWeight: 700,
+                      color: palette[11],
+                      opacity: 0.8,
+                      textShadow: `0 0 40px ${palette[8]}`,
+                    }}
+                    variant="h6"
+                  >
+                    Are you ready to seize the day?
+                  </Typography>
+                </motion.div>
                 {isMobile && shortcuts}
                 <Typography sx={sectionHeaderStyles}>
                   Today&apos;s rundown
@@ -307,10 +326,21 @@ function Home() {
                 <Box>
                   <Grid container spacing={2}>
                     <Grid xs={6}>
-                      <Weather />
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        <Weather />
+                      </motion.div>
                     </Grid>
                     <Grid xs={6}>
-                      <TodaysDate />
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        <TodaysDate />
+                      </motion.div>
                     </Grid>
                     <Grid xs={12}>
                       <TodaysTasks />

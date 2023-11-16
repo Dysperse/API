@@ -1,6 +1,7 @@
 import { vibrate } from "@/lib/client/vibration";
 import { Typography } from "@mui/material";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
 export const headingStyles = (palette) => ({
@@ -67,12 +68,18 @@ export const HeadingComponent = ({ palette, isMobile }) => {
   });
 
   return (
-    <Typography
-      className="font-heading"
-      sx={headingStyles(palette)}
-      variant="h4"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.1 }}
     >
-      Good {greeting}.
-    </Typography>
+      <Typography
+        className="font-heading"
+        sx={headingStyles(palette)}
+        variant="h4"
+      >
+        Good {greeting}.
+      </Typography>
+    </motion.div>
   );
 };

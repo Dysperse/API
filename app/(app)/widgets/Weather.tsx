@@ -87,7 +87,6 @@ export function Weather() {
       return () => clearInterval(interval);
     }
   }, [getWeather, locationStatus]);
-
   return weatherData && !error ? (
     <>
       <SwipeableDrawer
