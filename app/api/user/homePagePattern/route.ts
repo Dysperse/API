@@ -14,10 +14,10 @@ export async function GET(req: NextRequest) {
         "Content-Type": "image/svg+xml",
       },
     });
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    console.error(e);
     return new Response(
-      `<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><!-- error --></svg>`,
+      `<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><!-- ${e.message} --></svg>`,
       {
         status: 200,
         headers: {
