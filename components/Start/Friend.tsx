@@ -514,7 +514,8 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                 whiteSpace: "nowrap",
                 height: 25,
                 "&:empty": {
-                  width: 25,
+                  width: 20,
+                  height: 20,
                 },
                 borderRadius: 99,
                 transform: "translate(3px, 3px)",
