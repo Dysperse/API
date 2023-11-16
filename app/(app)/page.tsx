@@ -245,6 +245,7 @@ function Home() {
               flex: { xs: "0 0 100dvw", sm: "0 0 100%" },
               display: "flex",
               flexDirection: { xs: "column", sm: "row" },
+              py: 2,
               "&>div": {
                 "&:first-child": {
                   pl: { xs: 4, sm: 5 },
