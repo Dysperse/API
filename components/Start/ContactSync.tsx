@@ -51,7 +51,8 @@ export default function ContactSync({ showFriends }) {
           borderColor: palette[4],
           borderRadius: 5,
           mx: "auto",
-          mt: -4,
+          mb: 4,
+          mt: { xs: 2, sm: 0 },
         }}
       >
         <Box

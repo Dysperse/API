@@ -87,7 +87,7 @@ export function TodaysTasks() {
           </Box>
         </motion.div>
       )}
-      {data && (
+      {data && data.length === 1 && data[0].tasks && (
         <SwipeableDrawer
           anchor="bottom"
           keepMounted
@@ -124,7 +124,9 @@ export function TodaysTasks() {
           >
             <Virtuoso
               data={data[0].tasks}
-              initialItemCount={data.length < 10 ? data.length : 10}
+              initialItemCount={
+                data[0].tasks.length < 10 ? data[0].tasks.length : 10
+              }
               itemContent={(i, task) => (
                 <Task
                   recurringInstance={task.recurrenceDay}

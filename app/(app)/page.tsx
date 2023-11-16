@@ -388,10 +388,7 @@ function Home() {
               <Box sx={{ width: "100%" }}>
                 {!isMobile && customizeTrigger}
                 {!isMobile && shortcuts}
-                <Typography sx={sectionHeaderStyles}>
-                  Recent activity
-                </Typography>
-                <Friends />
+                <Friends sectionHeaderStyles={sectionHeaderStyles} />
                 {isMobile && customizeTrigger}
               </Box>
             </Grid>
