@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MenuChildren } from "../menu";
 import { recentlyAccessed } from "../recently-accessed";
+import { headingStyles } from "@/components/Start/HeadingComponent";
 
 function PlanTrigger() {
   const router = useRouter();
@@ -230,11 +231,7 @@ export default function Home() {
               <Typography
                 variant="h2"
                 className="font-heading"
-                sx={{
-                  background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
-                  WebkitBackgroundClip: "text",
-                  fontSize: "min(70px, 20vw)",
-                }}
+                sx={headingStyles(palette)}
               >
                 Tasks
               </Typography>

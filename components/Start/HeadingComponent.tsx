@@ -3,6 +3,28 @@ import { Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 
+export const headingStyles = (palette) => ({
+  fontSize: {
+    xs: "55px",
+    sm: "60px",
+    md: "65px",
+    lg: "67px",
+    xl: "70px",
+  },
+  mb: 1,
+  mt: 1,
+  background: `linear-gradient(${palette[12]}, ${palette[11]})`,
+  textShadow: `0 0 40px ${palette[9]}`,
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  userSelect: "none",
+  overflow: "visible",
+  textOverflow: "ellipsis",
+  lineHeight: "1",
+  whiteSpace: "nowrap",
+  display: "inline-flex",
+});
+
 export const HeadingComponent = ({ palette, isMobile }) => {
   const [isHover, setIsHover] = useState(false);
   const time = new Date().getHours();
@@ -47,28 +69,7 @@ export const HeadingComponent = ({ palette, isMobile }) => {
   return (
     <Typography
       className="font-heading"
-      sx={{
-        fontSize: {
-          xs: "55px",
-          sm: "60px",
-          md: "65px",
-          lg: "67px",
-          xl: "70px",
-        },
-        mb: 1,
-        mt: 1,
-        background: `linear-gradient(${palette[12]}, ${palette[11]})`,
-        textShadow: `0 0 40px ${palette[9]}`,
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-        userSelect: "none",
-        overflow: "visible",
-        textOverflow: "ellipsis",
-        lineHeight: "1",
-        whiteSpace: "nowrap",
-        display: "inline-flex",
-        borderRadius: 4,
-      }}
+      sx={headingStyles(palette)}
       variant="h4"
     >
       Good {greeting}.

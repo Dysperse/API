@@ -1,5 +1,6 @@
 "use client";
 import { ErrorHandler } from "@/components/Error";
+import { headingStyles } from "@/components/Start/HeadingComponent";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -39,11 +40,7 @@ export function JumpBackIn() {
         <Typography
           variant="h2"
           className="font-heading"
-          sx={{
-            background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
-            WebkitBackgroundClip: "text",
-            fontSize: "min(70px, 20vw)",
-          }}
+          sx={headingStyles(palette)}
         >
           Inventory
         </Typography>
@@ -64,9 +61,9 @@ export function JumpBackIn() {
               readOnly: true,
               disableUnderline: true,
               sx: {
-                background: palette[2],
+                background: palette[3],
                 "&:focus-within": {
-                  background: palette[3],
+                  background: palette[4],
                 },
                 "& *::placeholder": {
                   color: palette[10] + "!important",
@@ -87,9 +84,9 @@ export function JumpBackIn() {
             onClick={() => router.push("/rooms/audit")}
             sx={{
               color: palette[11],
-              background: palette[2],
+              background: palette[3],
               "&:active": {
-                background: palette[3],
+                background: palette[4],
               },
             }}
           >
@@ -99,7 +96,7 @@ export function JumpBackIn() {
             <IconButton
               sx={{
                 color: palette[11],
-                background: palette[2],
+                background: palette[3],
                 "&:active": {
                   background: palette[3],
                 },

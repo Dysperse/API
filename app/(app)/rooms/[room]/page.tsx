@@ -1,7 +1,7 @@
 "use client";
 
 import { Box } from "@mui/material";
-import { JumpBackIn } from "./JumpBackIn";
+import { JumpBackIn } from "../JumpBackIn";
 
 export default function Page() {
   return (
