@@ -16,6 +16,7 @@ export const swipeablePageStyles = (palette, direction) => ({
   borderRadius: 5,
   background: palette[2],
   borderColor: palette[3],
+  pb: "calc(var(--navbar-height) + 20px)",
   justifyContent: "center",
   "& .MuiIcon-root": {
     fontSize: "40px!important",
