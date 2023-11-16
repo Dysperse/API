@@ -329,7 +329,7 @@ export function Weather() {
               height={100}
               curve="natural"
               area
-              colors={["#fff"]}
+              colors={[`rgb(${base})`]}
               margin={{ bottom: 0, left: 0, right: 0, top: 0 }}
               sx={{
                 border: 0,
