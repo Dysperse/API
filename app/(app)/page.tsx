@@ -188,6 +188,8 @@ function Home() {
       sx={
         session.user.homePagePattern && patterns[session.user.homePagePattern]
           ? {
+              transition: "background 2s",
+              backgroundPosition: "center",
               background: `url("${patterns[
                 session.user.homePagePattern
               ]?.replace("[FILL_COLOR]", encodeURIComponent(palette[3]))}")`,

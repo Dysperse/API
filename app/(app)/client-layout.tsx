@@ -241,7 +241,7 @@ export default function ClientLayout({ children, session }) {
                       height: { xs: "auto", sm: "100dvh" },
                       overflowY: {
                         xs: "unset",
-                        sm: pathname?.includes("tasks") ? "auto" : "scroll",
+                        sm: "auto",
                       },
                       overflowX: { xs: "clip", sm: "hidden" },
                       overscrollBehaviorY: "contain",
