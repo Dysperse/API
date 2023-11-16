@@ -466,7 +466,10 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
             }}
           >
             {permissions !== "read" && (
-              <Button variant="outlined">
+              <Button
+                variant="outlined"
+                onClick={() => router.push(`/tasks/boards/${board.id}/edit`)}
+              >
                 <Icon className="outlined">settings</Icon>
                 Settings
               </Button>
