@@ -239,11 +239,7 @@ export default function ClientLayout({ children, session }) {
                     ref={containerRef}
                     sx={{
                       height: { xs: "auto", sm: "100dvh" },
-                      overflowY: {
-                        xs: "unset",
-                        sm: pathname?.includes("tasks") ? "auto" : "scroll",
-                      },
-                      overflowX: { xs: "clip", sm: "hidden" },
+                      // overflowX: { xs: "clip", sm: "hidden" },
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",
                       borderRadius: { sm: "20px 0 0 20px" },

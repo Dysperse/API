@@ -123,6 +123,51 @@ function Home() {
     color: palette[11],
   };
 
+  const customizeTrigger = (
+    <Box
+      sx={{
+        mt: { xs: 4, sm: 0 },
+        mb: 2,
+        display: "flex",
+        justifyContent: { xs: "center", sm: "flex-end" },
+      }}
+    >
+      <Button variant="outlined">
+        <Icon>palette</Icon>
+        Customize
+      </Button>
+    </Box>
+  );
+
+  const shortcuts = (
+    <Box
+      sx={{
+        display: "flex",
+        gap: 2,
+        mb: 2,
+        mt: { xs: 2, sm: 0 },
+        "& .button": {
+          background: palette[3],
+          "&:hover": { background: { sm: palette[5] } },
+          "&:active": { background: palette[5] },
+          borderRadius: 5,
+          display: "flex",
+          alignItems: "center",
+          p: 2,
+          gap: 2,
+          fontWeight: 700,
+          color: palette[11],
+          "& .MuiIcon-root": {
+            fontSize: "30px!important",
+          },
+        },
+      }}
+    >
+      <AvailabilityTrigger />
+      <FriendsTrigger />
+    </Box>
+  );
+
   return (
     <Box
       sx={
@@ -151,7 +196,6 @@ function Home() {
       <Box
         sx={{
           maxWidth: "100dvw",
-          overflowX: "hidden",
           "&::-webkit-scrollbar": {
             display: "none",
           },
@@ -166,6 +210,10 @@ function Home() {
             <Box
               sx={{
                 flex: "0 0 100dvw",
+                position: "sticky",
+                top: 0,
+                left: 0,
+                height: "100dvh",
               }}
             >
               <Box
@@ -175,7 +223,9 @@ function Home() {
                 }}
               >
                 <Box sx={swipeablePageStyles(palette, "left")}>
-                  <Icon>check_circle</Icon>
+                  <Icon className={loadingIndex === 0 ? "filled" : "undefined"}>
+                    check_circle
+                  </Icon>
                   <Typography variant="h4" className="font-heading">
                     Tasks
                   </Typography>
@@ -245,6 +295,7 @@ function Home() {
                 >
                   Are you ready to seize the day?
                 </Typography>
+                {isMobile && shortcuts}
                 <Typography sx={sectionHeaderStyles}>
                   Today&apos;s rundown
                 </Typography>
@@ -273,67 +324,44 @@ function Home() {
               }}
             >
               <Box sx={{ width: "100%" }}>
-                <Box
-                  sx={{
-                    mb: 2,
-                    display: "flex",
-                    justifyContent: { xs: "center", sm: "flex-end" },
-                  }}
-                >
-                  <Button variant="outlined">
-                    <Icon>palette</Icon>
-                    Customize
-                  </Button>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: 2,
-                    mb: 2,
-                    "& .button": {
-                      background: palette[3],
-                      borderRadius: 5,
-                      display: "flex",
-                      alignItems: "center",
-                      p: 2,
-                      gap: 2,
-                      fontWeight: 700,
-                      color: palette[11],
-                      "& .MuiIcon-root": {
-                        fontSize: "30px!important",
-                      },
-                    },
-                  }}
-                >
-                  <AvailabilityTrigger />
-                  <FriendsTrigger />
-                </Box>
+                {!isMobile && customizeTrigger}
+                {!isMobile && shortcuts}
                 <Typography sx={sectionHeaderStyles}>
                   Recent activity
                 </Typography>
-
                 <Friends />
+                {isMobile && customizeTrigger}
               </Box>
             </Grid>
           </Grid>
-        </Box>
-        {isMobile && session.space.info.type !== "study group" && (
-          <Box sx={{ flex: "0 0 100dvw" }}>
+          {isMobile && session.space.info.type !== "study group" && (
             <Box
               sx={{
-                transform: `scale(${loadingIndex === 2 ? 1.5 : 1})`,
-                transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+                flex: "0 0 100dvw",
+                position: "sticky",
+                top: 0,
+                left: 0,
+                height: "100dvh",
               }}
             >
-              <Box sx={swipeablePageStyles(palette, "right")}>
-                <Icon>package_2</Icon>
-                <Typography variant="h4" className="font-heading">
-                  Inventory
-                </Typography>
+              <Box
+                sx={{
+                  transform: `scale(${loadingIndex === 2 ? 1.5 : 1})`,
+                  transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+                }}
+              >
+                <Box sx={swipeablePageStyles(palette, "right")}>
+                  <Icon className={loadingIndex === 2 ? "filled" : undefined}>
+                    package_2
+                  </Icon>
+                  <Typography variant="h4" className="font-heading">
+                    Inventory
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        )}
+          )}
+        </Box>
       </Box>
     </Box>
   );

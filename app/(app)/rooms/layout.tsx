@@ -65,7 +65,7 @@ export default function RoomLayout({ children }) {
         ref={emblaRef}
         sx={{
           maxWidth: "100dvw",
-          overflowX: "hidden",
+          // overflowX: "hidden",
           ...(loadingIndex !== 1 && {
             pointerEvents: "none",
           }),
@@ -75,7 +75,11 @@ export default function RoomLayout({ children }) {
           {pathname === "/rooms" && isMobile && (
             <Box
               sx={{
-                flex: { xs: "0 0 100dvw", sm: "" },
+                flex: "0 0 100dvw",
+                position: "sticky",
+                top: 0,
+                left: 0,
+                height: "100dvh",
               }}
             >
               <Box
@@ -85,7 +89,9 @@ export default function RoomLayout({ children }) {
                 }}
               >
                 <Box sx={swipeablePageStyles(palette, "left")}>
-                  <Icon>upcoming</Icon>
+                  <Icon className={loadingIndex === 0 ? "filled" : undefined}>
+                    upcoming
+                  </Icon>
                   <Typography variant="h4" className="font-heading">
                     Home
                   </Typography>

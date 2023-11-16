@@ -207,14 +207,17 @@ export default function Home() {
         animate={{ x: 0, opacity: 1 }}
         ref={emblaRef}
         style={{
-          maxWidth: "100dvw",
-          overflowX: "hidden",
           ...(loadingIndex !== 0 && {
             pointerEvents: "none",
           }),
         }}
       >
-        <Box sx={{ display: "flex", maxWidth: "100dvw" }}>
+        <Box
+          sx={{
+            display: "flex",
+            maxWidth: "100dvw",
+          }}
+        >
           <Box sx={{ flex: "0 0 100dvw" }}>
             <Box
               sx={{
@@ -298,7 +301,15 @@ export default function Home() {
             </Box>
             <MenuChildren editMode={editMode} setEditMode={setEditMode} />
           </Box>
-          <Box sx={{ flex: "0 0 100dvw" }}>
+          <Box
+            sx={{
+              flex: "0 0 100dvw",
+              position: "sticky",
+              top: 0,
+              left: 0,
+              height: "100dvh",
+            }}
+          >
             <Box
               sx={{
                 transform: `scale(${loadingIndex === 1 ? 1.5 : 1})`,
@@ -306,7 +317,9 @@ export default function Home() {
               }}
             >
               <Box sx={swipeablePageStyles(palette, "right")}>
-                <Icon>upcoming</Icon>
+                <Icon className={loadingIndex === 1 ? "filled" : undefined}>
+                  upcoming
+                </Icon>
                 <Typography variant="h4" className="font-heading">
                   Home
                 </Typography>
