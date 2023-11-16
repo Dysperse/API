@@ -87,11 +87,10 @@ export default function Page() {
               alignItems: "center",
               justifyContent: "center",
               height: "calc(100dvh - var(--navbar-height))",
-              background: { sm: palette[2] },
               p: 3,
             }}
           >
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ width: { xs: "100%", sm: "400px" } }}>
               <Avatar sx={{ width: 60, mb: 2, height: 60, borderRadius: 5 }}>
                 <Icon>inventory_2</Icon>
               </Avatar>
