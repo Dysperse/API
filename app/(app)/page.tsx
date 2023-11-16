@@ -140,7 +140,7 @@ function Home() {
     <Box
       sx={{
         mt: { xs: 4, sm: 0 },
-        mb: 2,
+        mb: { xs: 10, sm: 2 },
         display: "flex",
         justifyContent: { xs: "center", sm: "flex-end" },
       }}
@@ -186,11 +186,11 @@ function Home() {
   return (
     <Box
       sx={
-        session.user.homePagePattern
+        session.user.homePagePattern && patterns[session.user.homePagePattern]
           ? {
               background: `url("${patterns[
                 session.user.homePagePattern
-              ].replace("[FILL_COLOR]", encodeURIComponent(palette[3]))}")`,
+              ]?.replace("[FILL_COLOR]", encodeURIComponent(palette[3]))}")`,
             }
           : undefined
       }
