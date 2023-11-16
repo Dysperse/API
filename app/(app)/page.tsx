@@ -293,12 +293,12 @@ function Home() {
               py: 2,
               "&>div": {
                 "&:first-child": {
-                  pl: { xs: 4, sm: 5 },
-                  pr: { xs: 4, sm: 2.5 },
+                  pl: { xs: 4, sm: 5, xl: 20 },
+                  pr: { xs: 4, sm: 2.5, xl: 10 },
                 },
                 "&:last-child": {
-                  pr: { xs: 4, sm: 5 },
-                  pl: { xs: 4, sm: 2.5 },
+                  pr: { xs: 4, sm: 5, xl: 20 },
+                  pl: { xs: 4, sm: 2.5, xl: 10 },
                 },
               },
               "& .card": {
