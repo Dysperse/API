@@ -260,6 +260,13 @@ function Home() {
                   maxWidth: { sm: "500px" },
                   px: 3,
                   flexDirection: "column",
+                  "& .card": {
+                    borderRadius: 5,
+                    color: palette[11],
+                    background: palette[3],
+                    "&:hover": { background: { sm: palette[4] } },
+                    "&:active": { background: palette[5] },
+                  },
                 }}
               >
                 <Typography sx={sectionHeaderStyles}>

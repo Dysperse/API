@@ -453,11 +453,9 @@ export function Weather() {
         sx={{
           position: "relative",
           p: 2,
-          borderRadius: 5,
-          background: palette[3],
-          color: palette[11],
           height: "130px",
         }}
+        className="card"
         onClick={() => setOpen(true)}
       >
         <Icon sx={{ fontSize: "40px!important" }} className="outlined">

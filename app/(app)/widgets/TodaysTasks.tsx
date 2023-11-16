@@ -53,12 +53,10 @@ export function TodaysTasks() {
     <>
       {!dayjs(session.user.lastPlannedTasks).isToday() && (
         <Box
+          className="card"
           sx={{
-            color: palette[11],
-            background: palette[3],
             p: 2,
             mb: 2,
-            borderRadius: 5,
             display: "flex",
             gap: 2,
             alignItems: "center",

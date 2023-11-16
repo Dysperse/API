@@ -24,12 +24,10 @@ export function TodaysDate() {
       </SwipeableDrawer>
       <Box
         onClick={() => setOpen(true)}
+        className="card"
         sx={{
           p: 2,
           height: "130px",
-          borderRadius: 5,
-          background: palette[3],
-          color: palette[11],
           "& .MuiTypography-root": {
             overflow: "hidden",
             textOverflow: "ellipsis",

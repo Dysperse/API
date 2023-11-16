@@ -24,9 +24,9 @@ export function Friends() {
   return data ? (
     <>
       <Box
+        className="card"
         sx={{
-          background: palette[3],
-          borderRadius: 5,
+          background: palette[3] + "!important",
           height: "400px",
           p: 2,
           display: "flex",
@@ -60,7 +60,13 @@ export function Friends() {
           </Alert>
         )}
         <ListItemButton
-          sx={{ mt: "auto", background: palette[4] + "!important" }}
+          sx={{
+            mt: "auto",
+            background: palette[4] + "!important",
+            "&:active": {
+              background: palette[5] + "!important",
+            },
+          }}
         >
           <Icon>group</Icon>All friends
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
