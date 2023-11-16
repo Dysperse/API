@@ -18,7 +18,7 @@ export function Friends() {
     params,
     fetcher(params, session) as any,
     {
-      refreshInterval: 5000,
+      refreshInterval: 2000,
     }
   );
   return data ? (

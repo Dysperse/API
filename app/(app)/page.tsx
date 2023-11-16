@@ -13,7 +13,6 @@ import {
   Icon,
   IconButton,
   NoSsr,
-  Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -184,12 +183,23 @@ function Home() {
               </Box>
             </Box>
           )}
-          <Box
+          <Grid
+            container
             sx={{
-              "& .motion": {
-                flex: { xs: "0 0 100dvw", sm: "0 0 100%" },
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
+              width: "100%",
+              height: { sm: "100dvh" },
+              flex: { xs: "0 0 100dvw", sm: "0 0 100%" },
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              "&>div": {
+                "&:first-child": {
+                  pl: { xs: 2, sm: 5 },
+                  pr: { xs: 2, sm: 2.5 },
+                },
+                "&:last-child": {
+                  pr: { xs: 2, sm: 5 },
+                  pl: { xs: 2, sm: 2.5 },
+                },
               },
               "& .card": {
                 borderRadius: 5,
@@ -200,121 +210,130 @@ function Home() {
               },
             }}
           >
-            <Grid container>
-              <Grid
-                xs={12}
-                sm={6}
-                sx={{
-                  pt: { xs: 7, sm: 15 },
-                }}
-              >
-                <Box
+            <Grid
+              xs={12}
+              sm={6}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Box sx={{ width: "100%" }}>
+                <Typography
                   sx={{
-                    mb: { xs: 2, sm: 2 },
-                    px: { xs: 4, sm: 6 },
+                    ...sectionHeaderStyles,
+                    mb: 0,
+                    ml: 0.1,
+                    textShadow: `0 0 40px ${palette[8]}`,
                   }}
                 >
-                  <Typography
-                    sx={{
-                      ...sectionHeaderStyles,
-                      mb: 0,
-                      ml: 0.1,
-                      textShadow: `0 0 40px ${palette[8]}`,
-                    }}
-                  >
-                    Hey{" "}
-                    {capitalizeFirstLetter(session.user.name.split(" ")?.[0])},
-                  </Typography>
-                  <HeadingComponent palette={palette} isMobile={isMobile} />
-                  <Typography
-                    sx={{
-                      mt: -1,
-                      ml: 0.2,
-                      fontWeight: 700,
-                      color: palette[11],
-                      opacity: 0.8,
-                      textShadow: `0 0 40px ${palette[8]}`,
-                    }}
-                    variant="h6"
-                  >
-                    Are you ready to seize the day?
-                  </Typography>
-                  <Box
-                    sx={{
-                      px: 3,
-                      maxWidth: "100%",
-                      display: "flex",
-                      gap: 2,
-                      "& .button": {
-                        background: palette[3],
-                        borderRadius: 5,
-                        display: "flex",
-                        alignItems: "center",
-                        p: 2,
-                        gap: 2,
-                        fontWeight: 700,
-                        color: palette[11],
-                        "& .MuiIcon-root": {
-                          fontSize: "30px!important",
-                        },
-                      },
-                    }}
-                  >
-                    <AvailabilityTrigger />
-                    <FriendsTrigger />
-                  </Box>
-                  <Typography sx={sectionHeaderStyles}>
-                    Today&apos;s rundown
-                  </Typography>
-                  <Box>
-                    <Grid container sx={{ mb: 2 }} spacing={2}>
-                      <Grid xs={6}>
-                        <Weather />
-                      </Grid>
-                      <Grid xs={6}>
-                        <TodaysDate />
-                      </Grid>
-                      <Grid xs={12}>
-                        <TodaysTasks />
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Box>
-              </Grid>
-              <Grid xs={12} sm={6} sx={{ pb: 5 }}>
-                <Typography sx={sectionHeaderStyles}>
-                  Recent activity
+                  Hey {capitalizeFirstLetter(session.user.name.split(" ")?.[0])}
+                  ,
                 </Typography>
-                <Friends />
-
-                <Box sx={{ mt: 3, display: "flex" }}>
-                  <Button sx={{ mx: "auto" }} variant="outlined">
+                <HeadingComponent palette={palette} isMobile={isMobile} />
+                <Typography
+                  sx={{
+                    mt: -1,
+                    ml: 0.2,
+                    fontWeight: 700,
+                    color: palette[11],
+                    opacity: 0.8,
+                    textShadow: `0 0 40px ${palette[8]}`,
+                  }}
+                  variant="h6"
+                >
+                  Are you ready to seize the day?
+                </Typography>
+                <Typography sx={sectionHeaderStyles}>
+                  Today&apos;s rundown
+                </Typography>
+                <Box>
+                  <Grid container spacing={2}>
+                    <Grid xs={6}>
+                      <Weather />
+                    </Grid>
+                    <Grid xs={6}>
+                      <TodaysDate />
+                    </Grid>
+                    <Grid xs={12}>
+                      <TodaysTasks />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid
+              xs={12}
+              sm={6}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Box sx={{ width: "100%" }}>
+                <Box
+                  sx={{
+                    mb: 2,
+                    display: "flex",
+                    justifyContent: { xs: "center", sm: "flex-end" },
+                  }}
+                >
+                  <Button variant="outlined">
                     <Icon>palette</Icon>
                     Customize
                   </Button>
                 </Box>
-              </Grid>
-              <Toolbar />
-            </Grid>
-          </Box>
-          {isMobile && session.space.info.type !== "study group" && (
-            <Box sx={{ flex: "0 0 100dvw" }}>
-              <Box
-                sx={{
-                  transform: `scale(${loadingIndex === 2 ? 1.5 : 1})`,
-                  transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
-                }}
-              >
-                <Box sx={swipeablePageStyles(palette, "right")}>
-                  <Icon>package_2</Icon>
-                  <Typography variant="h4" className="font-heading">
-                    Inventory
-                  </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    mb: 2,
+                    "& .button": {
+                      background: palette[3],
+                      borderRadius: 5,
+                      display: "flex",
+                      alignItems: "center",
+                      p: 2,
+                      gap: 2,
+                      fontWeight: 700,
+                      color: palette[11],
+                      "& .MuiIcon-root": {
+                        fontSize: "30px!important",
+                      },
+                    },
+                  }}
+                >
+                  <AvailabilityTrigger />
+                  <FriendsTrigger />
                 </Box>
+                <Typography sx={sectionHeaderStyles}>
+                  Recent activity
+                </Typography>
+
+                <Friends />
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+        {isMobile && session.space.info.type !== "study group" && (
+          <Box sx={{ flex: "0 0 100dvw" }}>
+            <Box
+              sx={{
+                transform: `scale(${loadingIndex === 2 ? 1.5 : 1})`,
+                transition: "all .4s cubic-bezier(.17,.67,.57,1.39)",
+              }}
+            >
+              <Box sx={swipeablePageStyles(palette, "right")}>
+                <Icon>package_2</Icon>
+                <Typography variant="h4" className="font-heading">
+                  Inventory
+                </Typography>
               </Box>
             </Box>
-          )}
-        </Box>
+          </Box>
+        )}
       </Box>
     </Box>
   );
