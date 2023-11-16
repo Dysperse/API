@@ -596,6 +596,7 @@ export default function Prompt() {
             sx={{
               display: "flex",
               alignItems: "center",
+              textTransform: "none",
               gap: 3,
             }}
           >

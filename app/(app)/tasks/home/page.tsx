@@ -21,7 +21,6 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import useEmblaCarousel from "embla-carousel-react";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MenuChildren } from "../menu";
@@ -203,23 +202,17 @@ export default function Home() {
           </Button>
         }
       />
-      <motion.div
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+      <Box
         ref={emblaRef}
         style={{
+          maxWidth: "100dvw",
+          overflowX: "clip",
           ...(loadingIndex !== 0 && {
             pointerEvents: "none",
           }),
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            overflowX: "clip",
-            maxWidth: "100dvw",
-          }}
-        >
+        <Box sx={{ display: { xs: "flex", sm: "block" } }}>
           <Box sx={{ flex: "0 0 100dvw" }}>
             <Box
               sx={{
@@ -304,8 +297,8 @@ export default function Home() {
               flex: "0 0 100dvw",
               position: "sticky",
               top: 0,
-              left: 0,
               height: "100dvh",
+              zIndex: 9999,
             }}
           >
             <Box
@@ -325,7 +318,7 @@ export default function Home() {
             </Box>
           </Box>
         </Box>
-      </motion.div>
+      </Box>
     </>
   );
 }

@@ -90,7 +90,6 @@ input {
 body {
   overscroll-behavior: none;
   user-select: none;
-  overflow-x: hidden;
   margin: 0;
   width: 100vw;
   -webkit-box-sizing: border-box;
@@ -241,6 +240,8 @@ a {
 
 html,
 body {
+  overflow-x: hidden !important;
+  max-width: 100dvw !important;
   /* Vendor-specific prefixes */
   -webkit-overflow-scrolling: touch;
   /* For older Android versions */
