@@ -1,6 +1,5 @@
 import { useSession } from "@/lib/client/session";
-import { useColor } from "@/lib/client/useColor";
-import { Badge, Button, Icon } from "@mui/material";
+import { Box, Icon } from "@mui/material";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 
@@ -14,23 +13,27 @@ export function FriendsTrigger() {
   const router = useRouter();
 
   return (
-    <Badge
-      badgeContent={data?.length || 0}
-      color="error"
-      sx={{
-        "& .MuiBadge-badge": {
-          mt: 0.5,
-          ml: -0.5,
-        },
-      }}
+    // <Badge
+    //   badgeContent={data?.length || 0}
+    //   color="error"
+    //   sx={{
+    //     "& .MuiBadge-badge": {
+    //       mt: 0.5,
+    //       ml: -0.5,
+    //     },
+    //     width: "100%",
+    //   }}
+    //   className="button"
+    // >
+    <Box
+      className="button"
+      id="addFriendTrigger"
+      onClick={() => router.push("/users/add")}
     >
-      <Button
-        id="addFriendTrigger"
-        variant="contained"
-        onClick={() => router.push("/users/add")}
-      >
-        <Icon className="outlined">&#xe7fe;</Icon>
-      </Button>
-    </Badge>
+      <Icon className="outlined" sx={{ mt: -0.3, mb: 0.3 }}>
+        groups_2
+      </Icon>
+    </Box>
+    // </Badge>
   );
 }

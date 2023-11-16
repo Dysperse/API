@@ -534,6 +534,8 @@ export const Task: any = React.memo(function Task({
                 <Typography
                   variant="body2"
                   sx={{
+                    textTransform: "none",
+                    opacity: 1,
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     fontWeight: 300,

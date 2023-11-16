@@ -1050,7 +1050,7 @@ function StepSix({ styles, formData, setFormData, setStep }) {
       />
       <Box>
         <ListItem sx={{ mt: 2 }}>
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ textTransform: "none" }}>
             By signing up, you agree to our{" "}
             <Link
               href="https://blog.dysperse.com/terms-of-service"

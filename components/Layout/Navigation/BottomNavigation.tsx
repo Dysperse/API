@@ -5,8 +5,7 @@ import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Badge, Box } from "@mui/material";
-import dayjs from "dayjs";
+import { Box } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 
 export const shouldHideNavigation = (path) => {
@@ -106,26 +105,30 @@ export function BottomNav() {
       }}
       sx={{
         position: "fixed",
-        bottom: 0,
-        borderTop: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+        bottom: "20px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        border: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+        boxShadow: `0 20px 70px 20px ${palette[1]}`,
         background: addHslAlpha(palette[1], 0.9),
-        backdropFilter: "blur(10px)",
-        width: "100%",
+        width: "auto",
         ".hideBottomNav &": {
-          mb: "calc(var(--bottom-nav-height) * -1)",
+          mb: "calc(calc(var(--bottom-nav-height) * -1) - 20px)",
         },
         mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
         visibility: shouldHide ? "hidden" : "visible",
-        left: 0,
         transition: "margin-bottom .25s var(--transition-defaults)",
+        borderRadius: 999,
         overflowX: "hidden",
+        backdropFilter: "blur(10px)",
         display: {
           xs: "flex",
           md: "none",
         },
+        p: 1,
+        px: 2,
+        gap: 2,
         zIndex: 998,
-        minHeight: "var(--bottom-nav-height)",
-        paddingBottom: "calc(var(--sab) - 20px)",
         userSelect: "none",
         "&, & *": {
           overflow: "hidden!important",
@@ -134,37 +137,19 @@ export function BottomNav() {
       }}
     >
       <CreateTask customTrigger="onContextMenu" disableBadge>
-        <Badge
-          badgeContent={
-            !dayjs(session.user.lastPlannedTasks).isToday() &&
-            !pathname.includes("/tasks")
-              ? 1
-              : 0
-          }
-          variant="dot"
-          sx={{
-            width:
-              session.space.info.type == "study group" ? "50%" : "33.33333%",
-            "& .MuiBadge-badge": {
-              right: "calc(50% - 20px)",
-              top: 7,
-            },
-          }}
+        <Box
+          id="link1"
+          onClick={() => router.push("/tasks/home")}
+          sx={styles(pathname?.includes("/tasks"))}
         >
-          <Box
-            id="link1"
-            onClick={() => router.push("/tasks/home")}
-            sx={styles(pathname?.includes("/tasks"))}
+          <span
+            className={`material-symbols-${
+              pathname?.includes("/tasks") ? "rounded" : "outlined"
+            }`}
           >
-            <span
-              className={`material-symbols-${
-                pathname?.includes("/tasks") ? "rounded" : "outlined"
-              }`}
-            >
-              &#xe86c;
-            </span>
-          </Box>
-        </Badge>
+            &#xe86c;
+          </span>
+        </Box>
       </CreateTask>
       <Box
         id="link2"

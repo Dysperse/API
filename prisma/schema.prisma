@@ -22,6 +22,7 @@ model User {
 
   lastActive       DateTime @default(now())
   lastPlannedTasks DateTime @default(now())
+  homePagePattern  String?
 
   color          String   @default("lime")
   unlockedColors String[]

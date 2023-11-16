@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MenuChildren } from "../menu";
 import { recentlyAccessed } from "../recently-accessed";
+import { headingStyles } from "@/components/Start/HeadingComponent";
 
 function PlanTrigger() {
   const router = useRouter();
@@ -207,14 +208,17 @@ export default function Home() {
         animate={{ x: 0, opacity: 1 }}
         ref={emblaRef}
         style={{
-          maxWidth: "100dvw",
-          overflowX: "hidden",
           ...(loadingIndex !== 0 && {
             pointerEvents: "none",
           }),
         }}
       >
-        <Box sx={{ display: "flex", maxWidth: "100dvw" }}>
+        <Box
+          sx={{
+            display: "flex",
+            maxWidth: "100dvw",
+          }}
+        >
           <Box sx={{ flex: "0 0 100dvw" }}>
             <Box
               sx={{
@@ -227,11 +231,7 @@ export default function Home() {
               <Typography
                 variant="h2"
                 className="font-heading"
-                sx={{
-                  background: `linear-gradient(180deg, ${palette[11]}, ${palette[10]})`,
-                  WebkitBackgroundClip: "text",
-                  fontSize: "min(70px, 20vw)",
-                }}
+                sx={headingStyles(palette)}
               >
                 Tasks
               </Typography>
@@ -298,7 +298,15 @@ export default function Home() {
             </Box>
             <MenuChildren editMode={editMode} setEditMode={setEditMode} />
           </Box>
-          <Box sx={{ flex: "0 0 100dvw" }}>
+          <Box
+            sx={{
+              flex: "0 0 100dvw",
+              position: "sticky",
+              top: 0,
+              left: 0,
+              height: "100dvh",
+            }}
+          >
             <Box
               sx={{
                 transform: `scale(${loadingIndex === 1 ? 1.5 : 1})`,
@@ -306,7 +314,9 @@ export default function Home() {
               }}
             >
               <Box sx={swipeablePageStyles(palette, "right")}>
-                <Icon>upcoming</Icon>
+                <Icon className={loadingIndex === 1 ? "filled" : undefined}>
+                  upcoming
+                </Icon>
                 <Typography variant="h4" className="font-heading">
                   Home
                 </Typography>
