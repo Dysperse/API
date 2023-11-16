@@ -168,32 +168,38 @@ function Home() {
   );
 
   const shortcuts = (
-    <Box
-      sx={{
-        display: "flex",
-        gap: 2,
-        mb: 2,
-        mt: { xs: 2, sm: 0 },
-        "& .button": {
-          background: palette[3],
-          "&:hover": { background: { sm: palette[5] } },
-          "&:active": { background: palette[5] },
-          borderRadius: 5,
-          display: "flex",
-          alignItems: "center",
-          p: 2,
-          gap: 2,
-          fontWeight: 700,
-          color: palette[11],
-          "& .MuiIcon-root": {
-            fontSize: "30px!important",
-          },
-        },
-      }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.3 }}
     >
-      <AvailabilityTrigger />
-      <FriendsTrigger />
-    </Box>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mb: 2,
+          mt: { xs: 2, sm: 0 },
+          "& .button": {
+            background: palette[3],
+            "&:hover": { background: { sm: palette[5] } },
+            "&:active": { background: palette[5] },
+            borderRadius: 5,
+            display: "flex",
+            alignItems: "center",
+            p: 2,
+            gap: 2,
+            fontWeight: 700,
+            color: palette[11],
+            "& .MuiIcon-root": {
+              fontSize: "30px!important",
+            },
+          },
+        }}
+      >
+        <AvailabilityTrigger />
+        <FriendsTrigger />
+      </Box>
+    </motion.div>
   );
 
   return (
@@ -348,15 +354,22 @@ function Home() {
                   </Typography>
                 </motion.div>
                 {isMobile && shortcuts}
-                <Typography sx={sectionHeaderStyles}>
-                  Today&apos;s rundown
-                </Typography>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <Typography sx={sectionHeaderStyles}>
+                    Today&apos;s rundown
+                  </Typography>
+                </motion.div>
                 <Box>
                   <Grid container spacing={2}>
                     <Grid xs={6}>
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
+                        transition={{ delay: 0.4 }}
                       >
                         <Weather />
                       </motion.div>
@@ -365,7 +378,7 @@ function Home() {
                       <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.1 }}
+                        transition={{ delay: 0.5 }}
                       >
                         <TodaysDate />
                       </motion.div>

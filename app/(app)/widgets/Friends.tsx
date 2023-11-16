@@ -10,6 +10,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import { fetcher } from "../fetcher";
@@ -29,7 +30,11 @@ export function Friends({ sectionHeaderStyles }) {
     }
   );
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.7 }}
+    >
       {data?.friends?.length !== 0 && (
         <Typography sx={sectionHeaderStyles}>Recent activity</Typography>
       )}
@@ -91,6 +96,6 @@ export function Friends({ sectionHeaderStyles }) {
       ) : (
         <Skeleton variant="rectangular" height="400px" />
       )}
-    </>
+    </motion.div>
   );
 }
