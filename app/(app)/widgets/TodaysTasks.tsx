@@ -52,41 +52,39 @@ export function TodaysTasks() {
     : 0;
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.6 }}
+    >
       {!dayjs(session.user.lastPlannedTasks).isToday() && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+        <Box
+          className="card"
+          sx={{
+            p: 2,
+            mb: 2,
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
+          }}
         >
-          <Box
-            className="card"
+          <Icon
+            className="outlined"
             sx={{
-              p: 2,
-              mb: 2,
-              display: "flex",
-              gap: 2,
-              alignItems: "center",
+              color: palette[11],
+              fontSize: "40px!important",
             }}
           >
-            <Icon
-              className="outlined"
-              sx={{
-                color: palette[11],
-                fontSize: "40px!important",
-              }}
-            >
-              emoji_objects
-            </Icon>
-            <Box>
-              <Typography variant="body2">Stay on top</Typography>
-              <Typography sx={{ fontWeight: 700 }} variant="h6">
-                Plan my day
-              </Typography>
-            </Box>
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+            emoji_objects
+          </Icon>
+          <Box>
+            <Typography variant="body2">Stay on top</Typography>
+            <Typography sx={{ fontWeight: 700 }} variant="h6">
+              Plan my day
+            </Typography>
           </Box>
-        </motion.div>
+          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+        </Box>
       )}
       {data && data.length === 1 && data[0].tasks && (
         <SwipeableDrawer
@@ -159,61 +157,55 @@ export function TodaysTasks() {
         </SwipeableDrawer>
       )}
       {data ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+        <Box
+          onClick={() => setOpen(true)}
+          sx={{
+            height: "84px",
+            p: { xs: 2, sm: 3 },
+            borderRadius: 5,
+            background: palette[3],
+            color: palette[11],
+            display: "flex",
+            alignItems: "center",
+            position: "relative",
+            gap: 2,
+          }}
         >
-          <Box
-            onClick={() => setOpen(true)}
-            sx={{
-              height: "84px",
-              p: { xs: 2, sm: 3 },
-              borderRadius: 5,
-              background: palette[3],
-              color: palette[11],
-              display: "flex",
-              alignItems: "center",
-              position: "relative",
-              gap: 2,
-            }}
+          <Icon
+            sx={{ zIndex: 1, fontSize: "40px!important" }}
+            className="outlined"
           >
-            <Icon
-              sx={{ zIndex: 1, fontSize: "40px!important" }}
-              className="outlined"
-            >
-              check_circle
-            </Icon>
-            <Box sx={{ zIndex: 1 }}>
-              <Typography variant="h5">
-                {data?.[0]?.tasks?.length} task
-                {data?.[0]?.tasks?.length !== 1 && "s"}
-              </Typography>
-              <Typography variant="body2">
-                {completedTasksLength} complete
-              </Typography>
-            </Box>
-            <LinearProgress
-              variant="determinate"
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                borderRadius: 5,
-                background: "transparent",
-                "& *": {
-                  background: palette[4] + "!important",
-                },
-              }}
-              value={(completedTasksLength / data[0].tasks.length) * 100}
-            />
+            check_circle
+          </Icon>
+          <Box sx={{ zIndex: 1 }}>
+            <Typography variant="h5">
+              {data?.[0]?.tasks?.length} task
+              {data?.[0]?.tasks?.length !== 1 && "s"}
+            </Typography>
+            <Typography variant="body2">
+              {completedTasksLength} complete
+            </Typography>
           </Box>
-        </motion.div>
+          <LinearProgress
+            variant="determinate"
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              borderRadius: 5,
+              background: "transparent",
+              "& *": {
+                background: palette[4] + "!important",
+              },
+            }}
+            value={(completedTasksLength / data[0].tasks.length) * 100}
+          />
+        </Box>
       ) : (
         <Skeleton height={84} variant="rectangular" />
       )}
-    </>
+    </motion.div>
   );
 }
