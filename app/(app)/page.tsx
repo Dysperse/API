@@ -43,7 +43,7 @@ export function getAirQualityInfo(index) {
   return result || null; // Return null if no matching category is found
 }
 
-function hslToHex([h, s, l]) {
+export function hslToHex([h, s, l]) {
   l /= 100;
   const a = (s * Math.min(l, 1 - l)) / 100;
   const f = (n) => {

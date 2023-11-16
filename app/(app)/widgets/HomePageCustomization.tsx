@@ -1,5 +1,4 @@
 "use client";
-import patterns from "@/app/(app)/settings/patterns.json";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { updateSettings } from "@/lib/client/updateSettings";
@@ -7,6 +6,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Button, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { cloneElement, useState } from "react";
+import { hslToHex } from "../page";
 
 export function HomePageCustomization({ children }) {
   const { session, setSession } = useSession();
@@ -43,6 +43,30 @@ export function HomePageCustomization({ children }) {
     setOpen(false);
     updateSettings(["homePagePattern", pattern], { session, setSession });
   };
+
+  const patterns = [
+    "dots",
+    "topography",
+    "hideout",
+    "triangles",
+    "dysperse",
+    "anchors",
+    "diamonds",
+    "leaves",
+    "skulls",
+    "tic-tac-toe",
+    "cash",
+    "shapes",
+    "venn",
+    "wiggle",
+    "motion",
+    "autumn",
+    "architect",
+    "sand",
+    "graph",
+    "hexagons",
+    "plus",
+  ];
 
   return (
     <>
@@ -83,15 +107,22 @@ export function HomePageCustomization({ children }) {
               <Typography variant="h6">Solid</Typography>
             </Box>
           </Grid>
-          {Object.keys(patterns).map((pattern, i) => (
+          {patterns.map((pattern, i) => (
             <Grid key={i} xs={4}>
               <Box
                 onClick={() => handlePatternSelect(pattern)}
                 sx={{
                   ...boxStyles(currentPattern === pattern),
-                  background: `url("${patterns[pattern].replace(
-                    "[FILL_COLOR]",
-                    encodeURIComponent(palette[9])
+                  background: `url("/api/user/homePagePattern?${new URLSearchParams(
+                    {
+                      color: hslToHex(
+                        palette[7]
+                          .replaceAll(/hsl\(|\)|%/g, "")
+                          .split(",")
+                          .map((e) => +e) as any
+                      ),
+                      pattern,
+                    }
                   )}")`,
                 }}
               >
