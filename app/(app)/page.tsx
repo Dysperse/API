@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Layout/Navigation/Navbar";
 import { Puller } from "@/components/Puller";
 import { AvailabilityTrigger } from "@/components/Start/AvailabilityTrigger";
 import { FriendsTrigger } from "@/components/Start/FriendsTrigger";
+import { StatusSelector } from "@/components/Start/StatusSelector";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
@@ -184,12 +185,15 @@ function Home() {
           showLogo={isMobile}
           showRightContent={isMobile}
           right={
-            <IconButton
-              sx={{ background: palette[3] }}
-              onClick={() => router.push("/spaces")}
-            >
-              <Icon className="outlined">workspaces</Icon>
-            </IconButton>
+            <>
+              <StatusSelector mutate={() => {}} profile={session.user} />
+              <IconButton
+                sx={{ background: palette[3] }}
+                onClick={() => router.push("/spaces")}
+              >
+                <Icon className="outlined">workspaces</Icon>
+              </IconButton>
+            </>
           }
         />
       )}

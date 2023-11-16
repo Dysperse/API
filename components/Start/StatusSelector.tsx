@@ -222,11 +222,6 @@ export function StatusSelector({
           setOpen(false);
           resetStatus();
         }}
-        PaperProps={{
-          sx: {
-            height: "100dvh",
-          },
-        }}
       >
         <Box sx={{ width: "100%" }}>
           <Puller showOnDesktop />
