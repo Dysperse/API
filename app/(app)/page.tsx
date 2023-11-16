@@ -43,7 +43,7 @@ export function getAirQualityInfo(index) {
   return result || null; // Return null if no matching category is found
 }
 
-function hslToHex(h: any, s: any, l: any) {
+function hslToHex([h, s, l]) {
   l /= 100;
   const a = (s * Math.min(l, 1 - l)) / 100;
   const f = (n) => {
@@ -206,12 +206,10 @@ function Home() {
               background: `url("/api/user/homePagePattern?${new URLSearchParams(
                 {
                   color: hslToHex(
-                    ...([
-                      ...palette[3]
-                        .replaceAll(/hsl\(|\)|%/g, "")
-                        .split(",")
-                        .map((e) => +e),
-                    ] as any)
+                    palette[3]
+                      .replaceAll(/hsl\(|\)|%/g, "")
+                      .split(",")
+                      .map((e) => +e) as any
                   ),
                   pattern: session.user.homePagePattern,
                 }
