@@ -9,6 +9,7 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
+  Button,
   Icon,
   IconButton,
   NoSsr,
@@ -281,8 +282,14 @@ function Home() {
                   <Typography sx={sectionHeaderStyles}>
                     Recent activity
                   </Typography>
-
                   <Friends />
+
+                  <Box sx={{ mt: 3, display: "flex" }}>
+                    <Button sx={{ mx: "auto" }} variant="outlined">
+                      <Icon>palette</Icon>
+                      Customize
+                    </Button>
+                  </Box>
                 </Box>
               </Box>
               <Toolbar />

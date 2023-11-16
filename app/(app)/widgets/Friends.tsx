@@ -59,7 +59,9 @@ export function Friends() {
             Friends will appear here!
           </Alert>
         )}
-        <ListItemButton sx={{ mt: "auto", background: palette[4] }}>
+        <ListItemButton
+          sx={{ mt: "auto", background: palette[4] + "!important" }}
+        >
           <Icon>group</Icon>All friends
           <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
         </ListItemButton>

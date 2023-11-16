@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -53,42 +52,34 @@ export function TodaysTasks() {
   return (
     <>
       {!dayjs(session.user.lastPlannedTasks).isToday() && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "76px", opacity: 1 }}
-          style={{
-            marginBottom: "15px",
-            overflow: "hidden",
-            borderRadius: "20px",
+        <Box
+          sx={{
+            color: palette[11],
+            background: palette[3],
+            p: 2,
+            borderRadius: 5,
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
           }}
-          transition={{ duration: 0.5 }}
         >
-          <Box
+          <Icon
+            className="outlined"
             sx={{
-              background: palette[3],
-              p: 2,
-              borderRadius: 5,
-              display: "flex",
-              gap: 2,
-              alignItems: "center",
+              color: palette[11],
+              fontSize: "40px!important",
             }}
           >
-            <Icon
-              className="outlined"
-              sx={{
-                color: palette[11],
-                fontSize: "40px!important",
-              }}
-            >
-              emoji_objects
-            </Icon>
-            <Box>
-              <Typography variant="body2">Stay on top</Typography>
-              <Typography sx={{ fontWeight: 700 }}>Plan my day</Typography>
-            </Box>
-            <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+            emoji_objects
+          </Icon>
+          <Box>
+            <Typography variant="body2">Stay on top</Typography>
+            <Typography sx={{ fontWeight: 700 }} variant="h6">
+              Plan my day
+            </Typography>
           </Box>
-        </motion.div>
+          <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+        </Box>
       )}
       {data && (
         <SwipeableDrawer
