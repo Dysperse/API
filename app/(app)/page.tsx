@@ -243,12 +243,12 @@ function Home() {
               flexDirection: { xs: "column", sm: "row" },
               "&>div": {
                 "&:first-child": {
-                  pl: { xs: 2, sm: 5 },
-                  pr: { xs: 2, sm: 2.5 },
+                  pl: { xs: 4, sm: 5 },
+                  pr: { xs: 4, sm: 2.5 },
                 },
                 "&:last-child": {
-                  pr: { xs: 2, sm: 5 },
-                  pl: { xs: 2, sm: 2.5 },
+                  pr: { xs: 4, sm: 5 },
+                  pl: { xs: 4, sm: 2.5 },
                 },
               },
               "& .card": {
@@ -269,7 +269,7 @@ function Home() {
                 justifyContent: "center",
               }}
             >
-              <Box sx={{ width: "100%" }}>
+              <Box sx={{ width: "100%", mt: { xs: 5, sm: 0 } }}>
                 <Typography
                   sx={{
                     ...sectionHeaderStyles,

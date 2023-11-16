@@ -39,6 +39,12 @@ body {
   .cursor-unset {
     cursor: unset !important;
   }
+  html:not(.allow-scroll),
+  body:not(.allow-scroll body) {
+    overflow: hidden;
+    position: fixed;
+    overscroll-behavior-x: none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,6 +57,10 @@ body {
 a,
 img {
   -webkit-user-drag: none;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
 }
 
 .MuiToolbar-root {
@@ -231,7 +241,6 @@ a {
 
 html,
 body {
-  overflow-x:hidden;
   /* Vendor-specific prefixes */
   -webkit-overflow-scrolling: touch;
   /* For older Android versions */
