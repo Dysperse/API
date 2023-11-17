@@ -19,6 +19,7 @@ import {
   TextField,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
@@ -75,7 +76,7 @@ function Layout() {
   const boardData = (data || []).filter((board) =>
     board.name.toLowerCase().includes(query.toLowerCase())
   );
-
+  const isMobile = useMediaQuery("(max-width: 600px)");
   const icalUrl = `https://${window.location.hostname}/api/space/integrations/ical?id=${session.space.info.id}&timeZone=${session.user.timeZone}`;
 
   const handleSubmit = async (e) => {
@@ -126,8 +127,11 @@ function Layout() {
                 setStep(step - 1);
               }
             }}
+            sx={{
+              background: palette[3],
+            }}
           >
-            <Icon>arrow_back_ios_new</Icon>
+            <Icon>close</Icon>
           </IconButton>
         </Toolbar>
         <LinearProgress
@@ -140,7 +144,7 @@ function Layout() {
           display: "flex",
           height: "100%",
           flexDirection: "column",
-          width: "500px!important",
+          width: "400px!important",
           maxWidth: "100dvw",
           px: 3,
           mx: "auto",
@@ -152,7 +156,7 @@ function Layout() {
               <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
                 <motion.div initial={{ x: -100 }} animate={{ x: 5 }}>
                   <Avatar
-                    src={"https://assets.dysperse.com/v8-ios/57.png"}
+                    src={"https://assets.dysperse.com/v10-ios/57.png"}
                     sx={{ width: "75px", height: "75px" }}
                   />
                 </motion.div>
@@ -163,10 +167,14 @@ function Layout() {
                   />
                 </motion.div>
               </Box>
-              <Typography variant="h2" className="font-heading" sx={{ mt: 1 }}>
+              <Typography variant="h1" className="font-heading" sx={{ mt: 5 }}>
                 {integration.name}
               </Typography>
-              <Typography variant="body1" className="font-body">
+              <Typography
+                variant="h6"
+                className="font-body"
+                sx={{ opacity: 0.6 }}
+              >
                 {integration.description}
               </Typography>
             </Box>
@@ -458,10 +466,16 @@ function Layout() {
                   sx={{ mt: 1 }}
                 />
               </motion.div>
+              {params[steps[step - 1].name].match(steps[step - 1]?.validation)
+                ? 1
+                : 0}
               <Button
                 variant="contained"
                 sx={{ mt: "auto", mb: 2 }}
                 disabled={
+                  params[steps[step - 1].name].match(
+                    steps[step - 1]?.validation
+                  ) &&
                   steps[step - 1].required &&
                   params[steps[step - 1].name].trim().length == 0
                 }

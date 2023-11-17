@@ -60,10 +60,19 @@ export function Weather() {
         .then((r) => r.json())
         .then((r) => setAirQualityData(r))
         .catch((res) => setError(true));
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=relative_humidity_2m&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=10&daily=weather_code,temperature_2m_max,temperature_2m_min`;
+      const getUrl = (days) =>
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=relative_humidity_2m&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=${days}&daily=weather_code,temperature_2m_max,temperature_2m_min`;
+      const url = getUrl(1);
       fetch(url)
         .then((res) => res.json())
-        .then((res) => setWeatherData(res))
+        .then((res) => {
+          setWeatherData(res);
+          const url = getUrl(10);
+          fetch(url)
+            .then((res) => res.json())
+            .then((res) => setWeatherData(res))
+            .catch((res) => setError(true));
+        })
         .catch((res) => setError(true));
     });
   }, []);

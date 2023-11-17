@@ -589,20 +589,23 @@ function EditLayout({ id, data, mutate }) {
         <Box
           sx={{
             p: 2,
-            background: palette[2],
+            mb: -2,
             borderRadius: 5,
             maxWidth: "100%",
             whiteSpace: "nowrap",
             overflowX: "scroll",
+            display: "flex",
+            gap: 2,
           }}
         >
-          {["Appearance", "Columns", "Permissions", "Integrations"].map(
+          {["Appearance", "Columns", "Permissions", "Connections"].map(
             (button) => (
               <Button
-                sx={{ px: 2 }}
+                sx={{ px: 2, borderRadius: 5, flexShrink: 0 }}
                 onClick={() => setView(button)}
                 variant={view === button ? "contained" : "text"}
                 key={button}
+                size="large"
               >
                 {button}
               </Button>
@@ -638,7 +641,7 @@ function EditLayout({ id, data, mutate }) {
             <ShareBoard board={data} mutate={mutate} />
           </motion.div>
         )}
-        {view === "Integrations" && (
+        {view === "Connections" && (
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -654,13 +657,11 @@ function EditLayout({ id, data, mutate }) {
               }}
             >
               <Typography variant="h3" sx={{ mb: 1 }} className="font-heading">
-                {data.integrations.length == 0
-                  ? "Seamlessly integrate your favorite platforms"
-                  : "Integrations"}
+                Connections
               </Typography>
               {data.integrations.length == 0 && (
                 <Typography sx={{ mb: 2 }}>
-                  Easily import your data from other applications you love
+                  Seamlessly integrate Dysperse with your favorite platforms
                 </Typography>
               )}
               <Box sx={{ maxWidth: "500px", mx: "auto" }}>

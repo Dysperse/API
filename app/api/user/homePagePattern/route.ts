@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
         status: 200,
         headers: {
           "Content-Type": "image/svg+xml",
+          "Cache-Control": "max-age=864000",
         },
       }
     );

@@ -30,18 +30,21 @@ import { Integration } from "./Integration";
 export const integrations = [
   {
     name: "Canvas LMS",
-    description: "Import Canvas assignments & tests to your boards",
+    description:
+      "See your Canvas assignments, tests & quizzes within Dysperse.",
     image:
       "https://www.instructure.com/sites/default/files/image/2021-12/canvas_reversed_logo.png",
     type: "board",
     params: [
       {
         type: "url",
-        placeholder: "https://****/feeds/calendars/****.ics",
+        placeholder: "e.g., instructure.com/feeds/calendars/id.ics",
         name: "Canvas feed URL",
         helperText:
           'You can find your Canvas feed URL by visiting "Calendar → Calendar feed (scroll down to view button in right sidebar)" (web only)',
         required: true,
+        validation:
+          /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
       },
     ],
   },
@@ -58,6 +61,7 @@ export const integrations = [
         name: "Connect",
         helperText: "",
         required: true,
+        validation: null,
       },
     ],
     slides: [
