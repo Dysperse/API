@@ -93,7 +93,9 @@ export function Friends() {
                   }}
                 >
                   <Icon>group</Icon>All friends
-                  <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+                  <Icon sx={{ ml: "auto" }}>
+                    {!viewAll ? "expand_more" : "expand_less"}
+                  </Icon>
                 </ListItemButton>
               </Box>
             </Box>
