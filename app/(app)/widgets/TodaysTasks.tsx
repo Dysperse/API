@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
@@ -23,6 +24,7 @@ import { SelectionContext } from "../tasks/selection-context";
 
 export function TodaysTasks() {
   const parent = useRef();
+  const router = useRouter();
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -67,6 +69,7 @@ export function TodaysTasks() {
             gap: 2,
             alignItems: "center",
           }}
+          onClick={() => router.push("/tasks/plan")}
         >
           <Icon
             className="outlined"

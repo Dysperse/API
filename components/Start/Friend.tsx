@@ -486,6 +486,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
                     .replace("our", "")
                     .replace("ay", "")
                     .replace("ay", "")
+                    .replace("onth", "")
                     .replace("s", "")
                     .replace("ear", "")
                     .replace("an", "1")
