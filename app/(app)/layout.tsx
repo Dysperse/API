@@ -116,6 +116,12 @@ export default async function RootLayout({
         {/* Preconnect */}
         <link rel="preconnect" href="https://assets.dysperse.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          rel="preconnect"
+          href="https://use.typekit.net"
+          crossOrigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://use.typekit.net/vjj3nss.css" />
 
         <link
           rel="preconnect"
@@ -202,6 +208,7 @@ export default async function RootLayout({
         <ClientLayout session={s}>
           {spaceModal}
           {children}
+          {/* <span className="font-heading">idk man</span> */}
         </ClientLayout>
       </body>
     </html>

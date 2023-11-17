@@ -59,10 +59,6 @@ img {
   -webkit-user-drag: none;
 }
 
-.overflow-hidden {
-  overflow: hidden !important;
-}
-
 .MuiToolbar-root {
   height: var(--navbar-height);
   padding-top: env(titlebar-area-height, 0px) !important;
@@ -127,22 +123,12 @@ img {
   user-select: none;
 }
 body {
+  font-family: bilo, sans-serif;
   font-weight: 300;
 }
-:not(.font-heading, .font-heading *):not(.MuiIcon-root):not(
-    .material-symbols-outlined
-  ):not(.outlined):not(.material-symbols-rounded) {
+* {
   outline: none;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  font-family: "bilo", sans-serif !important;
-}
-
-.font-heading,
-.font-heading * {
-  font-family: "headline-gothic-atf", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  text-transform: uppercase;
 }
 
 @media screen and (max-width: 600px) {
@@ -240,8 +226,6 @@ a {
 
 html,
 body {
-  overflow-x: hidden !important;
-  max-width: 100dvw !important;
   /* Vendor-specific prefixes */
   -webkit-overflow-scrolling: touch;
   /* For older Android versions */
@@ -253,6 +237,11 @@ body {
 
   // disable glow effect
   overscroll-behavior-y: none;
+}
+
+html {
+  overflow-x: hidden !important;
+  max-width: 100dvw !important;
 }
 
 .MuiPaper-root,

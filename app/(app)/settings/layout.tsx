@@ -36,9 +36,8 @@ export default function Layout({ children }: any) {
             pr: 5,
             background: "transparent",
             border: 0,
-            position: "fixed",
+            position: "sticky",
             top: 0,
-            left: { xs: 0, sm: "85px" },
           }}
           onClick={() =>
             containerRef.current.scrollTo({ top: 0, behavior: "smooth" })
@@ -72,11 +71,7 @@ export default function Layout({ children }: any) {
             mx: "auto",
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{ mb: 1, mt: 15 }}
-            className="font-heading"
-          >
+          <Typography variant="h1" sx={{ mt: 10 }}>
             {capitalizeFirstLetter(
               pathname
                 ?.replace("/settings", "")

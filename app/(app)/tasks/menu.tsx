@@ -179,6 +179,10 @@ export const MenuChildren = memo(function MenuChildren({
         sx={{
           p: 2,
           px: 2,
+          "& .MuiTypography-overline": {
+            px: 1,
+            pb: 1,
+          },
         }}
       >
         {!isMobile && <SearchTasks />}
@@ -226,9 +230,7 @@ export const MenuChildren = memo(function MenuChildren({
         )}
         <Divider sx={taskStyles(palette).divider} />
         {!(isMobile && hiddenPerspectives.length == 6) && (
-          <Typography
-            sx={{ ...taskStyles(palette).subheading, display: "flex" }}
-          >
+          <Typography variant="overline" sx={{ display: "flex" }}>
             {hiddenPerspectives.length !== 6 && "Perspectives"}
             {!isMobile && (
               <Box
@@ -401,7 +403,7 @@ export const MenuChildren = memo(function MenuChildren({
             <Divider sx={taskStyles(palette).divider} />
           )}
           {boards.shared.length > 0 && (
-            <Typography sx={taskStyles(palette).subheading}>Shared</Typography>
+            <Typography variant="overline">Shared</Typography>
           )}
           {boards.shared.map((board) => (
             <Tab
@@ -414,11 +416,7 @@ export const MenuChildren = memo(function MenuChildren({
           {(editMode || hiddenPerspectives.length !== 6) && (
             <Divider sx={taskStyles(palette).divider} />
           )}
-          <Typography
-            sx={{ ...taskStyles(palette).subheading, pointerEvents: "none" }}
-          >
-            Boards
-          </Typography>
+          <Typography variant="overline">Boards</Typography>
           {error && (
             <ErrorHandler
               callback={() => mutate()}
@@ -485,9 +483,7 @@ export const MenuChildren = memo(function MenuChildren({
             {data && data.filter((x) => x.archived).length !== 0 && (
               <>
                 <Divider sx={taskStyles(palette).divider} />
-                <Typography sx={taskStyles(palette).subheading}>
-                  Archived
-                </Typography>
+                <Typography variant="overline">Archived</Typography>
               </>
             )}
             {boards.archived.map((board) => (

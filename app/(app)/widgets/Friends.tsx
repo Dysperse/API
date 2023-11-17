@@ -16,7 +16,7 @@ import useSWR from "swr";
 import { fetcher } from "../fetcher";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
 
-export function Friends({ sectionHeaderStyles }) {
+export function Friends() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
@@ -36,7 +36,7 @@ export function Friends({ sectionHeaderStyles }) {
       transition={{ delay: 0.7 }}
     >
       {data?.friends?.length !== 0 && (
-        <Typography sx={sectionHeaderStyles}>Recent activity</Typography>
+        <Typography variant="overline">Recent activity</Typography>
       )}
       <ContactSync showFriends={data?.friends?.length === 0} />
       {data ? (

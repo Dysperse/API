@@ -4,7 +4,6 @@ import { swipeablePageStyles } from "@/app/(app)/swipeablePageStyles";
 import { SearchTasks } from "@/app/(app)/tasks/Layout/SearchTasks";
 import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { Navbar } from "@/components/Layout/Navigation/Navbar";
-import { headingStyles } from "@/components/Start/HeadingComponent";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -222,13 +221,7 @@ export default function Home() {
                 mt: 5,
               }}
             >
-              <Typography
-                variant="h2"
-                className="font-heading"
-                sx={headingStyles(palette)}
-              >
-                Tasks
-              </Typography>
+              <Typography variant="h1">Tasks</Typography>
               <Box
                 sx={{
                   display: "flex",

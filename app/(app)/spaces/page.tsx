@@ -224,7 +224,7 @@ export default function Page() {
         </Toolbar>
       </AppBar>
       <Box sx={{ p: 3, maxWidth: "500px", mx: "auto" }}>
-        <Typography variant="h2" className="font-heading" sx={{ mb: 1 }}>
+        <Typography variant="h1" sx={{ mb: 1 }}>
           Spaces
         </Typography>
         <OptionsGroup

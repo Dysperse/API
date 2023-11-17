@@ -46,10 +46,19 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
   const redPalette = useColor("red", darkMode);
 
   return {
+    typography: {
+      fontFamily: `"bilo", sans-serif`,
+    },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           html: {
+            "& .font-heading, & h1": {
+              fontFamily: "headline-gothic-atf, sans-serif !important",
+              textTransform: "uppercase",
+              fontStyle: "normal",
+              fontWeight: 400,
+            },
             "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
               backgroundColor: "transparent",
               minWidth: "12px",
@@ -649,7 +658,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
           },
           paper: {
             boxShadow: "none !important",
-            background: darkMode ? palette[1] : "#fff",
+            background: darkMode ? palette[2] : "#fff",
           },
         },
       },
@@ -676,11 +685,38 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
       },
       MuiTypography: {
         styleOverrides: {
-          body2: ({ theme }) =>
+          h1: ({ theme }) =>
+            theme.unstable_sx({
+              fontSize: {
+                xs: "55px",
+                sm: "60px",
+                md: "65px",
+                lg: "67px",
+                xl: "70px",
+              },
+              mb: 1,
+              mt: 1,
+              background: `linear-gradient(${palette[12]}, ${palette[11]})`,
+              textShadow: `0 0 40px ${palette[9]}`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              userSelect: "none",
+              overflow: "visible",
+              textOverflow: "ellipsis",
+              lineHeight: "1",
+              whiteSpace: "nowrap",
+              display: "inline-flex",
+            }),
+          overline: ({ theme }) =>
             theme.unstable_sx({
               textTransform: "uppercase",
               opacity: 0.6,
-              fontWeight: "600",
+              fontSize: "14px",
+              fontWeight: 800,
+            }),
+          body2: ({ theme }) =>
+            theme.unstable_sx({
+              fontSize: "14px",
             }),
         },
       },

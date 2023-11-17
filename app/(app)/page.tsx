@@ -139,16 +139,6 @@ function Home() {
     }
   }, [emblaApi, router]);
 
-  const sectionHeaderStyles = {
-    textTransform: "uppercase",
-    fontWeight: 900,
-    fontSize: "14px",
-    opacity: 0.6,
-    mb: 1.5,
-    mt: 3,
-    color: palette[11],
-  };
-
   const customizeTrigger = (
     <Box
       sx={{
@@ -204,25 +194,27 @@ function Home() {
 
   return (
     <Box
-      sx={
-        session.user.homePagePattern && patterns[session.user.homePagePattern]
-          ? {
-              transition: "background 1s",
-              backgroundPosition: "center",
-              background: `url("/api/user/homePagePattern?${new URLSearchParams(
-                {
-                  color: hslToHex(
-                    palette[3]
-                      .replaceAll(/hsl\(|\)|%/g, "")
-                      .split(",")
-                      .map((e) => +e) as any
-                  ),
-                  pattern: session.user.homePagePattern,
-                }
-              )}")`,
-            }
-          : undefined
-      }
+      sx={{
+        "& .MuiTypography-overline": {
+          mb: 1.5,
+          mt: 3,
+          color: palette[11],
+        },
+        ...(session.user.homePagePattern &&
+          patterns[session.user.homePagePattern] && {
+            transition: "background 1s",
+            backgroundPosition: "center",
+            background: `url("/api/user/homePagePattern?${new URLSearchParams({
+              color: hslToHex(
+                palette[3]
+                  .replaceAll(/hsl\(|\)|%/g, "")
+                  .split(",")
+                  .map((e) => +e) as any
+              ),
+              pattern: session.user.homePagePattern,
+            })}")`,
+          }),
+      }}
     >
       {isMobile && (
         <Navbar
@@ -322,8 +314,8 @@ function Home() {
               <Box sx={{ width: "100%", mt: { xs: 5, sm: 0 } }}>
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <Typography
+                    variant="overline"
                     sx={{
-                      ...sectionHeaderStyles,
                       mb: 0,
                       ml: 0.1,
                       textShadow: `0 0 40px ${palette[8]}`,
@@ -359,7 +351,7 @@ function Home() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <Typography sx={sectionHeaderStyles}>
+                  <Typography variant="overline">
                     Today&apos;s rundown
                   </Typography>
                 </motion.div>
@@ -402,7 +394,7 @@ function Home() {
               <Box sx={{ width: "100%" }}>
                 {!isMobile && customizeTrigger}
                 {!isMobile && shortcuts}
-                <Friends sectionHeaderStyles={sectionHeaderStyles} />
+                <Friends />
                 {isMobile && customizeTrigger}
               </Box>
             </Grid>
