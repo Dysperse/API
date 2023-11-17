@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "../fetcher";
 const ContactSync = dynamic(() => import("@/components/Start/ContactSync"));
@@ -20,6 +21,8 @@ export function Friends() {
   const { session } = useSession();
   const isDark = useDarkMode(session.darkMode);
   const palette = useColor(session.themeColor, isDark);
+  const [viewAll, setViewAll] = useState(false);
+
   const params: any = ["user/friends", { email: session.user.email }];
 
   const { data, error, mutate } = useSWR(
@@ -50,10 +53,10 @@ export function Friends() {
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
+                overflowY: "scroll",
               }}
             >
-              {data.friends.slice(0, 5).map((friend, i) => (
+              {data.friends.slice(0, viewAll ? 99999 : 5).map((friend, i) => (
                 <Friend
                   friend={friend.follower || friend.following}
                   mutate={() => {}}
@@ -78,18 +81,21 @@ export function Friends() {
                   Friends will appear here!
                 </Alert>
               )}
-              <ListItemButton
-                sx={{
-                  mt: "auto",
-                  background: palette[4] + "!important",
-                  "&:active": {
-                    background: palette[5] + "!important",
-                  },
-                }}
-              >
-                <Icon>group</Icon>All friends
-                <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
-              </ListItemButton>
+              <Box>
+                <ListItemButton
+                  onClick={() => setViewAll((s) => !s)}
+                  sx={{
+                    mt: "auto",
+                    background: palette[4] + "!important",
+                    "&:active": {
+                      background: palette[5] + "!important",
+                    },
+                  }}
+                >
+                  <Icon>group</Icon>All friends
+                  <Icon sx={{ ml: "auto" }}>arrow_forward_ios</Icon>
+                </ListItemButton>
+              </Box>
             </Box>
           </>
         )
