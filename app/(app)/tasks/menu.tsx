@@ -456,11 +456,6 @@ export const MenuChildren = memo(function MenuChildren({
           >
             <Button
               fullWidth
-              disabled={
-                Boolean(storage?.isReached) ||
-                data?.filter((board) => !board.archived).length >= 7 ||
-                session.permission === "read-only"
-              }
               size="large"
               sx={{
                 ...buttonStyles(palette, pathname == "/tasks/boards/create"),
