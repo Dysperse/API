@@ -150,7 +150,7 @@ function Home() {
     >
       <HomePageCustomization>
         <Button variant="outlined">
-          <Icon>palette</Icon>
+          <Icon className="outlined">palette</Icon>
           Customize
         </Button>
       </HomePageCustomization>
