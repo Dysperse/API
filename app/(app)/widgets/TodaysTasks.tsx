@@ -34,7 +34,6 @@ export function TodaysTasks() {
   const { data, mutate, error } = useSWR([
     "space/tasks/perspectives",
     {
-      utcOffset: dayjs().utcOffset(),
       start: dayjs().startOf("day").toISOString(),
       end: dayjs().endOf("day").toISOString(),
       type: "week",

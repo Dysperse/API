@@ -414,7 +414,6 @@ export function Agenda({ type, date }) {
   } = useSWR([
     "space/tasks/perspectives",
     {
-      utcOffset: dayjs().utcOffset(),
       start: start.toISOString(),
       end: end.toISOString(),
       type: columnMap1[type],

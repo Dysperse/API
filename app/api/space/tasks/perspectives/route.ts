@@ -26,7 +26,6 @@ export async function GET(req: NextRequest) {
 
     const type = await getApiParam(req, "type", true);
     const _start = await getApiParam(req, "start", true);
-    const utcOffset = await getApiParam(req, "utcOffset", true);
     const _end = await getApiParam(req, "end", true);
 
     const map = {
@@ -37,7 +36,6 @@ export async function GET(req: NextRequest) {
 
     if (!map[type]) return Response.json({ error: "Invalid `type`" });
 
-    console.log(utcOffset);
     const start = dayjs(_start).utc();
     const end = dayjs(_end).utc();
 
