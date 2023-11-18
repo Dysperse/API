@@ -175,18 +175,11 @@ export default function Notifications() {
                 </>
               }
             />
-            <button
-              style={{ display: "none" }}
-              id="enable-notifications"
-              onClick={(event) => subscribeButtonOnClick(event)}
-            />
             {enabledOnAnotherDevice ? (
               <ConfirmationModal
                 title="Recieve notifications on this device?"
                 question="If you've enabled notifications on another device, enabling them here will disable them on the other device."
-                callback={() =>
-                  document.getElementById("enable-notifications")?.click()
-                }
+                callback={(e) => subscribeButtonOnClick(event)}
               >
                 <Button variant="contained">Enable</Button>
               </ConfirmationModal>
