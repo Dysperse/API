@@ -159,6 +159,13 @@ export function Weather() {
               ).toLowerCase()
             )}
           </Typography>
+          <Typography sx={{ opacity: 0.6 }}>
+            {locationData
+              ? `${
+                  locationData?.address?.city || locationData?.address?.county
+                }, ${locationData?.address?.state}`
+              : "Loading..."}
+          </Typography>
         </Box>
         <Box sx={{ px: 3 }}>
           <Grid
