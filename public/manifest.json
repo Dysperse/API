@@ -14,9 +14,7 @@
   "handle_links": "preferred",
   "theme_color": "#342a58",
   "prefer_related_applications": true,
-  "scope_extensions": [
-    { "origin": "*.dysperse.com" }
-  ],
+  "scope_extensions": [{ "origin": "*.dysperse.com" }],
   "related_applications": [
     {
       "platform": "windows",
@@ -32,6 +30,10 @@
   "protocol_handlers": [
     {
       "protocol": "web+dysperse",
+      "url": "/%s"
+    },
+    {
+      "protocol": "web+dysperse-task",
       "url": "/protocol?action=task&track=%s"
     }
   ],
