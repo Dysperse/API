@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
@@ -210,22 +210,17 @@ export default function Prompt() {
   const params = useParams();
   const pathname = usePathname();
 
-  const router = useRouter();
+  const handleRedirect = useCallback(() => {
+    mutate("/api/session");
+    if (params?.close) {
+      window.close();
+      return;
+    }
 
-  const handleRedirect = useCallback(
-    (res) => {
-      mutate("/api/session");
-      if (params?.close) {
-        window.close();
-        return;
-      }
-
-      const url = (params?.next as any) || "/";
-      window.location.href = url;
-      toast.dismiss();
-    },
-    [params]
-  );
+    const url = (params?.next as any) || "/";
+    window.location.href = url;
+    toast.dismiss();
+  }, [params]);
 
   const proTips = [
     "SECURITY TIP: Dysperse staff will NEVER ask for your password.",
@@ -315,7 +310,7 @@ export default function Prompt() {
           error: "An error occured. Please try again later",
         });
 
-        handleRedirect(res);
+        handleRedirect();
       } catch (e) {
         setStep(1);
         ref?.current?.reset();

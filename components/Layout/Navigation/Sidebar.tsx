@@ -254,6 +254,7 @@ export function Sidebar() {
         ?.setAttribute("content", palette[pathname === "/" ? 2 : 3]);
     }
   }, [palette, pathname]);
+
   return (
     <Box
       onClick={() =>
@@ -286,10 +287,8 @@ export function Sidebar() {
     >
       <Box
         sx={{
-          mt: 2,
-          ...(navigator.userAgent.toUpperCase().includes("MAC") && {
-            mt: "env(titlebar-area-height)",
-          }),
+          mt: "env(titlebar-area-height)",
+          pt: 2,
         }}
       />
       {!isMobile && <Logo size={50} intensity={7} />}

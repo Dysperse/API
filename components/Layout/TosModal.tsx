@@ -3,7 +3,6 @@ import { updateSettings } from "@/lib/client/updateSettings";
 import { LoadingButton } from "@mui/lab";
 import { Dialog, DialogContent, Icon, Link, Typography } from "@mui/material";
 import { useState } from "react";
-import { mutate } from "swr";
 
 export default function TosModal() {
   const { session, setSession } = useSession();
@@ -44,7 +43,6 @@ export default function TosModal() {
                 setSession,
                 type: "user",
               });
-              await mutate("/api/session");
               setLoading(false);
             }}
           >

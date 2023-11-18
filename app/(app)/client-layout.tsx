@@ -7,11 +7,14 @@ import {
 } from "@/components/Layout/Navigation/BottomNavigation";
 import KeyboardShortcutsModal from "@/components/Layout/Navigation/KeyboardShortcuts";
 import { Sidebar } from "@/components/Layout/Navigation/Sidebar";
-import { UpdateButton } from "@/components/Layout/Navigation/UpdateButton";
 import NotificationsPrompt from "@/components/Layout/NotificationsPrompt";
 import ReleaseModal from "@/components/Layout/ReleaseModal";
 import TosModal from "@/components/Layout/TosModal";
-import { SessionProvider, useSession } from "@/lib/client/session";
+import {
+  SessionProvider,
+  mutateSession,
+  useSession,
+} from "@/lib/client/session";
 import {
   AccountStorageState,
   StorageContext,
@@ -132,6 +135,18 @@ export default function ClientLayout({ children, session }) {
       storage?.setIsReached(hasReachedLimit);
     }
   }, [error, hasReachedLimit, storage]);
+
+  useEffect(() => {
+    const listener = () => {
+      mutateSession(_setSession);
+    };
+
+    window.addEventListener("focus", listener);
+
+    return () => {
+      window.removeEventListener("focus", listener);
+    };
+  }, []);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

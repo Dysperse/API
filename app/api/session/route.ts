@@ -1,7 +1,6 @@
 import { getUserData } from "@/lib/server/getUserData";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
 
 /**
  * Get session data from the auth cookie
@@ -26,14 +25,12 @@ export const sessionData = async (providedToken) => {
  * @param {any} res
  * @returns {any}
  */
-export async function GET(req: NextRequest) {
+export async function POST() {
   const cookieStore = cookies();
   const token = cookieStore.get("token");
 
-  console.time("🧑 Session data request took");
   if (token?.value) {
     const info = await sessionData(token?.value);
-    console.timeEnd("🧑 Session data request took");
     if (info.user === false) {
       return Response.json({ error: true });
     }
