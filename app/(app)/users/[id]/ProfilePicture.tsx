@@ -21,22 +21,20 @@ export function ProfilePicture({
   const isDark = useDarkMode(session?.session?.darkMode || darkMode);
   const palette = useColor(data?.color || "gray", isDark);
   const hexColors = colors[(data?.color || "gray") + "Dark"];
-
+  const defaultProfilePicture =
+    "https://source.boringavatars.com/beam/120/" +
+    encodeURIComponent(data.email) +
+    "?colors=" +
+    [
+      hexColors[Object.keys(hexColors)[6]].replace("#", ""),
+      hexColors[Object.keys(hexColors)[7]].replace("#", ""),
+      hexColors[Object.keys(hexColors)[8]].replace("#", ""),
+      hexColors[Object.keys(hexColors)[9]].replace("#", ""),
+      hexColors[Object.keys(hexColors)[11]].replace("#", ""),
+    ].join(",");
   const avatar = (
     <Avatar
-      src={
-        data?.Profile?.picture ||
-        "https://source.boringavatars.com/beam/120/" +
-          encodeURIComponent(data.email) +
-          "?colors=" +
-          [
-            hexColors[Object.keys(hexColors)[6]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[7]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[8]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[9]].replace("#", ""),
-            hexColors[Object.keys(hexColors)[11]].replace("#", ""),
-          ].join(",")
-      }
+      src={data?.Profile?.picture || defaultProfilePicture}
       sx={{
         height: size,
         width: size,
@@ -46,7 +44,9 @@ export function ProfilePicture({
         mb: 2,
         ...sx,
       }}
-    />
+    >
+      <img src={defaultProfilePicture} width="100%" height="100%" alt="" />
+    </Avatar>
   );
   return avatarComponentOnly ? (
     avatar

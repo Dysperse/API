@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { shouldHideNavigation } from "./BottomNavigation";
 import { UpdateButton } from "./UpdateButton";
@@ -246,6 +246,14 @@ export function Sidebar() {
       </Typography>
     </Box>
   );
+
+  useEffect(() => {
+    if (navigator.userAgent.toUpperCase().includes("MAC")) {
+      document
+        .querySelector(`meta[name="theme-color"]`)
+        ?.setAttribute("content", palette[2]);
+    }
+  }, [palette]);
   return (
     <Box
       onClick={() =>
@@ -280,7 +288,7 @@ export function Sidebar() {
         sx={{
           mt: 2,
           ...(navigator.userAgent.toUpperCase().includes("MAC") && {
-            pt: "env(titlebar-area-height)",
+            mt: "env(titlebar-area-height)",
           }),
         }}
       />
