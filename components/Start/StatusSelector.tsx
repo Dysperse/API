@@ -169,16 +169,7 @@ export function StatusSelector({
               fontSize: "15px",
               gap: 2,
             }),
-            width: 36,
-            height: 36,
             background: palette[3],
-            // "&, &:hover": {
-            //   background: `linear-gradient(${chipPalette[6]}, ${chipPalette[3]}) !important`,
-            //   color: `${chipPalette[12]} !important`,
-            //   "&:active": {
-            //     background: `linear-gradient(-90deg, ${chipPalette[6]}, ${chipPalette[3]}) !important`,
-            //   },
-            // },
           }}
         >
           <Icon className="outlined">

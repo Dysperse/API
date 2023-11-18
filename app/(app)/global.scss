@@ -239,6 +239,10 @@ body {
   overscroll-behavior-y: none;
 }
 
+body {
+  overflow: unset !important;
+}
+
 html {
   overflow-x: hidden !important;
   max-width: 100dvw !important;

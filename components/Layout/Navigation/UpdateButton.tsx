@@ -165,25 +165,12 @@ export function UpdateButton() {
       </Backdrop>
       <PWAInstallerPrompt
         render={({ onClick }) => (
-          <Snackbar
+          <IconButton
             onClick={onClick}
-            open={button}
-            autoHideDuration={6000}
-            onClose={() => null}
-            sx={{ mb: { xs: 7, sm: 2 }, transition: "all .3s" }}
-            message="Tap to install Dysperse"
-            action={
-              <IconButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setButton(false);
-                }}
-                color="inherit"
-              >
-                <Icon>close</Icon>
-              </IconButton>
-            }
-          />
+            sx={{ background: palette[3], order: { xs: -1, sm: 0 } }}
+          >
+            <Icon>download</Icon>
+          </IconButton>
         )}
       />
 

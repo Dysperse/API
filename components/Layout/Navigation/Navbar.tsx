@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useDeferredValue } from "react";
 import { SidebarMenu } from "./Sidebar";
+import { UpdateButton } from "./UpdateButton";
 
 export function Navbar({
   showLogo = false,
@@ -75,8 +76,9 @@ export function Navbar({
         gap: 1.5,
       }}
     >
-      <Logo style={{ marginRight: "auto" }} />
+      <Logo style={{ marginRight: "auto", order: -2 }} />
       {right}
+      <UpdateButton />
       {isMobile && (
         <SidebarMenu>
           <IconButton

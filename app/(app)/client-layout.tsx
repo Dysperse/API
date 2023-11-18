@@ -146,7 +146,6 @@ export default function ClientLayout({ children, session }) {
               <Toaster containerClassName="noDrag" toastOptions={toastStyles} />
               <ReleaseModal />
               <KeyboardShortcutsModal />
-              <UpdateButton />
               {!_session.user.agreeTos && <TosModal />}
 
               <Snackbar
@@ -243,7 +242,6 @@ export default function ClientLayout({ children, session }) {
                         xs: "unset",
                         sm: "auto",
                       },
-                      overflowX: { xs: "clip", sm: "hidden" },
                       overscrollBehaviorY: "contain",
                       maxWidth: "100dvw",
                       borderRadius: { sm: "20px 0 0 20px" },
