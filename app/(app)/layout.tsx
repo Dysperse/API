@@ -161,12 +161,6 @@ export default async function RootLayout({
         />
         <meta name="theme-color" content={palette[1]} />
         <meta name="description" content="Dysperse dashboard" />
-        <meta name="theme-color" content="#fff" />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: dark)"
-          content="hsl(240,11%,10%)"
-        />
         <meta
           httpEquiv="Content-Security-Policy"
           content="upgrade-insecure-requests"

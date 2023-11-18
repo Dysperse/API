@@ -276,7 +276,14 @@ export function Sidebar() {
         },
       }}
     >
-      <Box sx={{ mt: 2 }} />
+      <Box
+        sx={{
+          mt: 2,
+          ...(navigator.userAgent.toUpperCase().includes("MAC") && {
+            pt: "env(titlebar-area-height)",
+          }),
+        }}
+      />
       {!isMobile && <Logo size={50} intensity={7} />}
       <Box sx={{ mt: "auto", pt: 10 }} />
       <Box
