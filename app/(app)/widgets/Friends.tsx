@@ -49,7 +49,7 @@ export function Friends() {
               className="card"
               sx={{
                 background: palette[3] + "!important",
-                height: "400px",
+                height: "380px",
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
@@ -81,28 +81,30 @@ export function Friends() {
                   Friends will appear here!
                 </Alert>
               )}
-              <Box>
-                <ListItemButton
-                  onClick={() => setViewAll((s) => !s)}
-                  sx={{
-                    mt: "auto",
-                    background: palette[4] + "!important",
-                    "&:active": {
-                      background: palette[5] + "!important",
-                    },
-                  }}
-                >
-                  <Icon>group</Icon>All friends
-                  <Icon sx={{ ml: "auto" }}>
-                    {!viewAll ? "expand_more" : "expand_less"}
-                  </Icon>
-                </ListItemButton>
-              </Box>
+              {data?.friends?.length > 5 && (
+                <Box>
+                  <ListItemButton
+                    onClick={() => setViewAll((s) => !s)}
+                    sx={{
+                      mt: "auto",
+                      background: palette[4] + "!important",
+                      "&:active": {
+                        background: palette[5] + "!important",
+                      },
+                    }}
+                  >
+                    <Icon>group</Icon>All friends
+                    <Icon sx={{ ml: "auto" }}>
+                      {!viewAll ? "expand_more" : "expand_less"}
+                    </Icon>
+                  </ListItemButton>
+                </Box>
+              )}
             </Box>
           </>
         )
       ) : (
-        <Skeleton variant="rectangular" height="400px" />
+        <Skeleton variant="rectangular" height="380px" />
       )}
     </motion.div>
   );
