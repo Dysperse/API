@@ -22,6 +22,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { cloneElement, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { shouldHideNavigation } from "./BottomNavigation";
+import { UpdateButton } from "./UpdateButton";
 
 export function SidebarMenu({ children }) {
   const { session } = useSession();
@@ -367,19 +368,20 @@ export function Sidebar() {
         sx={{
           mt: "auto",
           mb: 1,
+          gap: 0.5,
           alignItems: "center",
           display: "flex",
           WebkitAppRegion: "no-drag",
           flexDirection: "column",
         }}
       >
+        <UpdateButton />
         <StatusSelector mutate={() => {}} profile={session.user.Profile} />
         <SidebarMenu>
           <Box
             sx={{
               ...styles(false),
               p: 0,
-              my: 1,
             }}
           >
             <ProfilePicture data={session.user} size={36} />

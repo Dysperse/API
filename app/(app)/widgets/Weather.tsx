@@ -61,7 +61,7 @@ export function Weather() {
         .then((r) => setAirQualityData(r))
         .catch((res) => setError(true));
       const getUrl = (days) =>
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=relative_humidity_2m&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=${days}&daily=weather_code,temperature_2m_max,temperature_2m_min`;
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=relative_humidity_2m&hourly=visibility,temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weathercode&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&timezone=auto&forecast_days=${days}&daily=sunrise,sunset,weather_code,temperature_2m_max,temperature_2m_min`;
       const url = getUrl(1);
       fetch(url)
         .then((res) => res.json())
@@ -265,6 +265,28 @@ export function Weather() {
                   <Typography>Low</Typography>
                   <Typography variant="h6">
                     {-~weatherData.daily.temperature_2m_min[0]}&deg;
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>wb_sunny</Icon>
+                <Box>
+                  <Typography>Sunrise</Typography>
+                  <Typography variant="h6">
+                    {dayjs(weatherData.daily.sunrise[0]).format("h:mm A")}
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid xs={6}>
+              <Box className="card">
+                <Icon>wb_twilight</Icon>
+                <Box>
+                  <Typography>Sunset</Typography>
+                  <Typography variant="h6">
+                    {dayjs(weatherData.daily.sunset[0]).format("h:mm A")}
                   </Typography>
                 </Box>
               </Box>

@@ -5,6 +5,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { LoadingButton } from "@mui/lab";
 import {
   Backdrop,
+  Badge,
   Box,
   CardActionArea,
   CircularProgress,
@@ -165,12 +166,20 @@ export function UpdateButton() {
       </Backdrop>
       <PWAInstallerPrompt
         render={({ onClick }) => (
-          <IconButton
-            onClick={onClick}
-            sx={{ background: palette[3], order: { xs: -1, sm: 0 } }}
+          <Badge
+            variant="dot"
+            sx={{ order: { xs: -1, sm: "unset" } }}
+            badgeContent={button ? 1 : 0}
           >
-            <Icon>download</Icon>
-          </IconButton>
+            <IconButton
+              onClick={onClick}
+              sx={{ background: palette[3] }}
+              onTouchEnd={() => setButton(false)}
+              onMouseUp={() => setButton(false)}
+            >
+              <Icon>download</Icon>
+            </IconButton>
+          </Badge>
         )}
       />
 
