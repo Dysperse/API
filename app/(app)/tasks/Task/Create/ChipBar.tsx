@@ -208,6 +208,11 @@ const ChipBar = React.memo(function ChipBar({
             {...(data.date && {
               onDelete: () => {
                 setData({ ...data, dateOnly: true, date: null });
+                if (!boardData) {
+                  toast(
+                    'You removed the due date. Task will be moved to "Unplanned"'
+                  );
+                }
                 titleRef.current.focus();
               },
             })}
