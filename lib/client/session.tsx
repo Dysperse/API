@@ -23,9 +23,10 @@ export const SessionProvider = ({
 };
 
 export async function mutateSession(setSession) {
-  const data = await fetch("/api/session", { method: "POST" }).then((res) =>
-    res.json()
-  );
+  const data = await fetch("/api/session").then((res) => res.json());
+  if (!data?.user) {
+    window.location.reload();
+  }
   const themeColor = data?.user?.color || "violet";
 
   const s = {
