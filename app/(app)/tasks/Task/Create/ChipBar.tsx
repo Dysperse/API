@@ -210,7 +210,7 @@ const ChipBar = React.memo(function ChipBar({
                 setData({ ...data, dateOnly: true, date: null });
                 if (!boardData) {
                   toast(
-                    'You removed the due date. Task will be moved to "Unplanned"'
+                    'You removed the due date. Task will be moved to "Unscheduled"'
                   );
                 }
                 titleRef.current.focus();
