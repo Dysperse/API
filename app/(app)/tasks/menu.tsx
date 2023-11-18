@@ -216,9 +216,9 @@ export const MenuChildren = memo(function MenuChildren({
                         ? "scale(0)"
                         : "scale(1)",
                       transition: "all .2s",
-                      width: 10,
-                      height: 10,
-                      background: palette[7],
+                      width: 7,
+                      height: 7,
+                      background: palette[9],
                       borderRadius: 99,
                     }}
                   />
