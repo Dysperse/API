@@ -1,5 +1,6 @@
 "use client";
 import { Puller } from "@/components/Puller";
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -7,6 +8,7 @@ import {
   Box,
   Button,
   Icon,
+  IconButton,
   LinearProgress,
   Skeleton,
   SwipeableDrawer,
@@ -187,6 +189,16 @@ export function TodaysTasks() {
             <Typography variant="body2">
               {completedTasksLength} complete
             </Typography>
+          </Box>
+          <Box
+            onClick={(e) => e.stopPropagation()}
+            sx={{ ml: "auto", zIndex: 9 }}
+          >
+            <CreateTask disableBadge>
+              <IconButton sx={{ background: addHslAlpha(palette[5], 0.5) }}>
+                <Icon>add</Icon>
+              </IconButton>
+            </CreateTask>
           </Box>
           <LinearProgress
             variant="determinate"
