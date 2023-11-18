@@ -251,9 +251,9 @@ export function Sidebar() {
     if (navigator.userAgent.toUpperCase().includes("MAC")) {
       document
         .querySelector(`meta[name="theme-color"]`)
-        ?.setAttribute("content", palette[2]);
+        ?.setAttribute("content", palette[pathname === "/" ? 2 : 3]);
     }
-  }, [palette]);
+  }, [palette, pathname]);
   return (
     <Box
       onClick={() =>
