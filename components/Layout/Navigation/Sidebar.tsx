@@ -255,6 +255,14 @@ export function Sidebar() {
     }
   }, [palette, pathname]);
 
+  useEffect(() => {
+    try {
+      navigator.registerProtocolHandler("web+dysperse", "/%s");
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
   return (
     <Box
       onClick={() =>

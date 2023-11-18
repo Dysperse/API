@@ -27,13 +27,18 @@
   "edge_side_panel": {
     "preferred_width": 400
   },
+  "url_handlers": [
+    {
+      "origin": "https://*.dysperse.com"
+    }
+  ],
   "protocol_handlers": [
     {
       "protocol": "web+dysperse",
       "url": "/%s"
     },
     {
-      "protocol": "web+dysperse-task",
+      "protocol": "web+dyspersetask",
       "url": "/protocol?action=task&track=%s"
     }
   ],
@@ -46,6 +51,7 @@
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "Dysperse is a radically different, unified productivity platform"
     },
     {
@@ -53,6 +59,7 @@
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "Agenda"
     },
     {
@@ -60,20 +67,15 @@
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "Boards"
-    },
-    {
-      "src": "/screenshots/4.png",
-      "sizes": "1485x2640",
-      "type": "image/png",
-      "platform": "narrow",
-      "label": "Coach"
     },
     {
       "src": "/screenshots/5.png",
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "Inventory"
     },
     {
@@ -81,6 +83,7 @@
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "Profiles"
     },
     {
@@ -88,6 +91,7 @@
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "More features you'll love"
     },
     {
@@ -95,6 +99,7 @@
       "sizes": "1485x2640",
       "type": "image/png",
       "platform": "narrow",
+      "form_factor": "wide",
       "label": "Join now!"
     }
   ],
