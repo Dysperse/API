@@ -205,6 +205,10 @@ export function TodaysTasks() {
             value={(completedTasksLength / data[0].tasks.length) * 100}
           />
         </Box>
+      ) : error ? (
+        <Alert sx={{ height: "84px" }}>
+          Something went wrong. Please try again later
+        </Alert>
       ) : (
         <Skeleton height={84} variant="rectangular" />
       )}
