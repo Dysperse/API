@@ -205,13 +205,10 @@ const ChipBar = React.memo(function ChipBar({
           setDateOnly={(dateOnly) => setData((d) => ({ ...d, dateOnly }))}
         >
           <Chip
-            {...(boardData &&
-              data.date && {
-                onDelete: () => {
-                  setData({ ...data, dateOnly: true, date: null });
-                  titleRef.current.focus();
-                },
-              })}
+            onDelete={() => {
+              setData({ ...data, dateOnly: true, date: null });
+              titleRef.current.focus();
+            }}
             id="dateTrigger"
             sx={chipStyles(dayjs(data.date).isValid())}
             icon={
