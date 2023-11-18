@@ -48,6 +48,11 @@ const moduleExports = {
           permanent: false,
         },
         {
+          source: "/web\\+dysperse\\:/:path*",
+          destination: "/:path*",
+          permanent: false,
+        },
+        {
           source: "/discord",
           destination: "https://discord.gg/fvngmDzh77",
           permanent: true,

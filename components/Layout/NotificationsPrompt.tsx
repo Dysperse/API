@@ -40,7 +40,7 @@ export const useNotificationSubscription = (session) => {
           const reg = await navigator.serviceWorker.ready;
           const sub: any = await reg.pushManager.getSubscription();
           if (
-            sub.endpoint ===
+            sub?.endpoint ===
             session.user.notifications?.pushSubscription?.endpoint
           ) {
             setEnabledOnCurrentDevice(true);
@@ -179,7 +179,7 @@ export default function NotificationsPrompt() {
   return (
     <>
       <Dialog
-        open={subscription && open}
+        open={open}
         onClose={() => {}}
         PaperProps={{
           sx: {
