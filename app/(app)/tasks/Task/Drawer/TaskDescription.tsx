@@ -33,9 +33,26 @@ const extensions = [
     placeholder: "Add description …",
   }),
   CharacterCount.configure({
-    limit: 400,
+    limit: 1000,
   }),
 ];
+
+const CharacterLimit = () => {
+  const { editor } = useCurrentEditor();
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <Box
+      className="character-count"
+      sx={{ px: 3, position: "absolute", top: 0, right: 0, py: 1 }}
+    >
+      {1000 - editor.storage.characterCount.characters()}
+    </Box>
+  );
+};
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -166,6 +183,9 @@ export function TaskDescription({ description, disabled, handleChange }) {
   return (
     <Box
       sx={{
+        position: "relative",
+        "& .character-count": { opacity: 0 },
+        "&:focus-within .character-count": { opacity: 0.6 },
         "& .editor-menu": {
           zIndex: 99,
           background: palette[5],
@@ -184,6 +204,7 @@ export function TaskDescription({ description, disabled, handleChange }) {
     >
       <EditorProvider
         slotBefore={<MenuBar />}
+        slotAfter={<CharacterLimit />}
         extensions={extensions}
         content={description}
       >
