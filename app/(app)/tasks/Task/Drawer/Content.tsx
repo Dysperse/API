@@ -215,7 +215,7 @@ export default function DrawerContent({
       flexDirection: "column",
       overflow: "hidden",
       mb: 3,
-      "& .item": {
+      "& .item, & .tiptap": {
         "&:active": {
           background: { xs: palette[4], sm: palette[3] },
         },

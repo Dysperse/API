@@ -161,7 +161,6 @@ export function TaskDescription({ description, disabled, handleChange }) {
 
   return (
     <Box
-      className="item"
       sx={{
         "& .editor-menu": {
           zIndex: 99,
