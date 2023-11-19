@@ -1,19 +1,19 @@
-import { sessionData } from "@/app/api/session/route";
-import { handleApiError } from "@/lib/server/helpers";
+import {
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
+} from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const cookieStore = cookies();
-    const token = cookieStore.get("token");
-
-    const session = await sessionData(token?.value);
+    const sessionId = await getSessionToken();
+    const { userIdentifier, timeZone } = await getIdentifiers(sessionId);
 
     const data = await prisma.integration.findMany({
       where: {
-        user: { identifier: session.user.identifier },
+        user: { identifier: userIdentifier },
       },
       include: {
         property: { select: { vanishingTasks: true } },
@@ -29,8 +29,8 @@ export async function GET(req: NextRequest) {
           {
             property: integration.propertyId.toString(),
             boardId: (integration.boardId || "").toString(),
-            user: session.user.identifier,
-            timeZone: session.user.timeZone,
+            user: userIdentifier,
+            timeZone,
             vanishingTasks: integration.property.vanishingTasks
               ? "true"
               : "false",

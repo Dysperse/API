@@ -114,7 +114,7 @@ export async function GET(req: NextRequest) {
         if (item.description) {
           description = item.description;
         }
-        console.log(item["ALT-DESC"]?.val);
+        // console.log(item["ALT-DESC"]?.val);
         if (item["ALT-DESC"]?.val) {
           description = item["ALT-DESC"].val;
         }

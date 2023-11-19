@@ -40,6 +40,7 @@ export const getIdentifiers = async (id) => {
       user: {
         select: {
           identifier: true,
+          timeZone: true,
           selectedProperty: {
             select: { id: true },
           },
@@ -49,6 +50,7 @@ export const getIdentifiers = async (id) => {
   });
   return {
     sessionId: id || "-1",
+    timeZone: data.user.timeZone,
     userIdentifier: data.user.identifier || "-1",
     spaceId: data.user.selectedProperty?.id || "-1",
   };
