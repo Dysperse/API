@@ -17,14 +17,15 @@ import {
 } from "@mui/material";
 import React from "react";
 import toast from "react-hot-toast";
-import { parseEmojis } from ".";
 import { ImageViewer } from "../ImageViewer";
 import { useTaskContext } from "./Context";
+import { TaskDescription } from "./TaskDescription";
 import {
   isAddress,
   isValidHttpUrl,
   videoChatPlatforms,
 } from "./locationHelpers";
+
 export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   data,
   styles,
@@ -67,26 +68,10 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   return (
     <Box sx={styles.section}>
       {/* Description */}
-      <TextField
-        className="item"
-        onBlur={(e) => task.edit(task.id, "description", e.target.value)}
-        onKeyDown={(e: any) =>
-          e.key === "Enter" && !e.shiftKey && e.target.blur()
-        }
-        multiline
-        placeholder={
-          storage?.isReached === true
-            ? "You've reached your account storage limits and you can't add a description."
-            : "Note"
-        }
+      <TaskDescription
         disabled={shouldDisable}
-        fullWidth
-        defaultValue={parseEmojis(data.description || "")}
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: { py: 1.5, px: 3 },
-        }}
+        description={data.description}
+        handleChange={(e) => task.edit(task.id, "description", e)}
       />
       <TextField
         className="item"
