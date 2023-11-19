@@ -110,8 +110,13 @@ export async function GET(req: NextRequest) {
         let description: null | string = null;
         let location: null | string = null;
 
+        // console.log(item);
         if (item.description) {
           description = item.description;
+        }
+        console.log(item["ALT-DESC"]?.val);
+        if (item["ALT-DESC"]?.val) {
+          description = item["ALT-DESC"].val;
         }
         if (item.url) {
           location = item.url?.val;
@@ -124,7 +129,7 @@ export async function GET(req: NextRequest) {
             },
             update: {
               name,
-              // description,
+              description,
               where: location,
               ...(due && { due }),
               createdBy: {
