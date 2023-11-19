@@ -66,7 +66,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   };
 
   return (
-    <Box sx={styles.section}>
+    <Box sx={{ ...styles.section, overflow: "visible" }}>
       {/* Description */}
       <TaskDescription
         disabled={shouldDisable}
@@ -147,7 +147,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
           </Box>
         </Box>
       )}
-      <ListItem className="item">
+      <ListItem className="item" sx={{ background: "transparent!important" }}>
         <ListItemText
           primary={
             data.image ? (

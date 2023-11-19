@@ -1,3 +1,4 @@
+import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
@@ -165,7 +166,7 @@ const MenuBar = () => {
       )}
       {editor && (
         <FloatingMenu
-          className="editor-menu"
+          className="editor-menu editor-menu-outlined"
           tippyOptions={{ duration: 100 }}
           editor={editor}
         >
@@ -188,21 +189,31 @@ export function TaskDescription({ description, disabled, handleChange }) {
         "&:focus-within .character-count": { opacity: 0.6 },
         "& .editor-menu": {
           zIndex: 99,
-          background: palette[5],
+          background: addHslAlpha(palette[3], 0.6),
+          backdropFilter: "blur(3px)",
+          boxShadow: `0 0 50px ${palette[1]}`,
           borderRadius: 99,
           p: 0.4,
+          ml: 3.5,
           display: "flex",
           alignItems: "center",
           overflowX: "scroll",
           maxWidth: { xs: "200px", sm: "300px" },
           "&::-webkit-scrollbar": { display: "none" },
           "& .is-active": {
-            background: palette[6],
+            background: palette[4],
+          },
+          "&.editor-menu-outlined": {
+            mt: -7,
+            ml: -2,
           },
         },
       }}
     >
       <EditorProvider
+        onBlur={({ editor }) => {
+          handleChange(editor.getHTML());
+        }}
         slotBefore={<MenuBar />}
         slotAfter={<CharacterLimit />}
         extensions={extensions}
