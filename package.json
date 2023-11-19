@@ -32,6 +32,7 @@
     "@sentry/nextjs": "^7.61.1",
     "@sentry/node": "^7.61.1",
     "@sentry/replay": "^7.61.1",
+    "@tiptap/extension-character-count": "^2.1.12",
     "@tiptap/extension-link": "^2.1.12",
     "@tiptap/extension-list-item": "^2.1.12",
     "@tiptap/extension-placeholder": "^2.1.12",

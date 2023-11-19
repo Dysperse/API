@@ -221,11 +221,11 @@ export default function DrawerContent({
         },
         color: palette[12],
         borderRadius: 0,
-        "&.MuiListItem-root, &.MuiListItemButton-root": {
+        "&.MuiListItem-root, &.MuiListItemButton-root, &.tiptap": {
           px: 3,
         },
       },
-      "& .item:not(:last-child)": {
+      "& .item:not(:last-child), & .tiptap": {
         borderBottom: "2px solid",
         borderColor: { xs: palette[4], sm: palette[3] },
       },

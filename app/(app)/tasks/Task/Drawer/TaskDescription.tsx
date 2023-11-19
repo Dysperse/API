@@ -1,6 +1,7 @@
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
+import CharacterCount from "@tiptap/extension-character-count";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import {
@@ -30,6 +31,9 @@ const extensions = [
   Placeholder.configure({
     emptyEditorClass: "is-editor-empty",
     placeholder: "Add description …",
+  }),
+  CharacterCount.configure({
+    limit: 400,
   }),
 ];
 
