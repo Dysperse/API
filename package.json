@@ -34,6 +34,7 @@
     "@sentry/replay": "^7.61.1",
     "@tiptap/extension-link": "^2.1.12",
     "@tiptap/extension-list-item": "^2.1.12",
+    "@tiptap/extension-placeholder": "^2.1.12",
     "@tiptap/extension-text-style": "^2.1.12",
     "@tiptap/extension-underline": "^2.1.12",
     "@tiptap/pm": "^2.1.12",
