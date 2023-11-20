@@ -83,6 +83,7 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
           }
           disabled={shouldDisable}
           fullWidth
+          placeholder="Add link / location"
           defaultValue={data.where}
           key={data.where}
           variant="standard"
