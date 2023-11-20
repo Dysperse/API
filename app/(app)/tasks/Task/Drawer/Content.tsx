@@ -35,6 +35,7 @@ import { useTaskContext } from "./Context";
 import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
+import { Virtuoso } from "react-virtuoso";
 
 function AddFieldButton({ task }) {
   const { session } = useSession();
