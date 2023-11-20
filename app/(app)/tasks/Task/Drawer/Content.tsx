@@ -37,7 +37,7 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-function AddFieldButton() {
+function AddFieldButton({ task }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
@@ -88,9 +88,30 @@ function AddFieldButton() {
         <MenuItem onClick={handleClose}>
           <Icon className="outlined">description</Icon>File
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Icon>task_alt</Icon>Subtask
-        </MenuItem>
+        <CreateTask
+          isSubTask
+          parentId={task.id}
+          onSuccess={() => {
+            task.mutate();
+            document.getElementById("taskMutationTrigger")?.click();
+          }}
+          boardData={
+            task.column
+              ? {
+                  boardId: "",
+                  columnId: task.column.id,
+                  columnName: task.column.name,
+                  columnEmoji: task.column.emoji,
+                }
+              : undefined
+          }
+          defaultDate={task.due ? new Date(task.due) : null}
+          sx={{ width: "100%" }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Icon>task_alt</Icon>Subtask
+          </MenuItem>
+        </CreateTask>
       </Menu>
     </>
   );
@@ -410,7 +431,7 @@ export default function DrawerContent({
                 <Icon className="outlined">delete</Icon>
               </IconButton>
             </ConfirmationModal>
-            <AddFieldButton />
+            <AddFieldButton task={task} />
           </Box>
         </Toolbar>
       </AppBar>
