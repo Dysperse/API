@@ -2,6 +2,7 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
+import Emoji, { gitHubEmojis } from "@tiptap-pro/extension-emoji";
 import CharacterCount from "@tiptap/extension-character-count";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
@@ -18,6 +19,7 @@ import {
   useCurrentEditor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import suggestion from "./suggestion";
 
 const extensions = [
   StarterKit.configure({
@@ -29,6 +31,11 @@ const extensions = [
       keepMarks: true,
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
+  }),
+  Emoji.configure({
+    emojis: gitHubEmojis,
+    enableEmoticons: true,
+    suggestion,
   }),
   Table,
   TableCell,
