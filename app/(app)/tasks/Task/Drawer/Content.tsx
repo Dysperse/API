@@ -18,7 +18,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { useCallback, useEffect } from "react";
+import { cloneElement, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
@@ -33,6 +33,12 @@ import { useTaskContext } from "./Context";
 import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
+
+function AddFieldButton({ children }) {
+  const trigger = cloneElement(children, {});
+
+  return <>{trigger}</>;
+}
 
 export default function DrawerContent({
   isPlan,
@@ -348,6 +354,22 @@ export default function DrawerContent({
                 <Icon className="outlined">delete</Icon>
               </IconButton>
             </ConfirmationModal>
+            {/* <AddFieldButton>
+              <IconButton
+                sx={{
+                  background: palette[7] + "!important",
+                  color: palette[12] + "!important",
+                }}
+              >
+                <Icon
+                  sx={{
+                    fontVariationSettings: `"wght" 300`,
+                  }}
+                >
+                  add
+                </Icon>
+              </IconButton>
+            </AddFieldButton> */}
           </Box>
         </Toolbar>
       </AppBar>
