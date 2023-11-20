@@ -1,5 +1,4 @@
 import { SelectionContext } from "@/app/(app)/tasks/selection-context";
-import { useBackButton } from "@/lib/client/useBackButton";
 import { Icon, Menu, MenuItem } from "@mui/material";
 import { Dayjs } from "dayjs";
 import React, { cloneElement, useContext, useState } from "react";
@@ -20,12 +19,6 @@ export const ColumnMenu = React.memo(function ColumnMenu({
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
-  useBackButton({
-    open,
-    callback: () => setAnchorEl(null),
-    hash: `column-menu`,
-  });
 
   const handleClick = (event: any) => {
     event.stopPropagation();

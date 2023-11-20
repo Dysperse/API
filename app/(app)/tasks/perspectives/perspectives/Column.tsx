@@ -475,6 +475,7 @@ const Column = React.memo(function Column({
         "& .desktopColumnMenu": {
           opacity: 0,
         },
+
         "&:hover .desktopColumnMenu": {
           opacity: 1,
         },
