@@ -114,13 +114,13 @@ const MenuBar = () => {
       >
         <Icon>format_italic</Icon>
       </IconButton>
-      <IconButton
+      {/* <IconButton
         size="small"
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive("paragraph") ? "is-active" : ""}
       >
         <Icon>view_headline</Icon>
-      </IconButton>
+      </IconButton> */}
       <IconButton
         size="small"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -217,18 +217,22 @@ export function TaskDescription({ description, disabled, handleChange }) {
         "&:focus-within .character-count": { opacity: 0.6 },
         "& .editor-menu": {
           zIndex: 99,
-          background: addHslAlpha(palette[3], 0.6),
+          background: addHslAlpha(palette[3], 0.9),
           backdropFilter: "blur(3px)",
           boxShadow: `0 0 50px ${palette[1]}`,
           borderRadius: 99,
           ml: 3.5,
+          gap: 0.5,
           display: "flex",
           alignItems: "center",
           overflowX: "scroll",
           maxWidth: { xs: "200px", sm: "300px" },
           "&::-webkit-scrollbar": { display: "none" },
           "& .is-active": {
-            background: palette[4],
+            background: palette[11],
+            "& *": {
+              color: palette[1],
+            },
           },
           "&.editor-menu-outlined": {
             mt: -7,
@@ -247,6 +251,10 @@ export function TaskDescription({ description, disabled, handleChange }) {
           "&.ProseMirror-selectednode": {
             outline: `3px solid ${palette[9]}`,
           },
+        },
+        "& h1, & h2, & h3": {
+          mb: 0,
+          lineHeight: 1,
         },
       }}
     >

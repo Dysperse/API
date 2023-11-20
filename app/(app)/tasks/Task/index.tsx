@@ -547,8 +547,8 @@ export const Task: any = React.memo(function Task({
                   }}
                 >
                   {taskData.description
-                    ?.replace(/<[^>]+>/g, "")
-                    ?.substring(0, 10)}
+                    ?.replaceAll(/<[^>]+>/g, "")
+                    ?.substring(0, 150)}
                 </Typography>
                 <TaskChips
                   taskData={taskData}
