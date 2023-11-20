@@ -88,30 +88,32 @@ function AddFieldButton({ task }) {
         <MenuItem onClick={handleClose}>
           <Icon className="outlined">description</Icon>File
         </MenuItem>
-        <CreateTask
-          isSubTask
-          parentId={task.id}
-          onSuccess={() => {
-            task.mutate();
-            document.getElementById("taskMutationTrigger")?.click();
-          }}
-          boardData={
-            task.column
-              ? {
-                  boardId: "",
-                  columnId: task.column.id,
-                  columnName: task.column.name,
-                  columnEmoji: task.column.emoji,
-                }
-              : undefined
-          }
-          defaultDate={task.due ? new Date(task.due) : null}
-          sx={{ width: "100%" }}
-        >
-          <MenuItem onClick={handleClose}>
-            <Icon>task_alt</Icon>Subtask
-          </MenuItem>
-        </CreateTask>
+        <Box onClick={handleClose}>
+          <CreateTask
+            isSubTask
+            parentId={task.id}
+            onSuccess={() => {
+              task.mutate();
+              document.getElementById("taskMutationTrigger")?.click();
+            }}
+            boardData={
+              task.column
+                ? {
+                    boardId: "",
+                    columnId: task.column.id,
+                    columnName: task.column.name,
+                    columnEmoji: task.column.emoji,
+                  }
+                : undefined
+            }
+            defaultDate={task.due ? new Date(task.due) : null}
+            sx={{ width: "100%" }}
+          >
+            <MenuItem onClick={handleClose}>
+              <Icon>task_alt</Icon>Subtask
+            </MenuItem>
+          </CreateTask>
+        </Box>
       </Menu>
     </>
   );
@@ -603,39 +605,6 @@ export default function DrawerContent({
         <Box sx={styles.section}>
           {!isSubTask && !shouldDisable && (
             <>
-              <CreateTask
-                isSubTask
-                parentId={task.id}
-                onSuccess={() => {
-                  task.mutate();
-                  document.getElementById("taskMutationTrigger")?.click();
-                }}
-                boardData={
-                  task.column
-                    ? {
-                        boardId: "",
-                        columnId: task.column.id,
-                        columnName: task.column.name,
-                        columnEmoji: task.column.emoji,
-                      }
-                    : undefined
-                }
-                defaultDate={task.due ? new Date(task.due) : null}
-                sx={{ width: "100%" }}
-              >
-                <Box
-                  sx={{ p: task.subTasks.length == 0 ? 0 : 2, width: "100%" }}
-                >
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    id="createSubTask"
-                    sx={{ background: palette[4] + "!important" }}
-                  >
-                    <Icon>add_circle</Icon>Subtask
-                  </Button>
-                </Box>
-              </CreateTask>
               <Virtuoso
                 useWindowScroll
                 customScrollParent={parentRef.current}
