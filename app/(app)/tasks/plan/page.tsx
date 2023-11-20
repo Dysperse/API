@@ -305,7 +305,7 @@ function PastTasks({ setNavbarText, data }) {
                 sx={{ mb: 2, background: palette[2], borderRadius: 5, p: 2 }}
               >
                 <Typography variant="h6">{task.name}</Typography>
-                <Typography sx={{ mb: 0.5 }}>{task.description}</Typography>
+                {/* <Typography sx={{ mb: 0.5 }}>{task.description}</Typography> */}
                 <Chip label={dayjs(task.due).fromNow()} />
               </Box>
             </TaskDrawer>
@@ -890,9 +890,9 @@ function Slides({ setNavbarText, data, setGroupProgress }) {
                 >
                   {slide.name}
                 </Typography>
-                {slide.description && (
-                  <Typography>{slide.description}</Typography>
-                )}
+                {/* {slide.description && ( */}
+                {/* <Typography>{slide.description}</Typography> */}
+                {/* )} */}
               </motion.div>
             </Box>
           </TaskDrawer>
