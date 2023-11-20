@@ -209,10 +209,30 @@ export function TaskDescription({ description, disabled, handleChange }) {
 
   return (
     <Box
+      onKeyDown={(e: any) => {
+        if (e.key === "Escape") {
+          e.stopPropagation();
+          e.target.blur();
+        }
+      }}
       sx={{
-        mt: -3,
-        mb: 3,
         position: "relative",
+        px: 1,
+        mt: -1.5,
+        py: "0px",
+        lineHeight: 1,
+        mx: -1,
+        width: "calc(100% - 2px)",
+        borderRadius: 5,
+        transition: "background .4s",
+        border: "2px solid transparent",
+        "&:hover:not(:focus-within)": {
+          background: { sm: palette[3] },
+          "&, & *": { cursor: "default" },
+        },
+        "&:focus-within": {
+          borderColor: palette[6],
+        },
         "& .character-count": { opacity: 0 },
         "&:focus-within .character-count": { opacity: 0.6 },
         "& .editor-menu": {

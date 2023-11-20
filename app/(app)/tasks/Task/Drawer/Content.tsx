@@ -327,41 +327,6 @@ export default function DrawerContent({
                   </Button>
                 </RescheduleModal>
               ) : null)}
-            {!isPlan && (
-              <IconButton
-                id="pinTask"
-                onClick={handlePriorityChange}
-                sx={{
-                  flexShrink: 0,
-                  ...styles.button,
-                  order: { xs: 1, sm: "unset" },
-                  ...(task.pinned && {
-                    background: orangePalette[3],
-                    color: orangePalette[11],
-                    "&:hover": {
-                      background: orangePalette[4],
-                    },
-                    "&:active": {
-                      background: orangePalette[5],
-                    },
-                  }),
-                }}
-                disabled={shouldDisable}
-              >
-                <Icon
-                  {...(!task.pinned && { className: "outlined" })}
-                  sx={{
-                    ...(task.pinned && {
-                      transform: "rotate(-20deg)",
-                    }),
-
-                    transition: "transform .2s",
-                  }}
-                >
-                  push_pin
-                </Icon>
-              </IconButton>
-            )}
             <ConfirmationModal
               title="Delete task?"
               question={
@@ -394,6 +359,42 @@ export default function DrawerContent({
         }}
       >
         <Box sx={{ display: "flex", gap: 1.5, flexWrap: "wrap" }}>
+          {!isPlan && (
+            <Chip
+              id="pinTask"
+              onClick={handlePriorityChange}
+              sx={{
+                ...(task.pinned && {
+                  background: orangePalette[5] + "!important",
+                  "& *": {
+                    color: orangePalette[12] + "!important",
+                  },
+                  "&:hover": {
+                    opacity: { sm: 0.9 },
+                  },
+                  "&:active": {
+                    opacity: 0.8,
+                  },
+                }),
+              }}
+              icon={
+                <Icon
+                  {...(!task.pinned && { className: "outlined" })}
+                  sx={{
+                    ...(task.pinned && {
+                      transform: "rotate(-20deg)",
+                    }),
+                    mr: "-12px!important",
+                    ml: "13px!important",
+                    transition: "transform .2s",
+                  }}
+                >
+                  push_pin
+                </Icon>
+              }
+              disabled={shouldDisable}
+            />
+          )}
           <ColorPopover disabled={shouldDisable} />
           {!isSubTask && (
             <SelectDateModal
@@ -469,10 +470,15 @@ export default function DrawerContent({
               task.edit(task.id, "name", e.target.value);
             }
           }}
+          onKeyDown={(e: any) => {
+            if (e.key === "Escape" || e.key === "Enter") {
+              e.stopPropagation();
+              e.target.blur();
+            }
+          }}
           onChange={(e: any) =>
             (e.target.value = e.target.value.replaceAll("\n", ""))
           }
-          onKeyDown={(e: any) => e.key === "Enter" && e.target.blur()}
           margin="dense"
           InputProps={{
             disableUnderline: true,
@@ -480,15 +486,23 @@ export default function DrawerContent({
             sx: {
               px: 1,
               mx: -1,
-              mt: 1,
-              lineHeight: 1.1,
+              pt: 1.5,
+              pb: 0,
+              lineHeight: 1,
               border: "2px solid transparent",
+              borderRadius: 5,
+              transition: "background .4s",
+              "&:hover": {
+                background: { sm: palette[3] },
+                "&, & *": { cursor: "default" },
+              },
               "&:focus-within": {
                 "&, & *": {
                   fontFamily: `"bilo", sans-serif!important`,
+                  cursor: "text",
                 },
-                borderColor: palette[4],
-                borderRadius: 5,
+                borderColor: palette[6],
+                background: "transparent",
               },
               fontSize: { xs: "50px", sm: "50px" },
               color: colors[task.color][isDark ? "A200" : 800],
