@@ -323,7 +323,7 @@ export default function DrawerContent({
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
-      mb: 3,
+      mb: 1,
       "& .item, & .tiptap": {
         "&:active": {
           background: { xs: palette[4], sm: palette[3] },
@@ -619,13 +619,11 @@ export default function DrawerContent({
             },
           }}
         />
-
         <TaskDetailsSection
           data={task}
           shouldDisable={shouldDisable}
           styles={styles}
         />
-
         <Box sx={styles.section}>
           {!isSubTask && !shouldDisable && (
             <>

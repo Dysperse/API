@@ -129,7 +129,6 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
             }),
           }}
         />
-
         {/* Notifications */}
         {data.notifications.length > 0 && !task.dateOnly && (
           <Box className="item" sx={{ px: 1 }}>
