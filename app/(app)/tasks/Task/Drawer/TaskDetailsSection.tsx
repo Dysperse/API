@@ -67,6 +67,9 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
 
   return (
     <>
+      <Typography variant="overline" sx={{ mt: -5 }}>
+        Note
+      </Typography>
       <TaskDescription
         disabled={shouldDisable}
         description={data.description}
