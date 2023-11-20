@@ -8,6 +8,7 @@ import {
   Icon,
   IconButton,
   SwipeableDrawer,
+  SxProps,
   Tooltip,
 } from "@mui/material";
 import { useState } from "react";
@@ -16,9 +17,11 @@ import { useHotkeys } from "react-hotkeys-hook";
 export function ImageViewer({
   size = "small",
   url,
+  sx,
 }: {
   size?: "small" | "medium";
   url: string;
+  sx?: SxProps;
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -188,6 +191,7 @@ export function ImageViewer({
         />
       </SwipeableDrawer>
       <Chip
+        sx={sx}
         size={size}
         label={"Attachment"}
         avatar={<Avatar src={url} alt="🖼" />}

@@ -15,7 +15,6 @@ import {
   IconButton,
   InputAdornment,
   ListItem,
-  ListItemText,
   SwipeableDrawer,
   SxProps,
   TextField,
@@ -35,6 +34,7 @@ import {
 } from "react";
 import { toast } from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import { ImageViewer } from "../ImageViewer";
 import ChipBar from "./ChipBar";
 
 const MemoizedTextField = memo(TextField);
@@ -605,12 +605,13 @@ export function CreateTask({
                 animate={{ x: 0, opacity: 1 }}
               >
                 <ListItem sx={{ p: 0 }}>
-                  <Avatar
-                    sx={{ background: palette[5], color: palette[9] }}
-                    src={JSON.parse(formData.image).url}
+                  <ImageViewer
+                    size="medium"
+                    url={JSON.parse(formData.image).url}
+                    sx={{ background: palette[4] + "!important" }}
                   />
-                  <ListItemText primary="1 attachment" />
                   <IconButton
+                    sx={{ ml: "auto" }}
                     onClick={() => setFormData((s) => ({ ...s, image: "" }))}
                   >
                     <Icon>close</Icon>
