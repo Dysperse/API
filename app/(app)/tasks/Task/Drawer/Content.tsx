@@ -13,12 +13,15 @@ import {
   Chip,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   TextField,
   Toolbar,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
-import { cloneElement, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Virtuoso } from "react-virtuoso";
@@ -34,10 +37,58 @@ import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
 
-function AddFieldButton({ children }) {
-  const trigger = cloneElement(children, {});
+function AddFieldButton() {
+  const { session } = useSession();
+  const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
-  return <>{trigger}</>;
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const trigger = (
+    <IconButton
+      onClick={handleClick}
+      sx={{
+        order: 4,
+        background: palette[7] + "!important",
+        color: palette[12] + "!important",
+      }}
+    >
+      <Icon
+        sx={{
+          fontVariationSettings: `"wght" 300`,
+        }}
+      >
+        add
+      </Icon>
+    </IconButton>
+  );
+  return (
+    <>
+      {trigger}
+
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        <Typography variant="overline" sx={{ px: 1 }}>
+          Add...
+        </Typography>
+        <MenuItem onClick={handleClose}>
+          <Icon>attachment</Icon>
+          Link
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Icon className="outlined">description</Icon>File
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Icon>task_alt</Icon>Subtask
+        </MenuItem>
+      </Menu>
+    </>
+  );
 }
 
 export default function DrawerContent({
@@ -354,22 +405,7 @@ export default function DrawerContent({
                 <Icon className="outlined">delete</Icon>
               </IconButton>
             </ConfirmationModal>
-            {/* <AddFieldButton>
-              <IconButton
-                sx={{
-                  background: palette[7] + "!important",
-                  color: palette[12] + "!important",
-                }}
-              >
-                <Icon
-                  sx={{
-                    fontVariationSettings: `"wght" 300`,
-                  }}
-                >
-                  add
-                </Icon>
-              </IconButton>
-            </AddFieldButton> */}
+            <AddFieldButton />
           </Box>
         </Toolbar>
       </AppBar>

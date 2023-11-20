@@ -508,7 +508,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                 borderRadius: "10px",
                 minWidth: 180,
                 color: palette[11],
-                background: addHslAlpha(palette[3], 0.5),
+                background: addHslAlpha(palette[3], 0.8),
                 backdropFilter: "blur(7px)",
                 "& .MuiMenu-list": {
                   p: 0.5,
@@ -516,7 +516,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                 "& .MuiMenuItem-root": {
                   gap: 2,
                   "&:focus-visible, &:hover": {
-                    background: addHslAlpha(palette[4], 0.5),
+                    background: addHslAlpha(palette[6], 0.5),
                     "& .MuiSvgIcon-root": {
                       color: palette[12],
                     },
