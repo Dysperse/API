@@ -42,7 +42,7 @@ function AddFieldButton() {
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -72,7 +72,12 @@ function AddFieldButton() {
     <>
       {trigger}
 
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        keepMounted
+      >
         <Typography variant="overline" sx={{ px: 1 }}>
           Add...
         </Typography>
