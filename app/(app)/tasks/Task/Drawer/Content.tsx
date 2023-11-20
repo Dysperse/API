@@ -24,7 +24,6 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Virtuoso } from "react-virtuoso";
 import { RRule } from "rrule";
 import { parseEmojis } from ".";
 import { Task, taskAlgorithm } from "..";
@@ -109,7 +108,7 @@ function AddFieldButton({ task }) {
             defaultDate={task.due ? new Date(task.due) : null}
             sx={{ width: "100%" }}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} id="createSubTask">
               <Icon>task_alt</Icon>Subtask
             </MenuItem>
           </CreateTask>
