@@ -116,7 +116,7 @@ export async function GET(req: NextRequest) {
         }
         // console.log(item["ALT-DESC"]?.val);
         if (item["ALT-DESC"]?.val) {
-          description = item["ALT-DESC"].val;
+          description = item["ALT-DESC"].val.replaceAll("<p>&nbsp;</p>", "");
         }
         if (item.url) {
           location = item.url?.val;

@@ -3,7 +3,13 @@ import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, IconButton } from "@mui/material";
 import CharacterCount from "@tiptap/extension-character-count";
+import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
 import Underline from "@tiptap/extension-underline";
 import {
   BubbleMenu,
@@ -24,6 +30,10 @@ const extensions = [
       keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
     },
   }),
+  Table,
+  TableCell,
+  TableHeader,
+  TableRow,
   Underline.configure({
     HTMLAttributes: {
       class: "my-custom-class",
@@ -35,6 +45,14 @@ const extensions = [
   }),
   CharacterCount.configure({
     limit: 1000,
+  }),
+  Link.configure({
+    protocols: ["ftp", "mailto"],
+    linkOnPaste: true,
+    autolink: true,
+  }),
+  Image.configure({
+    inline: true,
   }),
 ];
 
@@ -206,6 +224,19 @@ export function TaskDescription({ description, disabled, handleChange }) {
           "&.editor-menu-outlined": {
             mt: -7,
             ml: -2,
+          },
+        },
+        "& a": {
+          color: "#0288d1",
+          cursor: "pointer",
+          textDecoration: "underline",
+          textDecorationThickness: "2px",
+        },
+        "& img": {
+          maxWidth: "100%",
+          borderRadius: 5,
+          "&.ProseMirror-selectednode": {
+            outline: `3px solid ${palette[9]}`,
           },
         },
       }}
