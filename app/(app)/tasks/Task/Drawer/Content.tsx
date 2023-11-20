@@ -107,7 +107,7 @@ function AddFieldButton({ task }) {
             }}
             onUploadStart={() => {}}
           >
-            <MenuItem>
+            <MenuItem disabled={task.image}>
               <Icon className="outlined">description</Icon>File
             </MenuItem>
           </FileDropInput>
