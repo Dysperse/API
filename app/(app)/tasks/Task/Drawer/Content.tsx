@@ -478,10 +478,16 @@ export default function DrawerContent({
             disableUnderline: true,
             className: "font-heading",
             sx: {
+              px: 1,
+              mx: -1,
+              mt: 1,
+              lineHeight: 1.1,
+              border: "2px solid transparent",
               "&:focus-within": {
-                "&, & *": { textTransform: "none!important" },
-                background: palette[2],
-                px: 1,
+                "&, & *": {
+                  fontFamily: `"bilo", sans-serif!important`,
+                },
+                borderColor: palette[4],
                 borderRadius: 5,
               },
               fontSize: { xs: "50px", sm: "50px" },
