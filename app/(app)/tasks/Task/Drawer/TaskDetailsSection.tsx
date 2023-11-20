@@ -66,135 +66,140 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   };
 
   return (
-    <Box sx={{ ...styles.section, overflow: "visible" }}>
-      {/* Description */}
+    <>
       <TaskDescription
         disabled={shouldDisable}
         description={data.description}
         handleChange={(e) => task.edit(task.id, "description", e)}
       />
-      <TextField
-        className="item"
-        onBlur={(e) => task.edit(data.id, "where", e.target.value)}
-        onKeyDown={(e: any) =>
-          e.key === "Enter" && !e.shiftKey && e.target.blur()
-        }
-        placeholder={"Location or URL"}
-        disabled={shouldDisable}
-        fullWidth
-        defaultValue={data.where}
-        key={data.where}
-        variant="standard"
-        InputProps={{
-          disableUnderline: true,
-          sx: { py: 1, px: 3 },
-          ...(isHttpOrAddress && {
-            endAdornment: (
-              <InputAdornment position="end">
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={handleLocationButtonClick}
-                  sx={{
-                    background: {
-                      xs: palette[4] + "!important",
-                      sm: palette[3] + "!important",
-                    },
-                  }}
-                >
-                  <Icon>
+      <Typography variant="overline">Attachments</Typography>
+      <Box sx={{ ...styles.section, background: "transparent" }}>
+        {/* Description */}
+        <TextField
+          className="item"
+          onBlur={(e) => task.edit(data.id, "where", e.target.value)}
+          onKeyDown={(e: any) =>
+            e.key === "Enter" && !e.shiftKey && e.target.blur()
+          }
+          disabled={shouldDisable}
+          fullWidth
+          defaultValue={data.where}
+          key={data.where}
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+            sx: { p: 1 },
+            ...(isHttpOrAddress && {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={handleLocationButtonClick}
+                    sx={{
+                      background: {
+                        xs: palette[4] + "!important",
+                        sm: palette[3] + "!important",
+                      },
+                    }}
+                  >
+                    <Icon>
+                      {videoChatPlatforms.find((platform) =>
+                        data.where.includes(platform)
+                      )
+                        ? "call"
+                        : isAddress(data.where)
+                        ? "location_on"
+                        : "link"}
+                    </Icon>
                     {videoChatPlatforms.find((platform) =>
                       data.where.includes(platform)
                     )
-                      ? "call"
+                      ? "Call"
                       : isAddress(data.where)
-                      ? "location_on"
-                      : "link"}
-                  </Icon>
-                  {videoChatPlatforms.find((platform) =>
-                    data.where.includes(platform)
-                  )
-                    ? "Call"
-                    : isAddress(data.where)
-                    ? "Maps"
-                    : "Open"}
-                </Button>
-              </InputAdornment>
-            ),
-          }),
-        }}
-      />
-
-      {/* Notifications */}
-      {data.notifications.length > 0 && !task.dateOnly && (
-        <Box className="item">
-          <Typography sx={{ p: 3, pt: 2, opacity: 0.6, pb: 0 }}>
-            Notifications
-          </Typography>
-          <Box
-            sx={{
-              gap: 1.5,
-              p: 3,
-              pb: 2,
-              pt: 1,
-              display: "flex",
-              overflow: "scroll",
-            }}
-          >
-            {data.notifications.map((notif) => (
-              <Chip key={notif} label={`${notif} minutes before`} />
-            ))}
-          </Box>
-        </Box>
-      )}
-      <ListItem className="item" sx={{ background: "transparent!important" }}>
-        <ListItemText
-          primary={
-            data.image ? (
-              isImage && <ImageViewer size="medium" url={data.image} />
-            ) : (
-              <span style={{ opacity: 0.5, fontWeight: 400 }}>Attachments</span>
-            )
-          }
+                      ? "Maps"
+                      : "Open"}
+                  </Button>
+                </InputAdornment>
+              ),
+            }),
+          }}
         />
-        <Box
-          sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
-        >
-          {isImage ? (
-            <IconButton
-              sx={{ background: palette[3] }}
-              disabled={shouldDisable}
-              onClick={handleAttachmentButtonClick}
+
+        {/* Notifications */}
+        {data.notifications.length > 0 && !task.dateOnly && (
+          <Box className="item" sx={{ px: 1 }}>
+            <Typography sx={{ p: 3, pt: 2, opacity: 0.6, pb: 0 }}>
+              Notifications
+            </Typography>
+            <Box
+              sx={{
+                gap: 1.5,
+                p: 3,
+                pb: 2,
+                pt: 1,
+                display: "flex",
+                overflow: "scroll",
+              }}
             >
-              <Icon>close</Icon>
-            </IconButton>
-          ) : (
-            !shouldDisable && (
-              <FileDropInput
-                onError={() => toast.error("Couldn't upload")}
-                onSuccess={async (res) => {
-                  await fetchRawApi(session, "space/tasks/task", {
-                    method: "PUT",
-                    params: {
-                      image: res.data.url,
-                      id: task.id,
-                    },
-                  });
-                  await task.mutate();
-                }}
-                onUploadStart={() => {}}
+              {data.notifications.map((notif) => (
+                <Chip key={notif} label={`${notif} minutes before`} />
+              ))}
+            </Box>
+          </Box>
+        )}
+        <ListItem
+          className="item"
+          sx={{ px: "10px!important", background: "transparent!important" }}
+        >
+          <ListItemText
+            primary={
+              data.image ? (
+                isImage && <ImageViewer size="medium" url={data.image} />
+              ) : (
+                <span style={{ opacity: 0.5, fontWeight: 400 }}>Files</span>
+              )
+            }
+          />
+          <Box
+            sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
+          >
+            {isImage ? (
+              <IconButton
+                sx={{ background: palette[3] }}
+                disabled={shouldDisable}
+                onClick={handleAttachmentButtonClick}
               >
-                <IconButton
-                  sx={{ background: palette[3] }}
-                  onClick={handleAttachmentButtonClick}
+                <Icon>close</Icon>
+              </IconButton>
+            ) : (
+              !shouldDisable && (
+                <FileDropInput
+                  onError={() => toast.error("Couldn't upload")}
+                  onSuccess={async (res) => {
+                    await fetchRawApi(session, "space/tasks/task", {
+                      method: "PUT",
+                      params: {
+                        image: res.data.url,
+                        id: task.id,
+                      },
+                    });
+                    await task.mutate();
+                  }}
+                  onUploadStart={() => {}}
                 >
-                  <Icon>add</Icon>
-                </IconButton>
-              </FileDropInput>
-            )
-          )}
-        </Box>
-      </ListItem>
-    </Box>
+                  <IconButton
+                    sx={{ background: palette[3] }}
+                    onClick={handleAttachmentButtonClick}
+                  >
+                    <Icon>add</Icon>
+                  </IconButton>
+                </FileDropInput>
+              )
+            )}
+          </Box>
+        </ListItem>
+      </Box>
+    </>
   );
 });

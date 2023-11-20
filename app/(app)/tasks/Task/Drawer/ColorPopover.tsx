@@ -42,7 +42,6 @@ export function ColorPopover({ disabled }) {
               "!important",
       }}
       onClick={handleClick}
-      {...(task.color === "grey" && { variant: "outlined" })}
     />
   );
 

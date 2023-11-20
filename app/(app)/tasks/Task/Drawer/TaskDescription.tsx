@@ -19,6 +19,7 @@ import {
   useCurrentEditor,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { memo } from "react";
 import suggestion from "./suggestion";
 
 const extensions = [
@@ -48,7 +49,7 @@ const extensions = [
   }),
   Placeholder.configure({
     emptyEditorClass: "is-editor-empty",
-    placeholder: "Add description …",
+    placeholder: "Tap to add note",
   }),
   CharacterCount.configure({
     limit: 1000,
@@ -63,7 +64,7 @@ const extensions = [
   }),
 ];
 
-const CharacterLimit = () => {
+const CharacterLimit = memo(function Limit() {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
@@ -78,7 +79,7 @@ const CharacterLimit = () => {
       {1000 - editor.storage.characterCount.characters()}
     </Box>
   );
-};
+});
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -209,6 +210,8 @@ export function TaskDescription({ description, disabled, handleChange }) {
   return (
     <Box
       sx={{
+        mt: -3,
+        mb: 3,
         position: "relative",
         "& .character-count": { opacity: 0 },
         "&:focus-within .character-count": { opacity: 0.6 },
@@ -218,7 +221,6 @@ export function TaskDescription({ description, disabled, handleChange }) {
           backdropFilter: "blur(3px)",
           boxShadow: `0 0 50px ${palette[1]}`,
           borderRadius: 99,
-          p: 0.4,
           ml: 3.5,
           display: "flex",
           alignItems: "center",

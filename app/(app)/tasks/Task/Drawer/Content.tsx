@@ -284,6 +284,7 @@ export default function DrawerContent({
                 "& .text": {
                   display: { xs: "none", sm: "inline" },
                 },
+                order: { xs: 2, sm: "unset" },
                 px: 1.5,
                 ...styles.button,
                 ...(isCompleted && {
@@ -312,7 +313,9 @@ export default function DrawerContent({
                     disableRipple
                     disabled={shouldDisable}
                     sx={{
-                      px: 1.5,
+                      order: { xs: 1, sm: "unset" },
+                      px: { xs: 1.1, sm: 1.5 },
+                      minWidth: "unset",
                       ...styles.button,
                       "& .text": {
                         display: { xs: "none", sm: "inline" },
@@ -331,6 +334,7 @@ export default function DrawerContent({
                 sx={{
                   flexShrink: 0,
                   ...styles.button,
+                  order: { xs: 1, sm: "unset" },
                   ...(task.pinned && {
                     background: orangePalette[3],
                     color: orangePalette[11],
@@ -415,7 +419,6 @@ export default function DrawerContent({
               }}
             >
               <Chip
-                variant="outlined"
                 label={
                   isRecurring
                     ? capitalizeFirstLetter(
@@ -428,11 +431,14 @@ export default function DrawerContent({
                         .utc()
                         .format(
                           task.dateOnly
-                            ? "MMMM D, YYYY"
-                            : "MMMM D, YYYY [at] h:mm A"
+                            ? dayjs(task.due).year() === dayjs().year()
+                              ? "MMM Do"
+                              : "MMM Do, YYYY"
+                            : "MMMM Do, YYYY [at] h:mm A"
                         )
                     : "Tap to schedule"
                 }
+                deleteIcon={<Icon>close</Icon>}
                 disabled={shouldDisable}
                 {...(task.column &&
                   task.due && {
@@ -478,7 +484,7 @@ export default function DrawerContent({
                 px: 1,
                 borderRadius: 5,
               },
-              fontSize: { xs: "50px", sm: "var(--bottom-nav-height)" },
+              fontSize: { xs: "50px", sm: "50px" },
               color: colors[task.color][isDark ? "A200" : 800],
             },
           }}
