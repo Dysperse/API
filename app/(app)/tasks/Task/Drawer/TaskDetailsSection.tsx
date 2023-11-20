@@ -152,57 +152,58 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
             </Box>
           </Box>
         )}
-        <ListItem
-          className="item"
-          sx={{ px: "10px!important", background: "transparent!important" }}
-        >
-          <ListItemText
-            primary={
-              data.image ? (
-                isImage && <ImageViewer size="medium" url={data.image} />
-              ) : (
-                <span style={{ opacity: 0.5, fontWeight: 400 }}>Files</span>
-              )
-            }
-          />
-          <Box
-            sx={{ ml: "auto", display: "flex", gap: 1.5, alignItems: "center" }}
+        {data.image && isImage && (
+          <ListItem
+            className="item"
+            sx={{ px: "10px!important", background: "transparent!important" }}
           >
-            {isImage ? (
-              <IconButton
-                sx={{ background: palette[3] }}
-                disabled={shouldDisable}
-                onClick={handleAttachmentButtonClick}
-              >
-                <Icon>close</Icon>
-              </IconButton>
-            ) : (
-              !shouldDisable && (
-                <FileDropInput
-                  onError={() => toast.error("Couldn't upload")}
-                  onSuccess={async (res) => {
-                    await fetchRawApi(session, "space/tasks/task", {
-                      method: "PUT",
-                      params: {
-                        image: res.data.url,
-                        id: task.id,
-                      },
-                    });
-                    await task.mutate();
-                  }}
-                  onUploadStart={() => {}}
+            <ListItemText
+              primary={<ImageViewer size="medium" url={data.image} />}
+            />
+            <Box
+              sx={{
+                ml: "auto",
+                display: "flex",
+                gap: 1.5,
+                alignItems: "center",
+              }}
+            >
+              {isImage ? (
+                <IconButton
+                  sx={{ background: palette[3] }}
+                  disabled={shouldDisable}
+                  onClick={handleAttachmentButtonClick}
                 >
-                  <IconButton
-                    sx={{ background: palette[3] }}
-                    onClick={handleAttachmentButtonClick}
+                  <Icon>close</Icon>
+                </IconButton>
+              ) : (
+                !shouldDisable && (
+                  <FileDropInput
+                    onError={() => toast.error("Couldn't upload")}
+                    onSuccess={async (res) => {
+                      await fetchRawApi(session, "space/tasks/task", {
+                        method: "PUT",
+                        params: {
+                          image: res.data.url,
+                          id: task.id,
+                        },
+                      });
+                      await task.mutate();
+                    }}
+                    onUploadStart={() => {}}
                   >
-                    <Icon>add</Icon>
-                  </IconButton>
-                </FileDropInput>
-              )
-            )}
-          </Box>
-        </ListItem>
+                    <IconButton
+                      sx={{ background: palette[3] }}
+                      onClick={handleAttachmentButtonClick}
+                    >
+                      <Icon>add</Icon>
+                    </IconButton>
+                  </FileDropInput>
+                )
+              )}
+            </Box>
+          </ListItem>
+        )}
       </Box>
     </>
   );

@@ -1,3 +1,4 @@
+import { FileDropInput } from "@/components/FileDrop";
 import { Puller } from "@/components/Puller";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
@@ -90,14 +91,27 @@ function AddFieldButton({ task }) {
           <Icon>attachment</Icon>
           Link
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            toast("Coming soon!");
-          }}
-        >
-          <Icon className="outlined">description</Icon>File
-        </MenuItem>
+        <Box onClick={handleClose}>
+          <FileDropInput
+            onError={() => toast.error("Couldn't upload")}
+            onSuccess={async (res) => {
+              await fetchRawApi(session, "space/tasks/task", {
+                method: "PUT",
+                params: {
+                  image: res.data.url,
+                  id: task.id,
+                  date: dayjs().toISOString(),
+                },
+              });
+              await task.mutate();
+            }}
+            onUploadStart={() => {}}
+          >
+            <MenuItem>
+              <Icon className="outlined">description</Icon>File
+            </MenuItem>
+          </FileDropInput>
+        </Box>
         <Box onClick={handleClose}>
           <CreateTask
             isSubTask
@@ -116,8 +130,8 @@ function AddFieldButton({ task }) {
                   }
                 : undefined
             }
+            disableBadge
             defaultDate={task.due ? new Date(task.due) : null}
-            sx={{ width: "100%" }}
           >
             <MenuItem onClick={handleClose} id="createSubTask">
               <Icon>task_alt</Icon>Subtask
