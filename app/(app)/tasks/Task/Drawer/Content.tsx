@@ -24,6 +24,7 @@ import dayjs from "dayjs";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useHotkeys } from "react-hotkeys-hook";
+import { Virtuoso } from "react-virtuoso";
 import { RRule } from "rrule";
 import { parseEmojis } from ".";
 import { Task, taskAlgorithm } from "..";
@@ -35,7 +36,6 @@ import { useTaskContext } from "./Context";
 import { LinkedContent } from "./LinkedContent";
 import { RescheduleModal } from "./Snooze";
 import { TaskDetailsSection } from "./TaskDetailsSection";
-import { Virtuoso } from "react-virtuoso";
 
 function AddFieldButton({ task }) {
   const { session } = useSession();
@@ -81,11 +81,21 @@ function AddFieldButton({ task }) {
         <Typography variant="overline" sx={{ px: 1 }}>
           Add...
         </Typography>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            toast("Coming soon!");
+          }}
+        >
           <Icon>attachment</Icon>
           Link
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            toast("Coming soon!");
+          }}
+        >
           <Icon className="outlined">description</Icon>File
         </MenuItem>
         <Box onClick={handleClose}>
