@@ -45,7 +45,9 @@ export async function GET(req: NextRequest) {
       (_, i) => ({
         start: start.add(i, map[type]).toISOString(),
         end: start
+          // get the next day
           .add(i + 1, map[type])
+          // subtract 1 second to get x:59:59 (this is the end of the day we added)
           .subtract(1, "second")
           .toISOString(),
         tasks: [],

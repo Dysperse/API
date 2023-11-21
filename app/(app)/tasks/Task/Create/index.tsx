@@ -97,7 +97,7 @@ export function CreateTask({
   isSubTask = false,
   boardData,
   parentId,
-  defaultDate = dayjs().startOf("day").toDate(),
+  defaultDate = dayjs().utc().toDate(),
   defaultFields = {},
   sx = {},
   customTrigger = "onClick",
