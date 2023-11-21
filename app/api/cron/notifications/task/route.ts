@@ -13,7 +13,7 @@ dayjs.extend(relativeTime);
 
 export async function GET() {
   if (
-    headers().get("Authorization") !== `Bearer ${process.env.CRON_SECRET}` &&
+    headers().get("Authorization") !== `Bearer ${process.env.CRON_API_KEY}` &&
     process.env.NODE_ENV === "production"
   ) {
     return Response.json({
