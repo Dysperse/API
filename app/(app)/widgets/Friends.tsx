@@ -38,10 +38,9 @@ export function Friends() {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.7 }}
     >
+      <Box sx={{ mt: { xs: 3, sm: 0 } }} />
       {data?.friends?.length !== 0 && (
-        <Typography variant="overline" sx={{ mt: { xs: 2, sm: 0 } }}>
-          Recent activity
-        </Typography>
+        <Typography variant="overline">Recent activity</Typography>
       )}
       <ContactSync showFriends={data?.friends?.length === 0} />
       {data ? (
