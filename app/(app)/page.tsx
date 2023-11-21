@@ -34,6 +34,7 @@ import { TodaysTasks } from "./widgets/TodaysTasks";
 import { Weather } from "./widgets/Weather";
 
 import patterns from "@/app/(app)/settings/patterns.json";
+import { GreetingComponent } from "./widgets/GreetingComponent";
 
 export function getAirQualityInfo(index) {
   const result = airQuality.find(
@@ -331,19 +332,7 @@ function Home() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <Typography
-                    sx={{
-                      mt: -1,
-                      ml: 0.2,
-                      fontWeight: 700,
-                      color: palette[11],
-                      opacity: 0.8,
-                      textShadow: `0 0 40px ${palette[8]}`,
-                    }}
-                    variant="h6"
-                  >
-                    Are you ready to seize the day?
-                  </Typography>
+                  <GreetingComponent />
                 </motion.div>
                 {isMobile && shortcuts}
                 <motion.div
