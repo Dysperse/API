@@ -7,7 +7,7 @@
     },
     {
       "path": "/api/cron/deleteExpiredQrCodes",
-      "schedule": "0 * * * *"
+      "schedule": "*/5 * * * *"
     }
   ]
 }
