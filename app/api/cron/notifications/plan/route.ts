@@ -4,14 +4,28 @@ import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { NextRequest } from "next/server";
+import { headers } from "next/headers";
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
-export async function POST(req: NextRequest) {
+export async function POST() {
+  if (
+    headers().get("Authorization") !== `Bearer ${process.env.CRON_SECRET}` &&
+    process.env.NODE_ENV === "production"
+  ) {
+    return Response.json({
+      currentHeaders: headers().get("Authorization"),
+      error: "Unauthorized",
+    });
+  }
+
   const _subscriptions = await prisma.notificationSettings.findMany({
     where: {
-      AND: [{ planDay: true }, { pushSubscription: { not: Prisma.AnyNull } }],
+      AND: [
+        { planDay: true },
+        { pushSubscription: { not: Prisma.AnyNull } },
+        // { user: { email: "manusvathgurudath@gmail.com" } },
+      ],
     },
     select: {
       pushSubscription: true,
@@ -55,7 +69,13 @@ export async function POST(req: NextRequest) {
                 body: prompt,
               })
             );
-          else resolve("");
+          else {
+            console.log(
+              subscription.planDayHour,
+              dayjs().tz(subscription.user.timeZone).hour()
+            );
+            resolve("");
+          }
         } catch (e) {
           reject(e);
         }

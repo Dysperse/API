@@ -1,3 +1,9 @@
 {
-  "regions": ["pdx1"]
+  "regions": ["pdx1"],
+  "crons": [
+    {
+      "path": "/api/cron/notifications/plan",
+      "schedule": "0 * * * *"
+    }
+  ]
 }
