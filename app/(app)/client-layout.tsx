@@ -237,6 +237,7 @@ export default function ClientLayout({ children, session }) {
                     display: "flex",
                     flexDirection: "column",
                     ml: { md: "-85px" },
+                    maxWidth: "100dvw",
                     position: { sm: "relative" },
                     width: {
                       xs: "100%",
