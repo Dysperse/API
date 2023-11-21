@@ -36,15 +36,18 @@ export async function GET(req: NextRequest) {
 
     if (!map[type]) return Response.json({ error: "Invalid `type`" });
 
-    const start = dayjs(_start).utc();
-    const end = dayjs(_end).utc();
+    const start = dayjs(_start);
+    const end = dayjs(_end);
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
-      { length: end.diff(start, map[type]) + 1 },
+      { length: end.diff(start, map[type]) },
       (_, i) => ({
         start: start.add(i, map[type]).toISOString(),
-        end: start.add(i, map[type]).endOf(map[type]).toISOString(),
+        end: start
+          .add(i + 1, map[type])
+          .subtract(1, "second")
+          .toISOString(),
         tasks: [],
       })
     );
@@ -104,7 +107,7 @@ export async function GET(req: NextRequest) {
       for (const dueDate of rule) {
         const due = dayjs(dueDate).utc();
         const unit = units.find(({ start, end }) =>
-          due.isBetween(start, end, map[type], "[]")
+          due.isBetween(start, end, null, "[]")
         );
         if (unit)
           tasksByUnit.get(unit).push({ ...task, recurrenceDay: dueDate });
@@ -114,7 +117,7 @@ export async function GET(req: NextRequest) {
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
       const due = dayjs(task.due).utc();
       const unit = units.find(({ start, end }) =>
-        due.isBetween(start, end, map[type], "[]")
+        due.isBetween(start, end, null, "[]")
       );
       if (unit) tasksByUnit.get(unit).push(task);
     }

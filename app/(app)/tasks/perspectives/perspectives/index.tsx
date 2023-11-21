@@ -399,7 +399,7 @@ export function Agenda({ type, date }) {
   const { session } = useSession();
 
   const start = dayjs(date).startOf(columnMap(isMobile)[type]).utc();
-  const end = dayjs(start).endOf(columnMap(isMobile)[type]).utc();
+  const end = dayjs(start).add(1, columnMap(isMobile)[type]).utc();
 
   // Create an array of columns for each [type] in [columnMap]
   const columns = Array.from(
@@ -506,8 +506,8 @@ export function Agenda({ type, date }) {
                   .startOf("day")
                   .utc()
                   .isBetween(
-                    dayjs(column.start).utc().startOf(type),
-                    dayjs(column.end).utc().endOf(type),
+                    dayjs(column.start).startOf(type).utc(),
+                    dayjs(column.end).endOf(type).utc(),
                     undefined,
                     "[]"
                   )}

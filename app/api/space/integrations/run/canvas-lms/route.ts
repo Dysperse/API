@@ -70,18 +70,18 @@ export async function GET(req: NextRequest) {
           item.summary
         )}`;
 
-        let due: string | Date = new Date();
+        let due: string = dayjs().utc().toISOString();
 
-        if (item.start || item.dtstamp || item.end)
-          due = (item.start || item.dtstamp || item.end).toISOString();
+        if (item.start || item.dtstamp || item.end) {
+          console.log(item.summary, item.start || item.dtstamp || item.end);
+          due = dayjs(item.start || item.dtstamp || item.end)
+            .tz(timeZone)
+            .utc()
+            .toISOString();
+        }
 
         if (item.start.dateOnly) {
-          due = dayjs(due)
-            .tz(timeZone)
-            .set("hour", 23)
-            .set("minute", 59)
-            .add(1, "day")
-            .toISOString();
+          due = dayjs(due.split("T")[0]).endOf("day").utc().toISOString();
         }
 
         if (vanishingTasks === "true") {

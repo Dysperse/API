@@ -3,14 +3,13 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { headers } from "next/headers";
-import { NextRequest } from "next/server";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   if (
-    headers().get("Authorization") !== `Bearer ${process.env.CRON_API_KEY}` &&
+    headers().get("Authorization") !== `Bearer ${process.env.CRON_SECRET}` &&
     process.env.NODE_ENV === "production"
   ) {
     return Response.json({

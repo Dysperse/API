@@ -157,15 +157,10 @@ const TaskChips = React.memo(function TaskChips({
         <Chip
           size="small"
           className="date"
-          label={dayjs(taskData.due).format("h:mm A")}
+          label={dayjs(taskData.due).utc().format("h:mm A")}
           sx={{ background: palette[3] }}
           icon={
-            <Icon
-              className="outlined"
-              sx={{ fontSize: "20px!important", ml: 1 }}
-            >
-              access_time
-            </Icon>
+            <Icon sx={{ fontSize: "20px!important", ml: 1 }}>access_time</Icon>
           }
         />
       )}

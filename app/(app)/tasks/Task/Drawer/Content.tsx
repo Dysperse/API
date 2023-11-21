@@ -540,6 +540,7 @@ export default function DrawerContent({
                     : task.due
                     ? dayjs(task.due)
                         .utc()
+                        .utcOffset(dayjs().utcOffset())
                         .format(
                           task.dateOnly
                             ? dayjs(task.due).year() === dayjs().year()
