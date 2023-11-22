@@ -11,6 +11,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   Box,
   Button,
+  Chip,
   Collapse,
   Divider,
   Icon,
@@ -307,20 +308,15 @@ export const MenuChildren = memo(function MenuChildren({
                           }}
                         >
                           <Typography variant="h4">{button.label}</Typography>
-                          <IconButton
+                          <Chip
                             sx={{
-                              width: 90,
-                              borderRadius: 5,
-                              height: 26,
-                              fontSize: "12px",
-                              color: palette[11],
                               ml: "auto",
-                              lineHeight: "26px",
-                              border: `2px solid ${palette[8]}`,
+                              borderColor: (theme) => theme.palette.primary[9],
+                              background: "transparent",
                             }}
-                          >
-                            shift + {button.key.toUpperCase()}
-                          </IconButton>
+                            variant="outlined"
+                            label={`shift + ${button.key.toUpperCase()}`}
+                          />
                         </Box>
                         <Typography>{button.description}</Typography>
                       </Box>
@@ -332,69 +328,73 @@ export const MenuChildren = memo(function MenuChildren({
                 enterDelay={1000}
                 disableTouchListener
               >
-                <Link
-                  href={`/tasks/${button.hash}`}
-                  style={{
-                    cursor: "default",
-                    alignItems: "center",
-                  }}
-                  legacyBehavior
-                >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Collapse orientation="horizontal" in={editMode}>
-                      <IconButton
-                        onClick={(e) => handlePerspectiveToggle(e, button.hash)}
-                        sx={{
-                          opacity: editMode ? 1 : 0,
-                          transition: "opacity .4s",
-                          color: hiddenPerspectives.includes(button.hash)
-                            ? greenPalette[10]
-                            : redPalette[10],
-                        }}
-                      >
-                        <Icon>
-                          {hiddenPerspectives.includes(button.hash)
-                            ? "add_circle"
-                            : "remove_circle"}
-                        </Icon>
-                      </IconButton>
-                    </Collapse>
-                    <Button
-                      size="large"
-                      id={`__agenda.${button.hash}`}
-                      sx={buttonStyles(
-                        palette,
-                        Boolean(pathname?.includes(`/tasks/${button.hash}`))
-                      )}
-                      onClick={() =>
-                        recentlyAccessed.set({
-                          icon: button.icon,
-                          label: button.label,
-                          path: `/tasks/${button.hash}`,
-                        })
-                      }
-                      disabled={
-                        editMode && hiddenPerspectives.includes(button.hash)
-                      }
-                    >
-                      <Icon
-                        className={
-                          pathname?.includes(`/tasks/${button.hash}`)
-                            ? ""
-                            : "outlined"
+                <Box>
+                  <Link
+                    href={`/tasks/${button.hash}`}
+                    style={{
+                      cursor: "default",
+                      alignItems: "center",
+                    }}
+                    legacyBehavior
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Collapse orientation="horizontal" in={editMode}>
+                        <IconButton
+                          onClick={(e) =>
+                            handlePerspectiveToggle(e, button.hash)
+                          }
+                          sx={{
+                            opacity: editMode ? 1 : 0,
+                            transition: "opacity .4s",
+                            color: hiddenPerspectives.includes(button.hash)
+                              ? greenPalette[10]
+                              : redPalette[10],
+                          }}
+                        >
+                          <Icon>
+                            {hiddenPerspectives.includes(button.hash)
+                              ? "add_circle"
+                              : "remove_circle"}
+                          </Icon>
+                        </IconButton>
+                      </Collapse>
+                      <Button
+                        size="large"
+                        id={`__agenda.${button.hash}`}
+                        sx={buttonStyles(
+                          palette,
+                          Boolean(pathname?.includes(`/tasks/${button.hash}`))
+                        )}
+                        onClick={() =>
+                          recentlyAccessed.set({
+                            icon: button.icon,
+                            label: button.label,
+                            path: `/tasks/${button.hash}`,
+                          })
+                        }
+                        disabled={
+                          editMode && hiddenPerspectives.includes(button.hash)
                         }
                       >
-                        {button.icon}
-                      </Icon>
-                      {button.label}
-                      {isMobile && (
-                        <Icon sx={{ ml: "auto", mr: -1 }}>
-                          arrow_forward_ios
+                        <Icon
+                          className={
+                            pathname?.includes(`/tasks/${button.hash}`)
+                              ? ""
+                              : "outlined"
+                          }
+                        >
+                          {button.icon}
                         </Icon>
-                      )}
-                    </Button>
-                  </Box>
-                </Link>
+                        {button.label}
+                        {isMobile && (
+                          <Icon sx={{ ml: "auto", mr: -1 }}>
+                            arrow_forward_ios
+                          </Icon>
+                        )}
+                      </Button>
+                    </Box>
+                  </Link>
+                </Box>
               </Tooltip>
             </Collapse>
           ))}
