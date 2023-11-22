@@ -17,7 +17,7 @@ import {
 import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import useSWR from "swr";
 import { Task } from "../tasks/Task";
@@ -32,6 +32,12 @@ export function TodaysTasks() {
   const palette = useColor(session.themeColor, isDark);
 
   const [open, setOpen] = useState<boolean>(false);
+
+  // react-virtuoso bug!?
+  const [_, setRerender] = useState(false);
+  useEffect(() => {
+    if (open) setRerender((s) => !s);
+  }, [open, setRerender]);
 
   const { data, mutate, error } = useSWR([
     "space/tasks/perspectives",
