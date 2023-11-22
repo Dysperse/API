@@ -403,10 +403,9 @@ export function Sidebar() {
       >
         <UpdateButton />
         <IconButton
-          sx={{
-            // background: addHslAlpha(palette[5], 0.5),
-            background: (theme) => theme.palette.primary[5],
-          }}
+          sx={(theme) => ({
+            background: theme.palette.primary[5],
+          })}
         >
           <Icon>workspaces</Icon>
         </IconButton>

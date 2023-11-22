@@ -16,7 +16,7 @@ import {
   StorageContext,
   useAccountStorage,
 } from "@/lib/client/useAccountStorage";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
+import { useDarkMode } from "@/lib/client/useColor";
 import { toastStyles, useCustomTheme } from "@/lib/client/useTheme";
 import {
   Box,
@@ -77,7 +77,6 @@ export default function ClientLayout({ children, session }) {
   const shouldHide = shouldHideNavigation(pathname);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isTablet = useMediaQuery("(max-width: 900px)");
-  const palette = useColor(_session.themeColor, isDark);
 
   const [dismissed, setDismissed] = useState<boolean>(false);
 
@@ -204,10 +203,10 @@ export default function ClientLayout({ children, session }) {
               {/* Start container */}
               <Box
                 onContextMenu={(e) => !isMobile && e.preventDefault()}
-                sx={{
+                sx={(theme) => ({
                   display: "flex",
                   background:
-                    palette[
+                    theme.palette.primary[
                       isMobile
                         ? 3
                         : pathname.includes("tasks") ||
@@ -215,7 +214,7 @@ export default function ClientLayout({ children, session }) {
                         ? 3
                         : 2
                     ],
-                }}
+                })}
               >
                 {/* Start Sidebar */}
                 <Box
@@ -248,7 +247,7 @@ export default function ClientLayout({ children, session }) {
                 >
                   <Box
                     ref={containerRef}
-                    sx={{
+                    sx={(theme) => ({
                       height: { xs: "auto", sm: "100dvh" },
                       overflowY: {
                         xs: "unset",
@@ -259,14 +258,14 @@ export default function ClientLayout({ children, session }) {
                       borderRadius: { sm: "20px 0 0 20px" },
                       transition: "border-radius .3s, margin .3s",
                       ml: { md: shouldHide ? "0px" : "85px" },
-                      background: palette[1],
+                      background: theme.palette.primary[1],
                       "& .outlined-drawer": {
-                        border: `2px solid ${palette[3]}`,
+                        border: `2px solid ${theme.palette.primary[3]}`,
                         borderRadius: 5,
                         mx: { xs: "15px", sm: "auto" },
                         mb: "15px",
                       },
-                    }}
+                    })}
                   >
                     <NoSsr>
                       <ActivitySave />
