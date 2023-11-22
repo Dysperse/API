@@ -294,6 +294,7 @@ function Home() {
                 borderRadius: 5,
                 color: palette[11],
                 background: palette[3],
+                transition: "background .2s",
                 "&:hover": { background: { sm: palette[4] } },
                 "&:active": { background: palette[5] },
               },

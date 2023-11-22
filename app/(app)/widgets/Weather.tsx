@@ -493,7 +493,7 @@ export function Weather() {
           height: "130px",
         }}
         className="card"
-        onClick={() => setOpen(true)}
+        onMouseDown={() => setOpen(true)}
       >
         <Icon sx={{ fontSize: "40px!important" }} className="outlined">
           {isNight()

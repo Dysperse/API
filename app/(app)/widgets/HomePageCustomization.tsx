@@ -17,6 +17,7 @@ export function HomePageCustomization({ children }) {
   const [open, setOpen] = useState<boolean>(false);
   const trigger = cloneElement(children, {
     onClick: () => setOpen(true),
+    onMouseDown: () => setOpen(true),
   });
 
   const currentPattern = session.user.homePagePattern;

@@ -155,6 +155,9 @@ export function CreateTask({
 
       setTimeout(() => titleRef?.current?.focus(), 50);
     },
+    ...(customTrigger === "onClick" && {
+      onMouseDown: (e) => e.target.click(),
+    }),
   });
 
   const triggerBadge = useMemo(
