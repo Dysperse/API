@@ -4,7 +4,7 @@ import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { Time } from "../page";
+import { Time } from "./Time";
 
 export function TodaysDate() {
   const { session } = useSession();
