@@ -12,7 +12,7 @@ export const shouldHideNavigation = (path) => {
   return [
     { path: "/claim-esb", desktop: true },
     { path: "/users", desktop: false },
-    { path: "/boards/edit/", desktop: false },
+    { path: "/edit", desktop: false },
     { path: "/tasks/search", desktop: false },
     { path: "/tasks/plan", desktop: false },
     { path: "/integrations", desktop: false },
