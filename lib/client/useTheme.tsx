@@ -731,6 +731,18 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
     palette: {
       primary: {
         main: palette[9],
+        [1 as any]: palette[1],
+        [2 as any]: palette[2],
+        [3 as any]: palette[3],
+        [4 as any]: palette[4],
+        [5 as any]: palette[5],
+        [6 as any]: palette[6],
+        [7 as any]: palette[7],
+        [8 as any]: palette[8],
+        [9 as any]: palette[9],
+        [10 as any]: palette[10],
+        [11 as any]: palette[11],
+        [12 as any]: palette[12],
       },
       secondary: {
         main: palette[12],

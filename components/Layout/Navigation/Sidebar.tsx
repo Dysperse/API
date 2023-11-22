@@ -2,7 +2,6 @@
 import { containerRef } from "@/app/(app)/container";
 import { ProfilePicture } from "@/app/(app)/users/[id]/ProfilePicture";
 import { Logo } from "@/components/Logo";
-import { StatusSelector } from "@/components/Start/StatusSelector";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -11,12 +10,14 @@ import {
   Box,
   Divider,
   Icon,
+  IconButton,
   Menu,
   MenuItem,
   Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { green } from "@radix-ui/colors";
 import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 import { cloneElement, useEffect, useState } from "react";
@@ -401,7 +402,14 @@ export function Sidebar() {
         }}
       >
         <UpdateButton />
-        <StatusSelector mutate={() => {}} profile={session.user.Profile} />
+        <IconButton
+          sx={{
+            // background: addHslAlpha(palette[5], 0.5),
+            background: (theme) => theme.palette.primary[5],
+          }}
+        >
+          <Icon>workspaces</Icon>
+        </IconButton>
         <SidebarMenu>
           <Box
             sx={{
@@ -409,7 +417,25 @@ export function Sidebar() {
               p: 0,
             }}
           >
-            <ProfilePicture data={session.user} size={36} />
+            <Badge
+              variant="dot"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              sx={{
+                "& .MuiBadge-badge": {
+                  background: green["green9"],
+                  border: `3px solid ${palette[pathname === "/" ? 2 : 3]}`,
+                  width: 14,
+                  height: 14,
+                  mb: 0.6,
+                  mr: 0.6,
+                },
+              }}
+            >
+              <ProfilePicture data={session.user} size={36} />
+            </Badge>
           </Box>
         </SidebarMenu>
       </Box>
