@@ -5,7 +5,7 @@ import { CreateTask } from "@/app/(app)/tasks/Task/Create";
 import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
-import { Box } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 
 export const shouldHideNavigation = (path) => {
@@ -39,54 +39,28 @@ export const shouldHideNavigation = (path) => {
  * @returns {any}
  */
 export function BottomNav() {
-  const iconStyles = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 9,
-    height: "45px",
-    fontSize: "30px",
-    flex: "0 0 45px",
-    width: "45px",
-  };
-
   const { session } = useSession();
 
-  const styles = (active) => {
+  const styles = (active): SxProps => {
     return {
-      textTransform: "none",
-      color: palette[12],
-      "& span": {
-        opacity: 0.7,
-        transition: "opacity .2s",
-      },
-      "& .material-symbols-rounded, & .material-symbols-outlined": {
-        ...iconStyles,
-      },
-      fontWeight: "200",
       width: "100%",
       display: "flex",
-      mx: "auto",
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: 99,
-      "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
-        {
-          opacity: 0.5,
-          transition: "all .2s,opacity 0s,background 0s",
-        },
+
+      fontSize: "35px",
+      fontFamily: "Material Symbols Rounded",
+      fontVariationSettings: '"FILL" 0, "wght" 100, "GRAD" 0, "opsz" 35',
+      color: palette[12],
+      transition: "all .4s",
+
       ...(active && {
         fontWeight: 700,
-        color: `${palette[11]}!important`,
-        // boxShadow: `0 0 5px ${palette[7]}!important`,
-        "& .material-symbols-rounded, & .material-symbols-outlined": {
-          transition: "all .2s,opacity 0s,background 0s",
-          opacity: 1,
-          ...iconStyles,
-          color: `${palette[12]}!important`,
-          background: palette[4],
-        },
+        color: `${palette[11]}`,
+        textShadow: `0 0 10px ${palette[5]}`,
+        fontVariationSettings: '"FILL" 1, "wght" 300, "GRAD" 0, "opsz" 35',
+        opacity: 1,
       }),
     };
   };
@@ -102,93 +76,72 @@ export function BottomNav() {
    * @returns {any}
    */
   return (
-    <Box
-      onClick={() => {
-        containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
-      }}
-      sx={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        border: `1px solid ${addHslAlpha(palette[6], 0.5)}`,
-        boxShadow: `0 20px 70px 20px ${palette[1]}`,
-        background: addHslAlpha(palette[1], 0.9),
-        width: "auto",
-        ".hideBottomNav &": {
-          mb: "calc(calc(var(--bottom-nav-height) * -1) - 20px)",
-        },
-        visibility: shouldHide ? "hidden" : "visible",
-        transition: "margin-bottom .25s var(--transition-defaults)",
-        overflowX: "hidden",
-        backdropFilter: "blur(10px)",
-        display: {
-          xs: "flex",
-          md: "none",
-        },
-        p: 1,
-        px: 2,
-        gap: 2,
-        zIndex: 998,
-        userSelect: "none",
-        "&, & *": {
-          overflow: "hidden!important",
-        },
-        alignItems: "center",
-      }}
-    >
-      <CreateTask customTrigger="onContextMenu" disableBadge>
-        <Box
-          id="link1"
-          onClick={() => router.push("/tasks/home")}
-          sx={styles(pathname?.includes("/tasks"))}
-        >
-          <span
-            className={`material-symbols-${
-              pathname?.includes("/tasks") ? "rounded" : "outlined"
-            }`}
+    <>
+      <Box
+        onClick={() => {
+          containerRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          background: addHslAlpha(palette[1], 0.9),
+          height: "49pt",
+          borderTop: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+          width: "100dvw",
+          ".hideBottomNav &": {
+            mb: "calc(calc(var(--bottom-nav-height) * -1) - 20px)",
+          },
+          visibility: shouldHide ? "hidden" : "visible",
+          transition: "margin-bottom .25s var(--transition-defaults)",
+          overflowX: "hidden",
+          backdropFilter: "blur(4px)",
+          display: {
+            xs: "flex",
+            md: "none",
+          },
+          p: 1,
+          px: 2,
+          gap: 2,
+          zIndex: 998,
+          userSelect: "none",
+          "&, & *": {
+            overflow: "hidden!important",
+          },
+          alignItems: "center",
+        }}
+      >
+        <CreateTask customTrigger="onContextMenu" disableBadge>
+          <Box
+            id="link1"
+            onClick={() => router.push("/tasks/home")}
+            sx={styles(pathname?.includes("/tasks"))}
           >
             &#xe86c;
-          </span>
-        </Box>
-      </CreateTask>
-      <Box
-        id="link2"
-        onClick={() => router.push("/")}
-        sx={styles(pathname === "/" || pathname === "")}
-      >
-        <span
-          className={`material-symbols-${
-            pathname === "/" || pathname === "" ? "rounded" : "outlined"
-          }`}
+          </Box>
+        </CreateTask>
+        <Box
+          id="link2"
+          onClick={() => router.push("/")}
+          sx={styles(pathname === "/" || pathname === "")}
         >
           &#xf07e;
-        </span>
-      </Box>
-      {session.space.info.type !== "study group" && (
-        <Box
-          id="link3"
-          sx={styles(
-            pathname === "/rooms" ||
-              pathname?.includes("rooms") ||
-              pathname === "/starred" ||
-              pathname === "/trash"
-          )}
-          onClick={() => router.push("/rooms")}
-        >
-          <span
-            className={`material-symbols-${
+        </Box>
+        {session.space.info.type !== "study group" && (
+          <Box
+            id="link3"
+            sx={styles(
               pathname === "/rooms" ||
-              pathname?.includes("rooms") ||
-              pathname === "/starred" ||
-              pathname === "/trash"
-                ? "rounded"
-                : "outlined"
-            }`}
+                pathname?.includes("rooms") ||
+                pathname === "/starred" ||
+                pathname === "/trash"
+            )}
+            onClick={() => router.push("/rooms")}
           >
             &#xf569;
-          </span>
-        </Box>
-      )}
-    </Box>
+          </Box>
+        )}
+      </Box>
+    </>
   );
 }
