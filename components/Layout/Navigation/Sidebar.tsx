@@ -406,6 +406,7 @@ export function Sidebar() {
           sx={(theme) => ({
             background: theme.palette.primary[5],
           })}
+          onClick={() => router.push("/spaces")}
         >
           <Icon>workspaces</Icon>
         </IconButton>

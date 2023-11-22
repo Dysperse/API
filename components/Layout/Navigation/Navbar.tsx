@@ -6,12 +6,14 @@ import { addHslAlpha } from "@/lib/client/addHslAlpha";
 import { useSession } from "@/lib/client/session";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
+  Badge,
   Box,
   IconButton,
   SxProps,
   useMediaQuery,
   useScrollTrigger,
 } from "@mui/material";
+import { green } from "@radix-ui/colors";
 import { useDeferredValue } from "react";
 import { SidebarMenu } from "./Sidebar";
 import { UpdateButton } from "./UpdateButton";
@@ -86,7 +88,25 @@ export function Navbar({
               p: 0,
             }}
           >
-            <ProfilePicture data={session.user} size={36} />
+            <Badge
+              variant="dot"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              sx={{
+                "& .MuiBadge-badge": {
+                  background: green["green9"],
+                  border: (theme) => `3px solid ${theme.palette.primary[1]}`,
+                  width: 14,
+                  height: 14,
+                  mb: 0.6,
+                  mr: 0.6,
+                },
+              }}
+            >
+              <ProfilePicture data={session.user} size={36} />
+            </Badge>
           </IconButton>
         </SidebarMenu>
       )}
