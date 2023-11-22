@@ -21,10 +21,10 @@ export async function GET(req: NextRequest) {
     if (sessionToken) {
       info = await sessionData(sessionToken.value);
       if (info.user === false) {
-        return redirect("/auth");
+        redirect("/auth");
       }
     } else {
-      return redirect("/auth");
+      redirect("/auth");
     }
 
     const { identifier } = info.user;
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
       data: { user: { connect: { identifier } } },
     });
 
-    return redirect("/auth/qr-success");
+    redirect("/auth/qr-success");
   } catch (e) {
     return handleApiError(e);
   }

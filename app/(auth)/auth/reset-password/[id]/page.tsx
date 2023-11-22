@@ -13,7 +13,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
-import { AuthBranding } from "../../branding";
 import { authStyles } from "../../styles";
 
 /**
@@ -68,7 +67,6 @@ export default function Prompt() {
   return (
     <Box>
       <Box sx={authStyles(palette).container}>
-        <AuthBranding mobile />
         <form onSubmit={handleSubmit}>
           <Box sx={{ pt: 3 }}>
             <Box sx={{ px: 1 }}>

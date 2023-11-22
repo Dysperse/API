@@ -2,7 +2,6 @@
 import { useColor } from "@/lib/client/useColor";
 import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { AuthBranding } from "../branding";
 import { authStyles } from "../styles";
 
 /**
@@ -16,7 +15,6 @@ export default function Prompt() {
   return (
     <Box>
       <Box sx={authStyles(palette).container}>
-        <AuthBranding mobile />
         <Box sx={{ pt: 3 }}>
           <Box sx={{ px: 1 }}>
             <Typography
