@@ -46,8 +46,8 @@ export function BottomNav() {
     borderRadius: 9,
     height: "45px",
     fontSize: "30px",
-    flex: "0 0 40px",
-    width: "60px",
+    flex: "0 0 45px",
+    width: "45px",
   };
 
   const { session } = useSession();
@@ -70,6 +70,7 @@ export function BottomNav() {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
+      borderRadius: 99,
       "&:active .material-symbols-rounded, &:active .material-symbols-outlined":
         {
           opacity: 0.5,
@@ -78,11 +79,13 @@ export function BottomNav() {
       ...(active && {
         fontWeight: 700,
         color: `${palette[11]}!important`,
+        // boxShadow: `0 0 5px ${palette[7]}!important`,
         "& .material-symbols-rounded, & .material-symbols-outlined": {
           transition: "all .2s,opacity 0s,background 0s",
           opacity: 1,
           ...iconStyles,
-          background: addHslAlpha(palette[6], 0.5),
+          color: `${palette[12]}!important`,
+          background: palette[4],
         },
       }),
     };
@@ -105,20 +108,17 @@ export function BottomNav() {
       }}
       sx={{
         position: "fixed",
-        bottom: "20px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        border: `2px solid ${addHslAlpha(palette[6], 0.5)}`,
+        bottom: 0,
+        left: 0,
+        border: `1px solid ${addHslAlpha(palette[6], 0.5)}`,
         boxShadow: `0 20px 70px 20px ${palette[1]}`,
         background: addHslAlpha(palette[1], 0.9),
         width: "auto",
         ".hideBottomNav &": {
           mb: "calc(calc(var(--bottom-nav-height) * -1) - 20px)",
         },
-        mb: shouldHide ? "calc(var(--bottom-nav-height) * -1)" : "0",
         visibility: shouldHide ? "hidden" : "visible",
         transition: "margin-bottom .25s var(--transition-defaults)",
-        borderRadius: 999,
         overflowX: "hidden",
         backdropFilter: "blur(10px)",
         display: {

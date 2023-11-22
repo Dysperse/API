@@ -248,7 +248,10 @@ export function Sidebar() {
   );
 
   useEffect(() => {
-    if (navigator.userAgent.toUpperCase().includes("MAC")) {
+    if (
+      navigator.userAgent.toUpperCase().includes("MAC") &&
+      window.innerWidth > 600
+    ) {
       document
         .querySelector(`meta[name="theme-color"]`)
         ?.setAttribute("content", palette[pathname === "/" ? 2 : 3]);
