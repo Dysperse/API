@@ -4,6 +4,7 @@ import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   CircularProgress,
@@ -14,9 +15,7 @@ import {
   Select,
   SwipeableDrawer,
   Toolbar,
-  Tooltip,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import dayjs from "dayjs";
 import {
@@ -139,7 +138,6 @@ export function StatusSelector({
     }
   }, [data, resetStatus]);
 
-  const isMobile = useMediaQuery("(max-width: 600px)");
   const redPalette = useColor("red", useDarkMode(session.darkMode));
   const grayPalette = useColor("gray", useDarkMode(session.darkMode));
   const greenPalette = useColor("green", useDarkMode(session.darkMode));
@@ -156,20 +154,12 @@ export function StatusSelector({
 
   const trigger = cloneElement(
     children || (
-      <Tooltip
-        placement="right"
-        title={
-          !isMobile && (status ? capitalizeFirstLetter(status) : "Set status")
-        }
-      >
-        <IconButton
+      <MenuItem>
+        <Avatar
           sx={{
-            ...(isMobile && {
-              borderRadius: 9,
-              fontSize: "15px",
-              gap: 2,
-            }),
-            background: palette[3],
+            width: 35,
+            height: 35,
+            background: palette[5],
           }}
         >
           <Icon className="outlined">
@@ -183,8 +173,14 @@ export function StatusSelector({
               <>&#xe1af;</>
             )}
           </Icon>
-        </IconButton>
-      </Tooltip>
+        </Avatar>
+        <Box>
+          <Typography variant="body2">Status</Typography>
+          <Typography>
+            Showing as <b>{status ? status.toLowerCase() : "online"}</b>
+          </Typography>
+        </Box>
+      </MenuItem>
     ),
     {
       onClick: () => setOpen(true),
