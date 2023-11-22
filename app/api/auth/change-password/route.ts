@@ -9,15 +9,11 @@ import { NextRequest } from "next/server";
  * @returns {any}
  */
 export async function GET(req: NextRequest) {
-  const body = await req.json();
-  // Get the user's email and password from the request body
-  const { password, token } = body;
+  const { password, token } = await req.json();
 
   //  Find passwordResetToken in database and get user id from it
   const passwordResetToken: any = await prisma.passwordResetToken.findUnique({
-    where: {
-      token: token,
-    },
+    where: { token },
   });
   const userId = passwordResetToken.userId;
 
