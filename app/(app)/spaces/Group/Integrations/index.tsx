@@ -192,6 +192,7 @@ export default function Integrations({
       ) : (
         !board && !error && <Skeleton variant="rectangular" height={100} />
       )}
+      {!data && <Skeleton variant="rectangular" height={100} />}
       {hideNew && board ? (
         integrations.map((integration) => (
           <Integration

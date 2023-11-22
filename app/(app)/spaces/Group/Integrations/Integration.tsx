@@ -1,8 +1,10 @@
+import { useSession } from "@/lib/client/session";
 import { Avatar, ListItemButton, ListItemText } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 export function Integration({ board, closeParent, integration }) {
   const router = useRouter();
+  const { session } = useSession();
 
   return (
     <>
@@ -12,7 +14,7 @@ export function Integration({ board, closeParent, integration }) {
           closeParent();
           setTimeout(() => {
             router.push(
-              `/integrations/${integration.name
+              `/spaces/${session.space.info.id}/integrations/${integration.name
                 .toLowerCase()
                 .replaceAll(" ", "-")}?board=` + board
             );

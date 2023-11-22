@@ -111,11 +111,12 @@ function Layout() {
   };
 
   return integration ? (
-    <Box sx={{ pt: "var(--navbar-height)", height: "100dvh" }}>
+    <Box sx={{ height: "100%", pt: "var(--navbar-height)", maxHeight: "100%" }}>
       <AppBar
         sx={{
-          position: "fixed",
+          position: "absolute",
           top: 0,
+          background: "transparent",
         }}
       >
         <Toolbar>
@@ -131,7 +132,7 @@ function Layout() {
               background: palette[3],
             }}
           >
-            <Icon>close</Icon>
+            <Icon>{step == 0 ? "close" : "arrow_back_ios_new"}</Icon>
           </IconButton>
         </Toolbar>
         <LinearProgress
@@ -144,7 +145,7 @@ function Layout() {
           display: "flex",
           height: "100%",
           flexDirection: "column",
-          width: "400px!important",
+          width: "450px!important",
           maxWidth: "100dvw",
           px: 3,
           mx: "auto",
@@ -441,14 +442,19 @@ function Layout() {
                 animate={{ x: 0, opacity: 1 }}
                 style={{ marginTop: "auto" }}
               >
-                <Typography variant="h4">
+                <Typography
+                  variant="h4"
+                  sx={{
+                    color: palette[11],
+                  }}
+                >
                   {steps[step - 1].name !==
                     "Connect Dysperse to Google Calendar" && "What's the"}{" "}
                   {steps[step - 1].name}
                   {steps[step - 1].name !==
                     "Connect Dysperse to Google Calendar" && "?"}
                 </Typography>
-                <Typography sx={{ mb: 1, color: palette[11] }} variant="body2">
+                <Typography sx={{ mb: 1, opacity: 0.7 }} variant="body2">
                   {steps[step - 1].helperText}
                 </Typography>
                 <TextField
@@ -466,18 +472,15 @@ function Layout() {
                   sx={{ mt: 1 }}
                 />
               </motion.div>
-              {params[steps[step - 1].name].match(steps[step - 1]?.validation)
-                ? 1
-                : 0}
               <Button
                 variant="contained"
                 sx={{ mt: "auto", mb: 2 }}
                 disabled={
-                  params[steps[step - 1].name].match(
+                  !params[steps[step - 1].name].match(
                     steps[step - 1]?.validation
-                  ) &&
-                  steps[step - 1].required &&
-                  params[steps[step - 1].name].trim().length == 0
+                  ) ||
+                  (steps[step - 1].required &&
+                    params[steps[step - 1].name].trim().length == 0)
                 }
                 onClick={() => setStep(step + 1)}
               >
