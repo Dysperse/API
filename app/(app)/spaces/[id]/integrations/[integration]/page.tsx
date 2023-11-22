@@ -111,7 +111,9 @@ function Layout() {
   };
 
   return integration ? (
-    <Box sx={{ height: "100%", pt: "var(--navbar-height)", maxHeight: "100%" }}>
+    <Box
+      sx={{ height: "100dvh", pt: "var(--navbar-height)", maxHeight: "100%" }}
+    >
       <AppBar
         sx={{
           position: "absolute",
