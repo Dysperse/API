@@ -209,14 +209,9 @@ export function StatusSelector({
           setOpen(false);
           resetStatus();
         }}
-        PaperProps={{
-          sx: {
-            height: "calc(100dvh - 200px)",
-          },
-        }}
       >
         <Box sx={{ width: "100%" }}>
-          <AppBar>
+          <AppBar sx={{ background: "transparent" }}>
             <Toolbar>
               <IconButton onClick={() => setOpen(false)}>
                 <Icon>close</Icon>
@@ -270,7 +265,9 @@ export function StatusSelector({
           <Typography variant="body2" sx={typographyStyles}>
             Clear after...
           </Typography>
-          <Box sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2 }}>
+          <Box
+            sx={{ display: "flex", overflowX: "scroll", gap: 2, px: 2, mb: 4 }}
+          >
             <FormControl fullWidth>
               <Select
                 value={time}
