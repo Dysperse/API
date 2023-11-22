@@ -1,8 +1,8 @@
 "use client";
 
-import { Box, CircularProgress, NoSsr } from "@mui/material";
+import { NoSsr } from "@mui/material";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
-
+import HomePageLoading from "./test/page";
 import { Home } from "./widgets/Home";
 
 export function getAirQualityInfo(index) {
@@ -24,22 +24,6 @@ export function hslToHex([h, s, l]) {
       .padStart(2, "0"); // convert to Hex and prefix "0" if needed
   };
   return `#${f(0)}${f(8)}${f(4)}`;
-}
-
-function HomePageLoading() {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        width: "100%",
-        height: "100dvh",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <CircularProgress />
-    </Box>
-  );
 }
 
 export default function Page() {
