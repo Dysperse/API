@@ -82,7 +82,7 @@ function UnfinishedTasks({ column, completedTasks, data }) {
       <Box
         sx={{
           p: 2,
-          px: 3,
+          px: 2,
           pt: 0,
           pb: 1,
           mt: -20,
@@ -109,7 +109,7 @@ function UnfinishedTasks({ column, completedTasks, data }) {
         <Box
           onClick={handleOpen}
           sx={{
-            p: 2,
+            p: 1.5,
             borderRadius: 5,
             background: palette[3],
             width: "100%",

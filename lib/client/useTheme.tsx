@@ -287,6 +287,8 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               cursor: "default",
               borderRadius: "999px",
               px: "30px",
+              fontWeight: 600,
+              fontSize: "15px",
               "&.MuiButton-sizeSmall": {
                 px: "10px !important",
               },
@@ -619,6 +621,12 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                 color: { sm: palette[12] },
                 opacity: 0.4,
               },
+            }),
+          icon: ({ theme }) =>
+            theme.unstable_sx({
+              color: palette[12],
+              fontVariationSettings:
+                '"FILL" 0, "wght" 100, "GRAD" 0, "opsz" 40!important',
             }),
           root: ({ theme }) =>
             theme.unstable_sx({

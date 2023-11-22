@@ -452,8 +452,8 @@ export const Task: any = React.memo(function Task({
               }),
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
-            py: { xs: 0.5, sm: 0.2 },
-            px: { xs: 2.6, sm: 1.7 },
+            py: { xs: 0.5, sm: 0 },
+            px: { xs: 2.6, sm: 1 },
             ...(isSubTask && {
               pl: { xs: "40px", sm: "40px" },
             }),
@@ -494,7 +494,10 @@ export const Task: any = React.memo(function Task({
               mx: -2,
               fontSize: "33px!important",
               transition: "all .1s, opacity 0s !important",
-              color: colors[taskData.color ?? "grey"][isDark ? "400" : "A700"],
+              color:
+                taskData.color === "grey"
+                  ? palette[12]
+                  : colors[taskData.color ?? "grey"][isDark ? "400" : "A700"],
               "&:active": {
                 opacity: 0.6,
               },
@@ -510,7 +513,7 @@ export const Task: any = React.memo(function Task({
                 sx={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  fontWeight: 400,
+                  fontWeight: 300,
                   whiteSpace: "nowrap",
                   ...(isCompleted && {
                     textDecoration: "line-through",
