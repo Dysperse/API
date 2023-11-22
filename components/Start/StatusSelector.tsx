@@ -211,7 +211,7 @@ export function StatusSelector({
         }}
       >
         <Box sx={{ width: "100%" }}>
-          <AppBar sx={{ background: "transparent" }}>
+          <AppBar sx={{ border: 0, background: "transparent" }}>
             <Toolbar>
               <IconButton onClick={() => setOpen(false)}>
                 <Icon>close</Icon>
