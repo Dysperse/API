@@ -104,7 +104,9 @@ export function HomePageCustomization({ children }) {
               sx={boxStyles(currentPattern === null)}
               onClick={() => handlePatternSelect("SOLID")}
             >
-              <Typography variant="h6">Solid</Typography>
+              <Typography noWrap variant="h6">
+                Solid
+              </Typography>
             </Box>
           </Grid>
           {patterns.map((pattern, i) => (
@@ -127,7 +129,7 @@ export function HomePageCustomization({ children }) {
                 }}
               >
                 {currentPattern === pattern && <Icon>check_circle</Icon>}
-                <Typography variant="h6">
+                <Typography variant="h6" noWrap>
                   {capitalizeFirstLetter(pattern)}
                 </Typography>
               </Box>

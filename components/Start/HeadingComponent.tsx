@@ -51,7 +51,9 @@ export const HeadingComponent = ({ palette, isMobile }) => {
       animate={{ opacity: 1 }}
       transition={{ delay: 0.1 }}
     >
-      <Typography variant="h1">Good {greeting}.</Typography>
+      <Typography noWrap variant="h1">
+        Good {greeting}.
+      </Typography>
     </motion.div>
   );
 };

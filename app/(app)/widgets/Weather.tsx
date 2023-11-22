@@ -500,10 +500,10 @@ export function Weather() {
             ? weatherCodes[weatherData.current_weather.weathercode].night.icon
             : weatherCodes[weatherData.current_weather.weathercode].day.icon}
         </Icon>
-        <Typography sx={{ ml: 0.2 }} variant="h5">
+        <Typography sx={{ ml: 0.2 }} variant="h5" noWrap>
           {-~weatherData.current_weather.temperature}&deg;
         </Typography>
-        <Typography sx={{ ml: 0.2 }} variant="body2">
+        <Typography sx={{ ml: 0.2 }} variant="body2" noWrap>
           {isNight()
             ? weatherCodes[weatherData.current_weather.weathercode].night
                 .description
@@ -536,7 +536,7 @@ export function Weather() {
           ? "near_me_disabled"
           : ""}
       </Icon>
-      <Typography sx={{ ml: 0.2 }} variant="h5">
+      <Typography sx={{ ml: 0.2 }} variant="h5" noWrap>
         Weather
       </Typography>
       <Typography sx={{ ml: 0.2 }} variant="body2">

@@ -428,7 +428,6 @@ function FocusText({ started }) {
 
 export const Friend = memo(function Friend({ mutate, friend }: any) {
   const { session } = useSession();
-  const router = useRouter();
   const isDark = useDarkMode(session.darkMode);
   const userPalette = useColor(session.themeColor, isDark);
 
@@ -461,9 +460,6 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
     <Box sx={{ pb: 2 }}>
       <FriendPopover email={friend.email}>
         <Card
-          onClick={() => {
-            router.push("/users/" + (friend.username || friend.email));
-          }}
           sx={{
             position: "relative",
             overflow: "hidden",
@@ -471,6 +467,7 @@ export const Friend = memo(function Friend({ mutate, friend }: any) {
             alignItems: "center",
             gap: 2,
             background: "transparent",
+            "&:active": { opacity: 0.6 },
           }}
         >
           <Badge

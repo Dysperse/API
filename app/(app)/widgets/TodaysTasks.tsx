@@ -177,12 +177,12 @@ export function TodaysTasks() {
           >
             check_circle
           </Icon>
-          <Box sx={{ zIndex: 1 }}>
-            <Typography variant="h5">
+          <Box sx={{ zIndex: 1, minWidth: 0 }}>
+            <Typography variant="h5" noWrap>
               {data?.[0]?.tasks?.length} task
               {data?.[0]?.tasks?.length !== 1 && "s"}
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" noWrap>
               {completedTasksLength} complete
             </Typography>
           </Box>
