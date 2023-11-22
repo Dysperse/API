@@ -15,7 +15,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import { AuthBranding } from "../branding";
 import { authStyles } from "../styles";
 
 /**
@@ -69,7 +68,6 @@ export default function Prompt() {
   return (
     <Box>
       <Box sx={authStyles(palette).container}>
-        <AuthBranding mobile />
         <Box sx={{ pt: 3 }}>
           <Box sx={{ px: 1 }}>
             <Typography

@@ -11,7 +11,7 @@ import { Resend } from "resend";
  * @param {any} res
  * @returns {any}
  */
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const body = await req.json();
   const { captchaToken, email } = JSON.parse(body);
 
