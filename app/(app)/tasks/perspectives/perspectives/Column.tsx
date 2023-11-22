@@ -385,17 +385,9 @@ const Column = React.memo(function Column({
       }
       mutateList(
         (oldDates) => {
-          const index = oldDates.findIndex(({ start: _start, end: _end }) =>
-            dayjs(start).isBetween(
-              _start,
-              _end,
-              {
-                days: "day",
-                weeks: "week",
-                months: "month",
-              }[type],
-              "[]"
-            )
+          const index = oldDates.findIndex(
+            ({ start: _start, end: _end }) =>
+              start.toISOString() === dayjs(_start).utc().toISOString()
           );
           return oldDates.map((col, colIndex) => {
             if (colIndex !== index) return col;
@@ -415,7 +407,7 @@ const Column = React.memo(function Column({
         }
       );
     },
-    [type, mutateList, start]
+    [mutateList, start]
   );
 
   return (
