@@ -196,7 +196,7 @@ export function Sidebar() {
       maxHeight: "9999px",
       overflow: "visible",
       "& .material-symbols-rounded, & .material-symbols-outlined": {
-        transition: "all .2s, opacity 0s, background 0s",
+        transition: "all .2s, opacity 0s, background .2s",
         height: 50,
         width: 50,
         display: "flex",
