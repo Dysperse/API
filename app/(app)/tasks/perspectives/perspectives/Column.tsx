@@ -133,7 +133,7 @@ function UnfinishedTasks({ column, completedTasks, data }) {
             <Typography sx={{ fontWeight: 500 }}>
               {isActive
                 ? `${taskSelection.values.length - 1} selected`
-                : "Reschedule unfinished tasks?"}
+                : "Move unfinished tasks?"}
             </Typography>
           </Box>
           <SelectDateModal
