@@ -41,7 +41,7 @@ export const integrations = [
         placeholder: "e.g., instructure.com/feeds/calendars/id.ics",
         name: "Canvas feed URL",
         helperText:
-          'You can find your Canvas feed URL by visiting "Calendar → Calendar feed (scroll down to view button in right sidebar)" (web only)',
+          'To find this, open canvas in a web browser and navigate to "Calendar → Calendar feed)." You might have to scroll down.',
         required: true,
         validation:
           /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
