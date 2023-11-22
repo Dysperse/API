@@ -6,7 +6,15 @@ import Grid from "@mui/material/Unstable_Grid2";
 export default function HomePageLoading() {
   const isMobile = useMediaQuery("(max-width:600px)");
   const triggers = (
-    <Box sx={{ display: "flex", justifyContent: "end", mt: 2, gap: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "end",
+        mt: 2,
+        mb: { xs: 4, sm: 0 },
+        gap: 2,
+      }}
+    >
       <Skeleton width="100%" height={62} variant="rectangular" />
       <Skeleton
         width={62}
@@ -68,11 +76,15 @@ export default function HomePageLoading() {
           <Box sx={{ width: "100%" }}>
             <Skeleton
               width={100}
-              height={18}
+              height={13}
               variant="rectangular"
               sx={{ mb: 2 }}
             />
-            <Skeleton width={300} height={65} variant="rectangular" />
+            <Skeleton
+              width={300}
+              height={isMobile ? 43 : 65}
+              variant="rectangular"
+            />
             <Box sx={{ display: "flex", alignItems: "center", gap: 3, my: 2 }}>
               <Skeleton width={30} height={30} variant="circular" />
               <Skeleton width={"100%"} height={22} variant="rectangular" />
