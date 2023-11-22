@@ -218,7 +218,8 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
           background: { sm: addHslAlpha(palette[3], 0.4) },
           borderRadius: 5,
           p: 3,
-          minWidth: "300px",
+          width: "300px",
+          maxWidth: "100dvw",
           display: "flex",
           flexDirection: "column",
           "& .collapse": {

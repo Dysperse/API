@@ -141,44 +141,46 @@ function RenderBoard({ tasks }) {
           />
         </Box>
       )}
-      <Box
-        sx={{
-          height: { sm: "100dvh" },
-          display: { xs: "none", sm: "flex" },
-          alignItems: "center",
-          justifyContent: "center",
-          px: 4,
-          ...(board.wallpaper && {
-            width: "340px",
-            flex: "0 0 340px",
-            ml: "-340px",
-          }),
-        }}
-      >
-        {permissions !== "read" && (
-          <IconButton
-            sx={{
-              cursor: "default",
-              background: palette[3],
-              ...(board.wallpaper && {
-                background: `${addHslAlpha(palette[8], 0.1)} !important`,
-                backdropFilter: "blur(3px)",
-              }),
-            }}
-            onClick={() => {
-              router.push("/tasks/boards/" + board.id + "/edit#columns");
-            }}
-          >
-            <Icon
+      {board.columns.length > 0 && (
+        <Box
+          sx={{
+            height: { sm: "100dvh" },
+            display: { xs: "none", sm: "flex" },
+            alignItems: "center",
+            justifyContent: "center",
+            px: 4,
+            ...(board.wallpaper && {
+              width: "340px",
+              flex: "0 0 340px",
+              ml: "-340px",
+            }),
+          }}
+        >
+          {permissions !== "read" && (
+            <IconButton
               sx={{
-                fontSize: "30px",
+                cursor: "default",
+                background: palette[3],
+                ...(board.wallpaper && {
+                  background: `${addHslAlpha(palette[8], 0.1)} !important`,
+                  backdropFilter: "blur(3px)",
+                }),
+              }}
+              onClick={() => {
+                router.push("/tasks/boards/" + board.id + "/edit#columns");
               }}
             >
-              add
-            </Icon>
-          </IconButton>
-        )}
-      </Box>
+              <Icon
+                sx={{
+                  fontSize: "30px",
+                }}
+              >
+                add
+              </Icon>
+            </IconButton>
+          )}
+        </Box>
+      )}
       {tasks.length == 0 && permissions !== "read" && (
         <Box
           sx={{
