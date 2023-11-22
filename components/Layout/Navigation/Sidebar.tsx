@@ -19,7 +19,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { green } from "@radix-ui/colors";
-import dayjs from "dayjs";
 import { usePathname, useRouter } from "next/navigation";
 import { cloneElement, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -191,34 +190,29 @@ export function Sidebar() {
     return {
       WebkitAppRegion: "no-drag",
       color: palette[12],
-      borderRadius: 3,
-      my: 0.5,
+      borderRadius: 5,
       maxHeight: "9999px",
       overflow: "visible",
-      "& .material-symbols-rounded, & .material-symbols-outlined": {
-        transition: "all .2s, opacity 0s, background .2s",
-        height: 50,
-        width: 50,
-        display: "flex",
-        alignItems: "center",
-        borderRadius: 5,
-        justifyContent: "center",
-      },
-      "&:hover .material-symbols-outlined": {
-        background: palette[4],
-      },
-      "&:active .material-symbols-outlined": {
-        background: palette[5],
-      },
+
+      fontSize: "25px",
+      fontFamily: "Material Symbols Rounded",
+      fontVariationSettings: '"FILL" 0, "wght" 100, "GRAD" 0, "opsz" 35',
+      transition: "all .4s",
+
+      height: 50,
+      width: 50,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
       userSelect: "none",
+
       ...(active && {
-        " .material-symbols-outlined,  .material-symbols-rounded": {
-          background:
-            palette[
-              pathname.includes("tasks") || pathname.includes("/rooms") ? 6 : 4
-            ],
-          color: palette[11],
-        },
+        background:
+          palette[
+            pathname.includes("tasks") || pathname.includes("/rooms") ? 6 : 4
+          ],
+        fontVariationSettings: '"FILL" 1, "wght" 300, "GRAD" 0, "opsz" 35',
+        color: palette[11],
       }),
     };
   };
@@ -290,6 +284,7 @@ export function Sidebar() {
         borderLeft: "1px solid transparent",
         height: "100dvh",
         position: "fixed",
+        gap: 0.5,
         left: "0px",
         alignItems: "center",
         flexDirection: "column",
@@ -312,36 +307,12 @@ export function Sidebar() {
         onClick={() => router.push("/tasks/perspectives/days")}
         onMouseDown={() => router.push("/tasks/perspectives/days")}
       >
-        <Badge
-          badgeContent={
-            dayjs(session.user.lastPlannedTasks).isToday()
-              ? 0
-              : pathname.includes("/tasks")
-              ? 0
-              : 1
-          }
-          variant="dot"
-          sx={{
-            width: "100%",
-            "& .MuiBadge-badge": {
-              right: 12,
-              top: 12,
-            },
-          }}
+        <Tooltip
+          title={generateLabel("Tasks", ["ctrl", "shift", "1"])}
+          placement="right"
         >
-          <Tooltip
-            title={generateLabel("Tasks", ["ctrl", "shift", "1"])}
-            placement="right"
-          >
-            <span
-              className={`material-symbols-${
-                pathname?.includes("/tasks") ? "rounded" : "outlined"
-              }`}
-            >
-              &#xe86c;
-            </span>
-          </Tooltip>
-        </Badge>
+          <span>&#xe86c;</span>
+        </Tooltip>
       </Box>
       <Box
         sx={styles(pathname === "/")}
@@ -352,13 +323,7 @@ export function Sidebar() {
           title={generateLabel("Start", ["ctrl", "shift", "2"])}
           placement="right"
         >
-          <span
-            className={`material-symbols-${
-              pathname === "/" ? "rounded" : "outlined"
-            }`}
-          >
-            &#xf07e;
-          </span>
+          <span>&#xf07e;</span>
         </Tooltip>
       </Box>
       {session.space.info.type !== "study group" && (
@@ -376,18 +341,7 @@ export function Sidebar() {
             title={generateLabel("Tasks", ["ctrl", "shift", "3"])}
             placement="right"
           >
-            <span
-              className={`material-symbols-${
-                pathname === "/rooms" ||
-                pathname === "/trash" ||
-                pathname === "/starred" ||
-                pathname?.includes("rooms")
-                  ? "rounded"
-                  : "outlined"
-              }`}
-            >
-              &#xf569;
-            </span>
+            <span>&#xf569;</span>
           </Tooltip>
         </Box>
       )}

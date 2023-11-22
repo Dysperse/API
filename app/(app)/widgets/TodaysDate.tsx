@@ -1,16 +1,10 @@
 "use client";
-import { useSession } from "@/lib/client/session";
-import { useColor, useDarkMode } from "@/lib/client/useColor";
 import { Box, Icon, SwipeableDrawer, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Time } from "./Time";
 
 export function TodaysDate() {
-  const { session } = useSession();
-  const isDark = useDarkMode(session.darkMode);
-  const palette = useColor(session.themeColor, isDark);
-
   const [open, setOpen] = useState<boolean>(false);
 
   return (
