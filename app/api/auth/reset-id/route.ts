@@ -12,46 +12,50 @@ import { Resend } from "resend";
  * @returns {any}
  */
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { captchaToken, email } = JSON.parse(body);
-
   try {
-    // Validate captcha
-    const data = await validateCaptcha(captchaToken);
-    if (!data.success) {
+    // get body
+    const { email, captchaToken } = await req.json();
+
+    try {
+      // Validate captcha
+      const data = await validateCaptcha(captchaToken);
+      if (!data.success) {
+        return handleApiError({ message: "Invalid Captcha" });
+      }
+    } catch (e) {
       return handleApiError({ message: "Invalid Captcha" });
     }
+
+    // Find the user in the database
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { name: true, id: true },
+    });
+
+    // If the user doesn't exist, return an error
+    if (!user) {
+      return handleApiError({ message: "Invalid email or password" });
+    }
+
+    const { id, name } = user;
+
+    // Send an email with a link to reset the password
+    const token = await prisma.passwordResetToken.create({
+      data: { user: { connect: { id } } },
+    });
+
+    const url = `https://my.dysperse.com/auth/reset-password/${token.token}`;
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    resend.sendEmail({
+      from: "Dysperse <hello@dysperse.com>",
+      to: email,
+      subject: "Forgot your password?",
+      react: ForgotPasswordEmail({ name, email, link: url }),
+    });
+    return Response.json({ success: true });
   } catch (e) {
-    return handleApiError({ message: "Invalid Captcha" });
+    return handleApiError(e);
   }
-
-  // Find the user in the database
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: { name: true, id: true },
-  });
-
-  // If the user doesn't exist, return an error
-  if (!user) {
-    return handleApiError({ message: "Invalid email or password" });
-  }
-
-  const { id, name } = user;
-
-  // Send an email with a link to reset the password
-  const token = await prisma.passwordResetToken.create({
-    data: { user: { connect: { id } } },
-  });
-
-  const url = `https://my.dysperse.com/auth/reset-password/${token.token}`;
-
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
-  resend.sendEmail({
-    from: "Dysperse <hello@dysperse.com>",
-    to: email,
-    subject: "Forgot your password?",
-    react: ForgotPasswordEmail({ name, email, link: url }),
-  });
-  return Response.json({ success: true });
 }

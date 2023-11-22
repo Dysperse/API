@@ -39,7 +39,7 @@ export default function Prompt() {
         method: "POST",
         body: JSON.stringify({ email: email, captchaToken }),
       });
-      if (res.status === 401) {
+      if (res.status !== 200) {
         const f = await res.json();
         throw new Error(f.message);
       }
