@@ -43,9 +43,7 @@ function HomePageLoading() {
 }
 
 export default function Page() {
-  return true ? (
-    <HomePageLoading />
-  ) : (
+  return (
     <NoSsr fallback={<HomePageLoading />}>
       <Home />
     </NoSsr>
