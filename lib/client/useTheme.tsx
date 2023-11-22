@@ -515,7 +515,6 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                 },
                 "& .MuiMenuItem-root": {
                   gap: 2,
-                  transition: "background .2s !important",
                   "&:focus-visible, &:hover": {
                     background: addHslAlpha(palette[5], 0.5),
                     "& .MuiSvgIcon-root": {

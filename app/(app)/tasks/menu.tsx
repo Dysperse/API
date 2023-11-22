@@ -179,6 +179,7 @@ export const MenuChildren = memo(function MenuChildren({
         sx={{
           p: 2,
           px: 2,
+          maxWidth: "100dvw",
           "& .MuiTypography-overline": {
             px: 1,
             pb: 1,

@@ -219,6 +219,8 @@ export default function Home() {
                 pb: 0,
                 mb: -3,
                 mt: 5,
+                maxWidth: "100dvw",
+                width: "100%",
               }}
             >
               <Typography variant="h1">Tasks</Typography>
