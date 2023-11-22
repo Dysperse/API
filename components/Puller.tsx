@@ -42,7 +42,7 @@ export const Puller = React.memo(function Puller({
             width: "50px",
             mx: "auto",
             height: "2px",
-            background: palette[4],
+            background: palette[5],
           }}
         />
       </Box>

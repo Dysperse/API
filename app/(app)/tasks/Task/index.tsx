@@ -452,15 +452,13 @@ export const Task: any = React.memo(function Task({
               }),
             fontWeight: 700,
             borderRadius: { xs: 0, sm: 3 },
-            "&, & .MuiChip-root": {
-              transition: "transform .2s, border-radius .2s",
-            },
             py: { xs: 0.5, sm: 0.2 },
             px: { xs: 2.6, sm: 1.7 },
             ...(isSubTask && {
               pl: { xs: "40px", sm: "40px" },
             }),
             gap: 1.5,
+            transition: "all .2s",
             "&:hover": {
               background: {
                 xs: "transparent",
@@ -468,6 +466,7 @@ export const Task: any = React.memo(function Task({
               },
             },
             "&:active": {
+              transition: "all 0s",
               background: {
                 xs: palette[isSubTask ? 4 : 2] + "!important",
                 sm: addHslAlpha(palette[3], 0.5) + "!important",

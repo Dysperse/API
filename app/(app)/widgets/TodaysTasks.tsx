@@ -93,14 +93,10 @@ export function TodaysTasks() {
       {data && data.length === 1 && data[0].tasks && (
         <SwipeableDrawer
           anchor="bottom"
-          keepMounted
           open={open}
           onClose={() => {
             setOpen(false);
             mutate();
-          }}
-          ModalProps={{
-            keepMounted: true,
           }}
           PaperProps={{
             sx: {

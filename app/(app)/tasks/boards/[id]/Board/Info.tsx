@@ -195,7 +195,20 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
   useEffect(() => {
     registerPeriodicSync();
   }, []);
+
   useHotkeys("esc", () => setHover(false));
+
+  const inputStyles = {
+    transition: "all .4s",
+    "&:hover": {
+      background: addHslAlpha(palette[4], 0.5),
+      "&, & *": { cursor: "default!important" },
+    },
+    "&:focus-within": {
+      background: addHslAlpha(palette[5], 0.8),
+      "&, & *": { cursor: "text!important" },
+    },
+  };
 
   return (
     <>
@@ -321,11 +334,9 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                 ml: -1,
                 fontSize: "60px",
                 lineHeight: "65px",
-                py: 0.5,
-                "&:focus-within": {
-                  background: addHslAlpha(palette[4], 0.8),
-                  "&, & *": { textTransform: "none!important" },
-                },
+                pt: 1,
+                pb: 0,
+                ...inputStyles,
               },
             }}
             onKeyDown={(e: any) => {
@@ -343,7 +354,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
               permissions == "read"
             }
             onBlur={handleSave}
-            placeholder="Click to add description"
+            placeholder="No description"
             variant="standard"
             InputProps={{
               disableUnderline: true,
@@ -354,9 +365,7 @@ export function BoardInfo({ setCurrentColumn, showInfo, setShowInfo }) {
                 ml: -1,
                 mt: -1,
                 py: 1,
-                "&:focus-within": {
-                  background: addHslAlpha(palette[4], 0.8),
-                },
+                ...inputStyles,
               },
             }}
             onKeyDown={(e: any) => {

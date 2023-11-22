@@ -207,7 +207,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
         styleOverrides: {
           root: ({ theme }) =>
             theme.unstable_sx({
-              transition: "none",
+              transition: "background .2s !important",
               color: palette[11],
               cursor: "default",
               "&:hover": {
@@ -283,7 +283,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               overflow: "hidden",
-              transition: "none!important",
+              transition: "background .2s !important",
               cursor: "default",
               borderRadius: "999px",
               px: "30px",
@@ -515,8 +515,9 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                 },
                 "& .MuiMenuItem-root": {
                   gap: 2,
+                  transition: "background .2s !important",
                   "&:focus-visible, &:hover": {
-                    background: addHslAlpha(palette[6], 0.5),
+                    background: addHslAlpha(palette[5], 0.5),
                     "& .MuiSvgIcon-root": {
                       color: palette[12],
                     },
@@ -532,7 +533,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
                     marginRight: 1.9,
                   },
                   "&:active": {
-                    background: addHslAlpha(palette[5], 0.5),
+                    background: addHslAlpha(palette[6], 0.5),
                   },
                 },
               },
@@ -611,6 +612,7 @@ export const useCustomTheme = ({ darkMode, themeColor }): ThemeOptions => {
             theme.unstable_sx({
               color: palette[12],
               opacity: 0.7,
+              transition: "background .2s !important",
               "&:hover": {
                 color: { sm: palette[12] },
               },
