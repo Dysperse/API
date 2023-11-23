@@ -318,20 +318,15 @@ export default function DrawerContent({
 
   const styles = {
     section: {
-      background: { xs: palette[3], sm: palette[2] },
-      borderRadius: 5,
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      mb: 1,
       "& .item, & .tiptap": {
-        "&:active": {
-          background: { xs: palette[4], sm: palette[3] },
+        transition: "background .4s",
+        border: "2px solid transparent",
+        "&:hover:not(:focus-within)": {
+          background: { sm: palette[3] },
+          "&, & *": { cursor: "default" },
         },
-        color: palette[12],
-        borderRadius: 0,
-        "&.MuiListItem-root, &.MuiListItemButton-root, &.tiptap": {
-          px: 3,
+        "&:focus-within": {
+          borderColor: palette[6],
         },
       },
       "& .item:not(:last-child), & .tiptap": {
@@ -339,7 +334,18 @@ export default function DrawerContent({
         borderColor: { xs: palette[4], sm: palette[3] },
       },
     },
-
+    item: {
+      borderRadius: 5,
+      transition: "background .4s",
+      border: "2px solid transparent",
+      "&:hover:not(:focus-within)": {
+        background: { sm: palette[3] },
+        "&, & *": { cursor: "default" },
+      },
+      "&:focus-within": {
+        borderColor: palette[6],
+      },
+    },
     button: {
       color: palette[11],
       background: palette[3],

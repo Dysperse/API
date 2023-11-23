@@ -18,10 +18,12 @@ export function ImageViewer({
   size = "small",
   url,
   sx,
+  label = "Attachment",
 }: {
   size?: "small" | "medium";
   url: string;
   sx?: SxProps;
+  label?: string;
 }) {
   const { session } = useSession();
   const palette = useColor(session.themeColor, useDarkMode(session.darkMode));
@@ -193,7 +195,7 @@ export function ImageViewer({
       <Chip
         sx={sx}
         size={size}
-        label={"Attachment"}
+        label={label}
         avatar={<Avatar src={url} alt="🖼" />}
         onClick={(e) => {
           e.stopPropagation();

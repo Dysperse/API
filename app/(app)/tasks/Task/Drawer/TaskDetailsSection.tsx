@@ -1,6 +1,5 @@
 import { FileDropInput } from "@/components/FileDrop";
 import { useSession } from "@/lib/client/session";
-import { useAccountStorage } from "@/lib/client/useAccountStorage";
 import { fetchRawApi } from "@/lib/client/useApi";
 import { useColor, useDarkMode } from "@/lib/client/useColor";
 import {
@@ -28,10 +27,9 @@ import {
 
 export const TaskDetailsSection = React.memo(function TaskDetailsSection({
   data,
-  styles,
   shouldDisable,
+  styles,
 }: any) {
-  const storage = useAccountStorage();
   const task = useTaskContext();
   const { session } = useSession();
 
@@ -67,71 +65,91 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
 
   return (
     <>
-      <Typography variant="overline" sx={{ mt: -5 }}>
-        Note
-      </Typography>
-      <TaskDescription
-        disabled={shouldDisable}
-        description={data.description}
-        handleChange={(e) => task.edit(task.id, "description", e)}
-      />
-      <Typography variant="overline">Attachments</Typography>
-      <Box sx={{ ...styles.section, background: "transparent" }}>
-        {/* Description */}
-        <TextField
-          className="item"
-          onBlur={(e) => task.edit(data.id, "where", e.target.value)}
-          onKeyDown={(e: any) =>
-            e.key === "Enter" && !e.shiftKey && e.target.blur()
-          }
+      <Box sx={{ mr: -1, ml: 1 }}>
+        <Typography variant="overline" sx={{ mt: -5 }}>
+          Note
+        </Typography>
+        {/* Normalizes negative margin */}
+        <TaskDescription
           disabled={shouldDisable}
-          fullWidth
-          placeholder="Add link / location"
-          defaultValue={data.where}
-          key={data.where}
-          variant="standard"
-          InputProps={{
-            disableUnderline: true,
-            sx: { p: 1 },
-            ...(isHttpOrAddress && {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={handleLocationButtonClick}
-                    sx={{
-                      background: {
-                        xs: palette[4] + "!important",
-                        sm: palette[3] + "!important",
-                      },
-                    }}
-                  >
-                    <Icon>
+          description={data.description}
+          handleChange={(e) => task.edit(task.id, "description", e)}
+        />
+        <Typography
+          sx={{
+            ...(!data.where &&
+              !data.image && {
+                display: "none",
+              }),
+          }}
+          variant="overline"
+        >
+          Attachments
+        </Typography>
+        {/* Description */}
+        {data.where && (
+          <TextField
+            onBlur={(e) => task.edit(data.id, "where", e.target.value)}
+            onKeyDown={(e: any) =>
+              e.key === "Enter" && !e.shiftKey && e.target.blur()
+            }
+            disabled={shouldDisable}
+            fullWidth
+            placeholder="Add link / location"
+            defaultValue={data.where}
+            key={data.where}
+            variant="standard"
+            InputProps={{
+              disableUnderline: true,
+              sx: {
+                p: 1,
+                px: 1,
+                borderRadius: 3,
+                mx: -1,
+                transition: "background .4s",
+                border: "2px solid transparent",
+                ...styles.item,
+              },
+              ...(isHttpOrAddress && {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={handleLocationButtonClick}
+                      sx={{
+                        background: {
+                          xs: palette[4] + "!important",
+                          sm: palette[3] + "!important",
+                        },
+                      }}
+                    >
+                      <Icon>
+                        {videoChatPlatforms.find((platform) =>
+                          data.where.includes(platform)
+                        )
+                          ? "call"
+                          : isAddress(data.where)
+                          ? "location_on"
+                          : "link"}
+                      </Icon>
                       {videoChatPlatforms.find((platform) =>
                         data.where.includes(platform)
                       )
-                        ? "call"
+                        ? "Call"
                         : isAddress(data.where)
-                        ? "location_on"
-                        : "link"}
-                    </Icon>
-                    {videoChatPlatforms.find((platform) =>
-                      data.where.includes(platform)
-                    )
-                      ? "Call"
-                      : isAddress(data.where)
-                      ? "Maps"
-                      : "Open"}
-                  </Button>
-                </InputAdornment>
-              ),
-            }),
-          }}
-        />
+                        ? "Maps"
+                        : "Open"}
+                    </Button>
+                  </InputAdornment>
+                ),
+              }),
+            }}
+          />
+        )}
         {/* Notifications */}
         {data.notifications.length > 0 && !task.dateOnly && (
-          <Box className="item" sx={{ px: 1 }}>
+          <Box className="item" sx={{ px: 1, mx: -1 }}>
             <Typography sx={{ p: 3, pt: 2, opacity: 0.6, pb: 0 }}>
               Notifications
             </Typography>
@@ -154,10 +172,17 @@ export const TaskDetailsSection = React.memo(function TaskDetailsSection({
         {data.image && isImage && (
           <ListItem
             className="item"
-            sx={{ px: "10px!important", background: "transparent!important" }}
+            sx={{
+              px: 1,
+              mx: -1,
+              py: "0px!important",
+              ...styles.item,
+            }}
           >
             <ListItemText
-              primary={<ImageViewer size="medium" url={data.image} />}
+              primary={
+                <ImageViewer label="Image" size="medium" url={data.image} />
+              }
             />
             <Box
               sx={{

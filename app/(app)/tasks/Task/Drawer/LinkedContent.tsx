@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -72,76 +73,87 @@ export const LinkedContent = React.memo(function LinkedContent({
   };
 
   return (
-    <Box sx={styles.section}>
-      {task.createdBy && (
-        <ListItemButton
-          className="item"
-          onClick={() => {
-            router.push(`/users/${task.createdBy.email}`);
-          }}
-        >
-          <Avatar
-            src={task.createdBy?.Profile?.picture}
-            sx={{ width: 25, height: 25 }}
-          />
-          <ListItemText primary={`Created by ${task.createdBy?.name}`} />
-        </ListItemButton>
-      )}
-      {task.column && (
-        <ListItemButton className="item" onClick={handleBoardClick}>
-          <Icon className="outlined">view_kanban</Icon>
-          <ListItemText
-            secondary={task.column.name}
-            primary={`Found in "${task.column.board.name}"`}
-          />
-          <ConfirmationModal
-            callback={handleRemoveBoard}
-            title="Remove task from board?"
-            question="It won't show up in your board anymore but will appear in perspectives"
-          >
-            <IconButton
-              sx={{
-                ml: "auto",
-                mr: -0.5,
-                background: palette[3] + "!important",
-              }}
-              className="outlined"
-            >
-              <Icon>close</Icon>
-            </IconButton>
-          </ConfirmationModal>
-        </ListItemButton>
-      )}
-      <ListItemButton className="item" onClick={handleGroupClick}>
-        <Icon className="outlined">{isBoardPublic ? "group" : "lock"}</Icon>
-        <ListItemText
-          primary={isGroupVisible ? groupName : "Only visible to you"}
-          secondary={isGroupVisible ? "Visible to group" : undefined}
-        />
-      </ListItemButton>
-      <ListItem className="item">
-        <Icon className="outlined">access_time</Icon>
-        <ListItemText
-          primary={`Edited ${dayjs(task.lastUpdated).fromNow()}`}
-          secondary={
-            task.completedAt && `Completed ${dayjs(task.completedAt).fromNow()}`
-          }
-        />
-      </ListItem>
-      {isTaskImported && (
-        <ListItem className="item">
-          <Box
-            sx={{
-              background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
-              color: "#000",
-              width: 13,
-              height: 13,
-              borderRadius: "50%",
+    <Box>
+      <Typography variant="overline" sx={{ mt: -5, ml: 1 }}>
+        About
+      </Typography>
+      <Box
+        sx={{
+          "&>*": {
+            px: 1,
+          },
+        }}
+      >
+        {task.createdBy && (
+          <ListItemButton
+            onClick={() => {
+              router.push(`/users/${task.createdBy.email}`);
             }}
+          >
+            <Avatar
+              src={task.createdBy?.Profile?.picture}
+              sx={{ width: 25, height: 25 }}
+            />
+            <ListItemText primary={`Created by ${task.createdBy?.name}`} />
+          </ListItemButton>
+        )}
+        {task.column && (
+          <ListItemButton onClick={handleBoardClick}>
+            <Icon className="outlined">view_kanban</Icon>
+            <ListItemText
+              secondary={task.column.name}
+              primary={`Found in "${task.column.board.name}"`}
+            />
+            <ConfirmationModal
+              callback={handleRemoveBoard}
+              title="Remove task from board?"
+              question="It won't show up in your board anymore but will appear in perspectives"
+            >
+              <IconButton
+                sx={{
+                  ml: "auto",
+                  mr: -0.5,
+                  background: palette[3] + "!important",
+                }}
+                className="outlined"
+              >
+                <Icon>close</Icon>
+              </IconButton>
+            </ConfirmationModal>
+          </ListItemButton>
+        )}
+        <ListItemButton className="item" onClick={handleGroupClick}>
+          <Icon className="outlined">{isBoardPublic ? "group" : "lock"}</Icon>
+          <ListItemText
+            primary={isGroupVisible ? groupName : "Only visible to you"}
+            secondary={isGroupVisible ? "Visible to group" : undefined}
           />
-          <ListItemText primary={`Imported from Canvas LMS`} />
+        </ListItemButton>
+        <ListItem className="item">
+          <Icon className="outlined">access_time</Icon>
+          <ListItemText
+            primary={`Edited ${dayjs(task.lastUpdated).fromNow()}`}
+            secondary={
+              task.completedAt &&
+              `Completed ${dayjs(task.completedAt).fromNow()}`
+            }
+          />
         </ListItem>
-      )}
+        {isTaskImported && (
+          <ListItem className="item">
+            <Box
+              sx={{
+                background: "linear-gradient(45deg, #ff0f7b, #f89b29)",
+                color: "#000",
+                width: 13,
+                height: 13,
+                borderRadius: "50%",
+              }}
+            />
+            <ListItemText primary={`Imported from Canvas LMS`} />
+          </ListItem>
+        )}
+      </Box>
     </Box>
   );
 });
