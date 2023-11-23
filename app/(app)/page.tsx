@@ -2,8 +2,8 @@
 
 import { NoSsr } from "@mui/material";
 import airQuality from "./tasks/Layout/widgets/airQuality.json";
-import HomePageLoading from "./test/page";
 import { Home } from "./widgets/Home";
+import HomePageLoading from "./widgets/loading";
 
 export function getAirQualityInfo(index) {
   const result = airQuality.find(

@@ -200,7 +200,7 @@ export function GreetingComponent() {
         fontWeight: 700,
         color: palette[11],
         opacity: 0.8,
-        lineHeight: 1.1,
+        lineHeight: 1.2,
         display: "flex",
         gap: 3,
         mb: 2,

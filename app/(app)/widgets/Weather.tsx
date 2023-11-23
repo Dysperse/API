@@ -35,7 +35,14 @@ export function Weather() {
 
   const isNight = () => {
     const currentHour = new Date().getHours();
-    return currentHour >= 18 || currentHour <= 6; // Assuming night is between 6 PM and 6 AM
+    const withoutData = currentHour >= 18 || currentHour <= 6; // Assuming night is between 6 PM and 6 AM
+
+    return weatherData
+      ? !dayjs().isBetween(
+          weatherData.daily.sunset[0],
+          weatherData.daily.sunrise[0]
+        )
+      : withoutData;
   };
 
   const base =
