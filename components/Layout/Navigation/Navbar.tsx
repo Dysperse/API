@@ -68,12 +68,14 @@ export function Navbar({
         transitionTimingFunction: "cubic-bezier(0.1, 0.76, 0.55, 0.9)",
         transform: isScrollingUp ? "translateY(-100px)" : "translateY(0px)",
         left: 0,
-        background: addHslAlpha(palette[1], isAtTop ? 0.8 : 0),
+        background: !isAtTop
+          ? `linear-gradient(${palette[1]}, transparent)`
+          : addHslAlpha(palette[1], 0.8),
         backdropFilter: `blur(${isAtTop ? 10 : 0}px)`,
         borderBottom: `2px solid transparent`,
         borderColor: isAtTop
           ? `${addHslAlpha(palette[6], 0.5)}`
-          : "transparent",
+          : `transparent`,
         ...sx,
         gap: 1.5,
       }}
