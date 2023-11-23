@@ -326,6 +326,6 @@ async function getSession() {
     const info = await getUserData(accessToken);
     return JSON.parse(JSON.stringify(info));
   } catch {
-    return redirect("/auth");
+    redirect("/auth");
   }
 }

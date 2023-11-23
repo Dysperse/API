@@ -61,14 +61,14 @@ export function SpotifyCard({
               />
             </picture>
 
-            <picture>
+            <Box>
               <Image
                 src="/images/integrations/spotify.png"
                 width={45}
                 height={45}
                 alt="Spotify"
               />
-            </picture>
+            </Box>
           </Box>
           <Box
             sx={{

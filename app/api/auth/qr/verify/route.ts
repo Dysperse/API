@@ -1,6 +1,7 @@
 import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
+import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 import { createSession } from "../../login/route";
 
@@ -15,7 +16,7 @@ export async function GET(req: NextRequest) {
     const token = await getApiParam(req, "token", true);
     const data = await prisma.qrToken.findFirstOrThrow({
       where: {
-        AND: [{ token }, { expires: { gt: new Date() } }],
+        AND: [{ token }, { expires: { gt: dayjs().utc().toDate() } }],
       },
       include: {
         user: {
@@ -23,7 +24,6 @@ export async function GET(req: NextRequest) {
         },
       },
     });
-
 
     if (!data?.userId || !data.user) {
       throw new Error("Unauthenticated");

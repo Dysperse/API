@@ -5,12 +5,13 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get("token")?.value;
     const session = await sessionData(token);
-
     const code = await getApiParam(req, "code", true);
 
     const client_id = process.env.SPOTIFY_CLIENT_ID;
@@ -20,7 +21,7 @@ export async function GET(req: NextRequest) {
       method: "POST",
       body: new URLSearchParams({
         code: code,
-        redirect_uri: `https://${req.headers["x-forwarded-host"]}/api/user/spotify/auth`,
+        redirect_uri: `https://my.dysperse.com/api/user/spotify/auth`,
         grant_type: "authorization_code",
       }),
       headers: {
@@ -30,12 +31,18 @@ export async function GET(req: NextRequest) {
       },
     }).then((res) => res.json());
 
-    await prisma?.profile.update({
-      where: {
-        userId: session.user.identifier,
-      },
-      data: { spotify: data },
-    });
+    console.log(data);
+
+    if (data.access_token) {
+      await prisma?.profile.update({
+        where: {
+          userId: session.user.identifier,
+        },
+        data: { spotify: data },
+      });
+    } else {
+      throw new Error("Something went wrong");
+    }
 
     redirect(`/users/${session.user.username || session.user.email}`);
   } catch (e) {
