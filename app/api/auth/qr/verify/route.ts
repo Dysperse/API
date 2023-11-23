@@ -2,8 +2,10 @@ import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
 import { createSession } from "../../login/route";
+dayjs.extend(utc);
 
 /**
  * API handler for the /api/login endpoint
