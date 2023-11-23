@@ -51,15 +51,17 @@ export async function getCurrentlyListening(
 
 export async function GET(req: NextRequest) {
   try {
-    const access_token = await getApiParam(req, "access_token", true);
-    const refresh_token = await getApiParam(req, "refresh_token", true);
     const email = await getApiParam(req, "email", true);
+    const spotify = await getApiParam(req, "spotify", true);
+    const { access_token, refresh_token } = JSON.parse(spotify);
 
     const response = await getCurrentlyListening(
       email,
       access_token,
       refresh_token
     );
+
+    console.log(response);
 
     return Response.json(response);
   } catch (e) {

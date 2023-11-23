@@ -24,7 +24,7 @@ export default function ConnectionsSettings() {
   const palette = useColor(session.themeColor, isDark);
 
   const handleIntegrationDelete = async (name) => {
-    await fetchRawApi(session, "user/profile/update", {
+    await fetchRawApi(session, "user/profile", {
       method: "PUT",
       params: {
         [name]: "null",
