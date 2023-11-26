@@ -1,4 +1,4 @@
-![Dysperse](https://socialify.git.ci/Dysperse/Dysperse/image?description=1&descriptionEditable=The%20new%20standard%20for%20productivity&font=Jost&issues=1&logo=https%3A%2F%2Fassets.dysperse.com%2Fv8%2Fios%2F512.png&name=1&pattern=Plus&stargazers=1&theme=Auto)
+![Dysperse](https://socialify.git.ci/Dysperse/Dysperse/image?description=1&descriptionEditable=The%20new%20standard%20for%20productivity&font=Jost&issues=1&logo=https%3A%2F%2Fassets.dysperse.com%2Fv8%2Fios%2F512.png&name=1&pattern=Plus&stargazers=1&theme=Auto) 
 
 # **Quick links** 
 * [Homepage](https://dysperse.com)
