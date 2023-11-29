@@ -1,4 +1,4 @@
-import { googleClient } from "@/app/api/user/google/redirect/route";
+import { googleClient } from "@/app/user/google/redirect/route";
 import {
   getApiParam,
   getIdentifiers,

@@ -1,4 +1,4 @@
-import { createInboxNotification } from "@/app/api/space/inbox/createInboxNotification";
+import { createInboxNotification } from "@/app/space/inbox/createInboxNotification";
 import {
   getApiParam,
   getIdentifiers,

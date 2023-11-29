@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
       // Return the fetch promise so that we can await all of them later.
       return fetch(
-        `https://my.dysperse.com/api/space/integrations/run/${path}?${new URLSearchParams(
+        `https://api.dysperse.com/space/integrations/run/${path}?${new URLSearchParams(
           {
             property: integration.propertyId.toString(),
             boardId: (integration.boardId || "").toString(),

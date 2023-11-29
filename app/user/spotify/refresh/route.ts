@@ -1,4 +1,4 @@
-import { sessionData } from "@/app/api/session/route";
+import { sessionData } from "@/app/session/route";
 import { handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { cookies } from "next/headers";

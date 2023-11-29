@@ -1,4 +1,4 @@
-import { sessionData } from "@/app/api/session/route";
+import { sessionData } from "@/app/session/route";
 import { getApiParam, handleApiError } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { cookies } from "next/headers";
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       method: "POST",
       body: new URLSearchParams({
         code: code,
-        redirect_uri: `https://my.dysperse.com/api/user/spotify/auth`,
+        redirect_uri: `https://api.dysperse.com/user/spotify/auth`,
         grant_type: "authorization_code",
       }),
       headers: {
