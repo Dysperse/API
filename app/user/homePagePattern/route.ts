@@ -1,4 +1,4 @@
-import patterns from "@/app/(app)/settings/patterns.json";
+import patterns from "./patterns.json";
 import { getApiParam } from "@/lib/server/helpers";
 import { NextRequest } from "next/server";
 
