@@ -27,24 +27,7 @@ export async function createSession(id: any, ip: any) {
   });
 
   const token = session.id;
-
-  const encoded = jwt.sign(
-    {
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 * 4 * 12, // 1 year
-      accessToken: token,
-    },
-    process.env.SECRET_COOKIE_PASSWORD
-  );
-  const now = new Date();
-  now.setDate(now.getDate() * 7 * 4);
-  cookies().set({
-    name: "token",
-    expires: 60 * 60 * 24 * 7 * 4,
-    maxAge: 60 * 60 * 24 * 7 * 4,
-    path: "/",
-    value: encoded,
-  });
-  return encoded;
+  return token;
 }
 
 /**
@@ -156,9 +139,9 @@ export async function POST(req: NextRequest) {
       });
 
     const ip = "Unknown";
-    const encoded = await createSession(user.id, ip);
+    const key = await createSession(user.id, ip);
 
-    return Response.json({ success: true, key: encoded });
+    return Response.json({ success: true, key });
   } catch (e) {
     return handleApiError(e);
   }
