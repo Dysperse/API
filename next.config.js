@@ -19,7 +19,7 @@ const moduleExports = {
       return [
         {
           // matching all API routes
-          source: "/api/:path*",
+          source: "/:path*",
           headers: [
             { key: "Access-Control-Allow-Credentials", value: "true" },
             { key: "Access-Control-Allow-Origin", value: "*" },
