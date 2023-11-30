@@ -2,8 +2,6 @@ import { handleApiError } from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
 import argon2 from "argon2";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import * as twofactor from "node-2fa";
 
