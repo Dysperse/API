@@ -28,6 +28,7 @@ export async function createSession(id: any, ip: any) {
   return token;
 }
 
+
 /**
  * API handler for the /api/login endpoint
  * @param {any} req
@@ -35,111 +36,120 @@ export async function createSession(id: any, ip: any) {
  * @returns {any}
  */
 export async function POST(req: NextRequest) {
-  const requestBody = await req.json();
-
-  if (process.env.NODE_ENV !== "development") {
-    // FIRST, Validate the captcha
-
-    const endpoint =
-      "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-    const secret: any = process.env.CAPTCHA_KEY;
-    const body = `secret=${encodeURIComponent(
-      secret
-    )}&response=${encodeURIComponent(requestBody.token)}`;
-
-    const captchaRequest = await fetch(endpoint, {
-      method: "POST",
-      body,
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
-    });
-
-    const data = await captchaRequest.json();
-
-    if (!data.success && data.error !== "internal_error") {
-      return Response.json({ message: "Invalid Captcha" });
-    }
-  }
-
-  // Get the user's email and password from the request body
-  const { email } = requestBody;
-
   try {
-    // Find the user in the database
-    const user = await prisma.user.findFirstOrThrow({
-      where: {
-        OR: [{ email: email.toLowerCase() }, { username: email.toLowerCase() }],
-      },
-      select: {
-        id: true,
-        password: true,
-        twoFactorSecret: true,
-        notifications: {
-          select: { pushSubscription: true },
+    const requestBody = await req.json();
+
+    if (process.env.NODE_ENV !== "development") {
+      // FIRST, Validate the captcha
+
+      const endpoint =
+        "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+      const secret: any = process.env.CAPTCHA_KEY;
+      const body = `secret=${encodeURIComponent(
+        secret
+      )}&response=${encodeURIComponent(requestBody.token)}`;
+
+      const captchaRequest = await fetch(endpoint, {
+        method: "POST",
+        body,
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
         },
-      },
-    });
+      });
 
-    // If the user doesn't exist, return an error
-    if (!user) {
-      return Response.json({ message: "Invalid email or password" });
+      const data = await captchaRequest.json();
+
+      if (!data.success && data.error !== "internal_error") {
+        return Response.json({ message: "Invalid Captcha" });
+      }
     }
 
-    const validPassword = await argon2.verify(
-      user.password,
-      requestBody.password
-    );
+    // Get the user's email and password from the request body
+    const { email } = requestBody;
 
-    if (!validPassword) {
-      return Response.json({ message: "Invalid email or password" });
-    }
+    try {
+      // Find the user in the database
+      const user = await prisma.user.findFirstOrThrow({
+        where: {
+          OR: [
+            { email: email.toLowerCase() },
+            { username: email.toLowerCase() },
+          ],
+        },
+        select: {
+          id: true,
+          password: true,
+          twoFactorSecret: true,
+          notifications: {
+            select: { pushSubscription: true },
+          },
+        },
+      });
 
-    if (
-      !requestBody.twoFactorCode &&
-      user.twoFactorSecret !== "" &&
-      user.twoFactorSecret !== "false"
-    ) {
-      const newToken = twofactor.generateToken(user.twoFactorSecret);
+      // If the user doesn't exist, return an error
+      if (!user) {
+        return Response.json({ message: "Invalid email or password" });
+      }
+
+      if (!requestBody.password) throw new Error("Missing password in body");
+
+      const validPassword = await argon2.verify(
+        user.password,
+        requestBody.password
+      );
+
+      if (!validPassword) {
+        return Response.json({ message: "Invalid email or password" });
+      }
+
+      if (
+        !requestBody.twoFactorCode &&
+        user.twoFactorSecret !== "" &&
+        user.twoFactorSecret !== "false"
+      ) {
+        const newToken = twofactor.generateToken(user.twoFactorSecret);
+
+        if (user.notifications?.pushSubscription)
+          await DispatchNotification({
+            subscription: user.notifications?.pushSubscription as string,
+            title: `${newToken?.token} is your Dysperse login code`,
+            body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
+            actions: [],
+          });
+
+        return Response.json({
+          twoFactor: true,
+          token: newToken,
+          secret: user.twoFactorSecret,
+        });
+      }
+
+      if (requestBody.twoFactorCode) {
+        const login = twofactor.verifyToken(
+          user.twoFactorSecret,
+          requestBody.twoFactorCode
+        );
+
+        if (!login || login.delta !== 0) {
+          return Response.json({ error: "Invalid code" });
+        }
+      }
 
       if (user.notifications?.pushSubscription)
         await DispatchNotification({
           subscription: user.notifications?.pushSubscription as string,
-          title: `${newToken?.token} is your Dysperse login code`,
-          body: "Dysperse employess will NEVER ask for this code. DO NOT share it with ANYONE!",
+          title: "Account activity alert",
+          body: "Someone (hopefully you) has successfully logged in to your account",
           actions: [],
         });
 
-      return Response.json({
-        twoFactor: true,
-        token: newToken,
-        secret: user.twoFactorSecret,
-      });
+      const ip = "Unknown";
+      const key = await createSession(user.id, ip);
+
+      return Response.json({ success: true, key });
+    } catch (e) {
+      return handleApiError(e);
     }
-
-    if (requestBody.twoFactorCode) {
-      const login = twofactor.verifyToken(
-        user.twoFactorSecret,
-        requestBody.twoFactorCode
-      );
-
-      if (!login || login.delta !== 0) {
-        return Response.json({ error: "Invalid code" });
-      }
-    }
-
-    if (user.notifications?.pushSubscription)
-      await DispatchNotification({
-        subscription: user.notifications?.pushSubscription as string,
-        title: "Account activity alert",
-        body: "Someone (hopefully you) has successfully logged in to your account",
-        actions: [],
-      });
-
-    const ip = "Unknown";
-    const key = await createSession(user.id, ip);
-
-    return Response.json({ success: true, key });
   } catch (e) {
     return handleApiError(e);
   }
