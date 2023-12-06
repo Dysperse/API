@@ -56,7 +56,7 @@ model User {
   Event            Event[]
   EventParticipant EventParticipant[]
   settings         Settings?
-  OpenTab          OpenTab[]
+  tabs             OpenTab[]
 }
 
 model Follows {
