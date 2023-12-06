@@ -56,6 +56,7 @@ model User {
   Event            Event[]
   EventParticipant EventParticipant[]
   settings         Settings?
+  OpenTab          OpenTab[]
 }
 
 model Follows {
@@ -262,6 +263,7 @@ model Board {
   property     Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   columns      Column[]
   integrations Integration[]
+  OpenTab      OpenTab[]
 }
 
 model Column {
@@ -407,4 +409,15 @@ model EventParticipant {
   // For users who are signed up
   userId String?
   user   User?   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+}
+
+model OpenTab {
+  id     String @id @unique @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
+
+  tabData Json?
+
+  boardId String?
+  board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
 }
