@@ -1,3 +1,4 @@
+import { sessionData } from "@/app/session/route";
 import { handleApiError } from "@/lib/server/helpers";
 import { DispatchNotification } from "@/lib/server/notification";
 import { prisma } from "@/lib/server/prisma";
@@ -27,7 +28,6 @@ export async function createSession(id: any, ip: any) {
   const token = session.id;
   return token;
 }
-
 
 /**
  * API handler for the /api/login endpoint
@@ -146,7 +146,10 @@ export async function POST(req: NextRequest) {
       const ip = "Unknown";
       const key = await createSession(user.id, ip);
 
-      return Response.json({ success: true, key });
+      // Get info
+      const info = await sessionData(key);
+
+      return Response.json(info);
     } catch (e) {
       return handleApiError(e);
     }
