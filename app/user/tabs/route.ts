@@ -1,7 +1,8 @@
 import {
-    getIdentifiers,
-    getSessionToken,
-    handleApiError,
+  getApiParam,
+  getIdentifiers,
+  getSessionToken,
+  handleApiError,
 } from "@/lib/server/helpers";
 import { prisma } from "@/lib/server/prisma";
 import { NextRequest } from "next/server";
@@ -21,4 +22,20 @@ export async function GET(req: NextRequest) {
   } catch (e) {
     return handleApiError(e);
   }
+}
+
+export async function POST(req: NextRequest) {
+  const sessionToken = await getSessionToken();
+  const { userIdentifier } = await getIdentifiers(sessionToken);
+
+  const tabData = await getApiParam(req, "tabData", true);
+  const boardId = await getApiParam(req, "boardId", false);
+
+  const tab = await prisma.openTab.create({
+    data: {
+      ...tabData,
+      ...(boardId && { board: { connect: { id: boardId } } }),
+      userId: userIdentifier,
+    },
+  });
 }
