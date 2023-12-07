@@ -28,14 +28,16 @@ export async function POST(req: NextRequest) {
   const sessionToken = await getSessionToken();
   const { userIdentifier } = await getIdentifiers(sessionToken);
 
-  const tabData = await getApiParam(req, "tabData", true);
+  const tabData = await getApiParam(req, "tabData", false);
   const boardId = await getApiParam(req, "boardId", false);
 
   const tab = await prisma.openTab.create({
     data: {
-      ...tabData,
+      ...(tabData && tabData),
       ...(boardId && { board: { connect: { id: boardId } } }),
       userId: userIdentifier,
     },
   });
+
+  return Response.json(tab);
 }
