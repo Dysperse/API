@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   const tab = await prisma.openTab.create({
     data: {
-      ...(tabData && JSON.parse(tabData)),
+      ...(tabData && { tabData: JSON.parse(tabData) }),
       ...(boardId && { board: { connect: { id: boardId } } }),
       userId: userIdentifier,
     },
