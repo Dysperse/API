@@ -41,3 +41,18 @@ export async function POST(req: NextRequest) {
 
   return Response.json(tab);
 }
+
+export async function DELETE(req: NextRequest) {
+  const sessionToken = await getSessionToken();
+  const { userIdentifier } = await getIdentifiers(sessionToken);
+
+  const id = await getApiParam(req, "id", true);
+
+  const tab = await prisma.openTab.deleteMany({
+    where: {
+      AND: [{ user: { identifier: userIdentifier } }, { id }],
+    },
+  });
+
+  return Response.json(tab);
+}
