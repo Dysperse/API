@@ -56,3 +56,20 @@ export async function DELETE(req: NextRequest) {
 
   return Response.json(tab);
 }
+
+export async function PUT(req: NextRequest) {
+  const sessionToken = await getSessionToken();
+  const { userIdentifier } = await getIdentifiers(sessionToken);
+
+  const id = await getApiParam(req, "id", true);
+  const tabData = await getApiParam(req, "tabData", false);
+
+  const tab = await prisma.openTab.update({
+    where: { id },
+    data: {
+      ...(tabData && { tabData: JSON.parse(tabData) }),
+    },
+  });
+
+  return Response.json(tab);
+}
