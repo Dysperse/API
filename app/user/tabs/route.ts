@@ -64,8 +64,8 @@ export async function PUT(req: NextRequest) {
   const id = await getApiParam(req, "id", true);
   const tabData = await getApiParam(req, "tabData", false);
 
-  const tab = await prisma.openTab.update({
-    where: { id },
+  const tab = await prisma.openTab.updateMany({
+    where: { AND: [{ id }, { userId: userIdentifier }] },
     data: {
       ...(tabData && { tabData: JSON.parse(tabData) }),
     },
