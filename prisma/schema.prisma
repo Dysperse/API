@@ -416,7 +416,9 @@ model OpenTab {
   userId String
   user   User   @relation(fields: [userId], references: [identifier], onDelete: Cascade)
 
-  tabData Json?
+  tabData   Json?
+  createdAt DateTime @default(now())
+  order     Int      @default(0)
 
   boardId String?
   board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)

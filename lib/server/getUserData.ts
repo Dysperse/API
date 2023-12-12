@@ -12,7 +12,11 @@ export const getUserData = async (token: string) => {
     include: {
       user: {
         include: {
-          tabs: true,
+          tabs: {
+            orderBy: {
+              order: "asc",
+            },
+          },
           settings: true,
           notifications: true,
           Profile: { select: { picture: true } },
