@@ -176,10 +176,11 @@ model Property {
   color          String  @default("cyan")
 
   Board               Board[]
+  labels              Label[]
   rooms               Room[]
-  inbox               InboxItem[]
   inventory           Item[]
   members             PropertyInvite[]
+  inbox               InboxItem[]
   PropertyLinkInvites PropertyLinkInvite[]
   Integration         Integration[]
   Task                Task[]
@@ -318,7 +319,9 @@ model Task {
   property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   userId     String?
 
-  Item Item[]
+  Item    Item[]
+  Label   Label?  @relation(fields: [labelId], references: [id])
+  labelId String?
 }
 
 model QrToken {
@@ -422,4 +425,17 @@ model OpenTab {
 
   boardId String?
   board   Board?  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+}
+
+model Label {
+  id String @id @unique @default(uuid())
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  emoji String @default("1f3f7")
+  color String @default("gray")
+  name  String
+
+  tasks Task[]
 }
