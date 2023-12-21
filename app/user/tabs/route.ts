@@ -28,18 +28,35 @@ export async function POST(req: NextRequest) {
       ],
       { type: "BODY" }
     );
-    if (params.params && typeof JSON.parse(params.params) !== "object") {
-      return new Response("Params must be an object or undefined", {
-        status: 400,
-      });
+    if (params.params && typeof params.params !== "object") {
+      throw new Error("Params must be an object or undefined");
     }
 
     const { userId } = await getIdentifiers(req);
     const tab = await prisma.tab.create({
       data: {
         slug: params.slug,
-        params: params.params ? JSON.parse(params.params) : undefined,
+        params: params.params,
         userId,
+      },
+    });
+    return Response.json(tab);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const params = await getApiParams(req, [{ name: "id", required: true }], {
+      type: "QUERY",
+    });
+
+    const { userId } = await getIdentifiers(req);
+    
+    const tab = await prisma.tab.deleteMany({
+      where: {
+        AND: [{ id: params.id }, { userId }],
       },
     });
     return Response.json(tab);
