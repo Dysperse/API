@@ -8,7 +8,7 @@ export async function getApiParams(
   if (config.type === "BODY") {
     const body = await req.json();
 
-    const missingParams = params.filter((p) => !(p.name in body));
+    const missingParams = params.filter((p) => !(p.name in body) && p.required);
     if (missingParams.length > 0) {
       throw new Error(
         `Missing required params: ${missingParams

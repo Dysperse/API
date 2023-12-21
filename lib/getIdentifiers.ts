@@ -20,7 +20,7 @@ export const getIdentifiers = async (req: NextRequest) => {
           id: true,
           spaces: {
             select: {
-              id: true,
+              spaceId: true,
             },
             where: {
               selected: true,
@@ -31,8 +31,12 @@ export const getIdentifiers = async (req: NextRequest) => {
       },
     },
   });
-  if (!info.user.spaces[0]?.id || !info.user.id)
+  if (!info.user.spaces[0]?.spaceId || !info.user.id)
     throw new Error("Invalid session");
 
-  return { sessionId, userId: info.user.id, spaceId: info.user.spaces[0].id };
+  return {
+    sessionId,
+    userId: info.user.id,
+    spaceId: info.user.spaces[0].spaceId,
+  };
 };
