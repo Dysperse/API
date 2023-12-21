@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const { userId } = await getIdentifiers(req);
     const tabs = await prisma.spaceInvite.findMany({
       where: { userId },
-      include: { space: true },
+      include: { space: { include: { _count: true } } },
     });
     return Response.json(tabs);
   } catch (e) {
