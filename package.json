@@ -56,6 +56,7 @@
   ],
   "description": "API for Dysperse",
   "devDependencies": {
+    "@types/react": "^18.2.45",
     "encoding": "^0.1.13",
     "eslint": "^8.49.0",
     "eslint-config-next": "^13.5.2",
