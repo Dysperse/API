@@ -53,7 +53,7 @@ export async function DELETE(req: NextRequest) {
     });
 
     const { userId } = await getIdentifiers(req);
-    
+
     const tab = await prisma.tab.deleteMany({
       where: {
         AND: [{ id: params.id }, { userId }],
