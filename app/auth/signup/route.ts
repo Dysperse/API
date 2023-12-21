@@ -1,167 +1,60 @@
-import { WelcomeEmail } from "@/emails/welcome";
-import { capitalizeFirstLetter } from "@/lib/client/capitalizeFirstLetter";
-import { validateCaptcha } from "@/lib/server/captcha";
-import { prisma } from "@/lib/server/prisma";
+import { getApiParams } from "@/lib/getApiParams";
+import { getSessionData } from "@/lib/getSessionData";
+import { handleApiError } from "@/lib/handleApiError";
+import { prisma } from "@/lib/prisma";
 import argon2 from "argon2";
 import { NextRequest } from "next/server";
-import { Resend } from "resend";
-import { createSession } from "../login/route";
 
-export async function sendEmail(name, email) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
-
-  resend.sendEmail({
-    from: "Dysperse <hello@dysperse.com>",
-    to: email,
-    subject: "Welcome to the #dysperse family 👋",
-    react: WelcomeEmail({ name, email }),
-  });
-}
-
-const validateEmail = (email) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
-
-/**
- * API handler for the /api/signup endpoint
- * @param {any} req
- * @param {any} res
- */
 export async function POST(req: NextRequest) {
-  const requestBody = await req.json();
+  try {
+    // get body
+    const params = await getApiParams(
+      req,
+      [
+        { name: "name", required: true },
+        { name: "email", required: true },
+        { name: "password", required: true },
+      ],
+      { type: "BODY" }
+    );
 
-  if (process.env.NODE_ENV === "production") {
-    try {
-      // Validate captcha
-      const data = await validateCaptcha(requestBody.captchaToken);
-      if (!data.success) {
-        return Response.json({ error: true, message: "Invalid Captcha" });
-      }
-    } catch (e) {
-      return Response.json({ error: true, message: "Invalid Captcha" });
-    }
-  }
+    const password = await argon2.hash(params.password);
 
-  if (!validateEmail(requestBody.email.toLowerCase())) {
-    return Response.json({
-      error: true,
-      message: "Please type in a valid email address",
-    });
-  }
-  if (requestBody.password !== requestBody.confirmPassword) {
-    return Response.json({ error: true, message: "Passwords do not match" });
-  }
-  //  Find if email is already in use
-  const emailInUse = await prisma.user.findUnique({
-    where: {
-      email: requestBody.email.toLowerCase(),
-    },
-  });
-
-  if (emailInUse) {
-    return Response.json({
-      error: true,
-      message: "Email already in use",
-    });
-  }
-  // Get the user's email and password from the request body
-  const { name, email, password } = requestBody;
-
-  // Hash the password
-  const hashedPassword = await argon2.hash(password);
-
-  // Create the user in the database
-  const user = await prisma.user.create({
-    data: {
-      Profile: {
-        create: {
-          birthday: new Date(requestBody.birthday),
-          picture: requestBody.picture,
-          bio: requestBody.bio,
+    const acc = await prisma.user.create({
+      data: {
+        email: params.email,
+        password,
+        profile: {
+          create: {
+            name: params.name,
+          },
         },
-      },
-      name,
-      color: requestBody.color,
-      darkMode: requestBody.darkMode,
-      email: email.toLowerCase(),
-      ...(requestBody.username && { username: requestBody.username }),
-      agreeTos: true,
-      password: hashedPassword,
-    },
-  });
-
-  //   Get user id from user
-  const id = user.id;
-  const ip = "Unknown";
-
-  // Create a session token in the session table
-  const session = createSession(id, ip);
-
-  //   Create a property
-  const property = await prisma.property.create({
-    data: {
-      name: "My home",
-      color: "cyan",
-    },
-  });
-
-  await prisma.user.update({
-    where: { id },
-    data: {
-      selectedProperty: { connect: { id: property.id } },
-    },
-  });
-  //   Get property id from property
-  const propertyId = property.id;
-
-  // Create boards
-  if (requestBody.templates.length > 0) {
-    requestBody.templates.forEach(async (template) => {
-      try {
-        await prisma.board.create({
-          data: {
-            propertyId,
-            name: template.name,
-            userId: user.identifier,
-            description: template.description,
-            columns: {
-              createMany: {
-                data: template.columns.map((column, index) => ({
-                  emoji: column.emoji,
-                  name: column.name,
-                  order: index,
-                })),
+        spaces: {
+          create: {
+            space: {
+              create: {
+                name: `${params.name}'s space`,
               },
             },
           },
-        });
-      } catch (e) {}
-    });
-  }
-
-  //   Create a property invite
-  await prisma.propertyInvite.create({
-    data: {
-      selected: true,
-      accepted: true,
-      permission: "owner",
-      profile: {
-        connect: {
-          id: propertyId,
+        },
+        sessions: {
+          create: {},
         },
       },
-      user: { connect: { id: id } },
-    },
-  });
+      select: {
+        sessions: {
+          select: {
+            id: true,
+          },
+          take: 1,
+        },
+      },
+    });
 
-  try {
-    await sendEmail(capitalizeFirstLetter(name), email.toLowerCase());
+    const user = await getSessionData(acc.sessions[0].id);
+    return Response.json(user);
   } catch (e) {
-    console.error("Something happened when trying to send the email", e);
+    return handleApiError(e);
   }
-  return Response.json({ message: "Success", session });
 }

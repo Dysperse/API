@@ -1,4 +1,8 @@
 // prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -54,7 +58,7 @@ model Profile {
   unlockedThemes String[]
 
   spotifyAuthTokens Json?
-  googleAuthTokens  Json
+  googleAuthTokens  Json?
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
