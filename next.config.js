@@ -7,7 +7,6 @@ const moduleExports = {
   reactStrictMode: true,
   swcMinify: true,
   reactStrictMode: true,
-  transpilePackages: ["@mui/x-charts"],
   async headers() {
     return [
       {
