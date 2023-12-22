@@ -53,6 +53,7 @@ model Profile {
   workingHours Json?
   lastActive   DateTime @default(now())
   private      Boolean  @default(false)
+  pattern      String?
 
   theme          String   @default("violet")
   darkMode       Boolean  @default(true)
