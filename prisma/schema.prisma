@@ -25,6 +25,7 @@ model User {
   password                 String
   twoFactorSecret          String?
   lastReleaseVersionViewed Int     @default(77711209)
+  timeZone                 String  @default("America/Los_Angeles")
 
   profile  Profile?
   agreeTos Boolean  @default(false)

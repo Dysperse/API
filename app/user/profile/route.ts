@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
         email: params.email,
       },
       select: {
+        timeZone: true,
         username: true,
         email: true,
         followers: true,
