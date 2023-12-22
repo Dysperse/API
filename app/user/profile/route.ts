@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
         email: params.email,
       },
       select: {
+        email: true,
         followers: true,
         following: true,
         profile: true,
