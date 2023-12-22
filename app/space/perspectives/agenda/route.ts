@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
     if (!map[params.type]) return Response.json({ error: "Invalid `type`" });
 
     const start = dayjs(params.start);
-    const end = dayjs(params.ed);
+    const end = dayjs(params.end);
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
