@@ -1,5 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
+import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
@@ -47,6 +48,6 @@ export async function POST(req: NextRequest) {
     });
     return Response.json(space);
   } catch (e) {
-    return handleApiError(e)
+    return handleApiError(e);
   }
 }
