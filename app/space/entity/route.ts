@@ -46,5 +46,7 @@ export async function POST(req: NextRequest) {
       },
     });
     return Response.json(space);
-  } catch (e) {}
+  } catch (e) {
+    return handleApiError(e)
+  }
 }
