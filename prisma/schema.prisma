@@ -43,6 +43,7 @@ model User {
   // Friends
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
+  Label     Label[]
 }
 
 model Profile {
@@ -173,9 +174,11 @@ model Label {
   color String @default("violet")
 
   // Location
-  entities Entity[]
-  space    Space?   @relation(fields: [spaceId], references: [id])
-  spaceId  String?
+  entities  Entity[]
+  space     Space?   @relation(fields: [spaceId], references: [id])
+  spaceId   String
+  createdBy User     @relation(fields: [userId], references: [id])
+  userId    String
 
   // Collection?
   collections Collection[]
