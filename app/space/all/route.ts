@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const space = await prisma.entity.findMany({
       where: {
-        AND: [{ type: params.type }, { spaceId }],
+        AND: [{ type: params.type }, { spaceId }, { trash: false }],
       },
     });
 
