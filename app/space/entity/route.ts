@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
         { name: "due", required: false },
         { name: "dateOnly", required: false },
         { name: "pinned", required: false },
+        { name: "labelId", required: false },
         { name: "notifications", required: false },
       ],
       { type: "BODY" }
@@ -31,7 +32,13 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
-
+        label: params.labelId
+          ? {
+              connect: {
+                id: params.labelId,
+              },
+            }
+          : undefined,
         space: {
           connect: {
             id: spaceId,
