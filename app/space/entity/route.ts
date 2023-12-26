@@ -49,3 +49,41 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const { spaceId } = await getIdentifiers(req);
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
+    const data = await prisma.entity.findFirstOrThrow({
+      where: {
+        AND: [{ id: params.id }, { spaceId }],
+      },
+      include: {
+        attachments: true,
+        completionInstances: true,
+        createdBy: {
+          select: {
+            username: true,
+            email: true,
+            profile: {
+              select: {
+                name: true,
+                picture: true,
+              },
+            },
+          },
+        },
+        label: true,
+        space: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}

@@ -11,26 +11,21 @@ export const getIdentifiers = async (req: NextRequest) => {
   const sessionId = authorization.replace("Bearer ", "");
 
   const info = await prisma.session.findFirstOrThrow({
-    where: {
-      id: sessionId,
-    },
+    where: { id: sessionId },
     select: {
       user: {
         select: {
           id: true,
           spaces: {
-            select: {
-              spaceId: true,
-            },
-            where: {
-              selected: true,
-            },
+            select: { spaceId: true },
+            where: { selected: true },
             take: 1,
           },
         },
       },
     },
   });
+
   if (!info.user.spaces[0]?.spaceId || !info.user.id)
     throw new Error("Invalid session");
 
