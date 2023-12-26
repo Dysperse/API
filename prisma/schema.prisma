@@ -242,11 +242,12 @@ model Entity {
   type EntityType
 
   // For all "entities"
-  name        String
-  pinned      Boolean            @default(false)
-  label       Label?             @relation(fields: [labelId], references: [id])
-  note        String?
-  attachments EntityAttachment[]
+  name         String
+  pinned       Boolean            @default(false)
+  label        Label?             @relation(fields: [labelId], references: [id])
+  note         String?
+  lastModified DateTime           @default(now())
+  attachments  EntityAttachment[]
 
   trash          Boolean   @default(false)
   due            DateTime?
