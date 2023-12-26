@@ -67,17 +67,6 @@ export async function GET(req: NextRequest) {
       include: {
         completionInstances: true,
         label: true,
-        createdBy: {
-          select: {
-            email: true,
-            profile: {
-              select: {
-                name: true,
-                theme: true,
-              },
-            },
-          },
-        },
       },
     });
 
