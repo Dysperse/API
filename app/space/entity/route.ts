@@ -61,6 +61,7 @@ export async function GET(req: NextRequest) {
       include: {
         attachments: true,
         completionInstances: true,
+        history: true,
         createdBy: {
           select: {
             username: true,

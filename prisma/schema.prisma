@@ -43,7 +43,10 @@ model User {
   // Friends
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
-  Label     Label[]
+
+  // etc
+  labels Label[]
+  audits Audit[]
 }
 
 model Profile {
@@ -237,6 +240,26 @@ model EntityAttachment {
   entityId String
 }
 
+enum AuditType {
+  CREATE
+  EDIT
+  POSTPONE
+  DELETE
+}
+
+model Audit {
+  id        String    @id @unique @default(uuid())
+  data      String
+  type      AuditType @default(CREATE)
+  timestamp DateTime  @default(now())
+
+  userId String
+  who    User   @relation(fields: [userId], references: [id])
+
+  entity   Entity? @relation(fields: [entityId], references: [id])
+  entityId String?
+}
+
 model Entity {
   id   String     @id @unique @default(uuid())
   type EntityType
@@ -259,6 +282,8 @@ model Entity {
 
   // ONLY for tasks
   completionInstances CompletionInstance[]
+
+  history Audit[]
 
   spaceId String?
   space   Space?  @relation(fields: [spaceId], references: [id])
