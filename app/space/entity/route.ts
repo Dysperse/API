@@ -87,3 +87,18 @@ export async function GET(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { spaceId } = await getIdentifiers(req);
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
+    const data = await prisma.entity.deleteMany({
+      where: {
+        AND: [{ id: params.id }, { spaceId }],
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}

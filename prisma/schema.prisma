@@ -248,6 +248,7 @@ model Entity {
   note        String?
   attachments EntityAttachment[]
 
+  trash          Boolean   @default(false)
   due            DateTime?
   dateOnly       Boolean   @default(true)
   recurrenceRule String?
