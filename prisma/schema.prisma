@@ -35,7 +35,6 @@ model User {
   spaces       SpaceInvite[]
   collections  Collection[]
   integrations Integration[]
-  entities     Entity[]
 
   notificationSettings      NotificationSettings?
   notificationSubscriptions NotificationSubscription[]
@@ -265,20 +264,17 @@ model Entity {
   type EntityType
 
   // For all "entities"
-  name         String
-  pinned       Boolean            @default(false)
-  label        Label?             @relation(fields: [labelId], references: [id])
-  note         String?
-  lastModified DateTime           @default(now())
-  attachments  EntityAttachment[]
+  name        String
+  pinned      Boolean            @default(false)
+  label       Label?             @relation(fields: [labelId], references: [id])
+  note        String?
+  attachments EntityAttachment[]
 
   trash          Boolean   @default(false)
   due            DateTime?
   dateOnly       Boolean   @default(true)
   recurrenceRule String?
   notifications  Int[]     @default([10, 30, 60])
-  userId         String
-  createdBy      User      @relation(fields: [userId], references: [id])
 
   // ONLY for tasks
   completionInstances CompletionInstance[]
