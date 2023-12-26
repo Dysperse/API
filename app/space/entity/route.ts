@@ -63,7 +63,22 @@ export async function GET(req: NextRequest) {
       include: {
         attachments: true,
         completionInstances: true,
-        history: true,
+        history: {
+          include: {
+            who: {
+              select: {
+                username: true,
+                email: true,
+                profile: {
+                  select: {
+                    name: true,
+                    picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         label: true,
         space: {
           select: {
