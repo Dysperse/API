@@ -32,14 +32,16 @@ export async function POST(req: NextRequest) {
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
 
-        createdBy: {
-          connect: {
-            id: userId,
-          },
-        },
         space: {
           connect: {
             id: spaceId,
+          },
+        },
+        history: {
+          create: {
+            type: "CREATE",
+            data: "Created a " + params.type.toLowerCase(),
+            who: { connect: { id: userId } },
           },
         },
       },
