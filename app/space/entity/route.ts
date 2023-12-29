@@ -118,3 +118,29 @@ export async function DELETE(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const { spaceId } = await getIdentifiers(req);
+    const params = await getApiParams(req, [
+      { name: "id", required: true },
+      { name: "name", required: false },
+      { name: "pinned", required: false },
+    ]);
+    const data = await prisma.entity.updateMany({
+      where: {
+        AND: [{ spaceId }, { id: params.id }],
+      },
+      data: {
+        name: params.name ?? undefined,
+        pinned:
+          typeof params.pinned === "string"
+            ? params.pinned === "true"
+            : undefined,
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
