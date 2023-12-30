@@ -126,6 +126,7 @@ export async function PUT(req: NextRequest) {
       { name: "id", required: true },
       { name: "name", required: false },
       { name: "pinned", required: false },
+      { name: "labelId", required: false },
     ]);
     const data = await prisma.entity.updateMany({
       where: {
@@ -133,6 +134,7 @@ export async function PUT(req: NextRequest) {
       },
       data: {
         name: params.name ?? undefined,
+        labelId: params.labelId ?? undefined,
         pinned:
           typeof params.pinned === "string"
             ? params.pinned === "true"
