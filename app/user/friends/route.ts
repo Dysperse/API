@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
       },
     });
     // make
-    const list = data.map((user) => {
+    data.map((user) => {
       if (user.follower.id === userId) {
         user.follower = undefined as any;
         user["user"] = user.following;
