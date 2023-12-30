@@ -7,16 +7,35 @@ export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers(req);
     // get body
-    const data = await prisma.user.findFirstOrThrow({
-      where: { id: userId },
+    const data = await prisma.follows.findMany({
+      where: {
+        OR: [{ followerId: userId }, { followingId: userId }],
+      },
       select: {
-        following: true,
-        followers: true,
+        accepted: true,
+        followerId: true,
+        followingId: true,
+        follower: {
+          select: { id: true, email: true, username: true, profile: true },
+        },
+        following: {
+          select: { id: true, email: true, username: true, profile: true },
+        },
       },
     });
-    // merge following and followers. email will be unique
-    const list = data.following.concat(data.followers);
-    return Response.json(list);
+    // make
+    const list = data.map((user) => {
+      if (user.follower.id === userId) {
+        user.follower = undefined as any;
+        user["user"] = user.following;
+        user.following = undefined as any;
+      } else if (user.following.id === userId) {
+        user.following = undefined as any;
+        user["user"] = user.follower;
+        user.follower = undefined as any;
+      }
+    });
+    return Response.json(data);
   } catch (e) {
     return handleApiError(e);
   }
