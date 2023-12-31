@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
         { name: "dateOnly", required: false },
         { name: "pinned", required: false },
         { name: "labelId", required: false },
-        { name: "trash", required: false },
         { name: "notifications", required: false },
       ],
       { type: "BODY" }
@@ -28,7 +27,6 @@ export async function POST(req: NextRequest) {
       data: {
         name: params.name,
         type: params.type,
-        trash: params.trash === true ? true : undefined,
         note: params.note,
         due: params.due ? new Date(params.due) : undefined,
         dateOnly: Boolean(params.dateOnly ?? true),
@@ -131,6 +129,7 @@ export async function PUT(req: NextRequest) {
       { name: "name", required: false },
       { name: "pinned", required: false },
       { name: "labelId", required: false },
+      { name: "trash", required: false },
     ]);
     const data = await prisma.entity.updateMany({
       where: {
@@ -142,6 +141,10 @@ export async function PUT(req: NextRequest) {
         pinned:
           typeof params.pinned === "string"
             ? params.pinned === "true"
+            : undefined,
+        trash:
+          typeof params.pinned === "string"
+            ? params.trash === "true"
             : undefined,
       },
     });
