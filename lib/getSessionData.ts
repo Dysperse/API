@@ -11,7 +11,7 @@ export async function getSessionData(
   sessionId: string
 ): Promise<DysperseSession> {
   // throw error if session not found
-  const session = await prisma.session.findUnique({
+  const session = await prisma.session.findFirstOrThrow({
     where: {
       id: sessionId,
     },
@@ -27,6 +27,16 @@ export async function getSessionData(
         },
       },
     },
+  });
+  prisma.profile.updateMany({
+    where: {
+      user: {
+        id: session.user.id
+      }
+    },
+    data: {
+      lastActive: new Date()
+    }
   });
   if (!session) {
     throw new Error("Session not found");
