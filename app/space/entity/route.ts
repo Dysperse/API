@@ -69,7 +69,9 @@ export async function GET(req: NextRequest) {
       },
       include: {
         attachments: true,
-        completionInstances: true,
+        completionInstances: {
+          take: 1,
+        },
         history: {
           include: {
             who: {

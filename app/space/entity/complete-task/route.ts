@@ -8,15 +8,9 @@ export async function POST(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers(req);
 
-    const params = await getApiParams(
-      req,
-      [
-        { name: "id", required: true },
-      ],
-      {
-        type: "BODY",
-      }
-    );
+    const params = await getApiParams(req, [{ name: "id", required: true }], {
+      type: "BODY",
+    });
 
     const [instance, audit] = await Promise.all([
       prisma.completionInstance.create({
@@ -54,14 +48,14 @@ export async function DELETE(req: NextRequest) {
         type: "BODY",
       }
     );
-    if(params.recurring ){
-      throw new Error("Coming soon!")
+    if (params.recurring) {
+      throw new Error("Coming soon!");
     }
 
     const [instance, audit] = await Promise.all([
       prisma.completionInstance.deleteMany({
         where: {
-          task:  { id: params.id } ,
+          task: { id: params.id },
         },
       }),
       prisma.audit.create({
