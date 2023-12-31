@@ -22,7 +22,6 @@ export async function POST(req: NextRequest) {
       ],
       { type: "BODY" }
     );
-
     const space = await prisma.entity.create({
       data: {
         name: params.name,
