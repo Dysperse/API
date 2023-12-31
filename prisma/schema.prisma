@@ -244,6 +244,7 @@ enum AuditType {
   EDIT
   POSTPONE
   DELETE
+  COMPLETE_TASK
 }
 
 model Audit {
