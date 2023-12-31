@@ -54,13 +54,18 @@ export async function GET(req: NextRequest) {
     // Retrieve tasks in a single query
     const tasks = await prisma.entity.findMany({
       where: {
-        space: { id: spaceId },
-        OR: [
+        AND: [
+          { space: { id: spaceId } },
+          { trash: false },
           {
-            recurrenceRule: null,
-            due: { gte: start.toDate(), lte: end.toDate() },
+            OR: [
+              {
+                recurrenceRule: null,
+                due: { gte: start.toDate(), lte: end.toDate() },
+              },
+              { recurrenceRule: { not: null } },
+            ],
           },
-          { recurrenceRule: { not: null } },
         ],
       },
       orderBy: [{ pinned: "desc" }, { name: "asc" }],
