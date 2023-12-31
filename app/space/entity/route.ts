@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
         { name: "dateOnly", required: false },
         { name: "pinned", required: false },
         { name: "labelId", required: false },
+        { name: "trash", required: false },
         { name: "notifications", required: false },
       ],
       { type: "BODY" }
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
       data: {
         name: params.name,
         type: params.type,
+        trash: params.trash === true ? true : undefined,
         note: params.note,
         due: params.due ? new Date(params.due) : undefined,
         dateOnly: Boolean(params.dateOnly ?? true),
