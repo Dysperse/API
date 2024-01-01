@@ -142,7 +142,7 @@ export async function PUT(req: NextRequest) {
             ? params.pinned === "true"
             : undefined,
         trash:
-          typeof params.pinned === "string"
+          typeof params.trash === "string"
             ? params.trash === "true"
             : undefined,
       },
