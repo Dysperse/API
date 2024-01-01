@@ -228,6 +228,7 @@ model Collection {
 enum EntityAttachmentType {
   IMAGE
   LINK
+  LOCATION
 }
 
 model EntityAttachment {
