@@ -31,15 +31,18 @@ export async function PUT(req: NextRequest) {
   try {
     // get body
     const { userId } = await getIdentifiers(req);
-    const params = await getApiParams(req, [
-      { name: "color", required: false },
-    ]);
+    const params = await getApiParams(
+      req,
+      [{ name: "color", required: false }],
+      { type: "BODY" }
+    );
     const data = await prisma.profile.updateMany({
       where: {
         user: { id: userId },
       },
       data: {
         theme: params.color || undefined,
+        darkMode: params.darkMode ?? undefined,
       },
     });
     return Response.json(data);
