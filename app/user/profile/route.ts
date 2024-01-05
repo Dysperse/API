@@ -1,4 +1,5 @@
 import { getApiParams } from "@/lib/getApiParams";
+import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
@@ -18,6 +19,27 @@ export async function GET(req: NextRequest) {
         followers: true,
         following: true,
         profile: true,
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    // get body
+    const { userId } = await getIdentifiers(req);
+    const params = await getApiParams(req, [
+      { name: "color", required: false },
+    ]);
+    const data = await prisma.profile.updateMany({
+      where: {
+        user: { id: userId },
+      },
+      data: {
+        theme: params.color || undefined,
       },
     });
     return Response.json(data);
