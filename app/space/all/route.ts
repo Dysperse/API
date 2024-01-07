@@ -14,6 +14,10 @@ export async function GET(req: NextRequest) {
       where: {
         AND: [{ type: params.type }, { spaceId }, { trash: false }],
       },
+      include: {
+        completionInstances: true,
+        label: true,
+      }
     });
 
     return Response.json(space);
