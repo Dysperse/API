@@ -113,3 +113,42 @@ export async function DELETE(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const { userId } = await getIdentifiers(req);
+    // get body
+    const params = await getApiParams(
+      req,
+      [
+        { name: "blocked", required: false },
+        { name: "accepted", required: false },
+        { name: "followerId", required: true },
+        { name: "followingId", required: true },
+      ],
+      { type: "BODY" }
+    );
+
+    const data = await prisma.follows.update({
+      where: {
+        followerId_followingId: {
+          followerId: params.followerId,
+          followingId: params.followingId,
+        },
+      },
+      data: {
+        blocked:
+          typeof params.blocked === "boolean"
+            ? Boolean(params.blocked)
+            : undefined,
+        accepted:
+          typeof params.accepted === "boolean"
+            ? Boolean(params.accepted)
+            : undefined,
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}

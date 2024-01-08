@@ -98,6 +98,7 @@ model Follows {
   followingId String
 
   accepted Boolean @default(false)
+  blocked Boolean @default(false)
 
   @@id([followerId, followingId])
   @@unique([followerId, followingId])
