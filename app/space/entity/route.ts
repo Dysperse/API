@@ -51,6 +51,16 @@ export async function POST(req: NextRequest) {
           },
         },
       },
+      include: {
+        completionInstances: true,
+        label: true,
+        attachments: {
+          select: {
+            data: true,
+            type: true,
+          },
+        },
+      },
     });
     return Response.json(space);
   } catch (e) {
@@ -142,9 +152,7 @@ export async function PUT(req: NextRequest) {
           typeof params.pinned === "string"
             ? params.pinned === "true"
             : undefined,
-        due:
-          params.due ? new Date(params.due)
-            : undefined,
+        due: params.due ? new Date(params.due) : undefined,
         trash:
           typeof params.trash === "string"
             ? params.trash === "true"

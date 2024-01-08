@@ -17,7 +17,13 @@ export async function GET(req: NextRequest) {
       include: {
         completionInstances: true,
         label: true,
-      }
+        attachments: {
+          select: {
+            data: true,
+            type: true,
+          },
+        },
+      },
     });
 
     return Response.json(space);
