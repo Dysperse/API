@@ -57,22 +57,22 @@ export async function POST(req: NextRequest) {
     );
 
     // get body
-    const followerIdRequest = await prisma.user.findFirstOrThrow({
+    const followingIdRequest = await prisma.user.findFirstOrThrow({
       where: {
         OR: [{ username: params.email }, { email: params.email }],
       },
     });
-    const followerId = followerIdRequest.id;
+    const followingId = followingIdRequest.id;
     const data = await prisma.follows.create({
       data: {
-        following: {
+        follower: {
           connect: {
             id: userId,
           },
         },
-        follower: {
+        following: {
           connect: {
-            id: followerId,
+            id: followingId,
           },
         },
       },
