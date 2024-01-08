@@ -82,3 +82,31 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { userId } = await getIdentifiers(req);
+    // get body
+    const params = await getApiParams(
+      req,
+      [{ name: "userId", required: true }],
+      { type: "BODY" }
+    );
+
+    const data = await prisma.follows.deleteMany({
+      where: {
+        OR: [
+          {
+            AND: [{ followerId: userId }, { followingId: params.userId }],
+          },
+          {
+            AND: [{ followerId: params.userId }, { followingId: userId }],
+          },
+        ],
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
