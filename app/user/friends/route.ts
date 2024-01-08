@@ -7,12 +7,16 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers(req);
+    const params = await getApiParams(req, [
+      { name: "requests", required: false },
+    ]);
+
     // get body
     const data = await prisma.follows.findMany({
       where: {
         AND: [
           { OR: [{ followerId: userId }, { followingId: userId }] },
-          { accepted: true },
+          { accepted: params.requests !== "true" },
         ],
       },
       select: {
