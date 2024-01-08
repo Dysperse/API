@@ -16,9 +16,7 @@ export async function GET(req: NextRequest) {
       where: {
         AND: [
           { OR: [{ followerId: userId }, { followingId: userId }] },
-          {
-            accepted: params.requests ? params.requests !== "true" : undefined,
-          },
+          { accepted: params.requests ? undefined : true },
         ],
       },
       select: {
