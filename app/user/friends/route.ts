@@ -10,9 +10,8 @@ export async function GET(req: NextRequest) {
     // get body
     const data = await prisma.follows.findMany({
       where: {
-        OR: [
-          { followerId: userId },
-          { followingId: userId },
+        AND: [
+          { OR: [{ followerId: userId }, { followingId: userId }] },
           { accepted: true },
         ],
       },
