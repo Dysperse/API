@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
           },
         ],
       },
-      orderBy: [{ pinned: "desc" }, { name: "asc" }],
+      orderBy: [{ pinned: "desc" }, { completionInstances: { _count: "asc" } }],
       include: {
         completionInstances: true,
         label: true,
