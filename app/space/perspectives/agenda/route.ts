@@ -83,8 +83,8 @@ export async function GET(req: NextRequest) {
 
     tasks = tasks.sort(
       (a, b) =>
-        (a.completionInstances.length === 0 ? 1 : 0) -
-        (b.completionInstances.length === 0 ? 1 : 0)
+        (a.completionInstances.length === 0 ? 0 : 1) -
+        (b.completionInstances.length === 0 ? 0 : 1)
     );
 
     const recurringTasks = tasks.filter((task) => task.recurrenceRule);
