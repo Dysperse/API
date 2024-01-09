@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
     );
 
     // Retrieve tasks in a single query
-    const tasks = await prisma.entity.findMany({
+    let tasks = await prisma.entity.findMany({
       where: {
         AND: [
           { space: { id: spaceId } },
@@ -80,6 +80,12 @@ export async function GET(req: NextRequest) {
         },
       },
     });
+
+    tasks = tasks.sort(
+      (a, b) =>
+        (a.completionInstances.length === 0 ? 1 : 0) -
+        (b.completionInstances.length === 0 ? 1 : 0)
+    );
 
     const recurringTasks = tasks.filter((task) => task.recurrenceRule);
 
