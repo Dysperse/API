@@ -138,6 +138,7 @@ export async function PUT(req: NextRequest) {
       { name: "name", required: false },
       { name: "pinned", required: false },
       { name: "due", required: false },
+      { name: "note", required: false },
       { name: "labelId", required: false },
       { name: "trash", required: false },
     ]);
@@ -153,6 +154,7 @@ export async function PUT(req: NextRequest) {
             ? params.pinned === "true"
             : undefined,
         due: params.due ? new Date(params.due) : undefined,
+        note: typeof params.note === "string" ? params.note : undefined,
         trash:
           typeof params.trash === "string"
             ? params.trash === "true"
