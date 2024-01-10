@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
           },
         ],
       },
-      orderBy: [{ pinned: "desc" }, { completionInstances: { _count: "asc" } }],
+      orderBy: { agendaOrder: "asc" },
       include: {
         completionInstances: true,
         label: true,

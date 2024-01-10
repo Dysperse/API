@@ -284,6 +284,9 @@ model Entity {
 
   history Audit[]
 
+  agendaOrder String?
+  labelOrder String?
+
   spaceId String?
   space   Space?  @relation(fields: [spaceId], references: [id])
   labelId String?

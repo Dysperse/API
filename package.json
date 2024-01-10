@@ -36,6 +36,7 @@
     "hex-to-rgba": "^2.0.1",
     "ical": "^0.8.0",
     "ical-generator": "^5.0.1",
+    "lexorank": "^1.0.5",
     "next": "^13.5.5W",
     "next-pwa": "^5.6.0",
     "node-2fa": "^2.0.3",
