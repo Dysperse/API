@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
                 profile: {
                   select: {
                     name: true,
+                    picture: true,
                   },
                 },
               },
