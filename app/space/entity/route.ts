@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
         { name: "pinned", required: false },
         { name: "labelId", required: false },
         { name: "notifications", required: false },
+        { name: "agendaOrder", required: false },
       ],
       { type: "BODY" }
     );
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
         name: params.name,
         type: params.type,
         note: params.note,
+        agendaOrder: params.agendaOrder || "0|hzzzzz:",
         due: params.due ? new Date(params.due) : undefined,
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
@@ -156,7 +158,10 @@ export async function PUT(req: NextRequest) {
             : undefined,
         due: params.due ? new Date(params.due) : undefined,
         note: typeof params.note === "string" ? params.note : undefined,
-        agendaOrder: typeof params.agendaOrder === "string" ? params.agendaOrder : undefined,
+        agendaOrder:
+          typeof params.agendaOrder === "string"
+            ? params.agendaOrder
+            : undefined,
         trash:
           typeof params.trash === "string"
             ? params.trash === "true"
