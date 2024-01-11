@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
         color: true,
         pattern: true,
         _count: true,
+        integrations: true,
         members: {
           select: {
             id: true,

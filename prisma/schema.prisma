@@ -131,7 +131,7 @@ model Space {
   labels      Label[]
   entities    Entity[]
   members     SpaceInvite[]
-  Integration Integration[]
+  integrations Integration[]
 }
 
 // Integrations
