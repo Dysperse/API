@@ -141,6 +141,7 @@ export async function PUT(req: NextRequest) {
       { name: "note", required: false },
       { name: "labelId", required: false },
       { name: "trash", required: false },
+      { name: "agendaOrder", required: false },
     ]);
     const data = await prisma.entity.updateMany({
       where: {
@@ -155,6 +156,7 @@ export async function PUT(req: NextRequest) {
             : undefined,
         due: params.due ? new Date(params.due) : undefined,
         note: typeof params.note === "string" ? params.note : undefined,
+        agendaOrder: typeof params.agendaOrder === "string" ? params.agendaOrder : undefined,
         trash:
           typeof params.trash === "string"
             ? params.trash === "true"
