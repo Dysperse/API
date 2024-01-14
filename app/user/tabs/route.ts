@@ -74,9 +74,10 @@ export async function PUT(req: NextRequest) {
       [
         { name: "id", required: true },
         { name: "order", required: false },
+        { name: "params", required: false },
       ],
       {
-        type: "QUERY",
+        type: "BODY",
       }
     );
 
@@ -88,6 +89,7 @@ export async function PUT(req: NextRequest) {
       },
       data: {
         order: params.order ? params.order : undefined,
+        params: params.params ? params.params : undefined,
       },
     });
     return Response.json(tab);
