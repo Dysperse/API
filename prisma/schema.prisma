@@ -109,6 +109,7 @@ model Tab {
   id     String @id @unique @default(uuid())
   slug   String
   params Json?
+  order String?
   user   User   @relation(fields: [userId], references: [id])
   userId String
 }

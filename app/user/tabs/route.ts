@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { LexoRank } from "lexorank";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
         slug: params.slug,
         params: params.params,
         userId,
+        order: LexoRank.max().toString(),
       },
     });
     return Response.json(tab);
