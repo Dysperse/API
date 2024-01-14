@@ -66,3 +66,32 @@ export async function DELETE(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "order", required: false },
+      ],
+      {
+        type: "QUERY",
+      }
+    );
+
+    const { userId } = await getIdentifiers(req);
+
+    const tab = await prisma.tab.updateMany({
+      where: {
+        AND: [{ id: params.id }, { userId }],
+      },
+      data: {
+        order: params.order ? params.order : undefined,
+      },
+    });
+    return Response.json(tab);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
