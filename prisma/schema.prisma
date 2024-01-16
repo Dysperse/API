@@ -98,7 +98,7 @@ model Follows {
   followingId String
 
   accepted Boolean @default(false)
-  blocked Boolean @default(false)
+  blocked  Boolean @default(false)
 
   @@id([followerId, followingId])
   @@unique([followerId, followingId])
@@ -106,11 +106,11 @@ model Follows {
 
 // Tabs
 model Tab {
-  id     String @id @unique @default(uuid())
+  id     String  @id @unique @default(uuid())
   slug   String
   params Json?
-  order String?
-  user   User   @relation(fields: [userId], references: [id])
+  order  String?
+  user   User    @relation(fields: [userId], references: [id])
   userId String
 }
 
@@ -128,10 +128,10 @@ model Space {
   pattern    String?
   vanishMode Boolean @default(false)
 
-  collections Collection[]
-  labels      Label[]
-  entities    Entity[]
-  members     SpaceInvite[]
+  collections  Collection[]
+  labels       Label[]
+  entities     Entity[]
+  members      SpaceInvite[]
   integrations Integration[]
 }
 
@@ -213,7 +213,7 @@ model Collection {
   public      Boolean @default(true)
   pinned      Boolean @default(false)
   archived    Boolean @default(false)
-  emoji   String?
+  emoji       String?
 
   // Location
   space   Space?  @relation(fields: [spaceId], references: [id])
@@ -286,7 +286,7 @@ model Entity {
   history Audit[]
 
   agendaOrder String?
-  labelOrder String?
+  labelOrder  String?
 
   spaceId String?
   space   Space?  @relation(fields: [spaceId], references: [id])
