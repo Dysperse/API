@@ -213,7 +213,7 @@ model Collection {
   public      Boolean @default(true)
   pinned      Boolean @default(false)
   archived    Boolean @default(false)
-  wallpaper   String?
+  emoji   String?
 
   // Location
   space   Space?  @relation(fields: [spaceId], references: [id])
