@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
       [
         { name: "slug", required: true },
         { name: "params", required: false },
+        { name: "isCollection", required: false },
       ],
       { type: "BODY" }
     );
