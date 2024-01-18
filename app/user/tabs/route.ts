@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
       [
         { name: "slug", required: true },
         { name: "params", required: false },
-        { name: "isCollection", required: false },
       ],
       { type: "BODY" }
     );
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest) {
         params: params.params,
         userId,
         order: LexoRank.max().toString(),
-        ...(params.slug.includes("/collection/") && {
+        ...(params.slug.includes("/collections/") && {
           collection: { connect: { id: params.params.id } },
         }),
       },
