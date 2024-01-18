@@ -12,6 +12,14 @@ export async function GET(req: NextRequest) {
       where: {
         userId,
       },
+      include: {
+        collection: {
+          select: { name: true, emoji: true },
+          where: {
+            OR: [{ public: true }, { AND: [{ public: false }, { userId }] }],
+          },
+        },
+      },
     });
     return Response.json(tabs);
   } catch (e) {
