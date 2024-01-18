@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
       where: {
         userId,
       },
+      orderBy: { order: "asc" },
       include: {
         collection: {
           select: { name: true, emoji: true },
