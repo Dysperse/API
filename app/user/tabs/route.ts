@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
     const params = await getApiParams(
       req,
       [
-        { name: "href", required: true },
+        { name: "slug", required: true },
+        { name: "params", required: false },
         { name: "isCollection", required: false },
       ],
       { type: "BODY" }
@@ -44,7 +45,8 @@ export async function POST(req: NextRequest) {
     const { userId } = await getIdentifiers(req);
     const tab = await prisma.tab.create({
       data: {
-        href: params.href,
+        slug: params.slug,
+        params: params.params,
         userId,
         order: LexoRank.max().toString(),
         ...(params.isCollection && {
@@ -84,7 +86,8 @@ export async function PUT(req: NextRequest) {
       [
         { name: "id", required: true },
         { name: "order", required: false },
-        { name: "href", required: false },
+        { name: "params", required: false },
+        { name: "slug", required: false },
       ],
       {
         type: "BODY",
@@ -99,7 +102,8 @@ export async function PUT(req: NextRequest) {
       },
       data: {
         order: params.order ? params.order : undefined,
-        href: params.href ? params.href : undefined,
+        params: params.params ? params.params : undefined,
+        slug: params.slug ? params.slug : undefined,
       },
     });
     return Response.json(tab);

@@ -106,8 +106,9 @@ model Follows {
 
 // Tabs
 model Tab {
-  id   String @id @unique @default(uuid())
-  href String
+  id     String @id @unique @default(uuid())
+  slug   String
+  params Json?
 
   collection   Collection? @relation(fields: [collectionId], references: [id])
   collectionId String?
