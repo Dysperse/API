@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         userId,
         order: LexoRank.max().toString(),
         ...(params.slug.includes("/collections/") && {
-          collection: { connect: { id: params.params.id } },
+          collectionId: params.params.id,
         }),
       },
     });
