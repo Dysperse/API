@@ -106,9 +106,13 @@ model Follows {
 
 // Tabs
 model Tab {
-  id     String  @id @unique @default(uuid())
+  id     String @id @unique @default(uuid())
   slug   String
   params Json?
+
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  collectionId String?
+
   order  String?
   user   User    @relation(fields: [userId], references: [id])
   userId String
@@ -225,6 +229,7 @@ model Collection {
   // Stuff
   labels       Label[]
   integrations Integration[]
+  tab          Tab[]
 }
 
 enum EntityAttachmentType {
