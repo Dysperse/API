@@ -41,6 +41,9 @@ export async function POST(req: NextRequest) {
         params: params.params,
         userId,
         order: LexoRank.max().toString(),
+        ...(params.isCollection && {
+          collection: { connect: { id: params.params.id } },
+        }),
       },
     });
     return Response.json(tab);
