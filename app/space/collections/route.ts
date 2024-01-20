@@ -85,9 +85,9 @@ export async function PUT(req: NextRequest) {
       ],
       { type: "BODY" }
     );
-
+    let data = {};
     if (params.name || params.emoji || params.description) {
-      const data = await prisma.collection.update({
+      data = await prisma.collection.update({
         where: { id: params.id as string },
         data: {
           name: params.name,
@@ -108,7 +108,7 @@ export async function PUT(req: NextRequest) {
         where: { userId },
       });
       // If the label is not in the new list, remove it, otherwise add it
-      await prisma.$transaction(
+      data = await prisma.$transaction(
         labels.map((label) => {
           return prisma.label.update({
             where: { id: label.id },
