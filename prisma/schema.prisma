@@ -68,6 +68,7 @@ model Profile {
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Tab    Tab[]
 }
 
 // Notifications
@@ -112,6 +113,9 @@ model Tab {
 
   collection   Collection? @relation(fields: [collectionId], references: [id])
   collectionId String?
+
+  profileId String?
+  profile   Profile? @relation(fields: [profileId], references: [userId])
 
   order  String?
   user   User    @relation(fields: [userId], references: [id])

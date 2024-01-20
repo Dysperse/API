@@ -52,6 +52,9 @@ export async function POST(req: NextRequest) {
         ...(params.slug.includes("/collections/") && {
           collectionId: params.params.id,
         }),
+        ...(params.slug.includes("/users/") && {
+          userId: params.params.id,
+        }),
       },
     });
     return Response.json(tab);
