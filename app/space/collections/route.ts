@@ -69,3 +69,61 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const { userId, spaceId } = await getIdentifiers(req);
+
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "name", required: false },
+        { name: "emoji", required: false },
+        { name: "description", required: false },
+        { name: "labels", required: false },
+      ],
+      { type: "BODY" }
+    );
+
+    const data = await prisma.collection.update({
+      where: { id: params.id as string },
+      data: {
+        name: params.name,
+        description: params.description,
+        emoji: params.emoji,
+        space: {
+          connect: { id: spaceId },
+        },
+        createdBy: {
+          connect: { id: userId },
+        },
+      },
+    });
+
+    if (params.labels) {
+      const labels = await prisma.label.findMany({
+        where: { collections: { some: { id: params.id as string } } },
+      });
+      // If the label is not in the new list, remove it, otherwise add it
+      await prisma.$transaction(
+        labels.map((label) => {
+          return prisma.label.update({
+            where: { id: label.id },
+            data: {
+              collections: {
+                [params.labels.includes(label.id) ? "connect" : "disconnect"]: {
+                  id: params.id as string,
+                },
+              },
+            },
+          });
+        })
+      );
+    }
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
