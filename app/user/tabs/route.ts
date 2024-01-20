@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
           collectionId: params.params.id,
         }),
         ...(params.slug.includes("/users/") && {
-          userId: params.params.id,
+          profile: { user: { connect: { email: params.params.id } } },
         }),
       },
     });
