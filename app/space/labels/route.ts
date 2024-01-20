@@ -17,6 +17,33 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function PUT(req: NextRequest) {
+  try {
+    await getIdentifiers(req);
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "name", required: false },
+        { name: "color", required: false },
+        { name: "emoji", required: false },
+      ],
+      { type: "BODY" }
+    );
+    const labels = await prisma.label.update({
+      where: { id: params.id },
+      data: {
+        name: params.name ?? undefined,
+        color: params.color ?? undefined,
+        emoji: params.emoji ?? undefined,
+      },
+    });
+    return Response.json(labels);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers(req);
