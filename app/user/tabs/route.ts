@@ -14,6 +14,9 @@ export async function GET(req: NextRequest) {
       },
       orderBy: { order: "asc" },
       include: {
+        profile: {
+          select: { name: true },
+        },
         collection: {
           select: { name: true, emoji: true },
           where: {
@@ -43,6 +46,23 @@ export async function POST(req: NextRequest) {
     }
 
     const { userId } = await getIdentifiers(req);
+    let profileId = "";
+
+    if (params.slug.includes("/users/")) {
+      const user = await prisma.profile.findFirstOrThrow({
+        where: {
+          user: { email: params.params.id },
+        },
+        select: {
+          userId: true,
+        },
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      profileId = user.userId;
+    }
+
     const tab = await prisma.tab.create({
       data: {
         slug: params.slug,
@@ -52,9 +72,7 @@ export async function POST(req: NextRequest) {
         ...(params.slug.includes("/collections/") && {
           collectionId: params.params.id,
         }),
-        ...(params.slug.includes("/users/") && {
-          profile: { user: { connect: { email: params.params.id } } },
-        }),
+        ...(params.slug.includes("/users/") && { profileId }),
       },
     });
     return Response.json(tab);
