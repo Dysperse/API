@@ -6,32 +6,26 @@ import { Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { NextRequest } from "next/server";
 
+export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
+  include: {
+    completionInstances: true,
+    label: true,
+    attachments: {
+      select: {
+        data: true,
+        type: true,
+      },
+    },
+  },
+  where: {
+    trash: false,
+  },
+};
+
 export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers(req);
     const params = await getApiParams(req, [{ name: "id", required: true }]);
-
-    const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
-      include: {
-        completionInstances: true,
-        label: true,
-        attachments: {
-          select: {
-            data: true,
-            type: true,
-          },
-        },
-      },
-      where: {
-        trash: false,
-      },
-      // where: {
-      //   OR: [
-      //     { collection: { id: params.id } },
-      //     { label: { collections: { some: { id: params.id } } } },
-      //   ],
-      // },
-    };
 
     const data = await prisma.collection.findFirstOrThrow({
       where: {

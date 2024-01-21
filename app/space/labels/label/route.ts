@@ -3,6 +3,7 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
+import { entitiesSelection } from "../../collections/collection/route";
 
 export async function GET(req: NextRequest) {
   try {
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const data = await prisma.label.findFirstOrThrow({
       where: { AND: [{ id: params.id }, { spaceId }] },
-      include: { _count: true, collections: true },
+      include: { _count: true, collections: true, entities: entitiesSelection },
     });
 
     return Response.json(data);
