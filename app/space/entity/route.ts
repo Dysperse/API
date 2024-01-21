@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
         notifications: params.notifications,
         collection: params.collectionId
           ? { connect: { id: params.collectionId } }
-          : undefiend,
+          : undefined,
         label: params.labelId
           ? {
               connect: {
