@@ -22,6 +22,9 @@ export async function GET(req: NextRequest) {
           },
         },
       },
+      where: {
+        trash: false,
+      },
       // where: {
       //   OR: [
       //     { collection: { id: params.id } },
