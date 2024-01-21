@@ -11,8 +11,9 @@ export async function GET(req: NextRequest) {
 
     const data = await prisma.label.findFirstOrThrow({
       where: { AND: [{ id: params.id }, { spaceId }] },
-      include: { _count: true },
+      include: { _count: true, collections: true },
     });
+
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);
