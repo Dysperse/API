@@ -117,6 +117,9 @@ model Tab {
   profileId String?
   profile   Profile? @relation(fields: [profileId], references: [userId])
 
+  labelId String?
+  label   Label?  @relation(fields: [labelId], references: [id])
+
   order  String?
   user   User    @relation(fields: [userId], references: [id])
   userId String
@@ -194,6 +197,7 @@ model Label {
 
   // Collection?
   collections Collection[]
+  tab         Tab[]
 }
 
 enum EntityType {

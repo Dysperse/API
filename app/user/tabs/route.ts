@@ -17,6 +17,12 @@ export async function GET(req: NextRequest) {
         profile: {
           select: { name: true },
         },
+        label: {
+          select: {
+            name: true,
+            emoji: true,
+          },
+        },
         collection: {
           select: { name: true, emoji: true },
           where: {
