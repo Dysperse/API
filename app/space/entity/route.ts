@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
         { name: "labelId", required: false },
         { name: "notifications", required: false },
         { name: "agendaOrder", required: false },
+        { name: "collectionId", required: false },
       ],
       { type: "BODY" }
     );
@@ -33,6 +34,7 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
+        collectionId: params.collectionId ?? undefined,
         label: params.labelId
           ? {
               connect: {
