@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
       { name: "start", required: true },
       { name: "end", required: true },
       { name: "id", required: true },
+      { name: "all", required: false },
     ]);
 
     const map = {
@@ -56,12 +57,14 @@ export async function GET(req: NextRequest) {
     let tasks = await prisma.entity.findMany({
       where: {
         AND: [
-          {
-            OR: [
-              { collectionId: params.id },
-              { label: { collections: { some: { id: params.id } } } },
-            ],
-          },
+          params.all
+            ? {}
+            : {
+                OR: [
+                  { collectionId: params.id },
+                  { label: { collections: { some: { id: params.id } } } },
+                ],
+              },
           { space: { id: spaceId } },
           { trash: false },
           {
