@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
           collectionId: params.params.id,
         }),
         ...(params.slug.includes("/users/") && { profileId }),
+        ...(params.slug.includes("/labels/") && { labelId: params.params.id }),
       },
     });
     return Response.json(tab);
