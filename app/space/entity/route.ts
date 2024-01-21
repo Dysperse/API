@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
-        collectionId: params.collectionId ?? undefined,
+        collection: { connect: { id: params.collectionId } } ?? undefined,
         label: params.labelId
           ? {
               connect: {
