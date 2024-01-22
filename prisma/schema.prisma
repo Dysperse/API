@@ -227,6 +227,8 @@ model Collection {
   archived    Boolean @default(false)
   emoji       String?
 
+  labelOrder Json?
+
   // Location
   space   Space?  @relation(fields: [spaceId], references: [id])
   spaceId String?
