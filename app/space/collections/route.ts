@@ -82,24 +82,19 @@ export async function PUT(req: NextRequest) {
         { name: "emoji", required: false },
         { name: "description", required: false },
         { name: "labels", required: false },
-        { name: "labelOrder", required: false },
+        { name: "gridOrder", required: false },
       ],
       { type: "BODY" }
     );
 
-    if (
-      params.name ||
-      params.emoji ||
-      params.description ||
-      params.labelOrder
-    ) {
+    if (params.name || params.emoji || params.description || params.gridOrder) {
       await prisma.collection.update({
         where: { id: params.id as string },
         data: {
           name: params.name,
           description: params.description,
           emoji: params.emoji,
-          labelOrder: params.labelOrder || undefined,
+          gridOrder: params.gridOrder || undefined,
           space: {
             connect: { id: spaceId },
           },
