@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
         ...entitiesSelection,
       });
       return Response.json({
+        gridOrder: labeledEntities.map((label) => label.id),
         labels: labeledEntities,
         entities: unlabeledEntities,
       });
