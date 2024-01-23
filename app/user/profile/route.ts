@@ -33,7 +33,11 @@ export async function PUT(req: NextRequest) {
     const { userId } = await getIdentifiers(req);
     const params = await getApiParams(
       req,
-      [{ name: "color", required: false }],
+      [
+        { name: "color", required: false },
+        { name: "darkMode", required: false },
+        { name: "pattern", required: false },
+      ],
       { type: "BODY" }
     );
     const data = await prisma.profile.updateMany({
@@ -43,6 +47,7 @@ export async function PUT(req: NextRequest) {
       data: {
         theme: params.color || undefined,
         darkMode: params.darkMode ?? undefined,
+        pattern: params.pattern ?? undefined,
       },
     });
     return Response.json(data);
