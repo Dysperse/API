@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
         name: params.name,
         description: params.description,
         emoji: params.emoji,
+        gridOrder: params.labels.map((i) => i.id),
         space: {
           connect: { id: spaceId },
         },
