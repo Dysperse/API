@@ -25,11 +25,14 @@ export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
 export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers(req);
-    const params = await getApiParams(req, [{ name: "id", required: true }]);
+    const params = await getApiParams(req, [
+      { name: "id", required: true },
+      { name: "all", required: false },
+    ]);
 
     const data = await prisma.collection.findFirstOrThrow({
       where: {
-        AND: [{ userId }, { id: params.id }],
+        AND: [{ userId }, { id: params.all ? params.id : undefined }],
       },
       include: {
         _count: true,
