@@ -75,9 +75,10 @@ export async function POST(req: NextRequest) {
         params: params.params,
         userId,
         order: LexoRank.max().toString(),
-        ...(params.slug.includes("/collections/") && {
-          collectionId: params.params.id,
-        }),
+        ...(params.slug.includes("/collections/") &&
+          params.params.id !== "all" && {
+            collectionId: params.params.id,
+          }),
         ...(params.slug.includes("/users/") && { profileId }),
         ...(params.slug.includes("/labels/") && { labelId: params.params.id }),
       },
