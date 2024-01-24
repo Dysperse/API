@@ -65,7 +65,6 @@ export async function POST(req: NextRequest) {
       }
       profileId = user.userId;
     }
-
     const tab = await prisma.tab.create({
       data: {
         slug: params.slug,
