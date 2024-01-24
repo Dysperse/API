@@ -56,7 +56,12 @@ export async function GET(req: NextRequest) {
       },
       include: {
         _count: true,
-        entities: entitiesSelection,
+        entities: {
+          ...entitiesSelection,
+          where: {
+            AND: [{ trash: false }, { label: null }],
+          },
+        },
         labels: {
           include: {
             entities: entitiesSelection,
