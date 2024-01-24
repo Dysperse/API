@@ -1,13 +1,3 @@
 {
-  "regions": ["pdx1"],
-  "crons": [
-    {
-      "path": "/api/cron/deleteExpiredQrCodes",
-      "schedule": "0 5 * * *"
-    },
-    {
-      "path": "/api/cron/deleteVanishingTasks",
-      "schedule": "0 5 * * *"
-    }
-  ]
+  "regions": ["pdx1"]
 }
