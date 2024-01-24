@@ -14,9 +14,6 @@ export async function GET(req: NextRequest) {
       },
       orderBy: { order: "asc" },
       include: {
-        profile: {
-          select: { name: true },
-        },
         label: {
           select: {
             name: true,
