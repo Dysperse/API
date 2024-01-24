@@ -79,7 +79,6 @@ export async function POST(req: NextRequest) {
           params.params.id !== "all" && {
             collectionId: params.params.id,
           }),
-        ...(params.slug.includes("/users/") && { profileId }),
         ...(params.slug.includes("/labels/") && { labelId: params.params.id }),
       },
     });
