@@ -6,11 +6,11 @@ import { NextRequest } from "next/server";
 const STORAGE_UNITS = {
   max: 1000,
   entityMultipliers: {
-    task: 1.4,
+    task: 1.5,
     item: 1.3,
     note: 1.1,
-    labels: 0.5,
-    collections: 1.1,
+    labels: 0.7,
+    collections: 1.2,
   },
 };
 
@@ -75,6 +75,7 @@ export async function GET(req: NextRequest) {
       0;
 
     const storage = {
+      limit: STORAGE_UNITS.max,
       used: taskBreakdown + itemBreakdown + noteBreakdown + labelBreakdown,
       breakdown: {
         tasks: taskBreakdown,
@@ -83,7 +84,6 @@ export async function GET(req: NextRequest) {
         labels: labelBreakdown,
         collections: collectionBreakdown,
       },
-      limit: STORAGE_UNITS.max,
     };
 
     return Response.json({
