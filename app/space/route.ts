@@ -87,10 +87,8 @@ export async function GET(req: NextRequest) {
     };
 
     return Response.json({
-      space: {
-        ...space,
-        entities: undefined,
-      },
+      ...space,
+      entities: undefined,
       storage,
     });
   } catch (e) {
