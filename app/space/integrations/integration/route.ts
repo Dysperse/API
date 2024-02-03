@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   try {
     const params = await getApiParams(req, [{ name: "id", required: false }]);
     const data = await prisma.integration.findMany({
-      where: { id: params.id },
+      where: params.id ? { id: params.id } : undefined,
       include: {
         collection: {
           include: { _count: true },
