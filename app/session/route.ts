@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
         lastActive: new Date(),
       },
     });
-    const user = await getSessionData(sessionId);
+    const user = await getSessionData(sessionId as string);
 
     return Response.json(user);
   } catch (e) {
