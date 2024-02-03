@@ -16,10 +16,12 @@ export async function GET(req: NextRequest) {
         createdBy: true,
       },
     });
-    return Response.json({
-      data,
-      integration: integrations.find((i) => i.slug === params.id),
-    });
+    return Response.json(
+      data.map((integration) => ({
+        integration,
+        about: integrations.find((i) => i.slug === integration.name),
+      }))
+    );
   } catch (e) {
     return handleApiError(e);
   }
