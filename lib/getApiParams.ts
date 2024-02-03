@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 
-export async function getApiParams(
+export async function getApiParams<T = any>(
   req: NextRequest,
   params: { name: string; required: boolean }[],
   config: { type: "BODY" | "QUERY" } = { type: "QUERY" }
-) {
+): Promise<T> {
   if (config.type === "BODY") {
     const body = await req.json();
 

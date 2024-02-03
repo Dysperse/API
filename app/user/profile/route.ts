@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     // get body
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     const params = await getApiParams(
       req,
       [

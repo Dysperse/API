@@ -145,15 +145,9 @@ model Space {
   integrations Integration[]
 }
 
-// Integrations
-enum IntegrationAdapter {
-  CANVAS_LMS
-  GOOGLE_CALENDAR
-}
-
 model Integration {
-  id   String             @id @unique @default(uuid())
-  name IntegrationAdapter
+  id   String @id @unique @default(uuid())
+  name String
 
   collection   Collection? @relation(fields: [collectionId], references: [id])
   collectionId String?

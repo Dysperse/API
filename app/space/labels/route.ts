@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers(req);
+    const { spaceId } = await getIdentifiers();
     const labels = await prisma.label.findMany({
       where: { spaceId },
       include: { _count: true },
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    await getIdentifiers(req);
+    await getIdentifiers();
     const params = await getApiParams(
       req,
       [
@@ -46,7 +46,7 @@ export async function PUT(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, spaceId } = await getIdentifiers(req);
+    const { userId, spaceId } = await getIdentifiers();
 
     const params = await getApiParams(
       req,

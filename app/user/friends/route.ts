@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "requests", required: false },
     ]);
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     // get body
     const params = await getApiParams(
       req,
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     // get body
     const params = await getApiParams(
       req,
@@ -116,7 +116,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     // get body
     const params = await getApiParams(
       req,

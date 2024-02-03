@@ -1,14 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
-import { NextRequest } from "next/server";
 
-export const getIdentifiers = async (req: NextRequest) => {
-  const headersList = headers();
-  const authorization = headersList.get("authorization");
-  if (!authorization && !authorization?.startsWith("Bearer "))
-    throw new Error("Missing authorization header");
+export const getIdentifiers = async (id?: string) => {
+  let sessionId = id;
+  if (!id) {
+    const headersList = headers();
+    const authorization = headersList.get("authorization");
+    if (!authorization && !authorization?.startsWith("Bearer "))
+      throw new Error("Missing authorization header");
 
-  const sessionId = authorization.replace("Bearer ", "");
+    sessionId = authorization.replace("Bearer ", "");
+  }
 
   const info = await prisma.session.findFirstOrThrow({
     where: { id: sessionId },

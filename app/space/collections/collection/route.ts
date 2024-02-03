@@ -24,7 +24,7 @@ export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId, userId } = await getIdentifiers(req);
+    const { spaceId, userId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "id", required: true },
       { name: "all", required: false },

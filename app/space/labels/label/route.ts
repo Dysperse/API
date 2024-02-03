@@ -7,7 +7,7 @@ import { entitiesSelection } from "../../collections/collection/route";
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers(req);
+    const { spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
     const data = await prisma.label.findFirstOrThrow({

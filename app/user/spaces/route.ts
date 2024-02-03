@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     const tabs = await prisma.spaceInvite.findMany({
       where: { userId },
       include: { space: { include: { _count: true } } },

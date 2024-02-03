@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, spaceId } = await getIdentifiers(req);
+    const { userId, spaceId } = await getIdentifiers();
 
     const params = await getApiParams(req, [{ name: "id", required: true }], {
       type: "BODY",
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { userId, spaceId } = await getIdentifiers(req);
+    const { userId, spaceId } = await getIdentifiers();
 
     const params = await getApiParams(
       req,

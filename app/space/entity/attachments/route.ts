@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     const params = await getApiParams(
       req,
       [

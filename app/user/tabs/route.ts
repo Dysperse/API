@@ -7,7 +7,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     const tabs = await prisma.tab.findMany({
       where: {
         userId,
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       throw new Error("Params must be an object or undefined");
     }
 
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
     let profileId = "";
 
     if (params.slug.includes("/users/")) {
@@ -90,7 +90,7 @@ export async function DELETE(req: NextRequest) {
       type: "QUERY",
     });
 
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
 
     const tab = await prisma.tab.deleteMany({
       where: {
@@ -118,7 +118,7 @@ export async function PUT(req: NextRequest) {
       }
     );
 
-    const { userId } = await getIdentifiers(req);
+    const { userId } = await getIdentifiers();
 
     const tab = await prisma.tab.updateMany({
       where: {

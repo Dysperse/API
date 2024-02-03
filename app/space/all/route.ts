@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers(req);
+    const { spaceId } = await getIdentifiers();
 
     const params = await getApiParams(req, [{ name: "type", required: true }]);
 
