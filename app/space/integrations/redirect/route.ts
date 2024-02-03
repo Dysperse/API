@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
      */
     const params = await getApiParams<{
       id: (typeof integrations)[0]["slug"];
+      session: string;
     }>(req, [
       { name: "id", required: true },
       { name: "session", required: true },
