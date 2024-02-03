@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
+import integrations from "../integrations.json";
 
 export async function GET(req: NextRequest) {
   try {
@@ -15,7 +16,10 @@ export async function GET(req: NextRequest) {
         createdBy: true,
       },
     });
-    return Response.json(data);
+    return Response.json({
+      data,
+      integration: integrations.find((i) => i.slug === params.id),
+    });
   } catch (e) {
     return handleApiError(e);
   }
