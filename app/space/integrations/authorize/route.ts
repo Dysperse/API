@@ -45,6 +45,9 @@ export async function GET(req: NextRequest) {
             spaceId,
             params: tokens,
             name: params.integration,
+            options: {
+              selectedCalendars: [],
+            },
           },
         });
 
