@@ -155,6 +155,8 @@ model Integration {
   lastSynced DateTime @default(now())
   params     Json
 
+  options Json?
+
   space     Space  @relation(fields: [spaceId], references: [id])
   createdBy User   @relation(fields: [userId], references: [id])
   spaceId   String
