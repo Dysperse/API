@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "lint": "clear && echo '> npm run lint\n' && echo '⏳ Linting and checking validity of types...' && tsc && echo '🎉 No errors!'",
+    "lint": "cls && echo '> npm run lint\n' && echo '⏳ Linting and checking validity of types...' && tsc && echo '🎉 No errors!'",
     "email-dev": "email dev"
   },
   "dependencies": {
