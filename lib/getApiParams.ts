@@ -26,7 +26,7 @@ export async function getApiParams<T = any>(
         throw new Error(`Missing required param: ${param.name}`);
       }
     }
-    return _params;
+    return _params as any;
   } else {
     throw new Error("Invalid config type");
   }
