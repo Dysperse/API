@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
           data: {
             userId,
             spaceId,
-            params: { tokens },
+            params: tokens,
             name: params.integration,
           },
         });
