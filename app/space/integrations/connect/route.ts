@@ -28,10 +28,9 @@ export async function POST(req: NextRequest) {
             (label: any) =>
               ({
                 name: label.name,
-                color: "mint",
                 createdBy: { connect: { id: userId } },
                 emoji: "1f3f7",
-                integrationParams: {},
+                integrationParams: label.integrationParams,
               } as Prisma.LabelCreateWithoutCollectionsInput)
           ),
         },
