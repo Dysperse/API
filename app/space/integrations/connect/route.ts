@@ -36,9 +36,6 @@ export async function POST(req: NextRequest) {
         },
       },
     });
-    // 1. Create the collection
-    //    If there are calendars, for each calendar, create a label.
-    // 2. Connect the integration
   } catch (e) {
     return handleApiError(e);
   }
