@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       { type: "BODY" }
     );
 
-    prisma.collection.create({
+    const data = await prisma.collection.create({
       data: {
         integrationId: params.id,
         name: params.collection.name,
@@ -36,6 +36,8 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
+    return Response.json(data);
   } catch (e) {
     return handleApiError(e);
   }
