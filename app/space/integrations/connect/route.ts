@@ -7,7 +7,7 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers();
+    const { userId, spaceId } = await getIdentifiers();
     const params = await getApiParams(
       req,
       [
@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
             (label: any) =>
               ({
                 name: label.name,
+                space: { connect: { id: spaceId } },
                 createdBy: { connect: { id: userId } },
                 emoji: "1f3f7",
                 integrationParams: label.integrationParams,
