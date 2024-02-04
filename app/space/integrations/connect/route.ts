@@ -20,6 +20,8 @@ export async function POST(req: NextRequest) {
 
     const data = await prisma.collection.create({
       data: {
+        spaceId,
+        userId,
         integrationId: params.id,
         name: params.collection.name,
         emoji: params.collection.emoji,
