@@ -11,7 +11,6 @@ function refreshGoogleAuthTokens(
 ) {
   if (!tokenObj) throw new Error("Token not found");
   if (tokenObj.expiry_date < Date.now()) {
-    // Refresh the access token
     oauth2Client.refreshAccessToken(async function (err, t) {
       if (err) {
         return;

@@ -59,7 +59,7 @@ model Profile {
   private      Boolean  @default(false)
   pattern      String?
 
-  theme          String   @default("violet")
+  theme          String   @default("mint")
   darkMode       Boolean  @default(true)
   unlockedThemes String[]
 
@@ -134,7 +134,7 @@ enum SpaceAccess {
 model Space {
   id         String  @id @unique @default(uuid())
   name       String
-  color      String  @default("violet")
+  color      String  @default("mint")
   pattern    String?
   vanishMode Boolean @default(false)
 
@@ -149,9 +149,6 @@ model Integration {
   id   String @id @unique @default(uuid())
   name String
 
-  collection   Collection? @relation(fields: [collectionId], references: [id])
-  collectionId String?
-
   lastSynced DateTime @default(now())
   params     Json
 
@@ -161,6 +158,8 @@ model Integration {
   createdBy User   @relation(fields: [userId], references: [id])
   spaceId   String
   userId    String
+
+  collection Collection[]
 }
 
 model SpaceInvite {
@@ -181,7 +180,7 @@ model Label {
   // Appearance
   name  String
   emoji String
-  color String @default("violet")
+  color String @default("mint")
 
   // Location
   entities  Entity[]
@@ -193,6 +192,8 @@ model Label {
   // Collection?
   collections Collection[]
   tab         Tab[]
+
+  integrationParams Json?
 }
 
 enum EntityType {
@@ -232,11 +233,12 @@ model Collection {
   createdBy User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Stuff
-  labels       Label[]
-  integrations Integration[]
-  tab          Tab[]
+  labels      Label[]
+  integration Integration? @relation(fields: [integrationId], references: [id])
+  tab         Tab[]
 
-  entities Entity[]
+  entities      Entity[]
+  integrationId String?
 }
 
 enum EntityAttachmentType {
