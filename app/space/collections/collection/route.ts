@@ -174,7 +174,6 @@ export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId, userId } = await getIdentifiers();
     const identifiers = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "id", required: true },
@@ -183,14 +182,14 @@ export async function GET(req: NextRequest) {
 
     if (params.all) {
       const labeledEntities = await prisma.label.findMany({
-        where: { spaceId },
+        where: { spaceId: identifiers.spaceId },
         include: {
           entities: entitiesSelection,
         },
       });
       const unlabeledEntities = await prisma.entity.findMany({
         where: {
-          AND: [{ spaceId }, { label: null }],
+          AND: [{ spaceId: identifiers.spaceId }, { label: null }],
         },
         ...entitiesSelection,
       });
@@ -203,7 +202,7 @@ export async function GET(req: NextRequest) {
 
     let data = await prisma.collection.findFirstOrThrow({
       where: {
-        AND: [{ userId }, { id: params.id }],
+        AND: [{ userId: identifiers.userId }, { id: params.id }],
       },
       include: {
         _count: true,
@@ -235,6 +234,13 @@ export async function GET(req: NextRequest) {
     }
 
     if (!data.gridOrder) data.gridOrder = data.labels.map((i) => i.id);
+
+    // if any of the data.labels is not in the gridOrder, add it
+    data.labels.forEach((label) => {
+      if (!(data as any).gridOrder.includes(label.id)) {
+        (data as any).gridOrder.push(label.id);
+      }
+    });
 
     return Response.json(data);
   } catch (e) {

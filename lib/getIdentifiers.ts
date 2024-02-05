@@ -8,17 +8,14 @@ export interface Identifiers {
 }
 
 export const getIdentifiers = async (id?: string): Promise<Identifiers> => {
-  let sessionId = id;
-  if (!id) {
-    const headersList = headers();
-    const authorization = headersList.get("authorization");
-    if (!authorization && !authorization?.startsWith("Bearer "))
-      throw new Error("Missing authorization header");
+  const sessionId =
+    id || headers()?.get("authorization")?.replace("Bearer ", "");
 
-    sessionId = authorization.replace("Bearer ", "");
+  if (!sessionId) {
+    throw new Error("Missing authorization header");
   }
 
-  const info = await prisma.session.findFirstOrThrow({
+  const info = await prisma.session.findUniqueOrThrow({
     where: { id: sessionId },
     select: {
       user: {
@@ -34,12 +31,12 @@ export const getIdentifiers = async (id?: string): Promise<Identifiers> => {
     },
   });
 
-  if (!info.user.spaces[0]?.spaceId || !info.user.id)
-    throw new Error("Invalid session");
+  const { user } = info;
+  const space = user?.spaces[0];
 
-  return {
-    sessionId,
-    userId: info.user.id,
-    spaceId: info.user.spaces[0].spaceId,
-  };
+  if (!space?.spaceId || !user?.id) {
+    throw new Error("Invalid session");
+  }
+
+  return { sessionId, userId: user.id, spaceId: space.spaceId };
 };
