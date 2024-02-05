@@ -234,6 +234,8 @@ export async function GET(req: NextRequest) {
       })) as any;
     }
 
+    if (!data.gridOrder) data.gridOrder = data.labels.map((i) => i.id);
+
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);
