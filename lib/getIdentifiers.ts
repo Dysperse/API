@@ -1,7 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 
-export const getIdentifiers = async (id?: string) => {
+export interface Identifiers {
+  sessionId?: string;
+  userId: string;
+  spaceId: string;
+}
+
+export const getIdentifiers = async (id?: string): Promise<Identifiers> => {
   let sessionId = id;
   if (!id) {
     const headersList = headers();

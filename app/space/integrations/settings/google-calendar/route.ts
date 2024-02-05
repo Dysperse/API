@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { googleClient } from "../../redirect/route";
 
-function refreshGoogleAuthTokens(
+export function refreshGoogleAuthTokens(
   tokenObj: any,
   oauth2Client: any,
   integrationId: any
@@ -39,10 +39,8 @@ export async function GET(req: NextRequest) {
     name: "google-calendar",
   });
 
-  const tokenObj: any = data.params;
-
-  oauth2Client.setCredentials(tokenObj);
-  refreshGoogleAuthTokens(tokenObj, oauth2Client, data.id);
+  oauth2Client.setCredentials(data.params);
+  refreshGoogleAuthTokens(data.params, oauth2Client, data.id);
 
   const calendars = await fetch(
     "https://www.googleapis.com/calendar/v3/users/me/calendarList",
