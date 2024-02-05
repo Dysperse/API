@@ -225,13 +225,13 @@ export async function GET(req: NextRequest) {
     // handle integrations
     if (data.integration) {
       const integration = data.integration.name;
-      data = await applyIntegrationAdapter({
+      data = (await applyIntegrationAdapter({
         name: integration as any,
         integration: data.integration,
         data,
         identifiers,
         collectionId: params.id,
-      });
+      })) as any;
     }
 
     return Response.json(data);
