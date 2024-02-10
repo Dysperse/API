@@ -308,4 +308,6 @@ model Entity {
   spaceId String?
   space   Space?  @relation(fields: [spaceId], references: [id])
   labelId String?
+
+  integrationParams Json?
 }
