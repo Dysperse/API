@@ -74,9 +74,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
       for (const labelData of integration.data) {
         for (const eventData of labelData.data) {
           const entity = entities.find(
-            (entity) =>
-              entity.labelId === labelData.label.id &&
-              entity.integrationParams.id === eventData.id
+            (entity) => entity.integrationParams?.id === eventData.id
           );
           if (
             (!entity || entity.name !== eventData.summary) &&
@@ -100,7 +98,6 @@ const canonicalizeIntegrationData = (integration, entities) => {
         }
       }
   }
-
   return data;
 };
 
@@ -140,6 +137,7 @@ export async function GET(req: NextRequest) {
             entity.type === "CREATE"
               ? prisma.entity.create({
                   data: {
+                    spaceId,
                     type: "TASK",
                     ...entity.entity,
                   },
