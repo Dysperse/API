@@ -37,6 +37,5 @@ export const getIdentifiers = async (id?: string): Promise<Identifiers> => {
   if (!space?.spaceId || !user?.id) {
     throw new Error("Invalid session");
   }
-
   return { sessionId, userId: user.id, spaceId: space.spaceId };
 };

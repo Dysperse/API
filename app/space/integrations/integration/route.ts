@@ -26,3 +26,26 @@ export async function GET(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
+
+    await prisma.$transaction([
+      prisma.integration.delete({ where: { id: params.id } }),
+      prisma.entity.deleteMany({
+        where: {
+          collection: {
+            integration: {
+              id: params.id,
+            },
+          },
+        },
+      }),
+    ]);
+
+    return Response.json({ success: true });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
