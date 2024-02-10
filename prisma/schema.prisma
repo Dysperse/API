@@ -161,6 +161,7 @@ model Integration {
 
   collections Collection[]
   entities    Entity[]
+  labels      Label[]
 }
 
 model SpaceInvite {
@@ -194,6 +195,8 @@ model Label {
   collections Collection[]
   tab         Tab[]
 
+  integration       Integration? @relation(fields: [integrationId], references: [id])
+  integrationId     String?
   integrationParams Json?
 }
 
