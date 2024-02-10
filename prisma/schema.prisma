@@ -159,7 +159,8 @@ model Integration {
   spaceId   String
   userId    String
 
-  collection Collection[]
+  collections Collection[]
+  entities    Entity[]
 }
 
 model SpaceInvite {
@@ -309,5 +310,7 @@ model Entity {
   space   Space?  @relation(fields: [spaceId], references: [id])
   labelId String?
 
+  integration       Integration? @relation(fields: [integrationId], references: [id])
+  integrationId     String?
   integrationParams Json?
 }

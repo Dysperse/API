@@ -11,9 +11,6 @@ export async function GET(req: NextRequest) {
     const data = await prisma.integration.findMany({
       where: params.id ? { id: params.id } : undefined,
       include: {
-        collection: {
-          include: { _count: true },
-        },
         createdBy: true,
       },
     });
@@ -30,18 +27,21 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    await getIdentifiers();
+    const { userId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
     await prisma.$transaction([
-      prisma.integration.delete({ where: { id: params.id } }),
+      prisma.integration.deleteMany({
+        where: {
+          AND: [{ id: params.id }, { createdBy: { id: userId } }],
+        },
+      }),
       prisma.entity.deleteMany({
         where: {
-          collection: {
-            integration: {
-              id: params.id,
-            },
-          },
+          AND: [
+            { integration: { id: params.id } },
+            { integration: { createdBy: { id: userId } } },
+          ],
         },
       }),
     ]);

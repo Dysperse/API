@@ -15,10 +15,7 @@ export function omit(keys, obj) {
 
 export async function GET(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [
-      { name: "id", required: true },
-      { name: "collectionId", required: true },
-    ]);
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
 
     const integration = await prisma.integration.findFirstOrThrow({
       where: { id: params.id },
@@ -27,12 +24,6 @@ export async function GET(req: NextRequest) {
     const entities = await prisma.entity.findMany({
       where: {
         AND: [
-          {
-            OR: [
-              { collectionId: params.collectionId },
-              { label: { collections: { some: { id: params.collectionId } } } },
-            ],
-          },
           {
             integrationParams: { not: Prisma.AnyNull },
           },

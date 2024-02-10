@@ -221,18 +221,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // // handle integrations
-    // if (data.integration) {
-    //   const integration = data.integration.name;
-    //   data = (await applyIntegrationAdapter({
-    //     name: integration as any,
-    //     integration: data.integration,
-    //     data,
-    //     identifiers,
-    //     collectionId: params.id,
-    //   })) as any;
-    // }
-
     if (!data.gridOrder) data.gridOrder = data.labels.map((i) => i.id);
 
     // if any of the data.labels is not in the gridOrder, add it
