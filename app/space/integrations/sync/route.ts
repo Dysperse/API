@@ -126,7 +126,7 @@ export async function GET(req: NextRequest) {
       integrations.map((integration) => getIntegrationData(integration))
     );
 
-    const canonicalData = data.map((integration) =>
+    const canonicalData = data.map((integration: any) =>
       canonicalizeIntegrationData(integration.value, entities)
     );
 
