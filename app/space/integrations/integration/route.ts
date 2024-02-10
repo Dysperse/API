@@ -1,4 +1,5 @@
 import { getApiParams } from "@/lib/getApiParams";
+import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
@@ -29,6 +30,7 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
     await prisma.$transaction([
