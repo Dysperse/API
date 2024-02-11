@@ -39,6 +39,16 @@ export async function GET(req: NextRequest) {
         if (!tokens) throw new Error("No tokens found");
         const { userId, spaceId } = await getIdentifiers(session);
 
+        const exists = await prisma.integration.findFirst({
+          where: {
+            userId,
+            spaceId,
+            name: params.integration,
+          },
+        });
+
+        if (exists) throw new Error("Integration already exists");
+
         const integration = await prisma.integration.create({
           data: {
             userId,
