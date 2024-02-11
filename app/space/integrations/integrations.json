@@ -19,7 +19,10 @@
     "description": "Connect calendars to labels",
     "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/2048px-Google_Calendar_icon_%282020%29.svg.png",
     "slug": "google-calendar",
-    "availableOptions": {}
+    "availableOptions": {},
+    "authorization": {
+      "type": "oauth2"
+    }
   },
   {
     "name": "Gmail",
@@ -41,6 +44,23 @@
     "description": "Automatically import your assignments and quizzes",
     "icon": "https://dysperse.com/integrations/canvas.png",
     "slug": "canvas-lms",
-    "availableOptions": {}
+    "availableOptions": {},
+    "authorization": {
+      "type": "params",
+      "params": [
+        {
+          "id": "calendar_url",
+          "name": "Canvas Calendar URL",
+          "helper": [
+            "Open Canvas in a web browser",
+            "Click on the \"Calendar\" tab",
+            "Scroll down and click on the \"Calendar Feed\" button in the bottom right corner",
+            "Copy the URL and paste it here"
+          ],
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
   }
 ]
