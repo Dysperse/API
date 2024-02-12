@@ -64,8 +64,8 @@ const getIntegrationData = async (integration: {
       );
       break;
     case "canvas-lms":
-      const d = await fetch(integration.params.calendarUrl).then((res) =>
-        res.text()
+      const d = await fetch((integration.params as any).calendarUrl).then(
+        (res) => res.text()
       );
       const cal = ical.parseICS(d);
       data = {
