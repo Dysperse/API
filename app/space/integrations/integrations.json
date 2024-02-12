@@ -45,6 +45,7 @@
     "icon": "https://dysperse.com/integrations/canvas.png",
     "slug": "canvas-lms",
     "availableOptions": {},
+    "supportsLabelMapping": true,
     "authorization": {
       "type": "params",
       "params": [
