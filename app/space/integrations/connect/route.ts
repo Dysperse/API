@@ -10,11 +10,30 @@ export async function POST(req: NextRequest) {
     const params = await getApiParams(
       req,
       [
-        { name: "id", required: true },
+        { name: "id", required: false },
         { name: "labels", required: true },
+
+        // for creating a new integration
+        { name: "createIntegration", required: false },
+        { name: "integration", required: false },
+        { name: "params", required: false },
       ],
       { type: "BODY" }
     );
+
+    let integrationId = params.id;
+
+    if (params.createIntegration) {
+      const d = await prisma.integration.create({
+        data: {
+          name: params.integration,
+          params: params.params,
+          space: { connect: { id: spaceId } },
+          createdBy: { connect: { id: userId } },
+        },
+      });
+      integrationId = d.id;
+    }
 
     const data = await prisma.$transaction(
       params.labels.map((label: any) =>
@@ -23,8 +42,10 @@ export async function POST(req: NextRequest) {
             name: label.name,
             space: { connect: { id: spaceId } },
             createdBy: { connect: { id: userId } },
-            emoji: "1f3f7",
+            emoji: label.emoji || "1f3f7",
+            color: label.color || "blue",
             integrationParams: label.integrationParams,
+            integration: { connect: { id: integrationId } },
           },
         })
       )

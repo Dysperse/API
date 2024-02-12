@@ -50,7 +50,7 @@
       "type": "params",
       "params": [
         {
-          "id": "calendar_url",
+          "id": "calendarUrl",
           "name": "Canvas Calendar URL",
           "helper": [
             "Open Canvas in a web browser",

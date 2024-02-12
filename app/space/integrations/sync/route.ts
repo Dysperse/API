@@ -2,9 +2,14 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import dayjs from "dayjs";
+import ical from "ical";
 import { NextRequest } from "next/server";
+import { extractTextInBrackets } from "../get-labels/route";
 import { googleClient } from "../redirect/route";
 import { refreshGoogleAuthTokens } from "../settings/google-calendar/route";
+
+dayjs.extend(require("dayjs/plugin/utc"));
 
 export function omit(keys, obj) {
   const filteredObj = { ...obj };
@@ -22,20 +27,19 @@ const getIntegrationData = async (integration: {
   userId: string;
 }) => {
   let data;
+  const labelsToSelect = await prisma.label.findMany({
+    where: {
+      AND: [
+        { integration: { id: integration.id } },
+        { integrationParams: { not: Prisma.AnyNull } },
+      ],
+    },
+  });
   switch (integration.name) {
     case "google-calendar":
       const oauth2Client = googleClient({ name: "google-calendar" });
       oauth2Client.setCredentials(integration.params);
       refreshGoogleAuthTokens(integration.params, oauth2Client, integration.id);
-
-      const labelsToSelect = await prisma.label.findMany({
-        where: {
-          AND: [
-            { integration: { id: integration.id } },
-            { integrationParams: { not: Prisma.AnyNull } },
-          ],
-        },
-      });
 
       data = await Promise.all(
         labelsToSelect.map((label) =>
@@ -58,6 +62,16 @@ const getIntegrationData = async (integration: {
             })
         )
       );
+      break;
+    case "canvas-lms":
+      const d = await fetch(integration.params.calendarUrl).then((res) =>
+        res.text()
+      );
+      const cal = ical.parseICS(d);
+      data = {
+        items: cal,
+        labels: labelsToSelect,
+      };
   }
 
   return {
@@ -97,6 +111,41 @@ const canonicalizeIntegrationData = (integration, entities) => {
           }
         }
       }
+
+      break;
+    case "canvas-lms":
+      for (const _assignment in integration.data.items) {
+        const assignment = integration.data.items[_assignment];
+        const entity = entities.find(
+          (entity) => entity.integrationParams?.id === assignment.uid
+        );
+        if (
+          (!entity || entity.name !== assignment.summary) &&
+          assignment.summary
+        ) {
+          // console.log(assignment.summary);
+          data.push({
+            type: entity ? "UPDATE" : "CREATE",
+            entity: {
+              name: assignment.summary,
+              note: assignment.description,
+              due: dayjs(assignment.start).utc().toDate(),
+              dateOnly: assignment.start.dateOnly,
+              labelId: integration.data.labels.find(
+                (label) =>
+                  label.integrationParams.id ===
+                  extractTextInBrackets(assignment.summary)
+              )?.id,
+              integrationId: integration.id,
+              integrationParams: {
+                id: assignment.uid,
+              },
+            },
+          });
+        }
+      }
+
+      break;
   }
   return data;
 };
