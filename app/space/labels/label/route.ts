@@ -12,7 +12,12 @@ export async function GET(req: NextRequest) {
 
     const data = await prisma.label.findFirstOrThrow({
       where: { AND: [{ id: params.id }, { spaceId }] },
-      include: { _count: true, collections: true, entities: entitiesSelection },
+      include: {
+        _count: true,
+        integration: true,
+        collections: true,
+        entities: entitiesSelection,
+      },
     });
 
     return Response.json(data);
