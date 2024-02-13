@@ -12,23 +12,13 @@ export async function POST(req: NextRequest) {
       type: "BODY",
     });
 
-    const [instance, audit] = await Promise.all([
-      prisma.completionInstance.create({
-        data: {
-          task: { connect: { id: params.id } },
-        },
-      }),
-      prisma.audit.create({
-        data: {
-          type: "COMPLETE_TASK",
-          data: "Marked complete",
-          who: { connect: { id: userId } },
-          entity: { connect: { id: params.id } },
-        },
-      }),
-    ]);
+    const instance = await prisma.completionInstance.create({
+      data: {
+        task: { connect: { id: params.id } },
+      },
+    });
 
-    return Response.json({ instance, audit });
+    return Response.json({ instance });
   } catch (e) {
     return handleApiError(e);
   }
@@ -56,14 +46,6 @@ export async function DELETE(req: NextRequest) {
       prisma.completionInstance.deleteMany({
         where: {
           task: { id: params.id },
-        },
-      }),
-      prisma.audit.create({
-        data: {
-          type: "COMPLETE_TASK",
-          data: "Marked incomplete",
-          who: { connect: { id: userId } },
-          entity: { connect: { id: params.id } },
         },
       }),
     ]);
