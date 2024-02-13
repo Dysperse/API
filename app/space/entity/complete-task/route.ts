@@ -42,15 +42,13 @@ export async function DELETE(req: NextRequest) {
       throw new Error("Coming soon!");
     }
 
-    const [instance, audit] = await Promise.all([
-      prisma.completionInstance.deleteMany({
-        where: {
-          task: { id: params.id },
-        },
-      }),
-    ]);
+    const instance = await prisma.completionInstance.deleteMany({
+      where: {
+        task: { id: params.id },
+      },
+    });
 
-    return Response.json({ instance, audit });
+    return Response.json({ instance });
   } catch (e) {
     return handleApiError(e);
   }
