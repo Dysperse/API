@@ -49,13 +49,6 @@ export async function POST(req: NextRequest) {
             id: spaceId,
           },
         },
-        history: {
-          create: {
-            type: "CREATE",
-            data: "Created a " + params.type.toLowerCase(),
-            who: { connect: { id: userId } },
-          },
-        },
       },
       include: {
         completionInstances: true,
@@ -86,22 +79,6 @@ export async function GET(req: NextRequest) {
         attachments: true,
         completionInstances: {
           take: 1,
-        },
-        history: {
-          include: {
-            who: {
-              select: {
-                username: true,
-                email: true,
-                profile: {
-                  select: {
-                    name: true,
-                    picture: true,
-                  },
-                },
-              },
-            },
-          },
         },
         label: true,
         space: {
