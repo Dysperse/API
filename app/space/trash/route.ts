@@ -4,19 +4,19 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { entitiesSelection } from "../collections/collection/route";
 
-// export async function DELETE(req: NextRequest) {
-//   try {
-//     const { spaceId } = await getIdentifiers();
-//     const response = await prisma.entity.deleteMany({
-//       where: {
-//         AND: [{ spaceId }, { trash: true }],
-//       },
-//     });
-//     return Response.json(response, { status: 200 })
-//   } catch (e) {
-//     return handleApiError(e);
-//   }
-// }
+export async function DELETE(req: NextRequest) {
+  try {
+    const { spaceId } = await getIdentifiers();
+    const response = await prisma.entity.deleteMany({
+      where: {
+        AND: [{ spaceId }, { trash: true }],
+      },
+    });
+    return Response.json(response, { status: 200 });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
 
 export async function GET(req: NextRequest) {
   try {
