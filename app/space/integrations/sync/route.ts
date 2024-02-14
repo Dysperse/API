@@ -178,7 +178,7 @@ export async function GET() {
       canonicalizeIntegrationData(integration.value, entities)
     );
 
-    await prisma.$transaction(
+    const res = await prisma.$transaction(
       canonicalData
         .map((data) =>
           data.map((entity) =>
@@ -205,7 +205,7 @@ export async function GET() {
     );
     console.log(canonicalData);
 
-    return Response.json(canonicalData);
+    return Response.json({ data: data, res });
   } catch (e) {
     return handleApiError(e);
   }
