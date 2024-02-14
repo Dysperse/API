@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import ical from "ical";
-import { NextRequest } from "next/server";
 import { extractTextInBrackets } from "../get-labels/route";
 import { googleClient } from "../redirect/route";
 import { refreshGoogleAuthTokens } from "../settings/google-calendar/route";
@@ -150,7 +149,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
   return data;
 };
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const { userId, spaceId } = await getIdentifiers();
 
@@ -206,7 +205,7 @@ export async function GET(req: NextRequest) {
     );
     console.log(canonicalData);
 
-    return Response.json(data);
+    return Response.json(canonicalData);
   } catch (e) {
     return handleApiError(e);
   }
