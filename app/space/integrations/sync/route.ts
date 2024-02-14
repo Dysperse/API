@@ -205,7 +205,7 @@ export async function GET() {
     );
     console.log(canonicalData);
 
-    return Response.json({ data: data, res });
+    return Response.json({ data: canonicalData, res });
   } catch (e) {
     return handleApiError(e);
   }
