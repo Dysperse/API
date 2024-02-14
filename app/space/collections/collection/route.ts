@@ -184,6 +184,7 @@ export async function GET(req: NextRequest) {
       const labeledEntities = await prisma.label.findMany({
         where: { spaceId: identifiers.spaceId },
         include: {
+          _count: true,
           entities: entitiesSelection,
         },
       });
