@@ -94,7 +94,7 @@ export async function PUT(req: NextRequest) {
       params.emoji ||
       params.description ||
       params.gridOrder ||
-      params.showCompleted
+      typeof params.showCompleted === "boolean"
     ) {
       await prisma.collection.update({
         where: { id: params.id as string },
