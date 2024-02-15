@@ -83,6 +83,7 @@ export async function PUT(req: NextRequest) {
         { name: "emoji", required: false },
         { name: "description", required: false },
         { name: "labels", required: false },
+        { name: "showCompleted", required: false },
         { name: "gridOrder", required: false },
       ],
       { type: "BODY" }
@@ -96,6 +97,10 @@ export async function PUT(req: NextRequest) {
           description: params.description,
           emoji: params.emoji,
           gridOrder: params.gridOrder || undefined,
+          showCompleted:
+            typeof params.showCompleted === "boolean"
+              ? params.showCompleted
+              : undefined,
           space: {
             connect: { id: spaceId },
           },
