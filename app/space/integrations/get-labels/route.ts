@@ -1,5 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
+import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { prisma } from "@/lib/prisma";
 import ical from "ical";
 import { NextRequest } from "next/server";
 
@@ -79,6 +81,7 @@ const defaultCourseCustomization = [
 
 export async function GET(req: NextRequest) {
   try {
+    const { spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "integration", required: true },
       { name: "calendarUrl", required: false },
@@ -118,7 +121,31 @@ export async function GET(req: NextRequest) {
           } as labelFormat;
         });
 
-        return Response.json(c);
+        const labels = await prisma.label.findMany({
+          where: {
+            OR: c.map((label) => ({
+              integrationParams: {
+                path: ["id"],
+                equals: label.name,
+              },
+            })),
+          },
+        });
+
+        return Response.json(
+          c.map((label) => {
+            const existingLabel = labels.find(
+              (l) =>
+                (l as any).integrationParams.id ===
+                  label.integrationParams.id && l.spaceId === spaceId
+            );
+            if (existingLabel) {
+              return existingLabel;
+            } else {
+              return label;
+            }
+          })
+        );
 
       default:
         throw new Error("Integration not found");
