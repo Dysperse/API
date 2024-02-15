@@ -39,16 +39,6 @@ export async function GET(req: NextRequest) {
         if (!tokens) throw new Error("No tokens found");
         const { userId, spaceId } = await getIdentifiers(session);
 
-        const exists = await prisma.integration.findFirst({
-          where: {
-            userId,
-            spaceId,
-            name: params.integration,
-          },
-        });
-
-        if (exists) throw new Error("Integration already exists");
-
         const integration = await prisma.integration.upsert({
           where: {
             name_userId: {
@@ -78,6 +68,6 @@ export async function GET(req: NextRequest) {
   }
 
   redirect(
-    `https://app.dysperse.com/settings/space/integrations/${name}/${id}`
+    `${process.env.FRONTEND_URL}/settings/space/integrations/${name}/redirect`
   );
 }
