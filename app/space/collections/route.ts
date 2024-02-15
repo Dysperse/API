@@ -89,13 +89,19 @@ export async function PUT(req: NextRequest) {
       { type: "BODY" }
     );
 
-    if (params.name || params.emoji || params.description || params.gridOrder) {
+    if (
+      params.name ||
+      params.emoji ||
+      params.description ||
+      params.gridOrder ||
+      params.showCompleted
+    ) {
       await prisma.collection.update({
         where: { id: params.id as string },
         data: {
-          name: params.name,
-          description: params.description,
-          emoji: params.emoji,
+          name: params.name || undefined,
+          description: params.description || undefined,
+          emoji: params.emoji || undefined,
           gridOrder: params.gridOrder || undefined,
           showCompleted:
             typeof params.showCompleted === "boolean"
