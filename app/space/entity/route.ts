@@ -109,16 +109,22 @@ export async function DELETE(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const { spaceId } = await getIdentifiers();
-    const params = await getApiParams(req, [
-      { name: "id", required: true },
-      { name: "name", required: false },
-      { name: "pinned", required: false },
-      { name: "due", required: false },
-      { name: "note", required: false },
-      { name: "labelId", required: false },
-      { name: "trash", required: false },
-      { name: "agendaOrder", required: false },
-    ]);
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "name", required: false },
+        { name: "pinned", required: false },
+        { name: "due", required: false },
+        { name: "note", required: false },
+        { name: "labelId", required: false },
+        { name: "trash", required: false },
+        { name: "agendaOrder", required: false },
+        { name: "attachments", required: false },
+      ],
+      { type: "BODY" }
+    );
+
     const data = await prisma.entity.updateMany({
       where: {
         AND: [{ spaceId }, { id: params.id }],
@@ -126,20 +132,15 @@ export async function PUT(req: NextRequest) {
       data: {
         name: params.name ?? undefined,
         labelId: params.labelId ?? undefined,
-        pinned:
-          typeof params.pinned === "string"
-            ? params.pinned === "true"
-            : undefined,
+        pinned: typeof params.pinned === "boolean" ? params.pinned : undefined,
         due: params.due ? new Date(params.due) : undefined,
+        attachments: params.attachments,
         note: typeof params.note === "string" ? params.note : undefined,
         agendaOrder:
           typeof params.agendaOrder === "string"
             ? params.agendaOrder
             : undefined,
-        trash:
-          typeof params.trash === "string"
-            ? params.trash === "true"
-            : undefined,
+        trash: typeof params.trash === "boolean" ? params.trash : undefined,
       },
     });
     return Response.json(data);
