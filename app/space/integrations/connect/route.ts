@@ -25,8 +25,16 @@ export async function POST(req: NextRequest) {
     let integrationId = params.id;
 
     if (params.createIntegration) {
-      const d = await prisma.integration.create({
-        data: {
+      const d = await prisma.integration.upsert({
+        where: {
+          id: params.id,
+        },
+        update: {
+          name: params.integration,
+          params: params.params,
+        },
+        create: {
+          id: uuidv4(),
           name: params.integration,
           params: params.params,
           space: { connect: { id: spaceId } },
