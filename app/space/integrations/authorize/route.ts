@@ -49,15 +49,21 @@ export async function GET(req: NextRequest) {
 
         if (exists) throw new Error("Integration already exists");
 
-        const integration = await prisma.integration.create({
-          data: {
+        const integration = await prisma.integration.upsert({
+          where: {
+            name_userId: {
+              name: params.integration,
+              userId,
+            },
+          },
+          update: {
+            params: tokens,
+          },
+          create: {
             userId,
             spaceId,
             params: tokens,
             name: params.integration,
-            options: {
-              selectedCalendars: [],
-            },
           },
         });
 

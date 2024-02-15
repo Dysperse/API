@@ -161,6 +161,8 @@ model Integration {
   collections Collection[]
   entities    Entity[]
   labels      Label[]
+
+  @@unique([name, userId])
 }
 
 model SpaceInvite {
