@@ -53,12 +53,6 @@ export async function POST(req: NextRequest) {
       include: {
         completionInstances: true,
         label: true,
-        attachments: {
-          select: {
-            data: true,
-            type: true,
-          },
-        },
       },
     });
     return Response.json(space);
@@ -76,7 +70,6 @@ export async function GET(req: NextRequest) {
         AND: [{ id: params.id }, { spaceId }],
       },
       include: {
-        attachments: true,
         completionInstances: {
           take: 1,
         },

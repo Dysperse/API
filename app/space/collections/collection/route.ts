@@ -16,12 +16,6 @@ export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
   include: {
     completionInstances: true,
     label: true,
-    attachments: {
-      select: {
-        data: true,
-        type: true,
-      },
-    },
   },
   where: {
     trash: false,

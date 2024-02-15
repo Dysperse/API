@@ -247,31 +247,16 @@ model Collection {
   integrationId String?
 }
 
-enum EntityAttachmentType {
-  IMAGE
-  LINK
-  LOCATION
-}
-
-model EntityAttachment {
-  id   String               @id @unique @default(uuid())
-  type EntityAttachmentType @default(LINK)
-  data String
-
-  entity   Entity @relation(fields: [entityId], references: [id], onDelete: Cascade)
-  entityId String
-}
-
 model Entity {
   id   String     @id @unique @default(uuid())
   type EntityType
 
   // For all "entities"
   name        String
-  pinned      Boolean            @default(false)
-  label       Label?             @relation(fields: [labelId], references: [id])
+  pinned      Boolean @default(false)
+  label       Label?  @relation(fields: [labelId], references: [id])
   note        String?
-  attachments EntityAttachment[]
+  attachments Json?
 
   trash          Boolean   @default(false)
   due            DateTime?
