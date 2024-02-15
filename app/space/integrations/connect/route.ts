@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     if (params.createIntegration) {
       const d = await prisma.integration.upsert({
         where: {
-          id: params.id,
+          id: params.id || "this-will-never-match",
         },
         update: {
           name: params.integration,
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       params.labels.map((label: any) =>
         prisma.label.upsert({
           where: {
-            id: label.id,
+            id: label.id || "this-will-never-match",
           },
           update: {
             name: label.name || undefined,
