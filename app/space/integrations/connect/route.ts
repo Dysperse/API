@@ -3,6 +3,7 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 export async function POST(req: NextRequest) {
   try {
@@ -37,8 +38,17 @@ export async function POST(req: NextRequest) {
 
     const data = await prisma.$transaction(
       params.labels.map((label: any) =>
-        prisma.label.create({
-          data: {
+        prisma.label.upsert({
+          where: {
+            id: label.id,
+          },
+          update: {
+            name: label.name || undefined,
+            emoji: label.emoji || undefined,
+            color: label.color || undefined,
+          },
+          create: {
+            id: uuidv4(),
             name: label.name,
             space: { connect: { id: spaceId } },
             createdBy: { connect: { id: userId } },

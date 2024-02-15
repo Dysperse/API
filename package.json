@@ -46,6 +46,7 @@
     "react-email": "^1.9.5",
     "resend": "^1.1.0",
     "rrule": "^2.7.2",
+    "uuid": "^9.0.1",
     "web-push": "^3.6.6"
   },
   "keywords": [
