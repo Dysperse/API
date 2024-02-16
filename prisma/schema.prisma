@@ -10,9 +10,11 @@ datasource db {
 }
 
 model Session {
-  id        String   @id @unique @default(uuid())
-  ip        String   @default("Unknown")
-  timestamp DateTime @default(now())
+  id         String   @id @unique @default(uuid())
+  ip         String   @default("Unknown")
+  deviceName String?
+  deviceType String?
+  timestamp  DateTime @default(now())
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
