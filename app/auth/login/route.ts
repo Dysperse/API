@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
         { name: "email", required: true },
         { name: "password", required: true },
         { name: "deviceName", required: true },
+        { name: "deviceType", required: true },
       ],
       { type: "BODY" }
     );
