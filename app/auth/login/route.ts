@@ -6,12 +6,17 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = (req.headers.get("x-forwarded-for") ?? "127.0.0.1").split(
+      ","
+    )[0];
+
     // get body
     const params = await getApiParams(
       req,
       [
         { name: "email", required: true },
         { name: "password", required: true },
+        { name: "deviceName", required: true },
       ],
       { type: "BODY" }
     );
@@ -29,6 +34,9 @@ export async function POST(req: NextRequest) {
     const session = await prisma.session.create({
       data: {
         userId: acc.id,
+        deviceName: params.deviceName,
+        deviceType: params.deviceType,
+        ip,
       },
     });
 
