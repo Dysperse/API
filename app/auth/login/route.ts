@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
       data: {
         userId: acc.id,
         deviceName: params.deviceName,
-        deviceType: params.deviceType,
+        deviceType: params.deviceType.toString(),
         ip,
       },
     });
