@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const { spaceId } = await getIdentifiers();
     const labels = await prisma.label.findMany({
       where: { spaceId },
-      include: { _count: true },
+      include: { _count: true, collections: true },
     });
     return Response.json(labels);
   } catch (e) {
