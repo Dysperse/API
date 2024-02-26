@@ -1,5 +1,5 @@
 export function handleApiError(e: any) {
-  console.error(e)
+  console.error(e);
   return Response.json(
     { error: e.message },
     {

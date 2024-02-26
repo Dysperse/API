@@ -16,7 +16,10 @@ export async function GET(req: NextRequest) {
         _count: true,
         integration: true,
         collections: true,
-        entities: entitiesSelection,
+        entities: {
+          ...entitiesSelection,
+          orderBy: { completionInstances: { _count: "asc" } },
+        },
       },
     });
 
