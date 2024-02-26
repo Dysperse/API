@@ -28,3 +28,18 @@ export async function GET(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await getIdentifiers();
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
+
+    const data = await prisma.label.delete({
+      where: { id: params.id },
+    });
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
