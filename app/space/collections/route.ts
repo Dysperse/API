@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
       where: { userId },
       include: {
         _count: true,
+        integration: true,
         createdBy: {
           select: {
             email: true,
@@ -66,6 +67,21 @@ export async function POST(req: NextRequest) {
     );
 
     return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    await getIdentifiers();
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
+
+    await prisma.collection.delete({
+      where: { id: params.id as string },
+    });
+
+    return Response.json({ success: true });
   } catch (e) {
     return handleApiError(e);
   }
