@@ -47,3 +47,17 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { userId } = await getIdentifiers();
+    const data = await prisma.user.update({
+      where: { id: userId },
+      data: { twoFactorSecret: null },
+    });
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}

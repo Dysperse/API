@@ -44,7 +44,10 @@ export async function POST(req: NextRequest) {
 
     if (acc.twoFactorSecret && params.twoFactorCode) {
       if (!twofactor.verifyToken(acc.twoFactorSecret, params.twoFactorCode)) {
-        throw new Error("Invalid code");
+        return Response.json({
+          success: false,
+          twoFactorRequired: true,
+        });
       }
     }
 
