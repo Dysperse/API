@@ -3,6 +3,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import argon2 from "argon2";
 import { NextRequest } from "next/server";
+const twofactor = require("node-2fa");
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
         { name: "password", required: true },
         { name: "deviceName", required: true },
         { name: "deviceType", required: true },
-        { name: "twoFactorSecret", required: false },
+        { name: "twoFactorCode", required: false },
       ],
       { type: "BODY" }
     );
@@ -34,11 +35,17 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (acc.twoFactorSecret && !params.twoFactorSecret) {
+    if (acc.twoFactorSecret && !params.twoFactorCode) {
       return Response.json({
         success: false,
         twoFactorRequired: true,
       });
+    }
+
+    if (acc.twoFactorSecret && params.twoFactorCode) {
+      if (!twofactor.verifyToken(acc.twoFactorSecret, params.twoFactorCode)) {
+        throw new Error("Invalid code");
+      }
     }
 
     // Validate password
