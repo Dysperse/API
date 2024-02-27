@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
         { name: "password", required: true },
         { name: "deviceName", required: true },
         { name: "deviceType", required: true },
+        { name: "twoFactorSecret", required: false },
       ],
       { type: "BODY" }
     );
@@ -26,7 +27,19 @@ export async function POST(req: NextRequest) {
       where: {
         email: params.email,
       },
+      select: {
+        id: true,
+        password: true,
+        twoFactorSecret: true,
+      },
     });
+
+    if (acc.twoFactorSecret && !params.twoFactorSecret) {
+      return Response.json({
+        success: false,
+        twoFactorRequired: true,
+      });
+    }
 
     // Validate password
     const valid = await argon2.verify(acc.password, params.password);
