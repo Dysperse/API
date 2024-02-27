@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
         { name: "name", required: true },
         { name: "type", required: true },
         { name: "note", required: false },
+        { name: "attachments", required: false },
         { name: "due", required: false },
         { name: "dateOnly", required: false },
         { name: "pinned", required: false },
@@ -34,6 +35,7 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
+        attachments: params.attachments,
         collection: params.collectionId
           ? { connect: { id: params.collectionId } }
           : undefined,
@@ -124,7 +126,6 @@ export async function PUT(req: NextRequest) {
       ],
       { type: "BODY" }
     );
-
     const data = await prisma.entity.updateMany({
       where: {
         AND: [{ spaceId }, { id: params.id }],
