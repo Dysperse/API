@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -44,14 +45,29 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers();
-    const data = await prisma.user.update({
-      where: { id: userId },
-      data: { twoFactorSecret: null },
+    const params = await getApiParams(
+      req,
+      [{ name: "token", required: true }],
+      { type: "QUERY" }
+    );
+
+    const data = await prisma.qrToken.findFirstOrThrow({
+      where: { token: params.token },
     });
 
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const data = await prisma.qrToken.create({
+      data: { expiresAt: dayjs().add(20, "minute").toISOString() },
+    });
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);
