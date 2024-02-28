@@ -24,7 +24,6 @@ model QrToken {
   id        String   @id @unique @default(uuid())
   token     String   @unique @default(cuid())
   expiresAt DateTime
-  used      Boolean  @default(false)
   userId    String?
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
