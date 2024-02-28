@@ -16,16 +16,16 @@ model Session {
   deviceType String?
   timestamp  DateTime @default(now())
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  qrToken QrToken[]
 }
 
 model QrToken {
-  id        String   @id @unique @default(uuid())
-  token     String   @unique @default(cuid())
+  token     String   @id @unique @default(cuid())
   expiresAt DateTime
-  userId    String?
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String?
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -54,8 +54,7 @@ model User {
   following Follows[] @relation("follower")
 
   // etc
-  labels   Label[]
-  qrTokens QrToken[]
+  labels Label[]
 }
 
 model Profile {
