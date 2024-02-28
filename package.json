@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "lint": "cls && echo '> npm run lint\n' && echo '⏳ Linting and checking validity of types...' && tsc && echo '🎉 No errors!'",
-    "email-dev": "email dev"
+    "email-dev": "email dev",
+    "ngrok": "ngrok http 3000"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
@@ -62,6 +63,7 @@
     "encoding": "^0.1.13",
     "eslint": "^8.49.0",
     "eslint-config-next": "^13.5.2",
+    "ngrok": "^5.0.0-beta.2",
     "prisma": "^5.9.1",
     "typescript": "^5.2.2"
   }

@@ -20,6 +20,15 @@ model Session {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model QrToken {
+  id        String   @id @unique @default(uuid())
+  token     String   @unique @default(cuid())
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id                       String  @id @unique @default(uuid())
   username                 String? @unique
@@ -46,7 +55,8 @@ model User {
   following Follows[] @relation("follower")
 
   // etc
-  labels Label[]
+  labels   Label[]
+  qrTokens QrToken[]
 }
 
 model Profile {
