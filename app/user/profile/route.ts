@@ -35,6 +35,7 @@ export async function PUT(req: NextRequest) {
       req,
       [
         { name: "color", required: false },
+        { name: "name", required: false },
         { name: "bio", required: false },
         { name: "darkMode", required: false },
         { name: "pattern", required: false },
@@ -46,6 +47,7 @@ export async function PUT(req: NextRequest) {
         user: { id: userId },
       },
       data: {
+        name: params.name || undefined,
         bio: params.bio || undefined,
         theme: params.color || undefined,
         darkMode: params.darkMode ?? undefined,
