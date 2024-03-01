@@ -69,7 +69,7 @@ model Profile {
   pattern      String?
 
   theme          String   @default("mint")
-  darkMode       Boolean  @default(true)
+  darkMode       String   @default("system")
   unlockedThemes String[]
 
   spotifyAuthTokens Json?
