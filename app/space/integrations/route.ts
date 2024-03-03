@@ -7,9 +7,10 @@ import integrations from "./integrations.json";
 
 export async function GET(req: NextRequest) {
   try {
+    const { userId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: false }]);
     const data = await prisma.integration.findMany({
-      where: params.id ? { id: params.id } : undefined,
+      where: params.id ? { id: params.id } : { userId },
       include: {
         createdBy: true,
       },

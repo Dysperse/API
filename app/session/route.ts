@@ -7,7 +7,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   try {
     const { sessionId, userId } = await getIdentifiers();
-    prisma.profile.update({
+    await prisma.profile.update({
       where: { userId },
       data: {
         lastActive: new Date(),

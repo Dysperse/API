@@ -38,6 +38,7 @@ export async function PUT(req: NextRequest) {
         { name: "name", required: false },
         { name: "bio", required: false },
         { name: "darkMode", required: false },
+        { name: "picture", required: false },
         { name: "pattern", required: false },
       ],
       { type: "BODY" }
@@ -50,6 +51,7 @@ export async function PUT(req: NextRequest) {
         name: params.name || undefined,
         bio: params.bio || undefined,
         theme: params.color || undefined,
+        picture: params.picture || undefined,
         darkMode: params.darkMode ?? undefined,
         pattern: params.pattern ?? undefined,
       },
