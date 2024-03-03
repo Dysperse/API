@@ -13,7 +13,20 @@ export async function GET(req: NextRequest) {
       where: {
         AND: [{ collectionId: params.id }, { collection: { spaceId } }],
       },
-      include: {},
+      include: {
+        user: {
+          select: {
+            email: true,
+            username: true,
+            profile: {
+              select: {
+                name: true,
+                picture: true,
+              },
+            },
+          },
+        },
+      },
     });
     return Response.json(response);
   } catch (e) {
