@@ -39,10 +39,14 @@ export async function GET(req: NextRequest) {
         },
       });
       const unlabeledEntities = await prisma.entity.findMany({
-        where: {
-          AND: [{ spaceId: identifiers.spaceId }, { label: null }],
-        },
         ...entitiesSelection,
+        where: {
+          AND: [
+            { spaceId: identifiers.spaceId },
+            { label: null },
+            { trash: false },
+          ],
+        },
       });
       return Response.json({
         gridOrder: labeledEntities.map((label) => label.id),
@@ -57,7 +61,7 @@ export async function GET(req: NextRequest) {
 
     let data = await prisma.collection.findFirstOrThrow({
       where: {
-        AND: [{ userId: identifiers.userId }, { id: params.id }],
+        AND: [{ spaceId: identifiers.spaceId }, { id: params.id }],
       },
       include: {
         _count: true,
