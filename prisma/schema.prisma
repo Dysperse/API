@@ -228,6 +228,24 @@ model CompletionInstance {
   taskId String
 }
 
+model CollectionAccess {
+  id       String  @id @unique @default(uuid())
+  selected Boolean @default(true)
+  userId   String
+
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+}
+
+model CollectionLink {
+  id   String @id @unique @default(uuid())
+  name String
+  url  String
+
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+}
+
 model Collection {
   id            String  @id @unique @default(uuid())
   // Info
@@ -255,6 +273,9 @@ model Collection {
 
   entities      Entity[]
   integrationId String?
+
+  invitedUsers CollectionAccess[]
+  inviteLinks  CollectionLink[]
 }
 
 model Entity {
