@@ -54,7 +54,8 @@ model User {
   following Follows[] @relation("follower")
 
   // etc
-  labels Label[]
+  labels             Label[]
+  invitedCollections CollectionAccess[]
 }
 
 model Profile {
@@ -228,10 +229,20 @@ model CompletionInstance {
   taskId String
 }
 
+enum CollectionAccessType {
+  READ_ONLY
+  EDITOR
+  MODERATOR
+}
+
 model CollectionAccess {
-  id       String  @id @unique @default(uuid())
-  selected Boolean @default(true)
-  userId   String
+  id       String               @id @unique @default(uuid())
+  selected Boolean              @default(true)
+  hasSeen  Boolean              @default(false)
+  access   CollectionAccessType @default(READ_ONLY)
+
+  user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   collectionId String
   collection   Collection @relation(fields: [collectionId], references: [id])
@@ -241,6 +252,8 @@ model CollectionLink {
   id   String @id @unique @default(uuid())
   name String
   url  String
+
+  readOnly Boolean @default(false)
 
   collectionId String
   collection   Collection @relation(fields: [collectionId], references: [id])
