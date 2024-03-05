@@ -21,7 +21,15 @@ export async function getSessionData(
           profile: true,
           spaces: {
             include: {
-              space: true,
+              space: {
+                include: {
+                  _count: {
+                    select: {
+                      integrations: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
@@ -31,12 +39,12 @@ export async function getSessionData(
   prisma.profile.updateMany({
     where: {
       user: {
-        id: session.user.id
-      }
+        id: session.user.id,
+      },
     },
     data: {
-      lastActive: new Date()
-    }
+      lastActive: new Date(),
+    },
   });
   if (!session) {
     throw new Error("Session not found");
