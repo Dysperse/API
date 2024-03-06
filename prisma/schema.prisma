@@ -37,6 +37,8 @@ model User {
   lastReleaseVersionViewed Int     @default(77711209)
   timeZone                 String  @default("America/Los_Angeles")
 
+  hasEarlyAccess Boolean @default(false)
+
   profile  Profile?
   agreeTos Boolean  @default(false)
 
