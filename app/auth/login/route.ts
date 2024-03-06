@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     const acc = await prisma.user.findFirstOrThrow({
       where: {
-        email: params.email,
+        email: params.email.toLowerCase(),
       },
       select: {
         id: true,
