@@ -41,13 +41,12 @@ export async function POST(req: NextRequest) {
       ],
       { type: "BODY" }
     );
-
     const data = await prisma.collection.create({
       data: {
         name: params.name,
         description: params.description,
         emoji: params.emoji,
-        gridOrder: params.labels.map((i) => i.id),
+        gridOrder: params.labels,
         space: {
           connect: { id: spaceId },
         },
