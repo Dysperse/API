@@ -76,6 +76,10 @@ export async function DELETE(req: NextRequest) {
     await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
+    await prisma.tab.deleteMany({
+      where: { collectionId: params.id as string },
+    });
+
     await prisma.collection.delete({
       where: { id: params.id as string },
     });
