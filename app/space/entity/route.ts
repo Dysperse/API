@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
         { name: "dateOnly", required: false },
         { name: "pinned", required: false },
         { name: "labelId", required: false },
+        { name: "recurrenceRule", required: false },
         { name: "notifications", required: false },
         { name: "agendaOrder", required: false },
         { name: "collectionId", required: false },
@@ -35,6 +36,7 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
+        recurrenceRule: params.recurrenceRule,
         attachments: params.attachments,
         collection: params.collectionId
           ? { connect: { id: params.collectionId } }
