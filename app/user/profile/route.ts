@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     const params = await getApiParams(req, [{ name: "email", required: true }]);
     const data = await prisma.user.findFirstOrThrow({
       where: {
-        email: params.email,
+        OR: [{ email: params.email }, { username: params.email }],
       },
       select: {
         timeZone: true,
