@@ -43,7 +43,21 @@ export async function GET(req: NextRequest) {
         user.follower = undefined as any;
       }
     });
-    return Response.json(data);
+    return Response.json(
+      (data as any)
+        .filter((user) => user?.user?.profile)
+        .filter(
+          (user, index, self) =>
+            index === self.findIndex((t) => t.user.email === user.user.email)
+        )
+        .sort((a, b) => {
+          // sort by profile.lastActive
+          return (
+            new Date(b.user.profile.lastActive).getTime() -
+            new Date(a.user.profile.lastActive).getTime()
+          );
+        })
+    );
   } catch (e) {
     return handleApiError(e);
   }
