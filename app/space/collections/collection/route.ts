@@ -66,6 +66,26 @@ export async function GET(req: NextRequest) {
       include: {
         _count: true,
         integration: true,
+        invitedUsers: {
+          select: {
+            access: true,
+            hasSeen: true,
+            user: {
+              select: {
+                username: true,
+                email: true,
+                id: true,
+                profile: {
+                  select: {
+                    theme: true,
+                    name: true,
+                    picture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         entities: {
           ...entitiesSelection,
           include: {
