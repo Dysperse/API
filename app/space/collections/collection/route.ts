@@ -68,6 +68,7 @@ export async function GET(req: NextRequest) {
         integration: true,
         invitedUsers: {
           select: {
+            id: true,
             access: true,
             hasSeen: true,
             user: {
