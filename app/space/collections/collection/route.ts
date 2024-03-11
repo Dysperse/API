@@ -66,6 +66,11 @@ export async function GET(req: NextRequest) {
       include: {
         _count: true,
         integration: true,
+        space: {
+          select: {
+            name: true,
+          },
+        },
         invitedUsers: {
           select: {
             id: true,

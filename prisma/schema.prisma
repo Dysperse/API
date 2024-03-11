@@ -73,7 +73,7 @@ model Profile {
 
   theme          String   @default("mint")
   darkMode       String   @default("system")
-  unlockedThemes String[]
+  unlockedThemes String[] @default(["orange", "grass", "crimson"])
 
   spotifyAuthTokens Json?
   googleAuthTokens  Json?
