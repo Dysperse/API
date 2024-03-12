@@ -6,20 +6,26 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    // do not validate session token because it's used for signup process
     // get body
-    const params = await getApiParams(req, [{ name: "email", required: true }]);
+    const params = await getApiParams(req, [
+      { name: "email", required: true },
+      { name: "basic", required: false },
+    ]);
     const data = await prisma.user.findFirstOrThrow({
       where: {
         OR: [{ email: params.email }, { username: params.email }],
       },
-      select: {
-        timeZone: true,
-        username: true,
-        email: true,
-        followers: true,
-        following: true,
-        profile: true,
-      },
+      select: params.basic
+        ? { id: true }
+        : {
+            timeZone: true,
+            username: true,
+            email: true,
+            followers: true,
+            following: true,
+            profile: true,
+          },
     });
     return Response.json(data);
   } catch (e) {
