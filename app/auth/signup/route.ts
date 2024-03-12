@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         { name: "name", required: true },
         { name: "email", required: true },
         { name: "picture", required: true },
+        { name: "timeZone", required: true },
         { name: "password", required: true },
         { name: "confirmPassword", required: true },
         { name: "theme", required: true },
@@ -61,6 +62,7 @@ export async function POST(req: NextRequest) {
       data: {
         email: params.email,
         password: hash,
+        timeZone: params.timeZone,
         profile: {
           create: {
             name: params.name,
