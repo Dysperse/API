@@ -10,7 +10,7 @@ interface EmailProps {
 export default function ForgotPasswordEmail({
   name = "[name]",
   email = "[email]",
-  link = "https://my.dysperse.com/auth",
+  link = "https://api.dysperse.com/auth",
 }: EmailProps) {
   return (
     <EmailWrapper

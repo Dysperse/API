@@ -34,7 +34,7 @@ export const WelcomeEmail = ({
           pX={20}
           pY={12}
           className="bg-[#000000] rounded-full text-white text-[12px] font-semibold no-underline text-center"
-          href="https://my.dysperse.com"
+          href="https://api.dysperse.com"
         >
           Check out my dashboard
         </Button>

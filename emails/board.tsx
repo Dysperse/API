@@ -32,7 +32,7 @@ export const BoardEmail = ({
           pX={20}
           pY={12}
           className="bg-[#000000] rounded-full text-white text-[12px] font-semibold no-underline text-center"
-          href={`https://my.dysperse.com/tasks/boards/${boardId}`}
+          href={`https://api.dysperse.com/tasks/boards/${boardId}`}
         >
           Open in Dysperse
         </Button>
