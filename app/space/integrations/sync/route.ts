@@ -16,6 +16,11 @@ export function omit(keys, obj) {
   return filteredObj;
 }
 
+function removeBracketedText(inputString) {
+  var regex = /\s*\[.*?\]\s*$/;
+  return inputString.replace(regex, "");
+}
+
 const getIntegrationData = async (integration: {
   id: string;
   name: string;
@@ -119,14 +124,14 @@ const canonicalizeIntegrationData = (integration, entities) => {
           (entity) => entity.integrationParams?.id === assignment.uid
         );
         if (
-          (!entity || entity.name !== assignment.summary) &&
-          assignment.summary
+          assignment.summary &&
+          (!entity || entity.name !== removeBracketedText(assignment.summary))
         ) {
           // console.log(assignment.summary);
           data.push({
             type: entity ? "UPDATE" : "CREATE",
             entity: {
-              name: assignment.summary,
+              name: removeBracketedText(assignment.summary),
               note: assignment.description,
               due: dayjs(assignment.start).utc().toDate(),
               dateOnly: assignment.start.dateOnly,
