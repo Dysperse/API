@@ -18,6 +18,11 @@ const moduleExports = {
     async redirects() {
       return [
         {
+          source: "/:slug*",
+          destination: "https://app.dysperse.com",
+          permanent: false,
+        },
+        {
           source: "/api/user",
           destination: "/api/session",
           permanent: false,
