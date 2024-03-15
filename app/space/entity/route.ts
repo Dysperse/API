@@ -138,7 +138,12 @@ export async function PUT(req: NextRequest) {
         pinned: typeof params.pinned === "boolean" ? params.pinned : undefined,
         due: params.due ? new Date(params.due) : undefined,
         attachments: params.attachments,
-        note: typeof params.note === "string" ? params.note : undefined,
+        note:
+          typeof params.note === "string"
+            ? params.note
+            : params.note === null
+            ? null
+            : undefined,
         agendaOrder:
           typeof params.agendaOrder === "string"
             ? params.agendaOrder
