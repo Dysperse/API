@@ -4,11 +4,13 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import tz from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
 import { RRule } from "rrule";
 dayjs.extend(utc);
 dayjs.extend(isBetween);
+dayjs.extend(tz);
 
 interface PerspectiveUnit {
   start: string | Dayjs;
@@ -18,6 +20,7 @@ interface PerspectiveUnit {
 
 export async function GET(req: NextRequest) {
   try {
+    console.log(dayjs.tz.guess());
     const { spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "type", required: true },
