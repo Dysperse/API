@@ -20,7 +20,6 @@ interface PerspectiveUnit {
 
 export async function GET(req: NextRequest) {
   try {
-    console.log(dayjs.tz.guess());
     const { spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "type", required: true },
@@ -28,7 +27,9 @@ export async function GET(req: NextRequest) {
       { name: "end", required: true },
       { name: "id", required: true },
       { name: "all", required: false },
+      { name: "timezone", required: true },
     ]);
+    dayjs.tz.setDefault("UTC");
 
     const map = {
       week: "day",
@@ -38,8 +39,8 @@ export async function GET(req: NextRequest) {
 
     if (!map[params.type]) return Response.json({ error: "Invalid `type`" });
 
-    const start = dayjs(params.start);
-    const end = dayjs(params.end);
+    const start = dayjs(params.start).tz(params.timezone);
+    const end = dayjs(params.end).tz(params.timezone);
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
