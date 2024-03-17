@@ -55,9 +55,28 @@ model User {
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
 
+  // Focus panel widgets
+  widgets FocusPanelWidget[]
+
   // etc
   labels             Label[]
   invitedCollections CollectionAccess[]
+}
+
+enum Widget {
+  UPNEXT
+  WEATHER
+  CLOCK
+  ASSISTANT
+  MUSIC
+}
+
+model FocusPanelWidget {
+  id     String @id @unique @default(uuid())
+  type   Widget
+  params Json
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 model Profile {
@@ -98,16 +117,16 @@ model NotificationSubscription {
   id String @id @unique @default(uuid())
 
   subscription Json
-  User         User?   @relation(fields: [userId], references: [id])
+  User         User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String?
 }
 
 // Friends
 model Follows {
-  follower   User   @relation("follower", fields: [followerId], references: [id])
+  follower   User   @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
   followerId String
 
-  following   User   @relation("following", fields: [followingId], references: [id])
+  following   User   @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
   followingId String
 
   accepted Boolean @default(false)
@@ -123,16 +142,13 @@ model Tab {
   slug   String
   params Json?
 
-  collection   Collection? @relation(fields: [collectionId], references: [id])
+  collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String?
 
-  labelId String?
-  label   Label?  @relation(fields: [labelId], references: [id])
-
   order         String?
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
-  Profile       Profile? @relation(fields: [profileUserId], references: [userId])
+  Profile       Profile? @relation(fields: [profileUserId], references: [userId], onDelete: Cascade)
   profileUserId String?
 }
 
@@ -166,8 +182,8 @@ model Integration {
 
   options Json?
 
-  space     Space  @relation(fields: [spaceId], references: [id])
-  createdBy User   @relation(fields: [userId], references: [id])
+  space     Space  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  createdBy User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   spaceId   String
   userId    String
 
@@ -184,10 +200,10 @@ model SpaceInvite {
   access   SpaceAccess @default(OWNER)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   spaceId String
-  space   Space  @relation(fields: [spaceId], references: [id])
+  space   Space  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 }
 
 // Labels & Entities 
@@ -200,16 +216,15 @@ model Label {
 
   // Location
   entities  Entity[]
-  space     Space?   @relation(fields: [spaceId], references: [id])
+  space     Space?   @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   spaceId   String
-  createdBy User     @relation(fields: [userId], references: [id])
+  createdBy User     @relation(fields: [userId], references: [id], onDelete: SetDefault)
   userId    String
 
   // Collection?
   collections Collection[]
-  tab         Tab[]
 
-  integration       Integration? @relation(fields: [integrationId], references: [id])
+  integration       Integration? @relation(fields: [integrationId], references: [id], onDelete: SetNull)
   integrationId     String?
   integrationParams Json?
 }
@@ -247,7 +262,7 @@ model CollectionAccess {
   userId String
 
   collectionId String
-  collection   Collection @relation(fields: [collectionId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 }
 
 model CollectionLink {
@@ -258,7 +273,7 @@ model CollectionLink {
   readOnly Boolean @default(false)
 
   collectionId String
-  collection   Collection @relation(fields: [collectionId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 }
 
 model Collection {
@@ -275,15 +290,15 @@ model Collection {
   gridOrder Json?
 
   // Location
-  space   Space?  @relation(fields: [spaceId], references: [id])
+  space   Space?  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   spaceId String?
 
   userId    String?
-  createdBy User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdBy User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   // Stuff
   labels      Label[]
-  integration Integration? @relation(fields: [integrationId], references: [id])
+  integration Integration? @relation(fields: [integrationId], references: [id], onDelete: SetNull)
   tab         Tab[]
 
   entities      Entity[]
@@ -320,10 +335,10 @@ model Entity {
   labelOrder  String?
 
   spaceId String?
-  space   Space?  @relation(fields: [spaceId], references: [id])
+  space   Space?  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   labelId String?
 
-  integration       Integration? @relation(fields: [integrationId], references: [id])
+  integration       Integration? @relation(fields: [integrationId], references: [id], onDelete: Cascade)
   integrationId     String?
   integrationParams Json?
 }

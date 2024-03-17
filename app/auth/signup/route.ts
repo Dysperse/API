@@ -104,6 +104,35 @@ export async function POST(req: NextRequest) {
     });
 
     // Create tabs based on methods
+    for (const method of params.methods) {
+      if (method === "POMODORO") {
+        await prisma.focusPanelWidget.create({
+          data: {
+            type: "CLOCK",
+            params: {
+              mode: "POMODORO",
+            },
+            user: { connect: { id: user.id } },
+          },
+        });
+      } else {
+        await prisma.tab.create({
+          data: {
+            slug: `/[tab]/collections/[id]/[type]`,
+            user: { connect: { id: user.id } },
+            params: {
+              type: {
+                PLANNER: "planner",
+                KANBAN: "kanban",
+                EISENHOWER: "stream",
+                CHECKLIST: "matrix",
+              }[method],
+              id: "all",
+            },
+          },
+        });
+      }
+    }
 
     // Create a session
     const session = await prisma.session.create({

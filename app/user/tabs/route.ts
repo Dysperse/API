@@ -14,12 +14,6 @@ export async function GET(req: NextRequest) {
       },
       orderBy: { order: "asc" },
       include: {
-        label: {
-          select: {
-            name: true,
-            emoji: true,
-          },
-        },
         collection: {
           select: { name: true, emoji: true },
           where: {
@@ -75,7 +69,6 @@ export async function POST(req: NextRequest) {
           params.params.id !== "all" && {
             collectionId: params.params.id,
           }),
-        ...(params.slug.includes("/labels/") && { labelId: params.params.id }),
       },
     });
     return Response.json(tab);
