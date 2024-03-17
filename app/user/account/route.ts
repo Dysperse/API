@@ -15,7 +15,9 @@ export async function PUT(req: NextRequest) {
     );
     const data = await prisma.user.update({
       where: { id: userId },
-      data: { lastReleaseVersionViewed: params.name || undefined },
+      data: {
+        lastReleaseVersionViewed: params.lastReleaseVersionViewed || undefined,
+      },
     });
     return Response.json(data);
   } catch (e) {
