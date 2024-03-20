@@ -61,6 +61,20 @@ model User {
   // etc
   labels             Label[]
   invitedCollections CollectionAccess[]
+  resetTokens        ResetToken[]
+}
+
+enum ResetTokenType {
+  EMAIL
+  PASSWORD
+}
+
+model ResetToken {
+  token   String         @id @unique @default(uuid())
+  expires DateTime
+  type    ResetTokenType
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
 }
 
 enum Widget {
