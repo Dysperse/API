@@ -7,7 +7,7 @@ interface EmailProps {
   token?: string;
 }
 
-export default function ForgotPasswordEmail({
+export default function ResetEmail({
   name = "[name]",
   email = "[email]",
   token = "86a59950-785c-4b69-b009-42f56ce53112",
@@ -18,7 +18,7 @@ export default function ForgotPasswordEmail({
       title="Reset your email"
       email={email}
       name={name}
-      previewText="Reset your email"
+      previewText="Here's the code to reset your email for your Dysperse account"
     >
       <Text className="text-black text-[14px] leading-[24px]">
         You recently requested us to change the email address for your Dysperse
@@ -28,9 +28,10 @@ export default function ForgotPasswordEmail({
         {token}
       </Section>
       <Text className="text-black text-[14px] leading-[24px]">
-        This code is only valid for 3 hours. If you didn&apos;t ask to change
-        your email, chances are, someone else is trying to access your account.
-        In that case, you can safely disregard this email 😎
+        This code is only valid for 3 hours and can only be used once. If you
+        didn&apos;t ask to change your email, chances are, someone else is
+        trying to access your account. In that case, you can safely disregard
+        this email 😎
       </Text>
     </EmailWrapper>
   );
