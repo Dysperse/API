@@ -49,11 +49,11 @@ export function EmailWrapper({
       <Tailwind>
         <Body className="bg-white my-auto mx-auto font-sans">
           <Img
-            src={`https://assets.dysperse.com/footer.png`}
-            width={192}
-            height={48}
+            src={`https://assets.dysperse.com/Dysperse.png?`}
+            width={8640 / 35}
+            height={4320 / 35}
             alt="Dysperse"
-            className="my-10 mx-auto text-center"
+            className="mt-10 mb-5 mx-auto text-center"
           />
           <Container className="border border-solid border-[#eaeaea] rounded-2xl my-[40px] mt-0 mx-auto p-[20px] w-[465px]">
             <Section className="mt-[32px]">
