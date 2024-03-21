@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (!user) throw new Error("Incorrect email or username");
+    if (!user) throw new Error("ERROR_USER_NOT_FOUND");
 
     const data = await prisma.resetToken.create({
       data: {
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       react: ForgotPasswordEmail({
         email: params.email,
         name: user.name,
-        link: `${process.env.FRONTEND_URL}/auth/forgot-password/${data.token}`,
+        token: `${process.env.FRONTEND_URL}/auth/forgot-password/${data.token}`,
       }),
     });
 
@@ -77,15 +77,11 @@ export async function PUT(req: NextRequest) {
         { name: "emailToken", required: true },
         { name: "captchaToken", required: true },
         { name: "password", required: true },
-        { name: "confirmPassword", required: true },
         { name: "deviceName", required: true },
         { name: "deviceType", required: true },
       ],
       { type: "BODY" }
     );
-
-    if (params.password !== params.confirmPassword)
-      throw new Error("Passwords do not match");
 
     const user = await prisma.resetToken.findFirstOrThrow({
       where: {
