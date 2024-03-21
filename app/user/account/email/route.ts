@@ -12,13 +12,10 @@ dayjs.extend(require("dayjs/plugin/utc"));
 export async function POST(req: NextRequest) {
   try {
     const params = await getApiParams(req, [{ name: "email", required: true }]);
-
     const resend = new Resend(process.env.RESEND_API_KEY);
-
     const { userId } = await getIdentifiers();
 
     const user = await prisma.profile.findFirstOrThrow({ where: { userId } });
-
     const exists = await prisma.user.findFirst({
       where: { email: params.email },
     });
@@ -29,6 +26,7 @@ export async function POST(req: NextRequest) {
       data: {
         user: { connect: { id: userId } },
         type: "EMAIL",
+        token: Math.floor(Math.random() * 1000000000).toString(),
         expires: dayjs().utc().add(3, "hour").toISOString(),
         emailData: params.email,
       },

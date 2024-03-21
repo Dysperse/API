@@ -70,7 +70,8 @@ enum ResetTokenType {
 }
 
 model ResetToken {
-  token     String         @id @unique @default(uuid())
+  id        String         @id @unique @default(uuid())
+  token     String
   expires   DateTime
   emailData String?
   type      ResetTokenType
