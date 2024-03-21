@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       react: ForgotPasswordEmail({
         email: params.email,
         name: user.name,
-        token: `${process.env.FRONTEND_URL}/auth/forgot-password/${data.token}`,
+        token: data.token,
       }),
     });
 
