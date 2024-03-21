@@ -67,6 +67,7 @@ export async function PUT(req: NextRequest) {
         ],
       },
       select: {
+        id: true,
         emailData: true,
       },
     });
@@ -76,7 +77,7 @@ export async function PUT(req: NextRequest) {
       data: { email: tokenData.emailData as string },
     });
 
-    await prisma.resetToken.delete({ where: { token: params.token } });
+    await prisma.resetToken.delete({ where: { id: tokenData.id } });
 
     return Response.json({ success: true });
   } catch (e) {
