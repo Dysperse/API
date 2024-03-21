@@ -7,6 +7,8 @@ import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 import { Resend } from "resend";
 
+dayjs.extend(require("dayjs/plugin/utc"));
+
 export async function POST(req: NextRequest) {
   try {
     const params = await getApiParams(req, [{ name: "email", required: true }]);
@@ -15,18 +17,24 @@ export async function POST(req: NextRequest) {
 
     const { userId } = await getIdentifiers();
 
-    const user = await prisma.profile.findFirstOrThrow({
-      where: { userId },
-      select: { name: true },
+    const user = await prisma.profile.findFirstOrThrow({ where: { userId } });
+
+    const exists = await prisma.user.findFirst({
+      where: { email: params.email },
     });
+
+    if (exists) throw new Error("Email already exists");
 
     const data = await prisma.resetToken.create({
       data: {
         user: { connect: { id: userId } },
         type: "EMAIL",
         expires: dayjs().utc().add(3, "hour").toISOString(),
+        emailData: params.email,
       },
     });
+
+    console.log(data);
 
     await resend.emails.send({
       from: "hello@dysperse.com",
@@ -35,9 +43,44 @@ export async function POST(req: NextRequest) {
       react: ResetEmail({
         email: params.email,
         name: user.name,
+        token: data.token,
       }),
     });
     return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const params = await getApiParams(req, [{ name: "token", required: true }]);
+
+    const { userId } = await getIdentifiers();
+
+    const tokenData = await prisma.resetToken.findFirstOrThrow({
+      where: {
+        AND: [
+          { token: params.token },
+          { type: "EMAIL" },
+          { emailData: { not: null } },
+          { userId },
+          { expires: { gte: dayjs().utc().toISOString() } },
+        ],
+      },
+      select: {
+        emailData: true,
+      },
+    });
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { email: tokenData.emailData as string },
+    });
+
+    await prisma.resetToken.delete({ where: { token: params.token } });
+
+    return Response.json({ success: true });
   } catch (e) {
     return handleApiError(e);
   }

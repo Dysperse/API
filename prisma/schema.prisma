@@ -70,11 +70,12 @@ enum ResetTokenType {
 }
 
 model ResetToken {
-  token   String         @id @unique @default(uuid())
-  expires DateTime
-  type    ResetTokenType
-  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String
+  token     String         @id @unique @default(uuid())
+  expires   DateTime
+  emailData String?
+  type      ResetTokenType
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
 }
 
 enum Widget {

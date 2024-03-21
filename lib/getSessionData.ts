@@ -56,6 +56,10 @@ export async function getSessionData(
     },
     user: {
       ...session.user,
+      profile: {
+        ...session.user.profile,
+        lastActive: null,
+      },
       spaces: undefined,
     },
     space: session.user.spaces.find((s) => s.selected),
