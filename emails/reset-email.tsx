@@ -10,7 +10,7 @@ interface EmailProps {
 export default function ResetEmail({
   name = "[name]",
   email = "[email]",
-  token = "86a59950-785c-4b69-b009-42f56ce53112",
+  token = "--------",
 }: EmailProps) {
   return (
     <EmailWrapper

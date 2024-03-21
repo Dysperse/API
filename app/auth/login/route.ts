@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { verifyTurnstileToken } from "@/lib/verifyTurnstileToken";
 import argon2 from "argon2";
 import { NextRequest } from "next/server";
 const twofactor = require("node-2fa");
@@ -20,9 +21,12 @@ export async function POST(req: NextRequest) {
         { name: "deviceName", required: true },
         { name: "deviceType", required: true },
         { name: "twoFactorCode", required: false },
+        { name: "captchaToken", required: true },
       ],
       { type: "BODY" }
     );
+
+    await verifyTurnstileToken(params.captchaToken);
 
     const acc = await prisma.user.findFirstOrThrow({
       where: {

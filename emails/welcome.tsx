@@ -12,7 +12,7 @@ export const WelcomeEmail = ({
 }: EmailProps) => {
   return (
     <EmailWrapper
-      emoji="1f44b"
+      emoji="1f917"
       title="Welcome to Dysperse"
       email={email}
       name={name}
