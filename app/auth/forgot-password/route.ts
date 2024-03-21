@@ -74,7 +74,7 @@ export async function PUT(req: NextRequest) {
       req,
       [
         { name: "email", required: true },
-        { name: "emailToken", required: true },
+        { name: "token", required: true },
         { name: "captchaToken", required: true },
         { name: "password", required: true },
         { name: "deviceName", required: true },
@@ -86,7 +86,7 @@ export async function PUT(req: NextRequest) {
     const user = await prisma.resetToken.findFirstOrThrow({
       where: {
         AND: [
-          { token: params.emailToken },
+          { token: params.token },
           { type: "PASSWORD" },
           { user: { email: params.email } },
           { expires: { gte: dayjs().utc().toISOString() } },
