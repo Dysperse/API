@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 
-const nonReadOnlyPermissionArgs = (
+export const nonReadOnlyPermissionArgs = (
   userId: string,
   params,
   spaceId
@@ -18,7 +18,11 @@ const nonReadOnlyPermissionArgs = (
       collection: {
         invitedUsers: {
           some: {
-            AND: [{ userId }, { access: { not: "READ_ONLY" } }],
+            AND: [
+              { userId },
+              { access: { not: "READ_ONLY" } },
+              { id: params.id },
+            ],
           },
         },
       },
@@ -29,7 +33,11 @@ const nonReadOnlyPermissionArgs = (
           some: {
             invitedUsers: {
               some: {
-                AND: [{ userId }, { access: { not: "READ_ONLY" } }],
+                AND: [
+                  { userId },
+                  { access: { not: "READ_ONLY" } },
+                  { id: params.id },
+                ],
               },
             },
           },
@@ -111,11 +119,21 @@ export async function GET(req: NextRequest) {
           // For people within the space
           { AND: [{ id: params.id }, { spaceId }] },
           // For people outside the space but invited
-          { collection: { invitedUsers: { some: { userId } } } },
           {
-            label: {
-              collections: { some: { invitedUsers: { some: { userId } } } },
-            },
+            AND: [
+              { id: params.id },
+              { collection: { invitedUsers: { some: { userId } } } },
+            ],
+          },
+          {
+            AND: [
+              { id: params.id },
+              {
+                label: {
+                  collections: { some: { invitedUsers: { some: { userId } } } },
+                },
+              },
+            ],
           },
         ],
       },
