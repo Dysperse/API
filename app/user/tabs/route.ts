@@ -70,6 +70,14 @@ export async function POST(req: NextRequest) {
             collectionId: params.params.id,
           }),
       },
+      include: {
+        collection: {
+          select: { name: true, emoji: true },
+          where: {
+            OR: [{ public: true }, { AND: [{ public: false }, { userId }] }],
+          },
+        },
+      },
     });
     return Response.json(tab);
   } catch (e) {
