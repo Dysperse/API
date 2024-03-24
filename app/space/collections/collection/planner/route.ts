@@ -20,7 +20,7 @@ interface PerspectiveUnit {
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers();
+    const { spaceId, userId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "type", required: true },
       { name: "start", required: true },
@@ -69,7 +69,17 @@ export async function GET(req: NextRequest) {
                   { label: { collections: { some: { id: params.id } } } },
                 ],
               },
-          { space: { id: spaceId } },
+          {
+            OR: [
+              { space: { id: spaceId } },
+              { collection: { invitedUsers: { some: { userId } } } },
+              {
+                label: {
+                  collections: { some: { invitedUsers: { some: { userId } } } },
+                },
+              },
+            ],
+          },
           { trash: false },
           {
             OR: [
