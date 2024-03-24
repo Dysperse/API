@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     const data = await prisma.collectionAccess.findMany({
       where: { userId },
       select: {
+        hasSeen: true,
         collection: {
           include: {
             _count: true,
