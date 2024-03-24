@@ -4,7 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import ical from "ical";
 import { NextRequest } from "next/server";
-
+export const dynamic = "force-dynamic";
 export const extractTextInBrackets = (name: string) => {
   const matches = name.match(/\[(.*?)\]/);
   return matches ? matches[1] : "";

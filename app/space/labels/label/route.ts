@@ -4,7 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { entitiesSelection } from "../../collections/collection/entitiesSelection";
-
+export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const { spaceId } = await getIdentifiers();

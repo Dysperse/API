@@ -4,7 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { nonReadOnlyPermissionArgs } from "../route";
-
+export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();

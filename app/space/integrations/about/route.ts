@@ -1,7 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { NextRequest } from "next/server";
 import integrations from "../integrations.json";
-
+export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   const params = await getApiParams(req, [{ name: "id", required: false }]);
 

@@ -3,7 +3,7 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { googleClient } from "../../redirect/route";
-
+export const dynamic = "force-dynamic";
 export function refreshGoogleAuthTokens(
   tokenObj: any,
   oauth2Client: any,

@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 import { Resend } from "resend";
-
+export const dynamic = "force-dynamic";
 dayjs.extend(require("dayjs/plugin/utc"));
 
 export async function POST(req: NextRequest) {

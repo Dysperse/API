@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { googleClient } from "../redirect/route";
-
+export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   let name = "";
   let id = "";

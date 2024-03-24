@@ -3,6 +3,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
 const STORAGE_UNITS = {
   max: 1000,
   entityMultipliers: {

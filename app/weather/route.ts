@@ -1,7 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { NextRequest } from "next/server";
-
+export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const params = await getApiParams(req, [
