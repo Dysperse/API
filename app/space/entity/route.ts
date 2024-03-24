@@ -2,7 +2,42 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
+
+const nonReadOnlyPermissionArgs = (
+  userId: string,
+  params,
+  spaceId
+): Prisma.EntityWhereInput => ({
+  AND: [
+    // For people within the space
+    { AND: [{ id: params.id }, { spaceId }] },
+    // For people outside the space but invited
+    {
+      collection: {
+        invitedUsers: {
+          some: {
+            AND: [{ userId }, { access: { not: "READ_ONLY" } }],
+          },
+        },
+      },
+    },
+    {
+      label: {
+        collections: {
+          some: {
+            invitedUsers: {
+              some: {
+                AND: [{ userId }, { access: { not: "READ_ONLY" } }],
+              },
+            },
+          },
+        },
+      },
+    },
+  ],
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -107,12 +142,10 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers();
+    const { spaceId, userId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
     const data = await prisma.entity.updateMany({
-      where: {
-        AND: [{ id: params.id }, { spaceId }],
-      },
+      where: nonReadOnlyPermissionArgs(userId, params, spaceId),
       data: {
         trash: true,
       },
@@ -125,7 +158,7 @@ export async function DELETE(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers();
+    const { spaceId, userId } = await getIdentifiers();
     const params = await getApiParams(
       req,
       [
@@ -142,9 +175,7 @@ export async function PUT(req: NextRequest) {
       { type: "BODY" }
     );
     const data = await prisma.entity.updateMany({
-      where: {
-        AND: [{ spaceId }, { id: params.id }],
-      },
+      where: nonReadOnlyPermissionArgs(userId, params, spaceId),
       data: {
         name: params.name ?? undefined,
         labelId: params.labelId ?? undefined,

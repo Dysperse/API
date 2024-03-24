@@ -62,7 +62,6 @@ export async function GET(req: NextRequest) {
       where: {
         AND: [{ userId: identifiers.userId }, { collectionId: params.id }],
       },
-      select: { id: true, collectionId: true },
     });
 
     let data = await prisma.collection.findFirstOrThrow({
@@ -158,6 +157,6 @@ export async function GET(req: NextRequest) {
         return label;
       });
     }
-    return Response.json(data);
+    return Response.json({ ...data, access: foundInviteId });
   } catch (e) {}
 }
