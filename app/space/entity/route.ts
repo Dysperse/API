@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId, spaceId } = await getIdentifiers();
+    const { spaceId } = await getIdentifiers();
 
     const params = await getApiParams(
       req,
@@ -67,11 +67,22 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers();
+    const { userId, spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
+
     const data = await prisma.entity.findFirstOrThrow({
       where: {
-        AND: [{ id: params.id }, { spaceId }],
+        OR: [
+          // For people within the space
+          { AND: [{ id: params.id }, { spaceId }] },
+          // For people outside the space but invited
+          { collection: { invitedUsers: { some: { userId } } } },
+          {
+            label: {
+              collections: { some: { invitedUsers: { some: { userId } } } },
+            },
+          },
+        ],
       },
       include: {
         completionInstances: {
@@ -86,6 +97,8 @@ export async function GET(req: NextRequest) {
         },
       },
     });
+
+    console.log(data);
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);

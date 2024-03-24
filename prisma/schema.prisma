@@ -269,10 +269,9 @@ enum CollectionAccessType {
 }
 
 model CollectionAccess {
-  id       String               @id @unique @default(uuid())
-  selected Boolean              @default(true)
-  hasSeen  Boolean              @default(false)
-  access   CollectionAccessType @default(READ_ONLY)
+  id      String               @id @unique @default(uuid())
+  hasSeen Boolean              @default(false)
+  access  CollectionAccessType @default(READ_ONLY)
 
   user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String

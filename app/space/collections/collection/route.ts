@@ -1,6 +1,5 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
-import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
@@ -59,9 +58,25 @@ export async function GET(req: NextRequest) {
       where: { id: params.id },
     });
 
+    const foundInviteId = await prisma.collectionAccess.findFirst({
+      where: {
+        AND: [{ userId: identifiers.userId }, { collectionId: params.id }],
+      },
+      select: { id: true, collectionId: true },
+    });
+
     let data = await prisma.collection.findFirstOrThrow({
       where: {
-        AND: [{ spaceId: identifiers.spaceId }, { id: params.id }],
+        OR: [
+          { AND: [{ spaceId: identifiers.spaceId }, { id: params.id }] },
+          foundInviteId?.id
+            ? {
+                invitedUsers: {
+                  some: { id: foundInviteId.id },
+                },
+              }
+            : {},
+        ],
       },
       include: {
         _count: true,
@@ -144,7 +159,5 @@ export async function GET(req: NextRequest) {
       });
     }
     return Response.json(data);
-  } catch (e) {
-    return handleApiError(e);
-  }
+  } catch (e) {}
 }
