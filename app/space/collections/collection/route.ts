@@ -1,5 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
+import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { entitiesSelection } from "./entitiesSelection";
@@ -141,5 +142,7 @@ export async function GET(req: NextRequest) {
       });
     }
     return Response.json({ ...data, access: foundInviteId });
-  } catch (e) {}
+  } catch (e) {
+    return handleApiError(e);
+  }
 }
