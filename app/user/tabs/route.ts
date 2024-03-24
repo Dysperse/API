@@ -79,6 +79,21 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
+    if (tab.collectionId)
+      await prisma.collectionAccess.updateMany({
+        where: {
+          AND: [
+            { collectionId: tab.collectionId },
+            { userId },
+            { hasSeen: false },
+          ],
+        },
+        data: {
+          hasSeen: true,
+        },
+      });
+
     return Response.json(tab);
   } catch (e) {
     return handleApiError(e);
