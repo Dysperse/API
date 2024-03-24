@@ -1,25 +1,8 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
 import { NextRequest } from "next/server";
-
-export function omit(keys, obj) {
-  const filteredObj = { ...obj };
-  keys.forEach((key) => delete filteredObj[key]);
-  return filteredObj;
-}
-
-export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
-  include: {
-    completionInstances: true,
-    label: true,
-  },
-  where: {
-    trash: false,
-  },
-};
+import { entitiesSelection } from "./entitiesSelection";
 
 export async function GET(req: NextRequest) {
   try {

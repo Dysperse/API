@@ -3,7 +3,7 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
-import { entitiesSelection } from "../../collections/collection/route";
+import { entitiesSelection } from "../../collections/collection/entitiesSelection";
 
 export async function GET(req: NextRequest) {
   try {
