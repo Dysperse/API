@@ -206,7 +206,13 @@ export async function PUT(req: NextRequest) {
       { type: "BODY" }
     );
     const data = await prisma.entity.updateMany({
-      where: nonReadOnlyPermissionArgs(userId, params, spaceId),
+      where: nonReadOnlyPermissionArgs(
+        userId,
+        typeof params.id === "string"
+          ? { id: params.id }
+          : { id: { in: params.id } },
+        spaceId
+      ),
       data: {
         name: params.name ?? undefined,
         labelId: params.labelId ?? undefined,
