@@ -15,22 +15,11 @@ export const nonReadOnlyPermissionArgs = (
     { AND: [{ id: params.id }, { spaceId }] },
     // For people outside the space but invited
     {
-      collection: {
-        invitedUsers: {
-          some: {
-            AND: [
-              { userId },
-              { access: { not: "READ_ONLY" } },
-              { id: params.id },
-            ],
-          },
-        },
-      },
-    },
-    {
-      label: {
-        collections: {
-          some: {
+      OR: [
+        { collection: null },
+        { spaceId },
+        {
+          collection: {
             invitedUsers: {
               some: {
                 AND: [
@@ -42,7 +31,30 @@ export const nonReadOnlyPermissionArgs = (
             },
           },
         },
-      },
+      ],
+    },
+    {
+      OR: [
+        { label: null },
+        { label: { spaceId } },
+        {
+          label: {
+            collections: {
+              some: {
+                invitedUsers: {
+                  some: {
+                    AND: [
+                      { userId },
+                      { access: { not: "READ_ONLY" } },
+                      { id: params.id },
+                    ],
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
     },
   ],
 });
