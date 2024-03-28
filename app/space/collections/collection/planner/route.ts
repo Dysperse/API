@@ -146,7 +146,6 @@ export async function GET(req: NextRequest) {
       end: unit.end,
       tasks: tasksByUnit.get(unit),
     }));
-
     return Response.json(returned);
   } catch (e) {
     return handleApiError(e);
