@@ -11,7 +11,9 @@ import { RRule } from "rrule";
 dayjs.extend(utc);
 dayjs.extend(isBetween);
 dayjs.extend(tz);
+
 export const dynamic = "force-dynamic";
+
 interface PerspectiveUnit {
   start: string | Dayjs;
   end: string | Dayjs;
