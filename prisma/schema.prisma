@@ -337,7 +337,7 @@ model Entity {
   trash          Boolean   @default(false)
   due            DateTime?
   dateOnly       Boolean   @default(true)
-  recurrenceRule String?
+  recurrenceRule Json?
   notifications  Int[]     @default([10, 30, 60])
 
   // ONLY for tasks

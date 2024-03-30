@@ -104,7 +104,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
                 name: eventData.summary,
                 note: eventData.description,
                 due: eventData.start.dateTime,
-                recurrenceRule: eventData.recurrence?.[0],
+                // recurrenceRule: eventData.recurrence?.[0],
                 labelId: labelData.label.id,
                 integrationId: integration.id,
                 integrationParams: {

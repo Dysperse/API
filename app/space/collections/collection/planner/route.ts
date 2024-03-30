@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import dayjs, { Dayjs } from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import tz from "dayjs/plugin/timezone";
@@ -41,8 +42,8 @@ export async function GET(req: NextRequest) {
 
     if (!map[params.type]) return Response.json({ error: "Invalid `type`" });
 
-    const start = dayjs(params.start).tz(params.timezone);
-    const end = dayjs(params.end).tz(params.timezone);
+    const start = dayjs(params.start).utc();
+    const end = dayjs(params.end).utc();
 
     // Create an array of dates as Dayjs objects for each perspective unit
     const units: PerspectiveUnit[] = Array.from(
@@ -86,10 +87,12 @@ export async function GET(req: NextRequest) {
           {
             OR: [
               {
-                recurrenceRule: null,
-                due: { gte: start.toDate(), lte: end.toDate() },
+                AND: [
+                  { recurrenceRule: { equals: Prisma.AnyNull } },
+                  { due: { gte: start.toDate(), lte: end.toDate() } },
+                ],
               },
-              { recurrenceRule: { not: null } },
+              { recurrenceRule: { not: Prisma.AnyNull } },
             ],
           },
         ],
@@ -115,19 +118,16 @@ export async function GET(req: NextRequest) {
     // Populate the tasks for each perspective unit
     for (const task of recurringTasks) {
       if (!task.recurrenceRule) continue;
-      const rule = RRule.fromString(
-        `DTSTART:${start.format("YYYYMMDDTHHmmss[Z]")}\n` +
-          (task.recurrenceRule.includes("\n")
-            ? task.recurrenceRule.split("\n")[1]
-            : task.recurrenceRule
-          ).replace(/^EXDATE.*$/, "")
-      ).between(start.toDate(), end.toDate(), true);
+      const rule = new RRule({
+        ...(task as any).recurrenceRule,
+        dtstart: new Date((task as any).recurrenceRule.dtstart),
+      }).between(start.toDate(), end.toDate());
 
       for (const dueDate of rule) {
-        const due = dayjs(dueDate).utc();
-        const unit = units.find(({ start, end }) =>
-          due.isBetween(start, end, null, "[]")
-        );
+        // SEE THIS: https://github.com/jkbrzt/rrule?tab=readme-ov-file#important-use-utc-dates
+
+        const due = dayjs(dueDate).utc().tz(params.timezone, true);
+        const unit = units.find(({ start, end }) => due.isBetween(start, end));
         if (unit)
           tasksByUnit.get(unit).push({ ...task, recurrenceDay: dueDate });
       }
