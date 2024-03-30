@@ -47,7 +47,7 @@ export async function DELETE(req: NextRequest) {
       req,
       [
         { name: "id", required: true },
-        { name: "recurring", required: true },
+        { name: "iteration", required: false },
       ],
       {
         type: "BODY",
@@ -60,9 +60,13 @@ export async function DELETE(req: NextRequest) {
     });
 
     const instance = await prisma.completionInstance.deleteMany({
-      where: {
-        task: { id: params.id },
-      },
+      where: params.iteration
+        ? {
+            AND: [{ iteration: params.iteration }, { task: { id: params.id } }],
+          }
+        : {
+            task: { id: params.id },
+          },
     });
 
     return Response.json({ instance });
