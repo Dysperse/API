@@ -151,9 +151,7 @@ export async function GET(req: NextRequest) {
         ],
       },
       include: {
-        completionInstances: {
-          take: 1,
-        },
+        completionInstances: true,
         label: true,
         space: {
           select: {

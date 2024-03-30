@@ -175,12 +175,18 @@ enum SpaceAccess {
   OWNER
 }
 
+enum WeekStartDay {
+  SUNDAY
+  MONDAY
+}
+
 model Space {
-  id         String  @id @unique @default(uuid())
+  id         String       @id @unique @default(uuid())
   name       String
-  color      String  @default("mint")
+  color      String       @default("mint")
   pattern    String?
-  vanishMode Boolean @default(false)
+  vanishMode Boolean      @default(false)
+  weekStart  WeekStartDay @default(SUNDAY)
 
   collections  Collection[]
   labels       Label[]

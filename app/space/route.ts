@@ -1,4 +1,5 @@
 import { getApiParams } from "@/lib/getApiParams";
+import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
@@ -15,6 +16,52 @@ const STORAGE_UNITS = {
   },
 };
 
+export async function PUT(req: NextRequest) {
+  try {
+    const { userId } = await getIdentifiers();
+    const { spaceId } = await getApiParams(req, [
+      { name: "spaceId", required: true },
+    ]);
+
+    const { name, color, pattern, weekStart, vanishMode } = await getApiParams(
+      req,
+      [
+        { name: "name", required: false },
+        { name: "color", required: false },
+        { name: "pattern", required: false },
+        { name: "weekStart", required: false },
+        { name: "vanishMode", required: false },
+      ]
+    );
+
+    const space = await prisma.space.updateMany({
+      where: {
+        AND: [
+          { id: spaceId },
+          {
+            members: {
+              some: {
+                AND: [{ userId }, { access: { in: ["OWNER", "ADMIN"] } }],
+              },
+            },
+          },
+        ],
+      },
+      data: {
+        name,
+        color,
+        pattern,
+        weekStart,
+        vanishMode,
+      },
+    });
+
+    return Response.json(space);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function GET(req: NextRequest) {
   try {
     const { spaceId } = await getApiParams(req, [
@@ -30,6 +77,8 @@ export async function GET(req: NextRequest) {
         color: true,
         pattern: true,
         _count: true,
+        weekStart: true,
+        vanishMode: true,
         entities: {
           select: { type: true },
         },
