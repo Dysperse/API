@@ -5,13 +5,21 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { nonReadOnlyPermissionArgs } from "../route";
 export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();
 
-    const params = await getApiParams(req, [{ name: "id", required: true }], {
-      type: "BODY",
-    });
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "iteration", required: false },
+      ],
+      {
+        type: "BODY",
+      }
+    );
 
     await prisma.entity.findFirstOrThrow({
       where: nonReadOnlyPermissionArgs(userId, params, spaceId),
@@ -21,6 +29,7 @@ export async function POST(req: NextRequest) {
     const instance = await prisma.completionInstance.create({
       data: {
         task: { connect: { id: params.id } },
+        iteration: params.iteration,
       },
     });
 
@@ -45,9 +54,6 @@ export async function DELETE(req: NextRequest) {
       }
     );
 
-    if (params.recurring) {
-      throw new Error("Coming soon!");
-    }
     await prisma.entity.findFirstOrThrow({
       where: nonReadOnlyPermissionArgs(userId, params, spaceId),
       select: { id: true },
