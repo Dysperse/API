@@ -153,6 +153,7 @@ export async function GET(req: NextRequest) {
       include: {
         completionInstances: true,
         label: true,
+        collection: true,
         space: {
           select: {
             name: true,
