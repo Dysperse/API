@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
         { name: "notifications", required: false },
         { name: "agendaOrder", required: false },
         { name: "collectionId", required: false },
+        { name: "storyPoints", required: false },
       ],
       { type: "BODY" }
     );
@@ -87,6 +88,7 @@ export async function POST(req: NextRequest) {
         name: params.name,
         type: params.type,
         note: params.note,
+        storyPoints: params.storyPoints || 2,
         agendaOrder: params.agendaOrder || "0|hzzzzz:",
         due: params.due ? new Date(params.due) : undefined,
         dateOnly: Boolean(params.dateOnly ?? true),
@@ -201,6 +203,7 @@ export async function PUT(req: NextRequest) {
         { name: "trash", required: false },
         { name: "agendaOrder", required: false },
         { name: "attachments", required: false },
+        { name: "storyPoints", required: false },
       ],
       { type: "BODY" }
     );
@@ -218,6 +221,7 @@ export async function PUT(req: NextRequest) {
         pinned: typeof params.pinned === "boolean" ? params.pinned : undefined,
         due: params.due ? new Date(params.due) : undefined,
         attachments: params.attachments,
+        storyPoints: params.storyPoints || 2,
         note:
           typeof params.note === "string"
             ? params.note
