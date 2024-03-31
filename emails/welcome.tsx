@@ -12,7 +12,7 @@ export const WelcomeEmail = ({
 }: EmailProps) => {
   return (
     <EmailWrapper
-      emoji="1f44b"
+      emoji="1f917"
       title="Welcome to Dysperse"
       email={email}
       name={name}
@@ -34,7 +34,7 @@ export const WelcomeEmail = ({
           pX={20}
           pY={12}
           className="bg-[#000000] rounded-full text-white text-[12px] font-semibold no-underline text-center"
-          href="https://my.dysperse.com"
+          href="https://api.dysperse.com"
         >
           Check out my dashboard
         </Button>
