@@ -18,10 +18,7 @@ const STORAGE_UNITS = {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers();
-    const { spaceId } = await getApiParams(req, [
-      { name: "spaceId", required: true },
-    ]);
+    const { userId, spaceId } = await getIdentifiers();
 
     const { name, color, pattern, weekStart, vanishMode } = await getApiParams(
       req,
@@ -48,11 +45,11 @@ export async function PUT(req: NextRequest) {
         ],
       },
       data: {
-        name,
-        color,
-        pattern,
-        weekStart,
-        vanishMode,
+        name: name || undefined,
+        color: color || undefined,
+        pattern: pattern || undefined,
+        weekStart: weekStart || undefined,
+        vanishMode: vanishMode || undefined,
       },
     });
 

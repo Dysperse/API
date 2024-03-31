@@ -8,14 +8,11 @@ const twofactor = require("node-2fa");
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = (req.headers.get("x-forwarded-for") ?? "127.0.0.1").split(
-      ","
-    )[0];
-
     // get body
     const params = await getApiParams(
       req,
       [
+        { name: "ip", required: true },
         { name: "email", required: true },
         { name: "password", required: true },
         { name: "deviceName", required: true },
@@ -64,7 +61,7 @@ export async function POST(req: NextRequest) {
         userId: acc.id,
         deviceName: params.deviceName,
         deviceType: params.deviceType.toString(),
-        ip,
+        ip: params.ip,
       },
     });
 
