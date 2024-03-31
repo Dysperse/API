@@ -97,11 +97,7 @@ export async function GET(req: NextRequest) {
             _count: true,
           },
           where: {
-            AND: [
-              { trash: false },
-              { label: null },
-              { completionInstances: { some: { id: { not: "" } } } },
-            ],
+            AND: [{ trash: false }, { label: null }],
           },
         },
         labels: {
