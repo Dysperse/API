@@ -35,6 +35,12 @@ const moduleExports = {
         destination: "/api/session",
         permanent: false,
       },
+      // redirect /published-redirect/* to https://app.dysperse.com/p/*
+      {
+        source: "/published-redirect/:path*",
+        destination: "https://app.dysperse.com/p/:path*",
+        permanent: false,
+      },
       {
         source: "/api/property/tasks/agenda",
         destination: "/api/property/tasks/perspectives",
