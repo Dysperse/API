@@ -356,9 +356,11 @@ model Entity {
   agendaOrder String?
   labelOrder  String?
 
-  spaceId String?
-  space   Space?  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
-  labelId String?
+  spaceId   String?
+  space     Space?  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  published Boolean @default(false)
+  shortId   String? @unique
+  labelId   String?
 
   integration       Integration? @relation(fields: [integrationId], references: [id], onDelete: Cascade)
   integrationId     String?

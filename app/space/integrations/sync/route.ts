@@ -1,6 +1,7 @@
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { generateRandomString } from "@/lib/randomString";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import ical from "ical";
@@ -192,6 +193,7 @@ export async function GET() {
                   data: {
                     spaceId,
                     type: "TASK",
+                    shortId: generateRandomString(6),
                     ...entity.entity,
                   },
                 })

@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { generateRandomString } from "@/lib/randomString";
 import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
@@ -94,6 +95,7 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
+        shortId: generateRandomString(6),
         recurrenceRule: params.recurrenceRule,
         attachments: params.attachments,
         collection: params.collectionId
@@ -204,6 +206,7 @@ export async function PUT(req: NextRequest) {
         { name: "agendaOrder", required: false },
         { name: "attachments", required: false },
         { name: "storyPoints", required: false },
+        { name: "published", required: false },
       ],
       { type: "BODY" }
     );
@@ -222,6 +225,8 @@ export async function PUT(req: NextRequest) {
         due: params.due ? new Date(params.due) : undefined,
         attachments: params.attachments,
         storyPoints: params.storyPoints || 2,
+        published:
+          typeof params.published === "boolean" ? params.published : undefined,
         note:
           typeof params.note === "string"
             ? params.note
