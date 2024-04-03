@@ -66,7 +66,10 @@ export async function GET(req: NextRequest) {
 
     const data = await prisma.entity.findFirstOrThrow({
       where: {
-        AND: [{ published: true, id: params.id }],
+        OR: [
+          { AND: [{ published: true, id: params.id }] },
+          { AND: [{ published: true, shortId: params.id }] },
+        ],
       },
       include: {
         completionInstances: true,
