@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
         notifications: params.notifications,
-        shortId: generateRandomString(6),
+        shortId: generateRandomString(10),
         recurrenceRule: params.recurrenceRule,
         attachments: params.attachments,
         collection: params.collectionId
