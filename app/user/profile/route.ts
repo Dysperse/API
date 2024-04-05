@@ -46,6 +46,7 @@ export async function PUT(req: NextRequest) {
         { name: "darkMode", required: false },
         { name: "picture", required: false },
         { name: "pattern", required: false },
+        { name: "lastPlanned", required: false },
       ],
       { type: "BODY" }
     );
@@ -60,6 +61,7 @@ export async function PUT(req: NextRequest) {
         picture: params.picture || undefined,
         darkMode: params.darkMode ?? undefined,
         pattern: params.pattern ?? undefined,
+        lastPlanned: params.lastPlanned || undefined,
       },
     });
     return Response.json(data);

@@ -105,6 +105,7 @@ model Profile {
   lastActive   DateTime @default(now())
   private      Boolean  @default(false)
   pattern      String?
+  lastPlanned  DateTime @default(now())
 
   theme          String   @default("mint")
   darkMode       String   @default("system")
