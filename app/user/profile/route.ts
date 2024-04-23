@@ -4,6 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     // do not validate session token because it's used for signup process
@@ -47,6 +48,7 @@ export async function PUT(req: NextRequest) {
         { name: "picture", required: false },
         { name: "pattern", required: false },
         { name: "lastPlanned", required: false },
+        { name: "widgets", required: false },
       ],
       { type: "BODY" }
     );
@@ -62,6 +64,7 @@ export async function PUT(req: NextRequest) {
         darkMode: params.darkMode ?? undefined,
         pattern: params.pattern ?? undefined,
         lastPlanned: params.lastPlanned || undefined,
+        widgets: params.widgets || undefined,
       },
     });
     return Response.json(data);

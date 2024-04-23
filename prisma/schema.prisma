@@ -55,9 +55,6 @@ model User {
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
 
-  // Focus panel widgets
-  widgets FocusPanelWidget[]
-
   // etc
   labels             Label[]
   invitedCollections CollectionAccess[]
@@ -79,22 +76,6 @@ model ResetToken {
   userId    String
 }
 
-enum Widget {
-  UPNEXT
-  WEATHER
-  CLOCK
-  ASSISTANT
-  MUSIC
-}
-
-model FocusPanelWidget {
-  id     String @id @unique @default(uuid())
-  type   Widget
-  params Json
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-}
-
 model Profile {
   name         String
   bio          String   @default("")
@@ -106,6 +87,7 @@ model Profile {
   private      Boolean  @default(false)
   pattern      String?
   lastPlanned  DateTime @default(now())
+  widgets      Json?
 
   theme          String   @default("mint")
   darkMode       String   @default("system")
