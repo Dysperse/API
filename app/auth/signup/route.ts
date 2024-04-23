@@ -106,13 +106,10 @@ export async function POST(req: NextRequest) {
     // Create tabs based on methods
     for (const method of params.methods) {
       if (method === "POMODORO") {
-        await prisma.focusPanelWidget.create({
+        await prisma.profile.update({
+          where: { userId: user.id },
           data: {
-            type: "CLOCK",
-            params: {
-              mode: "POMODORO",
-            },
-            user: { connect: { id: user.id } },
+            widgets: [{ type: "clock", params: { type: "pomodoro" } }],
           },
         });
       } else {
