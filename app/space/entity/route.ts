@@ -81,9 +81,11 @@ export async function POST(req: NextRequest) {
         { name: "agendaOrder", required: false },
         { name: "collectionId", required: false },
         { name: "storyPoints", required: false },
+        { name: "tasksCreated", required: false },
       ],
       { type: "BODY" }
     );
+
     const space = await prisma.entity.create({
       data: {
         name: params.name,
