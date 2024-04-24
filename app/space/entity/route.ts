@@ -85,11 +85,6 @@ export async function POST(req: NextRequest) {
       { type: "BODY" }
     );
 
-    prisma.profile.update({
-      where: { userId },
-      data: { tasksCreated: { increment: 1 } },
-    });
-
     const space = await prisma.entity.create({
       data: {
         name: params.name,
@@ -125,6 +120,11 @@ export async function POST(req: NextRequest) {
         label: true,
       },
     });
+    await prisma.profile.update({
+      where: { userId },
+      data: { tasksCreated: { increment: 1 } },
+    });
+
     return Response.json(space);
   } catch (e) {
     return handleApiError(e);
