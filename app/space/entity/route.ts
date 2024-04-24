@@ -63,7 +63,7 @@ export const nonReadOnlyPermissionArgs = (
 
 export async function POST(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers();
+    const { spaceId, userId } = await getIdentifiers();
 
     const params = await getApiParams(
       req,
@@ -81,10 +81,14 @@ export async function POST(req: NextRequest) {
         { name: "agendaOrder", required: false },
         { name: "collectionId", required: false },
         { name: "storyPoints", required: false },
-        { name: "tasksCreated", required: false },
       ],
       { type: "BODY" }
     );
+
+    prisma.profile.update({
+      where: { userId },
+      data: { tasksCreated: { increment: 1 } },
+    });
 
     const space = await prisma.entity.create({
       data: {
