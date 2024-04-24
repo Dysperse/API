@@ -13,7 +13,7 @@
     "ngrok": "ngrok http 3000"
   },
   "dependencies": {
-    "@prisma/client": "^5.11.0",
+    "@prisma/client": "^5.13.0",
     "@radix-ui/colors": "^3.0.0-rc.4",
     "@react-email/button": "0.0.10",
     "@react-email/components": "^0.0.7",
@@ -65,7 +65,7 @@
     "eslint": "^8.49.0",
     "eslint-config-next": "^13.5.2",
     "ngrok": "^5.0.0-beta.2",
-    "prisma": "^5.11.0",
+    "prisma": "^5.13.0",
     "typescript": "^5.2.2"
   }
 }
