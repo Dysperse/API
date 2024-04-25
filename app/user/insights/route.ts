@@ -18,11 +18,33 @@ export async function GET(req: NextRequest) {
 
     const instances = await prisma.completionInstance.findMany({
       where: {
-        AND: [{ task: { spaceId } }, { completedAt: { not: null } }],
+        task: { spaceId },
       },
-      select: { completedAt: true },
+      select: {
+        completedAt: true,
+        task: {
+          select: {
+            label: {
+              select: { name: true, id: true, color: true, emoji: true },
+            },
+          },
+        },
+      },
     });
 
+    // group by label id
+    const byLabel = instances
+      .filter((e) => e.task.label)
+      .reduce((acc, e) => {
+        if (!acc[e.task.label.id]) {
+          acc[e.task.label.id] = {
+            label: e.task.label,
+            count: 0,
+          };
+        }
+        acc[e.task.label.id].count++;
+        return acc;
+      }, {});
     const tasksCreated = data._count.entities + user.tasksCreated;
 
     const treesSaved =
@@ -39,6 +61,7 @@ export async function GET(req: NextRequest) {
     return Response.json({
       co2,
       treesSaved,
+      byLabel: Object.values(byLabel).sort((a, b) => b.count - a.count),
       ...data,
       ...user,
       completionInstances: instances,
