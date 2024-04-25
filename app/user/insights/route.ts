@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
     // group by label id
     const byLabel = instances
       .filter((e) => e.task.label)
-      .reduce((acc, e) => {
+      .reduce((acc, e: any) => {
         if (!acc[e.task.label.id]) {
           acc[e.task.label.id] = {
             label: e.task.label,
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     const byHour = instances
       .filter((e) => e.completedAt)
       .reduce(
-        (acc, e) => {
+        (acc, e: any) => {
           const hour = new Date(e.completedAt).getHours();
           if (!acc[hour]) {
             acc[hour] = 0;
@@ -77,7 +77,9 @@ export async function GET(req: NextRequest) {
       co2,
       treesSaved,
       byHour,
-      byLabel: Object.values(byLabel).sort((a, b) => b.count - a.count),
+      byLabel: Object.values(byLabel).sort(
+        (a: any, b: any) => b.count - a.count
+      ),
       ...data,
       ...user,
       completionInstances: instances,
