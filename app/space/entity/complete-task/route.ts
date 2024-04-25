@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
       req,
       [
         { name: "id", required: true },
+        { name: "date", required: true },
         { name: "iteration", required: false },
       ],
       {
@@ -29,6 +30,7 @@ export async function POST(req: NextRequest) {
     const instance = await prisma.completionInstance.create({
       data: {
         task: { connect: { id: params.id } },
+        completedAt: new Date(params.date),
         iteration: params.iteration,
       },
     });
