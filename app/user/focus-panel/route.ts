@@ -19,11 +19,15 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [
-      { name: "type", required: true },
-      { name: "order", required: true },
-      { name: "params", required: false },
-    ]);
+    const params = await getApiParams(
+      req,
+      [
+        { name: "type", required: true },
+        { name: "order", required: true },
+        { name: "params", required: false },
+      ],
+      { type: "BODY" }
+    );
     const { userId } = await getIdentifiers();
 
     const data = await prisma.widget.create({
