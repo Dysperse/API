@@ -48,7 +48,6 @@ export async function PUT(req: NextRequest) {
         { name: "picture", required: false },
         { name: "pattern", required: false },
         { name: "lastPlanned", required: false },
-        { name: "widgets", required: false },
       ],
       { type: "BODY" }
     );
@@ -64,7 +63,6 @@ export async function PUT(req: NextRequest) {
         darkMode: params.darkMode ?? undefined,
         pattern: params.pattern ?? undefined,
         lastPlanned: params.lastPlanned || undefined,
-        widgets: params.widgets || undefined,
       },
     });
     return Response.json(data);

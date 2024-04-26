@@ -60,6 +60,7 @@ model User {
   labels             Label[]
   invitedCollections CollectionAccess[]
   resetTokens        ResetToken[]
+  widgets            Widget[]
 }
 
 enum ResetTokenType {
@@ -88,7 +89,6 @@ model Profile {
   private      Boolean  @default(false)
   pattern      String?
   lastPlanned  DateTime @default(now())
-  widgets      Json?
   tasksCreated Int      @default(0)
 
   theme          String   @default("mint")
@@ -101,6 +101,17 @@ model Profile {
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   Tab    Tab[]
+}
+
+// Focus panel widget
+model Widget {
+  id     String @id @unique @default(uuid())
+  type   String
+  params Json
+  order  String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Notifications
