@@ -43,3 +43,40 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
+export async function PUT(req: NextRequest) {
+  try {
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "type", required: false },
+        { name: "order", required: false },
+        { name: "params", required: false },
+      ],
+      { type: "BODY" }
+    );
+
+    const data = await prisma.widget.update({
+      where: { id: params.id },
+      data: {
+        params: typeof params.params === "object" ? params.params : {},
+        order: typeof params.order === "string" ? params.order : undefined,
+        type: typeof params.type === "string" ? params.type : undefined,
+      },
+    });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const params = await getApiParams(req, [{ name: "id", required: true }]);
+    const data = await prisma.widget.delete({ where: { id: params.id } });
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
