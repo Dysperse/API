@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { LexoRank } from "lexorank";
 import { NextRequest } from "next/server";
 const argon2 = require("argon2");
 
@@ -106,10 +107,12 @@ export async function POST(req: NextRequest) {
     // Create tabs based on methods
     for (const method of params.methods) {
       if (method === "POMODORO") {
-        await prisma.profile.update({
-          where: { userId: user.id },
+        await prisma.widget.create({
           data: {
-            widgets: [{ type: "clock", params: { type: "pomodoro" } }],
+            userId: user.id,
+            order: LexoRank.middle().toString(),
+            type: "clock",
+            params: { clockType: "pomodoro" },
           },
         });
       } else {
