@@ -60,6 +60,20 @@ export async function GET(req: NextRequest) {
         Array.from({ length: 24 }, () => 0)
       );
 
+    const byDay = instances
+      .filter((e) => e.completedAt)
+      .reduce(
+        (acc, e: any) => {
+          const wday = new Date(e.completedAt).getDay();
+          if (!acc[wday]) {
+            acc[wday] = 0;
+          }
+          acc[wday]++;
+          return acc;
+        },
+        Array.from({ length: 7 }, () => 0)
+      );
+
     const tasksCreated = data._count.entities + user.tasksCreated;
 
     const treesSaved =
@@ -77,6 +91,7 @@ export async function GET(req: NextRequest) {
       co2,
       treesSaved,
       byHour,
+      byDay,
       byLabel: Object.values(byLabel).sort(
         (a: any, b: any) => b.count - a.count
       ),
