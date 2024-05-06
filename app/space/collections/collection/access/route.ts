@@ -4,6 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const { spaceId } = await getIdentifiers();
@@ -29,6 +30,24 @@ export async function GET(req: NextRequest) {
       },
     });
     return Response.json(response);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const params = await getApiParams(req, [
+      { name: "id", required: true },
+      { name: "access", required: true },
+    ]);
+
+    const data = await prisma.collectionAccess.update({
+      where: { id: params.id },
+      data: { access: params.access },
+    });
+
+    return Response.json(data);
   } catch (e) {
     return handleApiError(e);
   }

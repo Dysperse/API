@@ -12,12 +12,13 @@ export const nonReadOnlyPermissionArgs = (
   params,
   spaceId
 ): Prisma.EntityWhereInput => ({
-  AND: [
+  OR: [
     // For people within the space
     { AND: [{ id: params.id }, { spaceId }] },
     // For people outside the space but invited
     {
-      OR: [
+      // If we're referencing a collection from the label it's given
+      AND: [
         { collection: null },
         { spaceId },
         {
@@ -36,7 +37,7 @@ export const nonReadOnlyPermissionArgs = (
       ],
     },
     {
-      OR: [
+      AND: [
         { label: null },
         { label: { spaceId } },
         {

@@ -3,6 +3,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
