@@ -71,6 +71,7 @@ export async function GET(req: NextRequest) {
         <title>QR Code</title>
         <style>
           body {
+            box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -87,8 +88,8 @@ export async function GET(req: NextRequest) {
         </style>
       </head>
       <body>
-      <img src="https://dysperse.com/favicon.ico" alt="Logo" width="50" height="50" />
-       Download and open the Dysperse app to scan the QR code. You can find this by navigating to Settings > Account > Scan QR Code.
+      <img src="https://dysperse.com/favicon.ico" alt="Logo" width="70" height="70" />
+       Download and open the Dysperse app to scan the QR code. <br /> You can find this by navigating to Settings > Account > Scan QR Code.
       </body>
     </html>
     `,
