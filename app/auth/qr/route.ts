@@ -57,7 +57,43 @@ export async function GET(req: NextRequest) {
       where: { token: params.token },
     });
 
-    return Response.json(data);
+    return new Response(
+      `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300&display=swap" rel="stylesheet">
+        <title>QR Code</title>
+        <style>
+          body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Jost, sans-serif;
+            font-size: 1.2rem;
+            padding: 20px;
+            text-align: center;
+            flex-direction: column;
+            gap: 20px;
+          }
+        </style>
+      </head>
+      <body>
+      <img src="https://dysperse.com/favicon.ico" alt="Logo" width="50" height="50" />
+       Download and open the Dysperse app to scan the QR code. You can find this by navigating to Settings > Account > Scan QR Code.
+      </body>
+    </html>
+    `,
+      { headers: { "content-type": "text/html" } }
+    );
   } catch (e) {
     return handleApiError(e);
   }
