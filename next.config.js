@@ -10,6 +10,10 @@ const moduleExports = {
   async headers() {
     return [
       {
+        key: "X-DNS-Prefetch-Control",
+        value: "on",
+      },
+      {
         source: "/:path*",
         headers: [
           {
