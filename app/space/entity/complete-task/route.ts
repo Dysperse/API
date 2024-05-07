@@ -6,6 +6,16 @@ import { NextRequest } from "next/server";
 import { nonReadOnlyPermissionArgs } from "../route";
 export const dynamic = "force-dynamic";
 
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
+
 export async function POST(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();
