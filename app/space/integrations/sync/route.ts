@@ -157,7 +157,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
   return data;
 };
 
-export async function GET() {
+export async function POST() {
   try {
     const { userId, spaceId } = await getIdentifiers();
 
