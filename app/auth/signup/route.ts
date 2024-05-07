@@ -5,6 +5,17 @@ import { LexoRank } from "lexorank";
 import { NextRequest } from "next/server";
 const argon2 = require("argon2");
 
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
+
 /**
  * Example data
  * {
