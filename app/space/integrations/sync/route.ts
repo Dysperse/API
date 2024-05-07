@@ -10,7 +10,9 @@ import { googleClient } from "../redirect/route";
 import { refreshGoogleAuthTokens } from "../settings/google-calendar/route";
 
 dayjs.extend(require("dayjs/plugin/utc"));
+
 export const dynamic = "force-dynamic";
+
 export function omit(keys, obj) {
   const filteredObj = { ...obj };
   keys.forEach((key) => delete filteredObj[key]);
