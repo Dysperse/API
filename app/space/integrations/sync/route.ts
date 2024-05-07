@@ -13,6 +13,15 @@ dayjs.extend(require("dayjs/plugin/utc"));
 
 export const dynamic = "force-dynamic";
 
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
 export function omit(keys, obj) {
   const filteredObj = { ...obj };
   keys.forEach((key) => delete filteredObj[key]);
