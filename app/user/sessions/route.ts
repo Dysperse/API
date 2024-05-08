@@ -5,6 +5,15 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
 export async function GET() {
   try {
     const { userId } = await getIdentifiers();

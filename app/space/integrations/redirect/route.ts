@@ -5,7 +5,17 @@ import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import integrations from "../integrations.json";
 const { google } = require("googleapis");
+
 export const dynamic = "force-dynamic";
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
 export const googleClient = ({ name }) =>
   new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,

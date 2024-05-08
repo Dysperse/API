@@ -6,7 +6,17 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { googleClient } from "../redirect/route";
+
 export const dynamic = "force-dynamic";
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
 export async function GET(req: NextRequest) {
   let name = "";
   let id = "";

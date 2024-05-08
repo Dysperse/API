@@ -5,6 +5,16 @@ import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { entitiesSelection } from "../../collections/collection/entitiesSelection";
 export const dynamic = "force-dynamic";
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
+
 export async function GET(req: NextRequest) {
   try {
     const { spaceId } = await getIdentifiers();

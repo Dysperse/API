@@ -3,6 +3,14 @@ import patterns from "@/patterns.json";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const OPTIONS = async (request: NextRequest) => {
+  return new Response("", {
+    status: 200,
+    headers: {
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+};
 
 export async function GET(req: NextRequest) {
   try {
