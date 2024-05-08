@@ -5,8 +5,7 @@ import { LexoRank } from "lexorank";
 import { NextRequest } from "next/server";
 const argon2 = require("argon2");
 
-
-export const OPTIONS = async (request: NextRequest) => {
+export const OPTIONS = async () => {
   return new Response("", {
     status: 200,
     headers: {
@@ -14,7 +13,6 @@ export const OPTIONS = async (request: NextRequest) => {
     },
   });
 };
-
 
 /**
  * Example data

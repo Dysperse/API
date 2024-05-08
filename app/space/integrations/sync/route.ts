@@ -5,7 +5,6 @@ import { generateRandomString } from "@/lib/randomString";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import ical from "ical";
-import { NextRequest } from "next/server";
 import { extractTextInBrackets } from "../get-labels/route";
 import { googleClient } from "../redirect/route";
 import { refreshGoogleAuthTokens } from "../settings/google-calendar/route";
@@ -14,7 +13,7 @@ dayjs.extend(require("dayjs/plugin/utc"));
 
 export const dynamic = "force-dynamic";
 
-export const OPTIONS = async (request: NextRequest) => {
+export const OPTIONS = async () => {
   return new Response("", {
     status: 200,
     headers: {

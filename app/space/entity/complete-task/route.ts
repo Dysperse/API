@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 import { nonReadOnlyPermissionArgs } from "../route";
 export const dynamic = "force-dynamic";
 
-export const OPTIONS = async (request: NextRequest) => {
+export const OPTIONS = async () => {
   return new Response("", {
     status: 200,
     headers: {
@@ -14,7 +14,6 @@ export const OPTIONS = async (request: NextRequest) => {
     },
   });
 };
-
 
 export async function POST(req: NextRequest) {
   try {

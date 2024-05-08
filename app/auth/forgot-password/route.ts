@@ -9,7 +9,7 @@ import { NextRequest } from "next/server";
 import { Resend } from "resend";
 
 dayjs.extend(require("dayjs/plugin/utc"));
-export const OPTIONS = async (request: NextRequest) => {
+export const OPTIONS = async () => {
   return new Response("", {
     status: 200,
     headers: {
