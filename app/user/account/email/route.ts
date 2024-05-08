@@ -13,9 +13,7 @@ dayjs.extend(require("dayjs/plugin/utc"));
 export const OPTIONS = async () => {
   return new Response("", {
     status: 200,
-    headers: {
-      "Access-Control-Allow-Headers": "*",
-    },
+    headers: { "Access-Control-Allow-Headers": "*" },
   });
 };
 
