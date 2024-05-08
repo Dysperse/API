@@ -21,8 +21,6 @@ async function query(data) {
       body: JSON.stringify(data),
     }
   );
-  //   const t = await response.text();
-  //   console.log(t);
 
   const result = await response.json();
   return result[0];
