@@ -105,8 +105,8 @@ const canonicalizeIntegrationData = (integration, entities) => {
             (entity) => entity.integrationParams?.id === eventData.id
           );
           if (
-            (!entity || entity.name !== eventData.summary) &&
-            eventData.summary
+            (!entity || entity.integrationParams.id !== eventData.id) &&
+            eventData.id
           ) {
             data.push({
               type: entity ? "UPDATE" : "CREATE",
@@ -114,7 +114,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
                 name: eventData.summary,
                 note: eventData.description,
                 due: eventData.start.dateTime,
-                // recurrenceRule: eventData.recurrence?.[0],
+                recurrenceRule: eventData.recurrence?.[0],
                 labelId: labelData.label.id,
                 integrationId: integration.id,
                 integrationParams: {
