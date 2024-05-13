@@ -104,7 +104,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
           const entity = entities.find(
             (entity) => entity.integrationParams?.id === eventData.id
           );
-          if (!entity && eventData.id) {
+          if (!entity && eventData.id && eventData.summary) {
             data.push({
               type: entity ? "UPDATE" : "CREATE",
               entity: {
