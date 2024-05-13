@@ -5,6 +5,7 @@ import { generateRandomString } from "@/lib/randomString";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import ical from "ical";
+import { RRule } from "rrule";
 import { extractTextInBrackets } from "../get-labels/route";
 import { googleClient } from "../redirect/route";
 import { refreshGoogleAuthTokens } from "../settings/google-calendar/route";
@@ -111,7 +112,11 @@ const canonicalizeIntegrationData = (integration, entities) => {
                 name: eventData.summary,
                 note: eventData.description,
                 due: eventData.start.dateTime,
-                // recurrenceRule: eventData.recurrence?.[0],
+                recurrenceRule: eventData.recurrence?.[0]
+                  ? RRule.fromString(
+                      eventData.recurrence?.[0].replace("EXDATE;\n", "")
+                    )
+                  : undefined,
                 labelId: labelData.label.id,
                 integrationId: integration.id,
                 integrationParams: {
