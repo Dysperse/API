@@ -115,7 +115,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
                 recurrenceRule: eventData.recurrence?.[0]
                   ? RRule.fromString(
                       eventData.recurrence?.[0].replace("EXDATE;\n", "")
-                    )
+                    ).options
                   : undefined,
                 labelId: labelData.label.id,
                 integrationId: integration.id,

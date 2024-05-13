@@ -1,3 +1,5 @@
+import { prisma } from "@/lib/prisma";
+
 export const dynamic = "force-dynamic";
 
 export const OPTIONS = async () => {
@@ -7,10 +9,11 @@ export const OPTIONS = async () => {
   });
 };
 
-export function GET() {
-  return Response.json({
-    status: "ok",
-    timestamp: Date.now(),
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+export async function GET() {
+  const data = await prisma.entity.findMany({
+    where: {
+      recurrenceRule: { string_contains: "RRULE" },
+    },
   });
+  return Response.json(data);
 }
