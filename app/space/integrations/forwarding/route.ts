@@ -30,7 +30,11 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.findFirst({
       where: { email: params.from },
       select: {
-        spaces: { where: { selected: true } },
+        spaces: {
+          where: { selected: true },
+          select: { spaceId: true },
+          take: 1,
+        },
         profile: { select: { name: true } },
       },
     });
@@ -55,7 +59,7 @@ export async function POST(req: NextRequest) {
         note: params.body,
         shortId: generateRandomString(6),
         published: true,
-        space: { connect: { id: user.spaces[0].id } },
+        space: { connect: { id: user.spaces[0].spaceId } },
       },
     });
 
