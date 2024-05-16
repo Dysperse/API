@@ -1,4 +1,4 @@
-import { ForwardedEmail } from "@/emails/forwarded";
+import ForwardedEmail from "@/emails/forwarded";
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         subject: "😔 Oh no! We couldn't find your account.",
         body: render(
           ForwardedEmail({
-            error: true,
+            error: "We couldn't find your account.",
             toEmail: params.from,
           })
         ),
@@ -65,7 +65,8 @@ export async function POST(req: NextRequest) {
       body: render(
         ForwardedEmail({
           toEmail: params.from,
-          toName: user.profile.name,
+          toName: (user.profile as any).name,
+          shortId: (data as any).shortId,
         })
       ),
     });

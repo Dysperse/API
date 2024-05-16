@@ -49,4 +49,4 @@ export const ForwardedEmail = ({
   );
 };
 
-export default BoardEmail;
+export default ForwardedEmail;
