@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
 
 export const dynamic = "force-dynamic";
 
@@ -10,10 +10,16 @@ export const OPTIONS = async () => {
 };
 
 export async function GET() {
-  const data = await prisma.entity.findMany({
-    where: {
-      recurrenceRule: { string_contains: "RRULE" },
-    },
+  // const data = await prisma.entity.findMany({
+  //   where: {
+  //     recurrenceRule: { string_contains: "RRULE" },
+  //   },
+  // });
+  // return Response.json(data);
+
+  return Response.json({
+    success: true,
+    timezone: "UTC",
+    timestamp: dayjs().utc().toISOString(),
   });
-  return Response.json(data);
 }
