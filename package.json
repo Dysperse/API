@@ -19,6 +19,7 @@
     "@react-email/components": "^0.0.7",
     "@react-email/font": "0.0.3",
     "@react-email/html": "0.0.4",
+    "@react-email/render": "0.0.13",
     "@sentry/nextjs": "^7.61.1",
     "@sentry/node": "^7.61.1",
     "@sentry/replay": "^7.61.1",
