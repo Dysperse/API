@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       [
         { name: "from", required: true },
         { name: "subject", required: true },
-        { name: "description", required: true },
+        { name: "body", required: true },
       ],
       { type: "BODY" }
     );
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       data: {
         type: "TASK",
         name: params.subject,
-        note: params.description,
+        note: params.body,
         shortId: generateRandomString(6),
         published: true,
         space: { connect: { id: user.spaces[0].id } },
