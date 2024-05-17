@@ -127,6 +127,9 @@ export async function GET(req: NextRequest) {
       const rule = new RRule({
         ...(task as any).recurrenceRule,
         dtstart: new Date((task as any).recurrenceRule.dtstart),
+        until:
+          (task.recurrenceRule as any).until &&
+          new Date((task as any).recurrenceRule.until),
       }).between(start.toDate(), end.toDate());
 
       for (const dueDate of rule) {
