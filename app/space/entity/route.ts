@@ -7,6 +7,12 @@ import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
 
 export const nonReadOnlyPermissionArgs = (
   userId: string,
@@ -211,6 +217,7 @@ export async function PUT(req: NextRequest) {
         { name: "note", required: false },
         { name: "labelId", required: false },
         { name: "trash", required: false },
+        { name: "recurrenceRule", required: false },
         { name: "agendaOrder", required: false },
         { name: "attachments", required: false },
         { name: "storyPoints", required: false },
@@ -240,6 +247,10 @@ export async function PUT(req: NextRequest) {
             ? params.note
             : params.note === null
             ? null
+            : undefined,
+        recurrenceRule:
+          typeof params.recurrenceRule !== "undefined"
+            ? JSON.stringify(params.recurrenceRule)
             : undefined,
         agendaOrder:
           typeof params.agendaOrder === "string"
