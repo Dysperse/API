@@ -10,13 +10,6 @@ export const OPTIONS = async () => {
 };
 
 export async function GET() {
-  // const data = await prisma.entity.findMany({
-  //   where: {
-  //     recurrenceRule: { string_contains: "RRULE" },
-  //   },
-  // });
-  // return Response.json(data);
-
   return Response.json({
     success: true,
     timezone: "UTC",
