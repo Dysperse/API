@@ -9,8 +9,7 @@ const STORAGE_UNITS = {
   max: 1000,
   entityMultipliers: {
     task: 1.5,
-    item: 1.3,
-    note: 1.1,
+    note: 1.7,
     labels: 0.7,
     collections: 1.2,
   },
@@ -118,8 +117,6 @@ export async function GET(req: NextRequest) {
 
     const taskBreakdown =
       STORAGE_UNITS.entityMultipliers.task * grouped.TASK || 0;
-    const itemBreakdown =
-      STORAGE_UNITS.entityMultipliers.item * grouped.ITEM || 0;
     const noteBreakdown =
       STORAGE_UNITS.entityMultipliers.note * grouped.NOTE || 0;
     const labelBreakdown =
@@ -130,10 +127,9 @@ export async function GET(req: NextRequest) {
 
     const storage = {
       limit: STORAGE_UNITS.max,
-      used: taskBreakdown + itemBreakdown + noteBreakdown + labelBreakdown,
+      used: taskBreakdown + noteBreakdown + labelBreakdown,
       breakdown: {
         tasks: taskBreakdown,
-        items: itemBreakdown,
         notes: noteBreakdown,
         labels: labelBreakdown,
         collections: collectionBreakdown,
