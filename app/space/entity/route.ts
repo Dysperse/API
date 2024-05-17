@@ -250,7 +250,7 @@ export async function PUT(req: NextRequest) {
             : undefined,
         recurrenceRule:
           typeof params.recurrenceRule !== "undefined"
-            ? JSON.stringify(params.recurrenceRule)
+            ? params.recurrenceRule
             : undefined,
         agendaOrder:
           typeof params.agendaOrder === "string"
