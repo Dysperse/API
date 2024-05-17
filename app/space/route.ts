@@ -10,8 +10,8 @@ const STORAGE_UNITS = {
   entityMultipliers: {
     task: 1.5,
     note: 1.7,
-    labels: 0.7,
-    collections: 1.2,
+    labels: 2,
+    collections: 10,
   },
 };
 
