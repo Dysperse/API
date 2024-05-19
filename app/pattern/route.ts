@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     const uri = decodeURI(image.replace("data:image/svg+xml,", ""));
     const png = await convert(uri);
 
-    if (params.png)
+    if (params.png === "true")
       return new Response(png, {
         status: 200,
         headers: {
