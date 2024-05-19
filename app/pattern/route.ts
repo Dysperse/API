@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
     const params = await getApiParams(req, [
       { name: "pattern", required: true },
       { name: "color", required: true },
+      { name: "png", required: false },
     ]);
     if (!patterns[params.pattern]) throw new Error("Pattern not found");
     const image = patterns[params.pattern].replace(
@@ -25,10 +26,17 @@ export async function GET(req: NextRequest) {
     const uri = decodeURI(image.replace("data:image/svg+xml,", ""));
     const png = await convert(uri);
 
-    return new Response(png, {
+    if (params.png)
+      return new Response(png, {
+        status: 200,
+        headers: {
+          "Content-Type": "image/png",
+        },
+      });
+    return new Response(uri, {
       status: 200,
       headers: {
-        "Content-Type": "image/png",
+        "Content-Type": "image/svg+xml",
       },
     });
   } catch (e: any) {
