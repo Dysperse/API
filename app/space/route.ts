@@ -8,8 +8,9 @@ export const dynamic = "force-dynamic";
 const STORAGE_UNITS = {
   max: 1000,
   entityMultipliers: {
-    task: 1.5,
+    item: 1.5, // deprecated
     note: 1.7,
+    task: 1.5,
     labels: 2,
     collections: 10,
   },
@@ -83,7 +84,7 @@ export async function GET(req: NextRequest) {
         weekStart: true,
         vanishMode: true,
         entities: {
-          select: { type: true },
+          select: { type: true, trash: true },
         },
         integrations: true,
         members: {
@@ -115,6 +116,13 @@ export async function GET(req: NextRequest) {
       return acc;
     }, {} as Record<string, number>);
 
+    const inTrash = space.entities
+      .filter((e) => e.trash)
+      .reduce((acc, curr) => {
+        acc += STORAGE_UNITS.entityMultipliers[curr.type.toLowerCase()];
+        return acc;
+      }, 0);
+
     const taskBreakdown =
       STORAGE_UNITS.entityMultipliers.task * grouped.TASK || 0;
     const noteBreakdown =
@@ -126,6 +134,7 @@ export async function GET(req: NextRequest) {
       0;
 
     const storage = {
+      inTrash,
       limit: STORAGE_UNITS.max,
       used: taskBreakdown + noteBreakdown + labelBreakdown,
       breakdown: {
