@@ -1,6 +1,5 @@
 import { getApiParams } from "@/lib/getApiParams";
 import patterns from "@/patterns.json";
-import { convert } from "convert-svg-to-png";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +15,6 @@ export async function GET(req: NextRequest) {
     const params = await getApiParams(req, [
       { name: "pattern", required: true },
       { name: "color", required: true },
-      { name: "png", required: false },
     ]);
     if (!patterns[params.pattern]) throw new Error("Pattern not found");
     const image = patterns[params.pattern].replace(
@@ -24,15 +22,7 @@ export async function GET(req: NextRequest) {
       params.color
     );
     const uri = decodeURI(image.replace("data:image/svg+xml,", ""));
-    const png = await convert(uri);
 
-    if (params.png === "true")
-      return new Response(png, {
-        status: 200,
-        headers: {
-          "Content-Type": "image/png",
-        },
-      });
     return new Response(uri, {
       status: 200,
       headers: {
