@@ -1,5 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import patterns from "@/patterns.json";
+import { convert } from "convert-svg-to-png";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -21,10 +22,13 @@ export async function GET(req: NextRequest) {
       "[FILL_COLOR]",
       params.color
     );
-    return new Response(decodeURI(image.replace("data:image/svg+xml,", "")), {
+    const uri = decodeURI(image.replace("data:image/svg+xml,", ""));
+    const png = await convert(uri);
+
+    return new Response(png, {
       status: 200,
       headers: {
-        "Content-Type": "image/svg+xml",
+        "Content-Type": "image/png",
       },
     });
   } catch (e: any) {
