@@ -120,6 +120,7 @@ export async function PUT(req: NextRequest) {
       params.name ||
       params.emoji ||
       params.description ||
+      params.kanbanOrder ||
       params.gridOrder ||
       typeof params.showCompleted === "boolean"
     ) {
