@@ -111,6 +111,7 @@ export async function PUT(req: NextRequest) {
         { name: "labels", required: false },
         { name: "showCompleted", required: false },
         { name: "gridOrder", required: false },
+        { name: "kanbanOrder", required: false },
       ],
       { type: "BODY" }
     );
@@ -129,6 +130,7 @@ export async function PUT(req: NextRequest) {
           description: params.description || undefined,
           emoji: params.emoji || undefined,
           gridOrder: params.gridOrder || undefined,
+          kanbanOrder: params.kanbanOrder || undefined,
           showCompleted:
             typeof params.showCompleted === "boolean"
               ? params.showCompleted
