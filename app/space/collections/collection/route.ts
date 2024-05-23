@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
       });
       return Response.json({
         gridOrder: labeledEntities.map((label) => label.id),
+        kanbanOrder: labeledEntities.map((label) => label.id),
         labels: labeledEntities,
         entities: unlabeledEntities,
       });
@@ -122,11 +123,19 @@ export async function GET(req: NextRequest) {
     });
 
     if (!data.gridOrder) data.gridOrder = data.labels.map((i) => i.id);
+    if (!data.kanbanOrder) data.kanbanOrder = data.labels.map((i) => i.id);
 
     // if any of the data.labels is not in the gridOrder, add it
     data.labels.forEach((label) => {
       if (!(data as any).gridOrder.includes(label.id)) {
         (data as any).gridOrder.push(label.id);
+      }
+    });
+
+    // if any of the data.labels is not in the kanbanOrder, add it
+    data.labels.forEach((label) => {
+      if (!(data as any).kanbanOrder.includes(label.id)) {
+        (data as any).kanbanOrder.push(label.id);
       }
     });
 
