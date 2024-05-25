@@ -34,6 +34,11 @@ export async function GET(req: NextRequest) {
                 name: { contains: params.query, mode: "insensitive" },
               },
             },
+            {
+              profile: {
+                bio: { contains: params.query, mode: "insensitive" },
+              },
+            },
           ],
         },
         select: {
