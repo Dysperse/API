@@ -181,7 +181,6 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(data);
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);

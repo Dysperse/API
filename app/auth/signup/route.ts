@@ -112,6 +112,14 @@ export async function POST(req: NextRequest) {
     });
 
     // Create tabs based on methods
+    await prisma.tab.create({
+      data: {
+        slug: `/[tab]/welcome`,
+        user: { connect: { id: user.id } },
+        params: {},
+      },
+    });
+
     for (const method of params.methods) {
       if (method === "POMODORO") {
         await prisma.widget.create({
