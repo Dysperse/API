@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
       { name: "query", required: false },
     ]);
     if (params.many) {
+      if (!params.query.trim()) return Response.json([]);
       const data = await prisma.user.findMany({
         where: {
           OR: [
@@ -39,6 +40,7 @@ export async function GET(req: NextRequest) {
           following: true,
           profile: true,
         },
+        take: 10,
       });
 
       return Response.json(data);
