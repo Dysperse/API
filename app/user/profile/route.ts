@@ -17,25 +17,50 @@ export async function GET(req: NextRequest) {
     // do not validate session token because it's used for signup process
     // get body
     const params = await getApiParams(req, [
-      { name: "email", required: true },
+      { name: "email", required: false },
       { name: "basic", required: false },
+      { name: "many", required: false },
+      { name: "query", required: false },
     ]);
-    const data = await prisma.user.findFirstOrThrow({
-      where: {
-        OR: [{ email: params.email }, { username: params.email }],
-      },
-      select: params.basic
-        ? { id: true }
-        : {
-            timeZone: true,
-            username: true,
-            email: true,
-            followers: true,
-            following: true,
-            profile: true,
-          },
-    });
-    return Response.json(data);
+    if (params.many) {
+      const data = await prisma.user.findMany({
+        where: {
+          OR: [
+            { email: { contains: params.query } },
+            { username: { contains: params.query } },
+            { profile: { name: { contains: params.query } } },
+          ],
+        },
+        select: {
+          timeZone: true,
+          username: true,
+          email: true,
+          followers: true,
+          following: true,
+          profile: true,
+        },
+      });
+
+      return Response.json(data);
+    } else {
+      if (!params.email) throw new Error("Email is required");
+      const data = await prisma.user.findFirstOrThrow({
+        where: {
+          OR: [{ email: params.email }, { username: params.email }],
+        },
+        select: params.basic
+          ? { id: true }
+          : {
+              timeZone: true,
+              username: true,
+              email: true,
+              followers: true,
+              following: true,
+              profile: true,
+            },
+      });
+      return Response.json(data);
+    }
   } catch (e) {
     return handleApiError(e);
   }
