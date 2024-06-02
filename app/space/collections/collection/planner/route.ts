@@ -14,12 +14,6 @@ dayjs.extend(isBetween);
 dayjs.extend(tz);
 
 export const dynamic = "force-dynamic";
-export const OPTIONS = async () => {
-  return new Response("", {
-    status: 200,
-    headers: { "Access-Control-Allow-Headers": "*" },
-  });
-};
 
 interface PerspectiveUnit {
   start: string | Dayjs;

@@ -6,13 +6,6 @@ import { entitiesSelection } from "../collections/collection/entitiesSelection";
 
 export const dynamic = "force-dynamic";
 
-export const OPTIONS = async () => {
-  return new Response("", {
-    status: 200,
-    headers: { "Access-Control-Allow-Headers": "*" },
-  });
-};
-
 export async function DELETE(req: NextRequest) {
   try {
     const { spaceId } = await getIdentifiers();

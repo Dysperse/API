@@ -6,13 +6,6 @@ import argon2 from "argon2";
 import { NextRequest } from "next/server";
 const twofactor = require("node-2fa");
 
-export const OPTIONS = async () => {
-  return new Response("", {
-    status: 200,
-    headers: { "Access-Control-Allow-Headers": "*" },
-  });
-};
-
 export async function POST(req: NextRequest) {
   try {
     // get body
