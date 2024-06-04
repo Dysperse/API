@@ -16,6 +16,13 @@ const STORAGE_UNITS = {
   },
 };
 
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
+
 export async function PUT(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();

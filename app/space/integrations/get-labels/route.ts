@@ -6,6 +6,12 @@ import ical from "ical";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
 
 export const extractTextInBrackets = (name: string) => {
   const matches = name.match(/\[(.*?)\]/);

@@ -10,6 +10,13 @@ export const dynamic = "force-dynamic";
 
 dayjs.extend(require("dayjs/plugin/utc"));
 
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
+
 export async function POST(req: NextRequest) {
   try {
     const params = await getApiParams(req, [{ name: "email", required: true }]);

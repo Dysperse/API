@@ -7,6 +7,12 @@ import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
 
 export const nonReadOnlyPermissionArgs = (
   userId: string,

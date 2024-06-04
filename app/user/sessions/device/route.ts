@@ -2,6 +2,13 @@ import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { NextRequest } from "next/server";
 
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
+
 export async function GET(req: NextRequest) {
   try {
     const params = await getApiParams(req, [{ name: "ip", required: true }]);

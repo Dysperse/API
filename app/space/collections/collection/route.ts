@@ -6,7 +6,12 @@ import { NextRequest } from "next/server";
 import { entitiesSelection } from "./entitiesSelection";
 
 export const dynamic = "force-dynamic";
-
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
 export async function GET(req: NextRequest) {
   try {
     const identifiers = await getIdentifiers();
