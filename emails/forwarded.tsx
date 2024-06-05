@@ -1,11 +1,18 @@
 import { Button, Section, Text } from "@react-email/components";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
 import { EmailWrapper } from "./wrapper";
+
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
 
 interface EmailProps {
   toName?: string;
   shortId?: string;
   error?: null | string;
   toEmail: string;
+  taskData?: null | any;
 }
 
 export const ForwardedEmail = ({
@@ -13,6 +20,7 @@ export const ForwardedEmail = ({
   shortId = "[short-id]",
   error = null,
   toEmail = "[to-email]",
+  taskData = null,
 }: EmailProps) => {
   return (
     <EmailWrapper
@@ -35,6 +43,20 @@ export const ForwardedEmail = ({
           ? "We got your email, but we couldn't find a Dysperse account associated with it. Try resending your email using the email address associated with your Dysperse account."
           : "We recieved your email and it's now visible in your Dysperse account. Click on the button below to view the published task."}
       </Text>
+      {taskData && (
+        <Section className="my-[32px]">
+          <Text className="text-gray-700 text-[17px] leading-[24px]">
+            Task details
+          </Text>
+          <Text className="text-black text-[14px] leading-[24px]">
+            {taskData.name}
+          </Text>
+          <Text className="text-black text-[14px] leading-[24px]">
+            {dayjs(taskData.due).utc().format("MMM D, YYYY")} &bull;{" "}
+            {dayjs(taskData.due).utc().fromNow()} (UTC)
+          </Text>
+        </Section>
+      )}
       <Section className="my-[32px] text-center">
         <Button
           style={{

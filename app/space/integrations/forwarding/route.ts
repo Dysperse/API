@@ -84,6 +84,7 @@ export async function POST(req: NextRequest) {
           toEmail: params.from,
           toName: (user.profile as any).name,
           shortId: (data as any).shortId,
+          taskData: data,
         })
       ),
     });
