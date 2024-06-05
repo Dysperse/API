@@ -57,6 +57,16 @@ export async function POST(req: NextRequest) {
       data: {
         type: "TASK",
         name: params.subject,
+        pinned:
+          [
+            "urgent",
+            "important",
+            "asap",
+            "as soon as possible",
+            "soon",
+            "quick",
+            "critical",
+          ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note: params.body,
         shortId: generateRandomString(6),
         due: dayjs().startOf("day").utc().toDate(),
