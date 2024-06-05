@@ -66,6 +66,7 @@ export async function POST(req: NextRequest) {
             "soon",
             "quick",
             "critical",
+            "required",
           ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note: params.body,
         shortId: generateRandomString(6),
