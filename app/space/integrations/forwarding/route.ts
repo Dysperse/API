@@ -4,6 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { generateRandomString } from "@/lib/randomString";
 import { render } from "@react-email/components";
+import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -58,6 +59,7 @@ export async function POST(req: NextRequest) {
         name: params.subject,
         note: params.body,
         shortId: generateRandomString(6),
+        due: dayjs().startOf("day").utc().toDate(),
         published: true,
         space: { connect: { id: user.spaces[0].spaceId } },
       },
