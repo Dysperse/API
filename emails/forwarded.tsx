@@ -37,8 +37,12 @@ export const ForwardedEmail = ({
       </Text>
       <Section className="my-[32px] text-center">
         <Button
-          pX={20}
-          pY={12}
+          style={{
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingTop: 12,
+            paddingBottom: 12,
+          }}
           className="bg-[#000000] rounded-full text-white text-[12px] font-semibold no-underline text-center"
           href={`https://dys.us.to/${shortId}`}
         >
