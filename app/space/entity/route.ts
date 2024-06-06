@@ -142,7 +142,6 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();
-    console.log(spaceId);
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
     const data = await prisma.entity.findFirstOrThrow({
