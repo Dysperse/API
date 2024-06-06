@@ -202,10 +202,10 @@ export async function POST() {
             entity.type === "CREATE"
               ? prisma.entity.create({
                   data: {
-                    spaceId,
                     type: "TASK",
                     shortId: generateRandomString(6),
                     ...entity.entity,
+                    space: { connect: { id: spaceId } },
                   },
                 })
               : prisma.entity.updateMany({
