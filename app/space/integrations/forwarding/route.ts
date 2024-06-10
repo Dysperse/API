@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
           ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note: params.body,
         shortId: generateRandomString(6),
-        due: dayjs().startOf("day").utc().toDate(),
+        start: dayjs().startOf("day").utc().toDate(),
         published: true,
         space: { connect: { id: user.spaces[0].spaceId } },
       },

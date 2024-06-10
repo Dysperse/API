@@ -52,8 +52,8 @@ export const ForwardedEmail = ({
             {taskData.name}
           </Text>
           <Text className="text-black text-[14px] leading-[24px]">
-            {dayjs(taskData.due).utc().format("MMM D, YYYY")} &bull;{" "}
-            {dayjs(taskData.due).utc().fromNow()} (UTC)
+            {dayjs(taskData.start).utc().format("MMM D, YYYY")} &bull;{" "}
+            {dayjs(taskData.start).utc().fromNow()} (UTC)
           </Text>
         </Section>
       )}

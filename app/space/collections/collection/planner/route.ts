@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
               {
                 AND: [
                   { recurrenceRule: { equals: Prisma.AnyNull } },
-                  { due: { gte: start.toDate(), lte: end.toDate() } },
+                  { start: { gte: start.toDate(), lte: end.toDate() } },
                 ],
               },
               { recurrenceRule: { not: Prisma.AnyNull } },
@@ -143,9 +143,9 @@ export async function GET(req: NextRequest) {
     }
 
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
-      const due = dayjs(task.due).utc();
+      const taskStart = dayjs(task.start).utc();
       const unit = units.find(({ start, end }) =>
-        due.isBetween(start, end, null, "[]")
+        taskStart.isBetween(start, end, null, "[]")
       );
       if (unit) tasksByUnit.get(unit).push(task);
     }

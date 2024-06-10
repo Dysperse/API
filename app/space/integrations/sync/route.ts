@@ -111,7 +111,8 @@ const canonicalizeIntegrationData = (integration, entities) => {
               entity: {
                 name: eventData.summary,
                 note: eventData.description,
-                due: eventData.start.dateTime,
+                start: eventData.start.dateTime,
+                end: eventData.end.dateTime,
                 recurrenceRule: eventData.recurrence?.[0]
                   ? RRule.fromString(
                       eventData.recurrence?.[0].replace("EXDATE;\n", "")
@@ -145,7 +146,8 @@ const canonicalizeIntegrationData = (integration, entities) => {
             entity: {
               name: removeBracketedText(assignment.summary),
               note: assignment.description,
-              due: dayjs(assignment.start).utc().toDate(),
+              start: dayjs(assignment.start).utc().toDate(),
+              end: dayjs(assignment.end).utc().toDate(),
               dateOnly: assignment.start.dateOnly,
               labelId: integration.data.labels.find(
                 (label) =>

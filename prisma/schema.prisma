@@ -338,11 +338,14 @@ model Entity {
   attachments Json?
   storyPoints Int     @default(2)
 
-  trash          Boolean   @default(false)
-  due            DateTime?
-  dateOnly       Boolean   @default(true)
+  trash Boolean @default(false)
+
+  start DateTime?
+  end   DateTime?
+
+  dateOnly       Boolean @default(true)
   recurrenceRule Json?
-  notifications  Int[]     @default([10, 30, 60])
+  notifications  Int[]   @default([10, 30, 60])
 
   // ONLY for tasks
   completionInstances CompletionInstance[]
