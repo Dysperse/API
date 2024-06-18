@@ -16,10 +16,14 @@ export const OPTIONS = async () => {
 export async function POST(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
-    const params = await getApiParams(req, [
-      { name: "type", required: true },
-      { name: "tokens", required: true },
-    ]);
+    const params = await getApiParams(
+      req,
+      [
+        { name: "type", required: true },
+        { name: "tokens", required: true },
+      ],
+      { type: "BODY" }
+    );
 
     const subscription = await prisma.notificationSubscription.create({
       data: {
