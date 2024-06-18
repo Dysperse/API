@@ -131,11 +131,13 @@ enum NotificationSubscriptionType {
 }
 
 model NotificationSubscription {
-  id     String                       @id @unique @default(uuid())
-  type   NotificationSubscriptionType
-  tokens Json
-  user   User?                        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
+  id         String                       @id @unique @default(uuid())
+  type       NotificationSubscriptionType
+  tokens     Json
+  deviceType String?
+  deviceName String?
+  user       User?                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
 
   @@unique([type, userId])
 }
