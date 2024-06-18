@@ -58,6 +58,17 @@ export async function POST(req: NextRequest) {
       { type: "BODY" }
     );
 
+    const subscriptions = await prisma.notificationSubscription.findMany({
+      where: { userId },
+    });
+
+    const subscriptionExists = subscriptions.find(
+      (d) => JSON.stringify(d.tokens) === JSON.stringify(params.tokens)
+    );
+
+    if (subscriptionExists) {
+      return Response.json({ subscription: subscriptionExists });
+    }
     const subscription = await prisma.notificationSubscription.create({
       data: {
         user: { connect: { id: userId } },
