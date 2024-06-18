@@ -68,18 +68,18 @@ export async function POST(req: NextRequest) {
 
     if (subscriptionExists) {
       return Response.json({ subscription: subscriptionExists });
+    } else {
+      const subscription = await prisma.notificationSubscription.create({
+        data: {
+          user: { connect: { id: userId } },
+          type: params.type,
+          deviceType: params.deviceType,
+          deviceName: params.deviceName,
+          tokens: params.tokens,
+        },
+      });
+      return Response.json({ subscription });
     }
-    const subscription = await prisma.notificationSubscription.create({
-      data: {
-        user: { connect: { id: userId } },
-        type: params.type,
-        deviceType: params.deviceType,
-        deviceName: params.deviceName,
-        tokens: params.tokens,
-      },
-    });
-
-    return Response.json({ subscription });
   } catch (e) {
     return handleApiError(e);
   }
