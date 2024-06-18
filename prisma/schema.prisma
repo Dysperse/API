@@ -125,12 +125,19 @@ model NotificationSettings {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model NotificationSubscription {
-  id String @id @unique @default(uuid())
+enum NotificationSubscriptionType {
+  EXPO
+  WEB
+}
 
-  subscription Json
-  User         User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId       String?
+model NotificationSubscription {
+  id     String                       @id @unique @default(uuid())
+  type   NotificationSubscriptionType
+  tokens Json
+  user   User?                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String?
+
+  @@unique([type, userId])
 }
 
 // Friends
