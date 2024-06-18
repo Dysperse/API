@@ -119,7 +119,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
                     ).options
                   : undefined,
                 label: { connect: { id: labelData.label.id } },
-                integrationId: integration.id,
+                integration: { connect: { id: integration.id } },
                 integrationParams: {
                   id: eventData.id,
                 },
@@ -158,7 +158,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
                   )?.id,
                 },
               },
-              integrationId: integration.id,
+              integration: { connect: { id: integration.id } },
               integrationParams: {
                 id: assignment.uid,
               },
