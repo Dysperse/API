@@ -149,11 +149,15 @@ const canonicalizeIntegrationData = (integration, entities) => {
               start: dayjs(assignment.start).utc().toDate(),
               end: dayjs(assignment.end).utc().toDate(),
               dateOnly: assignment.start.dateOnly,
-              labelId: integration.data.labels.find(
-                (label) =>
-                  label.integrationParams.id ===
-                  extractTextInBrackets(assignment.summary)
-              )?.id,
+              label: {
+                connect: {
+                  id: integration.data.labels.find(
+                    (label) =>
+                      label.integrationParams.id ===
+                      extractTextInBrackets(assignment.summary)
+                  )?.id,
+                },
+              },
               integrationId: integration.id,
               integrationParams: {
                 id: assignment.uid,
