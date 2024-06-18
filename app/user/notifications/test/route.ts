@@ -62,6 +62,7 @@ class Notification {
         this.subscription.tokens,
         JSON.stringify(this.data)
       );
+      console.log(response);
       return response;
     } else {
       throw new Error("Invalid subscription type. Must be of type EXPO or WEB");
