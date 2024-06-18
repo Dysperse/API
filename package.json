@@ -32,6 +32,7 @@
     "create-email": "^0.0.27",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.11",
+    "expo-server-sdk": "^3.10.0",
     "googleapis": "^139.0.0",
     "gpt-free": "^1.7.1",
     "hex-to-rgba": "^2.0.1",
