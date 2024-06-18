@@ -102,7 +102,7 @@ export async function POST() {
             return entity.notifications.find((notification) => {
               return (
                 dayjs(entity.start).utc().diff(dayjs().utc(), "minute") ===
-                notification - 1
+                notification
               );
             });
           } else if (entity.recurrenceRule) {
