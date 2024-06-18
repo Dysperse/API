@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       where: { userId },
     });
 
-    return Response.json({ subscriptions });
+    return Response.json(subscriptions);
   } catch (e) {
     return handleApiError(e);
   }
