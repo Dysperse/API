@@ -118,7 +118,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
                       eventData.recurrence?.[0].replace("EXDATE;\n", "")
                     ).options
                   : undefined,
-                labelId: labelData.label.id,
+                label: { connect: { id: labelData.label.id } },
                 integrationId: integration.id,
                 integrationParams: {
                   id: eventData.id,
