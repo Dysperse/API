@@ -124,7 +124,7 @@ export async function POST() {
           return user.notificationSubscriptions.map(
             (tokens): ExpoPushMessage => {
               return {
-                to: tokens.tokens,
+                to: tokens.tokens as any,
                 title: entity.name,
                 body: capitalizeFirstLetter(
                   dayjs(entity.start).fromNow() || entity.recurrenceRule
@@ -143,7 +143,7 @@ export async function POST() {
     .flat();
 
   const expoMessages = expo.chunkPushNotifications(
-    messages.filter((message) => message.data.type === "EXPO").flat()
+    messages.filter((message: any) => message.data.type === "EXPO").flat()
   );
 
   let status: [number, number] = [0, 0];
