@@ -27,6 +27,7 @@ export class Notification {
 
   async send(subscription: NotificationSubscription): Promise<unknown> {
     if (subscription.type === "EXPO") {
+      console.log(this.data);
       const res = await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
         headers: {
@@ -34,8 +35,13 @@ export class Notification {
           "Accept-encoding": "gzip, deflate",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.data),
+        body: JSON.stringify({
+          to: subscription.tokens,
+          ...this.data,
+        }),
       });
+
+      console.log(res);
 
       const data = await res.json();
       return data;
