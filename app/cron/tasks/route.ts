@@ -108,7 +108,7 @@ export async function POST() {
           } else if (entity.recurrenceRule) {
             const rule = normalizeRecurrenceRuleObject(entity.recurrenceRule);
 
-            return (
+            const date =
               rule &&
               rule.between(
                 dayjs().utc().toDate(),
@@ -116,8 +116,15 @@ export async function POST() {
                   .utc()
                   .add(getHighestInArray(entity.notifications), "minute")
                   .toDate()
-              ).length > 0
-            );
+              )?.[0];
+
+            if (!date) return false;
+
+            return entity.notifications.find((notification) => {
+              return (
+                dayjs(date).utc().diff(dayjs().utc(), "minute") === notification
+              );
+            });
           }
         })
         .map((entity) => {
