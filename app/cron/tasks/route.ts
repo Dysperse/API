@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 import { Expo, ExpoPushMessage } from "expo-server-sdk";
+import { NextRequest } from "next/server";
 import { RRule } from "rrule";
 import webPush from "web-push";
 
@@ -36,7 +37,12 @@ function capitalizeFirstLetter(str: string) {
 
 const getHighestInArray = (arr) => Math.max(...arr);
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_TOKEN}`
+  )
+    throw new Error("Access denied");
   let expo = new Expo({
     useFcmV1: true,
   });
