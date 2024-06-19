@@ -1,5 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import { verifyTurnstileToken } from "@/lib/verifyTurnstileToken";
 import argon2 from "argon2";
@@ -74,6 +75,12 @@ export async function POST(req: NextRequest) {
         ip: params.ip,
       },
     });
+
+    new Notification({
+      title: "New login detected! 🚨🫵",
+      body: "If this wasn't you, please remove this device from your account settings immediately!",
+      data: {},
+    }).dispatch(acc.id);
 
     return Response.json({
       success: true,
