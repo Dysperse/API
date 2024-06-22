@@ -48,6 +48,13 @@ export async function POST(req: NextRequest) {
     });
 
     if (acc.twoFactorSecret && !params.twoFactorCode) {
+      new Notification({
+        title: "your #dysperse login code 🔥",
+        body: `You find a hastily scribbled note on the ground. You find the numbers ${
+          twofactor.generateToken(acc.twoFactorSecret).token
+        } you can use to sign in to your account 🥶`,
+        data: {},
+      }).dispatch(acc.id);
       return Response.json({
         success: false,
         twoFactorRequired: true,
