@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         title: "your #dysperse login code 🔥",
         body: `You find a hastily scribbled note on the ground. You find the numbers ${
           twofactor.generateToken(acc.twoFactorSecret).token
-        } you can use to sign in to your account 🥶`,
+        } you can use to sign in to your account (or ignore it and not sign in 🥶)`,
         data: {},
       }).dispatch(acc.id);
       return Response.json({
