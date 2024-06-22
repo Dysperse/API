@@ -314,6 +314,8 @@ model Collection {
   gridOrder   Json?
   kanbanOrder Json?
 
+  locked Boolean @default(false)
+
   // Location
   space   Space?  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   spaceId String?

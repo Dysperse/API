@@ -107,6 +107,7 @@ export async function PUT(req: NextRequest) {
         { name: "id", required: true },
         { name: "name", required: false },
         { name: "emoji", required: false },
+        { name: "locked", required: false },
         { name: "description", required: false },
         { name: "labels", required: false },
         { name: "showCompleted", required: false },
@@ -122,13 +123,15 @@ export async function PUT(req: NextRequest) {
       params.description ||
       params.kanbanOrder ||
       params.gridOrder ||
-      typeof params.showCompleted === "boolean"
+      typeof params.showCompleted === "boolean" ||
+      typeof params.locked === "boolean"
     ) {
       await prisma.collection.update({
         where: { id: params.id as string },
         data: {
           name: params.name || undefined,
           description: params.description || undefined,
+          locked: params.locked || undefined,
           emoji: params.emoji || undefined,
           gridOrder: params.gridOrder || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
