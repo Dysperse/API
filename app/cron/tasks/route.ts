@@ -40,7 +40,7 @@ const getHighestInArray = (arr) => Math.max(...arr);
 export async function POST(req: NextRequest) {
   if (
     process.env.NODE_ENV !== "development" &&
-    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_TOKEN}`
+    req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
   )
     throw new Error("Access denied");
   let expo = new Expo({
