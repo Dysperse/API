@@ -248,9 +248,7 @@ export async function PUT(req: NextRequest) {
         start: params.start ? new Date(params.start) : undefined,
         end: params.end ? new Date(params.end) : undefined,
         attachments: params.attachments,
-        notifications: params.notifications
-          ? JSON.parse(params.notifications)
-          : undefined,
+        notifications: params.notifications || undefined,
         storyPoints: params.storyPoints || 2,
         published:
           typeof params.published === "boolean" ? params.published : undefined,
