@@ -3,7 +3,7 @@
   "crons": [
     {
       "path": "/cron/plan-day",
-      "schedule": "1 6 * * *"
+      "schedule": "0 * * * *"
     }
   ]
 }
