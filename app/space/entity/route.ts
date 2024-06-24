@@ -226,6 +226,7 @@ export async function PUT(req: NextRequest) {
         { name: "trash", required: false },
         { name: "recurrenceRule", required: false },
         { name: "agendaOrder", required: false },
+        { name: "notifications", required: false },
         { name: "attachments", required: false },
         { name: "storyPoints", required: false },
         { name: "published", required: false },
@@ -247,6 +248,9 @@ export async function PUT(req: NextRequest) {
         start: params.start ? new Date(params.start) : undefined,
         end: params.end ? new Date(params.end) : undefined,
         attachments: params.attachments,
+        notifications: params.notifications
+          ? JSON.parse(params.notifications)
+          : undefined,
         storyPoints: params.storyPoints || 2,
         published:
           typeof params.published === "boolean" ? params.published : undefined,
