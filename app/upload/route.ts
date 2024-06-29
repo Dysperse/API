@@ -3,7 +3,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { Formidable } from "formidable";
 import fs from "fs";
 
-export async function GET(req) {
+export async function POST(req) {
   try {
     const formData: any = await new Promise((resolve, reject) => {
       const form = new Formidable();
