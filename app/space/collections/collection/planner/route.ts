@@ -136,7 +136,9 @@ export async function GET(req: NextRequest) {
         // SEE THIS: https://github.com/jkbrzt/rrule?tab=readme-ov-file#important-use-utc-dates
 
         const due = dayjs(dueDate).utc().tz(params.timezone, true);
-        const unit = units.find(({ start, end }) => due.isBetween(start, end));
+        const unit = units.find(({ start, end }) =>
+          due.isBetween(start, end, null, "[]")
+        );
         if (unit)
           tasksByUnit.get(unit).push({ ...task, recurrenceDay: dueDate });
       }
