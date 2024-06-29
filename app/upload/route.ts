@@ -1,6 +1,5 @@
 import { handleApiError } from "@/lib/handleApiError";
-import { Formidable } from "formidable";
-import fs from "fs";
+import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,18 +10,16 @@ export const OPTIONS = async () => {
   });
 };
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   try {
-    const formData: any = await new Promise((resolve, reject) => {
-      const form = new Formidable();
+    const formData = await req.formData();
 
-      form.parse(req, (err, fields, files) => {
-        if (err) reject({ err });
-        resolve({ err, fields, files });
-      });
-    });
+    const file: any = formData.get("source");
+    const filename = Date.now() + file.name.replaceAll(" ", "_");
+    console.log("filename", filename);
 
-    let buffer = fs.readFileSync(formData.files.image[0].filepath);
+    let buffer = Buffer.from(await file.arrayBuffer());
+
     let blob = new Blob([buffer]);
 
     const form = new FormData();
@@ -32,6 +29,7 @@ export async function POST(req) {
     const data = await fetch(url, { method: "POST", body: form }).then((res) =>
       res.json()
     );
+    console.log("data", data);
     return Response.json(data);
   } catch (e) {
     return handleApiError({ error: "Couldn't upload image" });
