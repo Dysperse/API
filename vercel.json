@@ -1,9 +1,4 @@
 {
   "regions": ["pdx1"],
-  "crons": [
-    {
-      "path": "/cron/plan-day",
-      "schedule": "0 * * * *"
-    }
-  ]
+  "crons": []
 }
