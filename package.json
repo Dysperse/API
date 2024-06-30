@@ -13,7 +13,7 @@
     "ngrok": "ngrok http 3000"
   },
   "dependencies": {
-    "@prisma/client": "^5.15.0",
+    "@prisma/client": "^5.16.1",
     "@react-email/button": "^0.0.15",
     "@react-email/components": "^0.0.19",
     "@react-email/font": "^0.0.6",
@@ -33,7 +33,6 @@
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.11",
     "expo-server-sdk": "^3.10.0",
-    "formidable": "^3.5.1",
     "googleapis": "^139.0.0",
     "gpt-free": "^1.7.1",
     "hex-to-rgba": "^2.0.1",
@@ -65,7 +64,7 @@
     "eslint": "^8.49.0",
     "eslint-config-next": "^14.2.3",
     "ngrok": "^5.0.0-beta.2",
-    "prisma": "^5.15.0",
+    "prisma": "^5.16.1",
     "typescript": "^5.4.5"
   }
 }

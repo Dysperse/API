@@ -301,20 +301,34 @@ model CollectionLink {
 }
 
 model Collection {
-  id            String  @id @unique @default(uuid())
+  id String @id @unique @default(uuid())
+
   // Info
-  name          String
-  description   String  @default("")
-  public        Boolean @default(true)
+  name        String
+  emoji       String?
+  defaultView String? @default("kanban")
+  description String  @default("")
+
+  // User preferences
   pinned        Boolean @default(false)
   archived      Boolean @default(false)
-  emoji         String?
   showCompleted Boolean @default(true)
 
   gridOrder   Json?
   kanbanOrder Json?
 
   locked Boolean @default(false)
+
+  // Template stuff
+  public              Boolean @default(false)
+  shareItems          Boolean @default(false)
+  keepAuthorAnonymous Boolean @default(false)
+
+  originalCollectionTemplate   Collection? @relation("OriginalTemplate", fields: [originalCollectionTemplateId], references: [id])
+  originalCollectionTemplateId String?
+
+  // Collections that use this collection as a template
+  templateCollections Collection[] @relation("OriginalTemplate")
 
   // Location
   space   Space?  @relation(fields: [spaceId], references: [id], onDelete: Cascade)
