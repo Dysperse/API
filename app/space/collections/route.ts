@@ -112,6 +112,7 @@ export async function PUT(req: NextRequest) {
         { name: "labels", required: false },
         { name: "showCompleted", required: false },
         { name: "gridOrder", required: false },
+        { name: "public", required: false },
         { name: "kanbanOrder", required: false },
       ],
       { type: "BODY" }
@@ -123,6 +124,7 @@ export async function PUT(req: NextRequest) {
       params.description ||
       params.kanbanOrder ||
       params.gridOrder ||
+      typeof params.public === "boolean" ||
       typeof params.showCompleted === "boolean" ||
       typeof params.locked === "boolean"
     ) {
@@ -135,6 +137,8 @@ export async function PUT(req: NextRequest) {
           emoji: params.emoji || undefined,
           gridOrder: params.gridOrder || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
+          public:
+            typeof params.public === "boolean" ? params.public : undefined,
           showCompleted:
             typeof params.showCompleted === "boolean"
               ? params.showCompleted

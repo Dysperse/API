@@ -15,7 +15,7 @@ export class Notification {
    */
   async dispatch(userId): Promise<unknown> {
     const data = await prisma.notificationSubscription.findMany({
-      where: { userId },
+      where: { OR: [{ userId }, { user: { email: userId } }] },
     });
 
     return await Promise.allSettled(

@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
@@ -24,6 +25,11 @@ export async function POST(req: NextRequest) {
       { type: "BODY" }
     );
 
+    const collectionInfo = await prisma.collection.findFirstOrThrow({
+      where: { id: params.id },
+      select: { name: true },
+    });
+
     const collection = await prisma.collectionAccess.findMany({
       where: {
         AND: [{ collectionId: params.id }, { user: { isNot: null } }],
@@ -37,6 +43,14 @@ export async function POST(req: NextRequest) {
     const emails: string[] = params.userList.filter(
       (id) => !collection.find((c) => c.user?.id === id)
     );
+
+    for (const email of emails) {
+      new Notification({
+        title: `🤝 you've been invited to "${collectionInfo.name}"`,
+        body: "it's go time. just tap to start collaborating 🚀",
+        data: { collectionId: params.id },
+      }).dispatch(email);
+    }
 
     const data = await prisma.collectionAccess.createMany({
       data: emails.map((id) => ({
