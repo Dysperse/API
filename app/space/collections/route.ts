@@ -113,6 +113,7 @@ export async function PUT(req: NextRequest) {
         { name: "showCompleted", required: false },
         { name: "gridOrder", required: false },
         { name: "public", required: false },
+        { name: "defaultView", required: false },
         { name: "kanbanOrder", required: false },
       ],
       { type: "BODY" }
@@ -123,6 +124,7 @@ export async function PUT(req: NextRequest) {
       params.emoji ||
       params.description ||
       params.kanbanOrder ||
+      params.defaultView ||
       params.gridOrder ||
       typeof params.public === "boolean" ||
       typeof params.showCompleted === "boolean" ||
@@ -134,6 +136,7 @@ export async function PUT(req: NextRequest) {
           name: params.name || undefined,
           description: params.description || undefined,
           locked: params.locked || undefined,
+          defaultView: params.defaultView || undefined,
           emoji: params.emoji || undefined,
           gridOrder: params.gridOrder || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
