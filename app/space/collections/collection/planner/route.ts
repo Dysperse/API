@@ -140,7 +140,9 @@ export async function GET(req: NextRequest) {
           due.isBetween(start, end, null, "[]")
         );
         if (unit)
-          tasksByUnit.get(unit).push({ ...task, recurrenceDay: dueDate });
+          tasksByUnit
+            .get(unit)
+            .push({ ...task, recurrenceDay: due.toISOString() });
       }
     }
 

@@ -57,6 +57,7 @@ export async function POST(req: NextRequest) {
       data: {
         type: "TASK",
         name: params.subject,
+        integrationParams: { type: "EMAIL_FORWARD", from: params.from },
         pinned:
           [
             "urgent",
