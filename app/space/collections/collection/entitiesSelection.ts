@@ -5,6 +5,7 @@ export const entitiesSelection: Prisma.Collection$entitiesArgs<DefaultArgs> = {
   include: {
     completionInstances: true,
     label: true,
+    integration: true,
   },
   where: {
     trash: false,
