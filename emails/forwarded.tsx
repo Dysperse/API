@@ -66,9 +66,13 @@ export const ForwardedEmail = ({
             paddingBottom: 12,
           }}
           className="bg-[#000000] rounded-full text-white text-[12px] font-semibold no-underline text-center"
-          href={`https://dys.us.to/${shortId}`}
+          href={
+            shortId === "[short-id]"
+              ? "https://click.dysperse.com/1KWNyIu"
+              : `https://dys.us.to/${shortId}`
+          }
         >
-          View it here!
+          {shortId === "[short-id]" ? "What's Dysperse!?" : "View it here!"}
         </Button>
       </Section>
     </EmailWrapper>
