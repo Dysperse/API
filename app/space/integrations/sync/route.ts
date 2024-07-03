@@ -161,6 +161,7 @@ const canonicalizeIntegrationData = (integration, entities) => {
               integration: { connect: { id: integration.id } },
               integrationParams: {
                 id: assignment.uid,
+                name: "Canvas LMS",
               },
             },
           });
