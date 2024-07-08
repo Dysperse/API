@@ -47,10 +47,6 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const { showCompleted } = await prisma.collection.findUniqueOrThrow({
-      where: { id: params.id },
-    });
-
     const foundInviteId = await prisma.collectionAccess.findFirst({
       where: {
         AND: [{ userId: identifiers.userId }, { collectionId: params.id }],
