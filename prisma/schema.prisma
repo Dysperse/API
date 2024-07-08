@@ -309,6 +309,7 @@ model Collection {
   emoji       String?
   defaultView String? @default("kanban")
   description String  @default("")
+  category    String?
 
   // User preferences
   pinned        Boolean @default(false)
