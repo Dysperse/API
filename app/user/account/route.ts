@@ -18,13 +18,17 @@ export async function PUT(req: NextRequest) {
     const { userId } = await getIdentifiers();
     const params = await getApiParams(
       req,
-      [{ name: "lastReleaseVersionViewed", required: false }],
+      [
+        { name: "lastReleaseVersionViewed", required: false },
+        { name: "toursViewed", required: false },
+      ],
       { type: "BODY" }
     );
     const data = await prisma.user.update({
       where: { id: userId },
       data: {
         lastReleaseVersionViewed: params.lastReleaseVersionViewed || undefined,
+        toursViewed: params.toursViewed || undefined,
       },
     });
     return Response.json(data);
