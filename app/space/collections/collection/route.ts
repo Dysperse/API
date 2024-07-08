@@ -140,20 +140,6 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    if (!showCompleted) {
-      // filter out completed tasks
-      data.entities = data.entities.filter((entity) => {
-        if (entity.completionInstances.length === 0) return true;
-        return false;
-      });
-      data.labels = data.labels.map((label) => {
-        label.entities = label.entities.filter((entity) => {
-          if (entity.completionInstances.length === 0) return true;
-          return false;
-        });
-        return label;
-      });
-    }
     return Response.json({ ...data, access: foundInviteId });
   } catch (e) {
     return handleApiError(e);
