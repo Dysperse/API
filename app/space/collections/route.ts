@@ -130,6 +130,7 @@ export async function PUT(req: NextRequest) {
       params.category ||
       typeof params.public === "boolean" ||
       typeof params.showCompleted === "boolean" ||
+      typeof params.keepProfileAnonymous === "boolean" ||
       typeof params.locked === "boolean"
     ) {
       await prisma.collection.update({
@@ -142,6 +143,7 @@ export async function PUT(req: NextRequest) {
           emoji: params.emoji || undefined,
           gridOrder: params.gridOrder || undefined,
           category: params.category || undefined,
+          keepProfileAnonymous: params.keepProfileAnonymous || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
           public:
             typeof params.public === "boolean" ? params.public : undefined,

@@ -305,11 +305,12 @@ model Collection {
   id String @id @unique @default(uuid())
 
   // Info
-  name        String
-  emoji       String?
-  defaultView String? @default("kanban")
-  description String  @default("")
-  category    String?
+  name                 String
+  emoji                String?
+  defaultView          String? @default("kanban")
+  description          String  @default("")
+  category             String?
+  keepProfileAnonymous Boolean @default(false)
 
   // User preferences
   pinned        Boolean @default(false)
