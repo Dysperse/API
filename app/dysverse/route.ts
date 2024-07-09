@@ -15,10 +15,13 @@ export async function GET(req: NextRequest) {
   try {
     const params = await getApiParams(req, [
       { name: "cursor", required: false },
+      { name: "id", required: false },
     ]);
 
     const data = await prisma.collection.findMany({
-      where: { public: true },
+      where: {
+        AND: [{ id: params.id || undefined }, { public: true }],
+      },
       select: {
         id: true,
         name: true,
