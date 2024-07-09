@@ -16,11 +16,24 @@ export async function GET(req: NextRequest) {
     const params = await getApiParams(req, [
       { name: "cursor", required: false },
       { name: "id", required: false },
+      { name: "category", required: false },
+      { name: "search", required: false },
     ]);
 
     const data = await prisma.collection.findMany({
       where: {
-        AND: [{ id: params.id || undefined }, { public: true }],
+        AND: [
+          params.id && { id: params.id },
+          { public: true },
+          params.category && { category: params.category },
+          params.defaultView && { defaultView: params.defaultView },
+          params.search && {
+            OR: [
+              { name: { contains: params.search } },
+              { description: { contains: params.search } },
+            ],
+          },
+        ].filter((t) => t),
       },
       select: {
         id: true,
