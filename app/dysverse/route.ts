@@ -23,6 +23,13 @@ export async function GET(req: NextRequest) {
         id: true,
         name: true,
         defaultView: true,
+        emoji: true,
+        category: true,
+        kanbanOrder: true,
+        gridOrder: true,
+        shareItems: true,
+        keepAuthorAnonymous: true,
+        showCompleted: true,
         labels: { select: { name: true, emoji: true, color: true } },
         createdBy: {
           select: {
