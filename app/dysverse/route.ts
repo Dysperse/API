@@ -31,11 +31,13 @@ export async function GET(req: NextRequest) {
         kanbanOrder: true,
         gridOrder: true,
         shareItems: true,
+        description: true,
         keepAuthorAnonymous: true,
         showCompleted: true,
         labels: { select: { name: true, emoji: true, color: true } },
         createdBy: {
           select: {
+            email: true,
             profile: {
               select: { name: true, picture: true, theme: true },
             },
