@@ -64,6 +64,8 @@ export async function GET(req: NextRequest) {
       { name: "id", required: false },
       { name: "category", required: false },
       { name: "search", required: false },
+      { name: "defaultView", required: false },
+      { name: "all", required: false },
     ]);
 
     const data = await prisma.collection.findMany({
@@ -104,8 +106,12 @@ export async function GET(req: NextRequest) {
           },
         },
       },
-      take: 50,
-      cursor: params.cursor ? { id: params.cursor } : undefined,
+      take: params.all ? undefined : 50,
+      cursor: params.all
+        ? undefined
+        : params.cursor
+        ? { id: params.cursor }
+        : undefined,
     });
     return Response.json(data);
   } catch (e) {
