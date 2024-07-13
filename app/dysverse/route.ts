@@ -2,7 +2,10 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { generateRandomString } from "@/lib/randomString";
 import { NextRequest } from "next/server";
+import { v4 as uuidv4 } from "uuid";
+
 export const dynamic = "force-dynamic";
 
 export const OPTIONS = async () => {
@@ -20,11 +23,28 @@ export async function POST(req: NextRequest) {
 
     const copy = await prisma.collection.findFirstOrThrow({
       where: { id: params.id },
-      include: { labels: true },
+      include: { labels: true, entities: true },
+    });
+
+    const collectionId = uuidv4();
+    const labelMap = new Map<string, string>();
+
+    const labels = copy.labels.map((label) => {
+      const id = uuidv4();
+      labelMap.set(label.id, id);
+
+      return {
+        name: label.name,
+        emoji: label.emoji,
+        color: label.color,
+        createdBy: { connect: { id: userId } },
+        space: { connect: { id: spaceId } },
+      };
     });
 
     const data = await prisma.collection.create({
       data: {
+        id: collectionId,
         name: copy.name,
         description: copy.description,
         defaultView: copy.defaultView,
@@ -33,21 +53,32 @@ export async function POST(req: NextRequest) {
         kanbanOrder: copy.kanbanOrder || undefined,
         gridOrder: copy.gridOrder || undefined,
         createdBy: { connect: { id: userId } },
-        labels: {
-          create: copy.labels.map((label) => ({
-            name: label.name,
-            emoji: label.emoji,
-            color: label.color,
-            createdBy: { connect: { id: userId } },
-            space: { connect: { id: spaceId } },
-          })),
-        },
         space: { connect: { id: spaceId } },
         shareItems: copy.shareItems,
         keepAuthorAnonymous: copy.keepAuthorAnonymous,
         showCompleted: copy.showCompleted,
         originalCollectionTemplate: { connect: { id: copy.id } },
         keepProfileAnonymous: copy.keepProfileAnonymous,
+        labels: { create: labels },
+        entities: !copy.shareItems
+          ? undefined
+          : {
+              createMany: {
+                data: copy.entities.map((entity) => ({
+                  ...entity,
+                  spaceId,
+                  collectionId,
+                  shortId: generateRandomString(10),
+                  labelId: entity.labelId
+                    ? labelMap.get(entity.labelId)
+                    : undefined,
+                  recurrenceRule: entity.recurrenceRule || undefined,
+                  attachments: entity.attachments || undefined,
+                  integrationId: undefined,
+                  integrationParams: undefined,
+                })),
+              },
+            },
       },
     });
 
