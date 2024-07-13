@@ -108,11 +108,11 @@ export async function GET(req: NextRequest) {
           params.defaultView && { defaultView: params.defaultView },
           params.search && {
             OR: [
-              { name: { contains: params.search } },
-              { description: { contains: params.search } },
+              { name: { contains: params.search, mode: "insensitive" } },
+              { description: { contains: params.search, mode: "insensitive" } },
             ],
           },
-        ].filter((t) => t),
+        ],
       },
       select: {
         id: true,
