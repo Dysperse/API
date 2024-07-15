@@ -37,6 +37,28 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function PUT(req: NextRequest) {
+  try {
+    const { userId } = await getIdentifiers();
+    const params = await getApiParams(req, [
+      { name: "key", required: true },
+      { name: "value", required: true },
+    ]);
+
+    const settings = await prisma.notificationSettings.update({
+      where: { userId },
+      data: {
+        [params.key.replace("userId", "-1").replace("")]:
+          params.value === "true",
+      },
+    });
+
+    return Response.json({ settings });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
