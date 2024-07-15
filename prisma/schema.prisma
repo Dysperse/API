@@ -40,8 +40,9 @@ model User {
 
   hasEarlyAccess Boolean @default(false)
 
-  vanishMode Boolean      @default(false)
-  weekStart  WeekStartDay @default(SUNDAY)
+  vanishMode   Boolean      @default(false)
+  weekStart    WeekStartDay @default(SUNDAY)
+  militaryTime Boolean      @default(false)
 
   profile     Profile?
   toursViewed String[]

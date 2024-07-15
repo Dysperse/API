@@ -23,6 +23,7 @@ export async function PUT(req: NextRequest) {
         { name: "toursViewed", required: false },
         { name: "vanishMode", required: false },
         { name: "weekStart", required: false },
+        { name: "militaryTime", required: false },
       ],
       { type: "BODY" }
     );
@@ -35,6 +36,10 @@ export async function PUT(req: NextRequest) {
         vanishMode:
           typeof params.vanishMode === "boolean"
             ? params.vanishMode
+            : undefined,
+        militaryTime:
+          typeof params.militaryTime === "boolean"
+            ? params.militaryTime
             : undefined,
       },
     });
