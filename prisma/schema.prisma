@@ -43,6 +43,10 @@ model User {
   vanishMode   Boolean      @default(false)
   weekStart    WeekStartDay @default(SUNDAY)
   militaryTime Boolean      @default(false)
+  privateTasks Boolean      @default(false)
+
+  dailyStreakGoal  Int? @default(5)
+  weeklyStreakGoal Int? @default(10)
 
   profile     Profile?
   toursViewed String[]
