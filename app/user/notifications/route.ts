@@ -21,9 +21,15 @@ export async function GET(req: NextRequest) {
       where: { userId },
     });
 
-    const settings = await prisma.notificationSettings.findFirstOrThrow({
+    let settings = await prisma.notificationSettings.findFirst({
       where: { userId },
     });
+
+    if (!settings) {
+      settings = await prisma.notificationSettings.create({
+        data: { user: { connect: { id: userId } } },
+      });
+    }
 
     return Response.json({ subscriptions, settings });
   } catch (e) {
