@@ -24,6 +24,8 @@ export async function PUT(req: NextRequest) {
         { name: "vanishMode", required: false },
         { name: "weekStart", required: false },
         { name: "militaryTime", required: false },
+        { name: "dailyStreakGoal", required: false },
+        { name: "weeklyStreakGoal", required: false },
       ],
       { type: "BODY" }
     );
@@ -41,6 +43,9 @@ export async function PUT(req: NextRequest) {
           typeof params.militaryTime === "boolean"
             ? params.militaryTime
             : undefined,
+
+        dailyStreakGoal: params.dailyStreakGoal || undefined,
+        weeklyStreakGoal: params.weeklyStreakGoal || undefined,
       },
     });
     return Response.json(data);
