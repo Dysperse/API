@@ -48,8 +48,7 @@ export async function PUT(req: NextRequest) {
     const settings = await prisma.notificationSettings.update({
       where: { userId },
       data: {
-        [params.key.replace("userId", "-1").replace("")]:
-          params.value === "true",
+        [params.key.replace("userId", "-1")]: params.value === "true",
       },
     });
 
