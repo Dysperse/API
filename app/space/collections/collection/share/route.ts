@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
     );
 
     for (const email of emails) {
-      new Notification({
+      new Notification("COLLECTION_INVITE", {
         title: `🤝 you've been invited to "${collectionInfo.name}"`,
         body: "it's go time. just tap to start collaborating 🚀",
         data: { collectionId: params.id },

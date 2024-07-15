@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (acc.twoFactorSecret && !params.twoFactorCode) {
-      new Notification({
+      new Notification("MFA_CODES", {
         title: "your #dysperse login code 🔥",
         body: `You find a hastily scribbled note on the ground. You find the numbers ${
           twofactor.generateToken(acc.twoFactorSecret).token
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    new Notification({
+    new Notification("FORCE", {
       title: "New login detected! 🚨🫵",
       body: "If this wasn't you, please remove this device from your account settings immediately!",
       data: {},

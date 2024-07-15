@@ -1,12 +1,17 @@
 import { prisma } from "@/lib/prisma";
-import { NotificationSubscription } from "@prisma/client";
+import { NotificationSettings, NotificationSubscription } from "@prisma/client";
 import { ExpoPushMessage } from "expo-server-sdk";
 import webPush from "web-push";
 
 export class Notification {
+  identifier: keyof NotificationSettings | "FORCE";
   data: Omit<ExpoPushMessage, "to">;
 
-  constructor(data: Omit<ExpoPushMessage, "to">) {
+  constructor(
+    identifier: keyof NotificationSettings | "FORCE",
+    data: Omit<ExpoPushMessage, "to">
+  ) {
+    this.identifier = identifier;
     this.data = data;
   }
 
@@ -15,12 +20,19 @@ export class Notification {
    */
   async dispatch(userId): Promise<unknown> {
     const data = await prisma.notificationSubscription.findMany({
-      where: { OR: [{ userId }, { user: { email: userId } }] },
+      where: {
+        AND: [
+          { OR: [{ userId }, { user: { email: userId } }] },
+          this.identifier === "FORCE"
+            ? { id: { contains: "-" } }
+            : { [this.identifier]: true },
+        ],
+      },
     });
 
     return await Promise.allSettled(
       data.map((subscription) => {
-        return new Notification(this.data).send(subscription);
+        return new Notification("FORCE", this.data).send(subscription);
       })
     );
   }

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     });
 
     for (const subscription of subscriptions) {
-      new Notification({
+      new Notification("FORCE", {
         title: "well, hello there 👋",
         body: "#dysperse notifications are cool — and so are you! 🤭",
         data: { someData: "goes here" },
