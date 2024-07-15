@@ -53,10 +53,6 @@ export async function PUT(req: NextRequest) {
       },
       data: {
         name: name || undefined,
-        color: color || undefined,
-        pattern: pattern || undefined,
-        weekStart: weekStart || undefined,
-        vanishMode: vanishMode || undefined,
       },
     });
 
@@ -78,11 +74,7 @@ export async function GET(req: NextRequest) {
       },
       select: {
         name: true,
-        color: true,
-        pattern: true,
         _count: true,
-        weekStart: true,
-        vanishMode: true,
         entities: {
           select: { type: true, trash: true },
         },

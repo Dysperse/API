@@ -21,6 +21,8 @@ export async function PUT(req: NextRequest) {
       [
         { name: "lastReleaseVersionViewed", required: false },
         { name: "toursViewed", required: false },
+        { name: "vanishMode", required: false },
+        { name: "weekStart", required: false },
       ],
       { type: "BODY" }
     );
@@ -29,6 +31,11 @@ export async function PUT(req: NextRequest) {
       data: {
         lastReleaseVersionViewed: params.lastReleaseVersionViewed || undefined,
         toursViewed: params.toursViewed || undefined,
+        weekStart: params.weekStart || undefined,
+        vanishMode:
+          typeof params.vanishMode === "boolean"
+            ? params.vanishMode
+            : undefined,
       },
     });
     return Response.json(data);

@@ -40,6 +40,9 @@ model User {
 
   hasEarlyAccess Boolean @default(false)
 
+  vanishMode Boolean      @default(false)
+  weekStart  WeekStartDay @default(SUNDAY)
+
   profile     Profile?
   toursViewed String[]
   agreeTos    Boolean  @default(false)
@@ -194,12 +197,8 @@ enum WeekStartDay {
 }
 
 model Space {
-  id         String       @id @unique @default(uuid())
-  name       String
-  color      String       @default("mint")
-  pattern    String?
-  vanishMode Boolean      @default(false)
-  weekStart  WeekStartDay @default(SUNDAY)
+  id   String @id @unique @default(uuid())
+  name String
 
   collections  Collection[]
   labels       Label[]
