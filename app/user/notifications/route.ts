@@ -21,7 +21,11 @@ export async function GET(req: NextRequest) {
       where: { userId },
     });
 
-    return Response.json(subscriptions);
+    const settings = await prisma.notificationSettings.findFirstOrThrow({
+      where: { userId },
+    });
+
+    return Response.json({ subscriptions, settings });
   } catch (e) {
     return handleApiError(e);
   }

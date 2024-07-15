@@ -119,8 +119,17 @@ model Widget {
 model NotificationSettings {
   id String @id @unique @default(uuid())
 
-  dueDates Boolean @default(true)
-  planDay  Boolean @default(true)
+  COLLECTION_INVITE      Boolean @default(true)
+  COLLECTION_ITEM_CREATE Boolean @default(true)
+  COLLECTION_ITEM_UPDATE Boolean @default(true)
+
+  FRIEND_REQUEST_ME    Boolean @default(true)
+  FRIEND_REQUEST_OTHER Boolean @default(true)
+
+  ENTITY_START Boolean @default(true)
+  PLAN_DAY     Boolean @default(true)
+
+  MFA_CODES Boolean @default(true)
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

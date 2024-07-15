@@ -10,7 +10,8 @@
     "build": "prisma generate && next build",
     "lint": "cls && echo '> npm run lint\n' && echo '⏳ Linting and checking validity of types...' && tsc && echo '🎉 No errors!'",
     "email-dev": "email dev",
-    "ngrok": "ngrok http 3000"
+    "ngrok": "ngrok http 3000",
+    "deploy": "vercel deploy --prod"
   },
   "dependencies": {
     "@prisma/client": "^5.16.1",
@@ -48,6 +49,7 @@
     "resend": "^3.2.0",
     "rrule": "^2.8.1",
     "uuid": "^9.0.1",
+    "vercel": "^34.3.1",
     "web-push": "^3.6.7"
   },
   "keywords": [
