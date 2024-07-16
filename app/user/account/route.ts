@@ -26,6 +26,7 @@ export async function PUT(req: NextRequest) {
         { name: "militaryTime", required: false },
         { name: "dailyStreakGoal", required: false },
         { name: "weeklyStreakGoal", required: false },
+        { name: "privateTasks", required: false },
       ],
       { type: "BODY" }
     );
@@ -38,6 +39,10 @@ export async function PUT(req: NextRequest) {
         vanishMode:
           typeof params.vanishMode === "boolean"
             ? params.vanishMode
+            : undefined,
+        privateTasks:
+          typeof params.privateTasks === "boolean"
+            ? params.privateTasks
             : undefined,
         militaryTime:
           typeof params.militaryTime === "boolean"
