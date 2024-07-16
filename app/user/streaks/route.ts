@@ -25,11 +25,17 @@ export async function GET() {
     const tasks = await prisma.completionInstance.findMany({
       where: {
         completedAt: {
-          gte: dayjs().startOf("day").utc().toDate(),
+          gte: dayjs().startOf("week").utc().toDate(),
         },
       },
     });
-    return Response.json(data);
+    return Response.json({
+      user: data,
+      dayTasks: tasks.filter((task) => {
+        return dayjs(task.completedAt).isSame(dayjs(), "day");
+      }).length,
+      weekTasks: tasks.length,
+    });
   } catch (e) {
     return handleApiError(e);
   }
