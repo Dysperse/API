@@ -176,7 +176,10 @@ const canonicalizeIntegrationData = (integration, entities) => {
 export async function POST() {
   try {
     const { userId, spaceId } = await getIdentifiers();
-
+    const isPublished = await prisma.user.findFirstOrThrow({
+      where: { id: userId },
+      select: { privateTasks: true },
+    });
     const [integrations, entities] = await Promise.all([
       prisma.integration.findMany({
         where: { userId },
@@ -212,6 +215,7 @@ export async function POST() {
                     type: "TASK",
                     shortId: generateRandomString(6),
                     ...entity.entity,
+                    published: !isPublished.privateTasks,
                     space: { connect: { id: spaceId } },
                   },
                 })

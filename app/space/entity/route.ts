@@ -99,11 +99,17 @@ export async function POST(req: NextRequest) {
       { type: "BODY" }
     );
 
+    const isPublished = await prisma.user.findFirstOrThrow({
+      where: { id: userId },
+      select: { privateTasks: true },
+    });
+
     const space = await prisma.entity.create({
       data: {
         name: params.name,
         type: params.type,
         note: params.note,
+        published: !isPublished.privateTasks,
         storyPoints: params.storyPoints || 2,
         agendaOrder: params.agendaOrder || "0|hzzzzz:",
         start: params.start ? new Date(params.start) : undefined,
