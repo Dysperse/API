@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
     });
 
     const dayTasks = tasks.filter((task) =>
-      dayjs(task.completedAt).tz(timezone).isSame(dayjs(), "day")
+      dayjs(task.completedAt).tz(timezone).isSame(dayjs().tz(timezone), "day")
     ).length;
 
     const weekTasks = tasks.length;
