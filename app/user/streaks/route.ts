@@ -1,3 +1,4 @@
+import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
@@ -22,20 +23,19 @@ export const OPTIONS = async () => {
 export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
+    const params = await getApiParams(req, [
+      { name: "weekStart", required: true },
+      { name: "dayStart", required: true },
+    ]);
     const data = await prisma.user.findFirstOrThrow({
       where: { id: userId },
     });
-
-    const timezone = "America/New_York" || data.timeZone;
-
-    const startWeek = dayjs().startOf("week").tz(timezone).utc().toDate();
-    const todaysDate = dayjs().tz(timezone).utc();
 
     const tasks = await prisma.completionInstance.findMany({
       where: {
         AND: [
           {
-            completedAt: { gte: startWeek },
+            completedAt: { gte: dayjs(params.weekStart) },
           },
           { task: { space: { members: { some: { userId } } } } },
         ],
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
 
     const dayTasks = tasks.filter((task) =>
-      dayjs(task.completedAt).isSame(todaysDate, "day")
+      dayjs(task.completedAt).isSame(params.dayStart, "day")
     ).length;
 
     const weekTasks = tasks.length;
