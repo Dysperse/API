@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
     });
 
     const timezone = data.timeZone;
+    dayjs.tz.setDefault(timezone);
 
     const tasks = await prisma.completionInstance.findMany({
       where: {
@@ -43,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
 
     const dayTasks = tasks.filter((task) =>
-      dayjs(task.completedAt).tz(timezone).isSame(dayjs().tz(timezone), "day")
+      dayjs(task.completedAt).isSame(dayjs(), "day")
     ).length;
 
     const weekTasks = tasks.length;
