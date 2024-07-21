@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
       where: {
         AND: [
           {
-            completedAt: { gte: dayjs(params.weekStart) },
+            completedAt: { gte: dayjs(params.weekStart).toDate() },
           },
           { task: { space: { members: { some: { userId } } } } },
         ],
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
 
     const dayTasks = tasks.filter((task) =>
-      dayjs(task.completedAt).isAfter(params.dayStart)
+      dayjs(task.completedAt).isAfter(dayjs(params.dayStart))
     ).length;
 
     const weekTasks = tasks.length;
