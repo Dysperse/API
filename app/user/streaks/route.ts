@@ -26,16 +26,16 @@ export async function GET(req: NextRequest) {
       where: { id: userId },
     });
 
-    const timezone = data.timeZone;
-    dayjs.tz.setDefault(timezone);
+    const timezone = "America/New_York" || data.timeZone;
+
+    const startWeek = dayjs().startOf("week").tz(timezone).utc().toDate();
+    const todaysDate = dayjs().tz(timezone).utc();
 
     const tasks = await prisma.completionInstance.findMany({
       where: {
         AND: [
           {
-            completedAt: {
-              gte: dayjs().startOf("week").toDate(),
-            },
+            completedAt: { gte: startWeek },
           },
           { task: { space: { members: { some: { userId } } } } },
         ],
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
 
     const dayTasks = tasks.filter((task) =>
-      dayjs(task.completedAt).isSame(dayjs(), "day")
+      dayjs(task.completedAt).isSame(todaysDate, "day")
     ).length;
 
     const weekTasks = tasks.length;
