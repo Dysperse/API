@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
     });
 
     const dayTasks = tasks.filter((task) =>
-      dayjs(task.completedAt).isSame(params.dayStart, "day")
+      dayjs(task.completedAt).isAfter(params.dayStart)
     ).length;
 
     const weekTasks = tasks.length;
