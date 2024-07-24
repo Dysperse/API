@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -90,7 +91,8 @@ export async function PUT(req: NextRequest) {
         { name: "darkMode", required: false },
         { name: "picture", required: false },
         { name: "pattern", required: false },
-        { name: "lastPlanned", required: false },
+        { name: "pattern", required: false },
+        { name: "spotifyAuthTokens", required: false },
       ],
       { type: "BODY" }
     );
@@ -106,6 +108,9 @@ export async function PUT(req: NextRequest) {
         darkMode: params.darkMode ?? undefined,
         pattern: params.pattern ?? undefined,
         lastPlanned: params.lastPlanned || undefined,
+        spotifyAuthTokens: params.spotifyAuthTokens
+          ? Prisma.JsonNull
+          : undefined,
       },
     });
     return Response.json(data);
