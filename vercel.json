@@ -4,6 +4,10 @@
     {
       "path": "/cron/delete-login-qrs",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/cron/delete-trashed-items",
+      "schedule": "0 0 1 * *"
     }
   ]
 }
