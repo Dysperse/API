@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
+
 export const OPTIONS = async () => {
   return new Response("", {
     status: 200,
@@ -51,18 +52,47 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   try {
+    // Check if qr exists
     const params = await getApiParams(
       req,
       [{ name: "token", required: true }],
-      { type: "QUERY" }
+      {
+        type: "QUERY",
+      }
     );
 
-    const data = await prisma.qrToken.findFirstOrThrow({
-      where: { token: params.token },
+    const data = await prisma.qrToken.findFirst({
+      where: {
+        AND: [
+          { token: params.token },
+          { sessionId: { not: null } },
+          { expiresAt: { gte: new Date() } },
+        ],
+      },
     });
 
+    if (!data) {
+      return Response.json({ success: false });
+    }
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
+export async function GET(req: NextRequest) {
+  const params = await getApiParams(req, [{ name: "token", required: true }], {
+    type: "QUERY",
+  });
+
+  const data = await prisma.qrToken.findFirstOrThrow({
+    where: { token: params.token },
+  });
+
+  try {
     return new Response(
       `
     <!DOCTYPE html>

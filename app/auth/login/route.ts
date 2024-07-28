@@ -12,7 +12,7 @@ export const OPTIONS = async () => {
     status: 200,
     headers: {
       "Access-Control-Allow-Headers": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Methods": "POST,  PATCH, OPTIONS",
     },
   });
 };
