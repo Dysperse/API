@@ -1,4 +1,9 @@
 {
   "regions": ["pdx1"],
-  "crons": []
+  "crons": [
+    {
+      "path": "/cron/delete-login-qrs",
+      "schedule": "*/10 * * * *"
+    }
+  ]
 }
