@@ -3,7 +3,7 @@
   "crons": [
     {
       "path": "/cron/delete-login-qrs",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 0 * * *"
     }
   ]
 }
