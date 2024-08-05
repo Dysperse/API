@@ -137,7 +137,7 @@ export async function GET(req: NextRequest) {
         ) AS "createdBy"
       FROM "Collection" c
       WHERE c."public" = true
-      AND c."userId" = "1fc26e84-9e1d-4e30-89e2-cc958e98481a"
+      AND c."userId" = '1fc26e84-9e1d-4e30-89e2-cc958e98481a'
       ORDER BY RANDOM() 
       LIMIT 10;
     `;
