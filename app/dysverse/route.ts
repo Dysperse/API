@@ -145,7 +145,7 @@ export async function GET(req: NextRequest) {
       return Response.json(
         (randomRows as any).map((r) => ({
           ...r,
-          preview: `https://dysperse-og.koyeb.app/${r.id}`,
+          preview: `https://dysperse-og.koyeb.app/?id=${r.id}`,
         }))
       );
     }
