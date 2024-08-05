@@ -110,31 +110,7 @@ export async function GET(req: NextRequest) {
         "public", 
         "emoji", 
         "category", 
-        "kanbanOrder", 
-        "gridOrder", 
-        "shareItems", 
-        "description", 
-        "keepAuthorAnonymous", 
-        "showCompleted", 
-        (
-          SELECT json_agg(json_build_object('name', l."name", 'emoji', l."emoji", 'color', l."color")) 
-          FROM "Label" l 
-          WHERE l."id" IN (SELECT "B" FROM "_CollectionToLabel" WHERE "A" = c."id")
-        ) AS "labels",
-        (
-          SELECT json_build_object(
-            'email', u."email", 
-            'profile', json_build_object(
-              'name', p."name", 
-              'picture', p."picture", 
-              'theme', p."theme"
-            ),
-            'id', u."id"
-          ) 
-          FROM "User" u 
-          JOIN "Profile" p ON p."userId" = u."id"
-          WHERE u."id" = c."userId"
-        ) AS "createdBy"
+        "description"
       FROM "Collection" c
       WHERE c."public" = true
       AND c."userId" = '1fc26e84-9e1d-4e30-89e2-cc958e98481a'
