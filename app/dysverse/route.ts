@@ -142,7 +142,12 @@ export async function GET(req: NextRequest) {
       LIMIT 10;
     `;
 
-      return Response.json(randomRows);
+      return Response.json(
+        (randomRows as any).map((r) => ({
+          ...r,
+          preview: `https://dysperse-og.koyeb.app/${r.id}`,
+        }))
+      );
     }
 
     const data = await prisma.collection.findMany({
