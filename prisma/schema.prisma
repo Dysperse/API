@@ -44,6 +44,7 @@ model User {
   weekStart    WeekStartDay @default(SUNDAY)
   militaryTime Boolean      @default(false)
   privateTasks Boolean      @default(false)
+  mapsProvider String       @default("GOOGLE")
 
   dailyStreakGoal  Int? @default(5)
   weeklyStreakGoal Int? @default(10)

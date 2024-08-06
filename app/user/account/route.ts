@@ -27,6 +27,7 @@ export async function PUT(req: NextRequest) {
         { name: "dailyStreakGoal", required: false },
         { name: "weeklyStreakGoal", required: false },
         { name: "privateTasks", required: false },
+        { name: "mapsProvider", required: false },
       ],
       { type: "BODY" }
     );
@@ -51,6 +52,7 @@ export async function PUT(req: NextRequest) {
 
         dailyStreakGoal: params.dailyStreakGoal || undefined,
         weeklyStreakGoal: params.weeklyStreakGoal || undefined,
+        mapsProvider: params.mapsProvider || undefined,
       },
     });
     return Response.json(data);
