@@ -121,7 +121,7 @@ export async function GET(req: NextRequest) {
       return Response.json(
         (randomRows as any).map((r) => ({
           ...r,
-          preview: `https://dysperse-og.koyeb.app/?id=${r.id}`,
+          preview: `https://og.dysperse.com/${r.id}`,
         }))
       );
     }
