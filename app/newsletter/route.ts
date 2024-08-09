@@ -29,18 +29,25 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return Response.json(
-      data.map((i) => {
-        const nameParts = i.profile?.name.split(" ");
-        const firstName = nameParts?.[0] || "";
-        const lastName = nameParts?.[1] || "";
+    const t = data.map((i) => {
+      const nameParts = i.profile?.name.split(" ");
+      const firstName = nameParts?.[0] || "";
+      const lastName = nameParts?.[1] || "";
 
-        return {
-          email: i.email,
-          firstName,
-          lastName,
-        };
-      })
+      return {
+        email: i.email,
+        firstName,
+        lastName,
+      };
+    });
+    return new Response(
+      "email,firstName,lastName\n" +
+        t.map((i) => `${i.email},${i.firstName},${i.lastName}`).join("\n"),
+      {
+        headers: {
+          "Content-Type": "text/csv",
+        },
+      }
     );
   } catch (e) {
     return handleApiError(e);
