@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    await fetch("https://www.bestregards.me/api/v1/subscribers", {
+    fetch("https://www.bestregards.me/api/v1/subscribers", {
       method: "POST",
       body: JSON.stringify({
         firstName: params.name?.split(" ")?.[0],
@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + process.env.BESTREGARDS_API_KEY,
       },
-    });
+    }).then((res) => res.json());
 
     // Create space
     const space = await prisma.space.create({
