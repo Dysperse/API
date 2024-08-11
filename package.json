@@ -14,7 +14,7 @@
     "deploy": "vercel deploy --prod"
   },
   "dependencies": {
-    "@prisma/client": "^5.16.1",
+    "@prisma/client": "^5.18.0",
     "@react-email/button": "^0.0.15",
     "@react-email/components": "^0.0.19",
     "@react-email/font": "^0.0.6",
@@ -70,7 +70,7 @@
     "eslint": "^8.49.0",
     "eslint-config-next": "^14.2.3",
     "ngrok": "^5.0.0-beta.2",
-    "prisma": "^5.16.1",
+    "prisma": "^5.18.0",
     "typescript": "^5.4.5"
   }
 }

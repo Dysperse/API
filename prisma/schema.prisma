@@ -38,6 +38,8 @@ model User {
   createdAt                DateTime @default(now())
   timeZone                 String   @default("America/Los_Angeles")
 
+  newsletterSubscriptionId String?
+
   hasEarlyAccess Boolean @default(false)
 
   vanishMode   Boolean      @default(false)
