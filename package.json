@@ -20,7 +20,7 @@
     "@react-email/font": "^0.0.6",
     "@react-email/html": "^0.0.8",
     "@react-email/render": "^0.0.15",
-    "@sentry/nextjs": "^8.7.0",
+    "@sentry/nextjs": "^8.26.0",
     "@sentry/node": "^8.7.0",
     "@sentry/replay": "^7.116.0",
     "@types/argon2": "^0.15.0",

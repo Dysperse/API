@@ -149,3 +149,6 @@ dist
 
 /push-server/wrangler.toml
 .vercel
+
+# Sentry Config File
+.env.sentry-build-plugin
