@@ -76,6 +76,6 @@ export async function GET(req: NextRequest) {
   }
 
   redirect(
-    `${process.env.FRONTEND_URL}/settings/space/integrations/${name}/redirect`
+    `${process.env.FRONTEND_URL}/settings/account/integrations/${name}/${id}`
   );
 }
