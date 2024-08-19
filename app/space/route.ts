@@ -132,7 +132,7 @@ export async function GET(req: NextRequest) {
       used: taskBreakdown + integrationBreakdown + labelBreakdown,
       breakdown: {
         tasks: taskBreakdown,
-        integration: integrationBreakdown,
+        integrations: integrationBreakdown,
         labels: labelBreakdown,
         collections: collectionBreakdown,
       },
