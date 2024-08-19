@@ -9,7 +9,7 @@ const STORAGE_UNITS = {
   max: 1000,
   entityMultipliers: {
     item: 1.5, // deprecated
-    note: 1.7,
+    integration: 20,
     task: 1.5,
     labels: 2,
     collections: 10,
@@ -117,8 +117,9 @@ export async function GET(req: NextRequest) {
 
     const taskBreakdown =
       STORAGE_UNITS.entityMultipliers.task * grouped.TASK || 0;
-    const noteBreakdown =
-      STORAGE_UNITS.entityMultipliers.note * grouped.NOTE || 0;
+    const integrationBreakdown =
+      STORAGE_UNITS.entityMultipliers.integration * space._count.integrations ||
+      0;
     const labelBreakdown =
       STORAGE_UNITS.entityMultipliers.labels * space._count.labels || 0;
     const collectionBreakdown =
@@ -128,10 +129,10 @@ export async function GET(req: NextRequest) {
     const storage = {
       inTrash,
       limit: STORAGE_UNITS.max,
-      used: taskBreakdown + noteBreakdown + labelBreakdown,
+      used: taskBreakdown + integrationBreakdown + labelBreakdown,
       breakdown: {
         tasks: taskBreakdown,
-        notes: noteBreakdown,
+        integration: integrationBreakdown,
         labels: labelBreakdown,
         collections: collectionBreakdown,
       },
