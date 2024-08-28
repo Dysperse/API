@@ -77,4 +77,5 @@ export async function GET(req: NextRequest) {
           : "https://app.dysperse.com"
       }/auth/google?session=${session}`
     );
+  else return handleApiError(new Error("No session found"));
 }
