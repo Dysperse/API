@@ -83,9 +83,10 @@ model PasskeyChallenge {
 }
 
 model Passkey {
-  id           String @id @unique @default(uuid())
+  id           String   @id @unique @default(uuid())
   credential   Json
-  friendlyName String @default("Passkey")
+  friendlyName String   @default("Passkey")
+  createdAt    DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
