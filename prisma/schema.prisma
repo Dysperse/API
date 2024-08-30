@@ -29,14 +29,15 @@ model QrToken {
 }
 
 model User {
-  id                       String   @id @unique @default(uuid())
-  username                 String?  @unique
-  email                    String   @unique
+  id                       String    @id @unique @default(uuid())
+  username                 String?   @unique
+  email                    String    @unique
   password                 String
   twoFactorSecret          String?
-  lastReleaseVersionViewed Int      @default(77711209)
-  createdAt                DateTime @default(now())
-  timeZone                 String   @default("America/Los_Angeles")
+  lastReleaseVersionViewed Int       @default(77711209)
+  createdAt                DateTime  @default(now())
+  timeZone                 String    @default("America/Los_Angeles")
+  passkeys                 Passkey[]
 
   newsletterSubscriptionId String?
 
@@ -73,6 +74,21 @@ model User {
   invitedCollections CollectionAccess[]
   resetTokens        ResetToken[]
   widgets            Widget[]
+}
+
+model PasskeyChallenge {
+  id        String   @id @unique @default(uuid())
+  challenge String
+  createdAt DateTime @default(now())
+}
+
+model Passkey {
+  id           String @id @unique @default(uuid())
+  credential   Json
+  friendlyName String @default("Passkey")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 enum ResetTokenType {
