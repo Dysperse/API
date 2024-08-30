@@ -146,8 +146,8 @@ export async function PATCH(req: NextRequest) {
         },
       },
       {
-        id: credentialKey.credential.id,
-        publicKey: credentialKey.credential.publicKey,
+        id: (credentialKey as any).credential.id,
+        publicKey: (credentialKey as any).credential.publicKey,
         algorithm: "ES256",
         transports: ["internal"],
       },
@@ -183,3 +183,4 @@ export async function PATCH(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
