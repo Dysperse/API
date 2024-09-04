@@ -24,10 +24,12 @@ export async function GET(req: NextRequest) {
       error?: string;
       code?: string;
       scope?: string;
+      returnSessionId?: string;
     }>(req, [
       { name: "error", required: false },
       { name: "code", required: false },
       { name: "scope", required: false },
+      { name: "returnSessionId", required: false },
     ]);
     // Get email from google api
     const oauth2Client = googleLoginClient({
@@ -65,6 +67,10 @@ export async function GET(req: NextRequest) {
     }).dispatch(acc.id);
 
     session = s.id;
+
+    if (params.returnSessionId && session) {
+      return Response.json({ session });
+    }
   } catch (e) {
     return handleApiError(e);
   }
