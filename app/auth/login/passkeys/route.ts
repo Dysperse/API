@@ -4,6 +4,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import { server } from "@passwordless-id/webauthn";
+import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 
 export const OPTIONS = async () => {
@@ -37,7 +38,9 @@ export function utf8StringToBuffer(value: string): ArrayBuffer {
 export async function GET(req: NextRequest) {
   try {
     const challenge = await server.randomChallenge();
-    await prisma.passkeyChallenge.create({ data: { challenge } });
+    await prisma.passkeyChallenge.create({
+      data: { challenge, expiresAt: dayjs().add(15, "minute").toDate() },
+    });
 
     return Response.json({ challenge });
   } catch (e) {
@@ -119,7 +122,12 @@ export async function PATCH(req: NextRequest) {
 
     // First lookup the challenge
     await prisma.passkeyChallenge.findFirstOrThrow({
-      where: { challenge: params.challenge },
+      where: {
+        AND: [
+          { challenge: params.challenge },
+          { expiresAt: { gte: new Date() } },
+        ],
+      },
     });
 
     const credentialKey = await prisma.passkey.findFirstOrThrow({
