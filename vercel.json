@@ -2,7 +2,7 @@
   "regions": ["pdx1"],
   "crons": [
     {
-      "path": "/cron/delete-login-qrs",
+      "path": "/cron/delete-login-tokens",
       "schedule": "0 0 * * *"
     },
     {
