@@ -17,12 +17,22 @@ export async function GET(req: NextRequest) {
   )
     throw new Error("Access denied");
 
-  await prisma.qrToken.deleteMany({
-    where: {
-      expiresAt: {
-        lte: new Date(),
+  await prisma.$transaction([
+    prisma.qrToken.deleteMany({
+      where: {
+        expiresAt: {
+          lte: new Date(),
+        },
       },
-    },
-  });
+    }),
+    prisma.passkeyChallenge.deleteMany({
+      where: {
+        expiresAt: {
+          lte: new Date(),
+        },
+      },
+    }),
+  ]);
+
   return Response.json({ success: true });
 }
