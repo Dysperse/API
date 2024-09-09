@@ -328,7 +328,7 @@ model CollectionLink {
   access   CollectionAccessType @default(READ_ONLY)
   disabled Boolean              @default(false)
 
-  inviteLink Collection?
+  collectionId Collection?
 }
 
 model Collection {
