@@ -154,19 +154,32 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers();
-    const params = await getApiParams(req, [{ name: "id", required: true }]);
+    const params = await getApiParams(req, [
+      { name: "id", required: true },
+      { name: "inviteLinkId", required: false },
+    ]);
+    const { userId } = await getIdentifiers(
+      undefined,
+      Boolean(params.inviteLinkId)
+    );
 
     const data = await prisma.entity.findFirstOrThrow({
       where: {
         OR: [
           // For people within the space
           { AND: [{ id: params.id }] },
+
           // For people outside the space but invited
           {
             AND: [
               { id: params.id },
               { collection: { invitedUsers: { some: { userId } } } },
+            ],
+          },
+          {
+            AND: [
+              { id: params.id },
+              { collection: { inviteLink: { id: params.inviteLinkId } } },
             ],
           },
           {
