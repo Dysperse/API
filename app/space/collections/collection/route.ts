@@ -1,3 +1,4 @@
+import { getLabelOrder } from "@/app/collections/getLabelOrder";
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
@@ -15,7 +16,7 @@ export const OPTIONS = async () => {
 };
 export async function GET(req: NextRequest) {
   try {
-    const identifiers = await getIdentifiers();
+    const { userId, spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "id", required: true },
       { name: "all", required: false },
@@ -23,7 +24,7 @@ export async function GET(req: NextRequest) {
 
     if (params.all) {
       const labeledEntities = await prisma.label.findMany({
-        where: { spaceId: identifiers.spaceId },
+        where: { spaceId },
         include: {
           _count: true,
           entities: entitiesSelection,
@@ -32,11 +33,7 @@ export async function GET(req: NextRequest) {
       const unlabeledEntities = await prisma.entity.findMany({
         ...entitiesSelection,
         where: {
-          AND: [
-            { spaceId: identifiers.spaceId },
-            { label: null },
-            { trash: false },
-          ],
+          AND: [{ spaceId }, { label: null }, { trash: false }],
         },
       });
       return Response.json({
@@ -49,21 +46,15 @@ export async function GET(req: NextRequest) {
 
     const foundInviteId = await prisma.collectionAccess.findFirst({
       where: {
-        AND: [{ userId: identifiers.userId }, { collectionId: params.id }],
+        AND: [{ userId }, { collectionId: params.id }],
       },
     });
 
     let data = await prisma.collection.findFirstOrThrow({
       where: {
         OR: [
-          { AND: [{ spaceId: identifiers.spaceId }, { id: params.id }] },
-          foundInviteId?.id
-            ? {
-                invitedUsers: {
-                  some: { id: foundInviteId.id },
-                },
-              }
-            : {},
+          { AND: [{ userId }, { id: params.id }] },
+          { invitedUsers: { some: { userId } } },
         ],
       },
       include: {
@@ -104,6 +95,14 @@ export async function GET(req: NextRequest) {
           where: {
             AND: [{ trash: false }, { label: null }],
           },
+          /**
+           * Select only where completionInstances are 0 (in case we need in future)
+            {
+              completionInstances: {
+                none: { completedAt: { not: null } },
+              },
+            },
+           */
         },
         labels: {
           include: {
@@ -119,23 +118,8 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    if (!data.gridOrder) data.gridOrder = data.labels.map((i) => i.id);
-    if (!data.kanbanOrder) data.kanbanOrder = data.labels.map((i) => i.id);
-
-    // if any of the data.labels is not in the gridOrder, add it
-    data.labels.forEach((label) => {
-      if (!(data as any).gridOrder.includes(label.id)) {
-        (data as any).gridOrder.push(label.id);
-      }
-    });
-
-    // if any of the data.labels is not in the kanbanOrder, add it
-    data.labels.forEach((label) => {
-      if (!(data as any).kanbanOrder.includes(label.id)) {
-        (data as any).kanbanOrder.push(label.id);
-      }
-    });
-
+    data.kanbanOrder = getLabelOrder(data, "kanbanOrder");
+    data.gridOrder = getLabelOrder(data, "gridOrder");
     return Response.json({ ...data, access: foundInviteId });
   } catch (e) {
     return handleApiError(e);
