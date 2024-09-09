@@ -324,11 +324,9 @@ model CollectionAccess {
 }
 
 model CollectionLink {
-  id   String @id @unique @default(uuid())
-  name String
-  url  String
-
-  readOnly Boolean @default(false)
+  id       String               @id @unique @default(uuid())
+  access   CollectionAccessType @default(READ_ONLY)
+  disabled Boolean              @default(false)
 
   inviteLink Collection?
 }
