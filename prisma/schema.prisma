@@ -330,8 +330,7 @@ model CollectionLink {
 
   readOnly Boolean @default(false)
 
-  collectionId String
-  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  inviteLink Collection?
 }
 
 model Collection {
@@ -382,7 +381,9 @@ model Collection {
   integrationId String?
 
   invitedUsers CollectionAccess[]
-  inviteLinks  CollectionLink[]
+
+  inviteLink   CollectionLink? @relation(fields: [inviteLinkId], references: [id])
+  inviteLinkId String?         @unique // relation scalar field (used in the `@relation` attribute above)
 }
 
 model Entity {
