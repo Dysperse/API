@@ -20,7 +20,9 @@ export async function GET(req: NextRequest) {
 
     const response = await prisma.collectionLink.findFirstOrThrow({
       where: {
-        AND: [{ collectionId: params.id }, { collection: { userId } }],
+        collection: {
+          AND: [{ id: params.id }, { userId }],
+        },
       },
     });
     return Response.json(response);
