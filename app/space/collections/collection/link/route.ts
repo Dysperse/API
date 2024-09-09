@@ -18,13 +18,24 @@ export async function GET(req: NextRequest) {
     const { userId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
-    const response = await prisma.collectionLink.findFirstOrThrow({
+    const response = await prisma.collectionLink.findFirst({
       where: {
         collection: {
           AND: [{ id: params.id }, { userId }],
         },
       },
     });
+
+    if (!response) {
+      const data = await prisma.collectionLink.create({
+        data: {
+          collection: { connect: { id: params.id } },
+        },
+      });
+
+      return Response.json(params);
+    }
+
     return Response.json(response);
   } catch (e) {
     return handleApiError(e);
@@ -33,21 +44,24 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [
-      { name: "id", required: true },
-      { name: "refreshId", required: false },
-      { name: "disabled", required: false },
-      { name: "access", required: false },
-    ]);
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "refreshId", required: false },
+        { name: "disabled", required: false },
+        { name: "access", required: false },
+      ],
+      { type: "BODY" }
+    );
 
-    const data = await prisma.collectionLink.update({
-      where: { id: params.id },
+    const data = await prisma.collectionLink.updateMany({
+      where: { collection: { id: params.id } },
       data: {
         id: params.refreshId ? uuidv4() : undefined,
         access: params.access,
-        ...(typeof params.disabled === "string" && {
-          disabled: params.disabled === "true",
-        }),
+        disabled:
+          typeof params.disabled === "boolean" ? params.disabled : undefined,
       },
     });
 

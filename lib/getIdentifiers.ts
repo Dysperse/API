@@ -7,7 +7,13 @@ export interface Identifiers {
   spaceId: string;
 }
 
-export const getIdentifiers = async (id?: string): Promise<Identifiers> => {
+export const getIdentifiers = async (
+  id?: string,
+  bypass?: boolean
+): Promise<Identifiers> => {
+  if (bypass)
+    return { userId: "bypass", spaceId: "bypass", sessionId: "bypass" };
+
   const sessionId =
     id || headers()?.get("authorization")?.replace("Bearer ", "");
 

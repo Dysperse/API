@@ -16,11 +16,15 @@ export const OPTIONS = async () => {
 };
 export async function GET(req: NextRequest) {
   try {
-    const { userId, spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "id", required: true },
       { name: "all", required: false },
+      { name: "isPublic", required: false },
     ]);
+    const { userId, spaceId } = await getIdentifiers(
+      undefined,
+      params.isPublic === "true"
+    );
 
     if (params.all) {
       const labeledEntities = await prisma.label.findMany({
@@ -54,7 +58,14 @@ export async function GET(req: NextRequest) {
       where: {
         OR: [
           { AND: [{ userId }, { id: params.id }] },
-          { invitedUsers: { some: { userId } } },
+          {
+            AND: [{ invitedUsers: { some: { userId } } }, { id: params.id }],
+          },
+          {
+            inviteLink: {
+              AND: [{ access: "READ_ONLY" }, { id: params.id }],
+            },
+          },
         ],
       },
       include: {
@@ -125,3 +136,4 @@ export async function GET(req: NextRequest) {
     return handleApiError(e);
   }
 }
+

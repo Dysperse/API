@@ -381,7 +381,7 @@ model Collection {
   invitedUsers CollectionAccess[]
 
   inviteLink   CollectionLink? @relation(fields: [inviteLinkId], references: [id])
-  inviteLinkId String?         @unique // relation scalar field (used in the `@relation` attribute above)
+  inviteLinkId String?         @unique
 }
 
 model Entity {
