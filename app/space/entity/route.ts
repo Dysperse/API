@@ -177,10 +177,12 @@ export async function GET(req: NextRequest) {
             ],
           },
           {
-            AND: [
-              { id: params.id },
-              { collection: { inviteLink: { id: params.inviteLinkId } } },
-            ],
+            AND: params.inviteLinkId
+              ? [
+                  { id: params.id },
+                  { collection: { inviteLink: { id: params.inviteLinkId } } },
+                ]
+              : [],
           },
           {
             AND: [
