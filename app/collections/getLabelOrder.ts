@@ -6,10 +6,13 @@ export function getLabelOrder(
 
   return [
     ...new Set([
-      ...(collection as any)[key].filter((id: string) => labelIds.has(id)),
+      ...((collection as any)?.[key] || []).filter((id: string) =>
+        labelIds.has(id)
+      ),
       ...Array.from(labelIds).filter(
         (id) => !(collection as any)[key].includes(id)
       ),
     ]),
   ];
 }
+
