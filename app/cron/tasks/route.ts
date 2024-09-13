@@ -83,6 +83,7 @@ export async function POST(req: NextRequest) {
                   name: true,
                   notifications: true,
                   start: true,
+                  _count: { select: { completionInstances: true } },
                   recurrenceRule: true,
                 },
               },
@@ -104,7 +105,7 @@ export async function POST(req: NextRequest) {
     .map((user) => {
       return user.spaces[0].space.entities
         .filter((entity) => {
-          if (entity.start) {
+          if (entity.start && entity._count.completionInstances === 0) {
             return entity.notifications.find((notification) => {
               return (
                 dayjs(entity.start).utc().diff(dayjs().utc(), "minute") ===
