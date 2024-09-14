@@ -51,7 +51,7 @@ const randomMessage = () => {
   return messages[Math.floor(Math.random() * messages.length)];
 };
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const body = randomMessage();
 
   if (
