@@ -51,12 +51,14 @@ export class Notification {
           to: subscription.tokens,
           ...this.data,
         }),
-      });
+      }).then((res) => res.json());
 
-      console.log(res);
-
-      const data = await res.json();
-      return data;
+      if (res?.data?.status === "ok") {
+        console.log(
+          `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
+        );
+      }
+      return res;
     } else if (subscription.type === "WEB") {
       webPush.setVapidDetails(
         `mailto:${process.env.WEB_PUSH_EMAIL}`,
@@ -67,16 +69,37 @@ export class Notification {
         subscription.tokens,
         JSON.stringify(this.data)
       );
-      console.log(response);
+      if (response.statusCode === 201) {
+        console.log(
+          `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
+        );
+      }
       return response;
     } else if (subscription.type === "FCM") {
-      await fetch(
+      const refreshToken =
+        "1//06LN_x2nmQITvCgYIARAAGAYSNwF-L9IrccDxK5sBLAm5kbs8hPShNFsSGlHJFOT9CUtnu3IlnRLW82hym1SHO-rp7yTA5N7RZ5E";
+
+      // Refresh the access token and get it
+      const auth = await fetch("https://oauth2.googleapis.com/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          refresh_token: refreshToken,
+          grant_type: "refresh_token",
+        }),
+      }).then((res) => res.json());
+
+      const res = await fetch(
         "https://fcm.googleapis.com/v1/projects/dysperse/messages:send",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ya29.a0AcM612yJZZWuFcySlBI0DSA0PtazP7wHVwsOxDkmMhR6PoniJRL1oPV5_Z6qzXlOVbhx5a4agTT646Ccj0bagArm_g-gebpC6Y4S4J_DYDcJkV8c831Zb3XwbQk3P1D90iNqhUVYHUfFVn1HPW2jc8ifPaKjzJnu7DZdwtSFaCgYKAZwSARISFQHGX2MiX7OSpPd_v0TTZHfBKAhB-g0175`,
+            Authorization: `Bearer ${auth.access_token}`,
           },
           body: JSON.stringify({
             message: {
@@ -88,7 +111,12 @@ export class Notification {
             },
           }),
         }
-      );
+      ).then((res) => res.json());
+      if (res.name) {
+        console.log(
+          `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
+        );
+      }
     } else {
       throw new Error(
         "Invalid subscription type. Must be of type EXPO | WEB | FCM"
