@@ -117,7 +117,7 @@ export async function GET(req: NextRequest) {
   })();
 
   const webMessages = messages.filter(
-    (message: any) => message.data.type === "WEB"
+    (message: any) => message.data.type !== "EXPO"
   );
 
   for (const message of webMessages) {

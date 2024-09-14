@@ -1,3 +1,4 @@
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
@@ -176,15 +177,14 @@ export async function POST(req: NextRequest) {
   })();
 
   const webMessages = messages.filter(
-    (message: any) => message.data.type === "WEB"
+    (message: any) => message.data.type !== "EXPO"
   );
 
   for (const message of webMessages) {
-    const response = await webPush.sendNotification(
-      message.to,
-      JSON.stringify(message)
+    const response = await new Notification("FORCE", message).send(
+      message.to as any
     );
-    status[response.statusCode !== 201 ? 1 : 0]++;
+    status[response ? 1 : 0]++;
   }
 
   return Response.json({
