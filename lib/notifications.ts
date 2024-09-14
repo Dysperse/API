@@ -15,6 +15,25 @@ export class Notification {
     this.data = data;
   }
 
+  static #accessToken = null;
+  static #setAccessToken = async () => {
+    const auth = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        refresh_token: process.env.FCM_REFRESH_TOKEN,
+        grant_type: "refresh_token",
+      }),
+    }).then((res) => res.json());
+
+    // Set the access token so it can be used later in this class
+    Notification.#accessToken = auth.access_token;
+  };
+
   /**
    * Dispatch the notification to all of the user's devices
    */
@@ -79,22 +98,11 @@ export class Notification {
       // in case we need to get another refresh token in the future, here's the authorization URL (copy and paste in browser)
       // https://accounts.google.com/o/oauth2/auth?client_id=990040256661-u5ke19h4s0dklnp7rietlg9u264fbn34.apps.googleusercontent.com&redirect_uri=http://localhost:3000&scope=https://www.googleapis.com/auth/firebase.messaging&response_type=code&access_type=offline&prompt=consent
 
-      const refreshToken =
-        "1//06LN_x2nmQITvCgYIARAAGAYSNwF-L9IrccDxK5sBLAm5kbs8hPShNFsSGlHJFOT9CUtnu3IlnRLW82hym1SHO-rp7yTA5N7RZ5E";
+      if (!Notification.#accessToken) {
+        await Notification.#setAccessToken();
+      }
 
-      // Refresh the access token and get it
-      const auth = await fetch("https://oauth2.googleapis.com/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          client_id: process.env.GOOGLE_CLIENT_ID,
-          client_secret: process.env.GOOGLE_CLIENT_SECRET,
-          refresh_token: refreshToken,
-          grant_type: "refresh_token",
-        }),
-      }).then((res) => res.json());
+      const accessToken = Notification.#accessToken;
 
       const res = await fetch(
         "https://fcm.googleapis.com/v1/projects/dysperse/messages:send",
@@ -102,7 +110,7 @@ export class Notification {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.access_token}`,
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
             message: {
