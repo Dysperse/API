@@ -88,6 +88,7 @@ export async function POST(req: NextRequest) {
       const tokens = user.notificationSubscriptions;
       return tokens.map((token) => {
         return {
+          fcmTo: token.tokens as any,
           to: token.tokens as any,
           title: "It's time to plan your day! 🔥",
           body,
@@ -121,7 +122,9 @@ export async function POST(req: NextRequest) {
   );
 
   for (const message of webMessages) {
-    const response = await new Notification("FORCE", message).send(message.to);
+    const response = await new Notification("FORCE", message).send(
+      message.fcmTo
+    );
     status[response ? 1 : 0]++;
   }
 
