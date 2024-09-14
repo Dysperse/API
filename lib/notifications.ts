@@ -86,7 +86,8 @@ export class Notification {
       );
       const response = await webPush.sendNotification(
         subscription.tokens,
-        JSON.stringify(this.data)
+        JSON.stringify(this.data),
+        { urgency: "high" }
       );
       if (response.statusCode === 201) {
         console.log(
@@ -118,6 +119,22 @@ export class Notification {
               notification: {
                 title: this.data.title,
                 body: this.data.body,
+              },
+              // high priority
+              android: {
+                priority: "high",
+              },
+              // high priority
+              apns: {
+                headers: {
+                  "apns-priority": "5",
+                },
+              },
+              // high priority
+              webpush: {
+                headers: {
+                  Urgency: "high",
+                },
               },
             },
           }),
