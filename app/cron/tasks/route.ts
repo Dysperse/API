@@ -185,7 +185,8 @@ export async function POST(req: NextRequest) {
     const response = await new Notification("FORCE", message).send(
       (message as any).fcmTo
     );
-    status[response ? 1 : 0]++;
+    console.log(response);
+    status[response ? 0 : 1]++;
   }
 
   return Response.json({
