@@ -76,8 +76,8 @@ export class Notification {
         console.log(
           `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
         );
+        return true;
       }
-      return res;
     } else if (subscription.type === "WEB") {
       webPush.setVapidDetails(
         `mailto:${process.env.WEB_PUSH_EMAIL}`,
@@ -90,9 +90,12 @@ export class Notification {
         { urgency: "high" }
       );
       if (response.statusCode === 201) {
-        console.log(
-          `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
-        );
+        {
+          console.log(
+            `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
+          );
+          return true;
+        }
       }
       return response;
     } else if (subscription.type === "FCM") {
@@ -141,9 +144,12 @@ export class Notification {
         }
       ).then((res) => res.json());
       if (res.name) {
-        console.log(
-          `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
-        );
+        {
+          console.log(
+            `🔔 ${subscription.type} Notification successfully sent to NotificationSubscription[${subscription.id}]`
+          );
+          return true;
+        }
       }
     } else {
       throw new Error(

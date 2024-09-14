@@ -1,3 +1,4 @@
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import tz from "dayjs/plugin/timezone";
@@ -120,11 +121,8 @@ export async function GET(req: NextRequest) {
   );
 
   for (const message of webMessages) {
-    const response = await webPush.sendNotification(
-      message.to,
-      JSON.stringify(message)
-    );
-    status[response.statusCode !== 201 ? 1 : 0]++;
+    const response = await new Notification("FORCE", message).send(message.to);
+    status[response ? 1 : 0]++;
   }
 
   return Response.json({
