@@ -183,7 +183,7 @@ export async function POST(req: NextRequest) {
 
   for (const message of webMessages) {
     const response = await new Notification("FORCE", message).send(
-      message.fcmTo
+      (message as any).fcmTo
     );
     status[response ? 1 : 0]++;
   }
