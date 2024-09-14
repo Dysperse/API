@@ -166,6 +166,7 @@ model NotificationSettings {
 enum NotificationSubscriptionType {
   EXPO
   WEB
+  FCM
 }
 
 model NotificationSubscription {
