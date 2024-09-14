@@ -69,8 +69,30 @@ export class Notification {
       );
       console.log(response);
       return response;
+    } else if (subscription.type === "FCM") {
+      await fetch(
+        "https://fcm.googleapis.com/v1/projects/dysperse/messages:send",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ya29.a0AcM612yJZZWuFcySlBI0DSA0PtazP7wHVwsOxDkmMhR6PoniJRL1oPV5_Z6qzXlOVbhx5a4agTT646Ccj0bagArm_g-gebpC6Y4S4J_DYDcJkV8c831Zb3XwbQk3P1D90iNqhUVYHUfFVn1HPW2jc8ifPaKjzJnu7DZdwtSFaCgYKAZwSARISFQHGX2MiX7OSpPd_v0TTZHfBKAhB-g0175`,
+          },
+          body: JSON.stringify({
+            message: {
+              token: subscription.tokens,
+              notification: {
+                title: this.data.title,
+                body: this.data.body,
+              },
+            },
+          }),
+        }
+      );
     } else {
-      throw new Error("Invalid subscription type. Must be of type EXPO or WEB");
+      throw new Error(
+        "Invalid subscription type. Must be of type EXPO | WEB | FCM"
+      );
     }
   }
 }
