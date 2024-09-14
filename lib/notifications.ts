@@ -76,6 +76,9 @@ export class Notification {
       }
       return response;
     } else if (subscription.type === "FCM") {
+      // in case we need to get another refresh token in the future, here's the authorization URL (copy and paste in browser)
+      // https://accounts.google.com/o/oauth2/auth?client_id=990040256661-u5ke19h4s0dklnp7rietlg9u264fbn34.apps.googleusercontent.com&redirect_uri=http://localhost:3000&scope=https://www.googleapis.com/auth/firebase.messaging&response_type=code&access_type=offline&prompt=consent
+
       const refreshToken =
         "1//06LN_x2nmQITvCgYIARAAGAYSNwF-L9IrccDxK5sBLAm5kbs8hPShNFsSGlHJFOT9CUtnu3IlnRLW82hym1SHO-rp7yTA5N7RZ5E";
 
