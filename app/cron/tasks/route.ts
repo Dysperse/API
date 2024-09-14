@@ -139,6 +139,7 @@ export async function POST(req: NextRequest) {
           return user.notificationSubscriptions.map(
             (tokens): ExpoPushMessage => {
               return {
+                ["fcmTo" as any]: tokens,
                 to: tokens.tokens as any,
                 title: entity.name,
                 body: capitalizeFirstLetter(
@@ -182,7 +183,7 @@ export async function POST(req: NextRequest) {
 
   for (const message of webMessages) {
     const response = await new Notification("FORCE", message).send(
-      message.to as any
+      message.fcmTo
     );
     status[response ? 1 : 0]++;
   }
