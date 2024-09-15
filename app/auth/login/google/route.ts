@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
       .oauth2("v2")
       .userinfo.get({ auth: oauth2Client });
 
-    const acc = await prisma.user.findFirstOrThrow({
+    const acc = await prisma.user.findUnique({
       where: {
         email: data.email || "-1",
       },
@@ -54,22 +54,31 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const s = await prisma.session.create({
-      data: {
-        userId: acc.id,
-      },
-    });
+    if (acc) {
+      const s = await prisma.session.create({
+        data: {
+          userId: acc.id,
+        },
+      });
 
-    new Notification("FORCE", {
-      title: "New login detected! 🚨🫵",
-      body: "If this wasn't you, please remove this device from your account settings immediately!",
-      data: {},
-    }).dispatch(acc.id);
+      new Notification("FORCE", {
+        title: "New login detected! 🚨🫵",
+        body: "If this wasn't you, please remove this device from your account settings immediately!",
+        data: {},
+      }).dispatch(acc.id);
 
-    session = s.id;
+      session = s.id;
 
-    if (params.returnSessionId && session) {
-      return Response.json({ session });
+      if (params.returnSessionId && session) {
+        return Response.json({ session });
+      }
+    } else {
+      session = JSON.stringify({
+        isNew: true,
+        email: data.email,
+        name: data.name,
+        picture: data.picture,
+      });
     }
   } catch (e) {
     return handleApiError(e);
