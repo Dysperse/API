@@ -19,6 +19,7 @@ export const googleLoginClient = ({ name }) =>
 
 export async function GET(req: NextRequest) {
   let session = "";
+  let newAccount: any = null;
   try {
     const params = await getApiParams<{
       error?: string;
@@ -73,12 +74,12 @@ export async function GET(req: NextRequest) {
         return Response.json({ session });
       }
     } else {
-      session = JSON.stringify({
+      newAccount = {
         isNew: true,
         email: data.email,
         name: data.name,
         picture: data.picture,
-      });
+      };
     }
   } catch (e) {
     return handleApiError(e);
@@ -92,5 +93,16 @@ export async function GET(req: NextRequest) {
           : "https://app.dysperse.com"
       }/auth/google?session=${session}`
     );
-  else return handleApiError(new Error("No session found"));
+  else if (newAccount)
+    redirect(
+      `${
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:8081"
+          : "https://app.dysperse.com"
+      }/auth/google?${new URLSearchParams(newAccount)}`
+    );
+  else
+    return new Response("Something went wrong", {
+      status: 500,
+    });
 }
