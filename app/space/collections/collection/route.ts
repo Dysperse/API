@@ -63,7 +63,8 @@ export async function GET(req: NextRequest) {
           },
           {
             inviteLink: {
-              AND: [{ access: "READ_ONLY" }, { id: params.id }],
+              id: params.id,
+              // todo: AND: [{ id: params.id }, { access: "..." }]
             },
           },
         ],
