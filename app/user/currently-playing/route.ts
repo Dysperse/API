@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
 
     try {
       const currentlyPlaying = await getCurrentlyPlayingTrack(spotifyApi);
-      console.log(currentlyPlaying);
+      // console.log(currentlyPlaying);
       return Response.json(currentlyPlaying);
     } catch (e: any) {
       if (e.statusCode === 401) {
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
         spotifyApi.setAccessToken(newTokens.access_token);
 
         const currentlyPlaying = await getCurrentlyPlayingTrack(spotifyApi);
-        console.log(currentlyPlaying);
+        // console.log(currentlyPlaying);
         return Response.json(currentlyPlaying);
       } else {
         throw e;
