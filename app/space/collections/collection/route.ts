@@ -5,6 +5,7 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { entitiesSelection } from "./entitiesSelection";
+import { inviteLinkParams } from "./planner/inviteLinkParams";
 
 export const dynamic = "force-dynamic";
 
@@ -58,15 +59,9 @@ export async function GET(req: NextRequest) {
       where: {
         OR: [
           { AND: [{ userId }, { id: params.id }] },
-          {
-            AND: [{ invitedUsers: { some: { userId } } }, { id: params.id }],
-          },
-          {
-            inviteLink: {
-              id: params.id,
-              // todo: AND: [{ id: params.id }, { access: "..." }]
-            },
-          },
+          { AND: [{ invitedUsers: { some: { userId } } }, { id: params.id }] },
+          // todo: AND: [{ id: params.id }, { access: "..." }]
+          { inviteLink: inviteLinkParams(params.id) },
         ],
       },
       include: {

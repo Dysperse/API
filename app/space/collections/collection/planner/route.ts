@@ -9,6 +9,7 @@ import tz from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
 import { RRule } from "rrule";
+import { inviteLinkParams } from "./inviteLinkParams";
 dayjs.extend(utc);
 dayjs.extend(isBetween);
 dayjs.extend(tz);
@@ -29,7 +30,6 @@ interface PerspectiveUnit {
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId, userId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "type", required: true },
       { name: "start", required: true },
@@ -37,7 +37,13 @@ export async function GET(req: NextRequest) {
       { name: "id", required: true },
       { name: "all", required: false },
       { name: "timezone", required: true },
+      { name: "isPublic", required: false },
     ]);
+
+    const { spaceId, userId } = await getIdentifiers(
+      undefined,
+      params.isPublic === "true"
+    );
     dayjs.tz.setDefault("UTC");
 
     const map = {
@@ -75,16 +81,32 @@ export async function GET(req: NextRequest) {
             : {
                 OR: [
                   { collectionId: params.id },
+                  { collection: { inviteLink: inviteLinkParams(params.id) } },
                   { label: { collections: { some: { id: params.id } } } },
+                  {
+                    label: {
+                      collections: {
+                        some: { inviteLink: inviteLinkParams(params.id) },
+                      },
+                    },
+                  },
                 ],
               },
           {
             OR: [
               { space: { id: spaceId } },
               { collection: { invitedUsers: { some: { userId } } } },
+              { collection: { inviteLink: inviteLinkParams(params.id) } },
               {
                 label: {
                   collections: { some: { invitedUsers: { some: { userId } } } },
+                },
+              },
+              {
+                label: {
+                  collections: {
+                    some: { inviteLink: inviteLinkParams(params.id) },
+                  },
                 },
               },
             ],
