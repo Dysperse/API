@@ -41,6 +41,8 @@ export async function GET(req: NextRequest) {
 
     const start = dayjs(params.start).utc();
 
+    // format MUST be called!
+    // https://github.com/iamkun/dayjs/issues/1262
     let units = {
       today: {
         filterRange: [start, start.tz("UTC").endOf("day").format()],
