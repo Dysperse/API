@@ -43,27 +43,28 @@ export async function GET(req: NextRequest) {
 
     let units = {
       today: {
-        start: start.startOf("day"),
-        filterRange: [start.startOf("day"), start.endOf("day")],
-        end: start.endOf("day"),
+        filterRange: [start, start.tz("UTC").endOf("day").format()],
         entities: [],
       },
       week: {
-        start: start.startOf("week"),
-        filterRange: [start.endOf("day"), start.endOf("week")],
-        end: start.endOf("week"),
+        filterRange: [
+          start.tz("UTC").endOf("day").format(),
+          start.tz("UTC").endOf("week").format(),
+        ],
         entities: [],
       },
       month: {
-        start: start.startOf("month"),
-        filterRange: [start.endOf("week"), start.endOf("month")],
-        end: start.endOf("month"),
+        filterRange: [
+          start.tz("UTC").endOf("week").format(),
+          start.tz("UTC").endOf("month").format(),
+        ],
         entities: [],
       },
       year: {
-        start: start.startOf("year"),
-        filterRange: [start.endOf("month"), start.endOf("year")],
-        end: start.endOf("year"),
+        filterRange: [
+          start.tz("UTC").endOf("month").format(),
+          start.tz("UTC").endOf("year").format(),
+        ],
         entities: [],
       },
     };
@@ -166,7 +167,7 @@ export async function GET(req: NextRequest) {
     for (const task of normalTasks) {
       const taskStart = dayjs(task.start).utc();
       const unit = Object.values(units).find(({ filterRange }) =>
-        taskStart.isBetween(filterRange[0], filterRange[1], null, "()")
+        taskStart.isBetween(filterRange[0], filterRange[1], null, "[]")
       );
       if (unit) unit.entities.push(task as never);
     }
