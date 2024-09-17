@@ -168,7 +168,7 @@ export async function GET(req: NextRequest) {
       const unit = Object.values(units).find(({ filterRange }) =>
         taskStart.isBetween(filterRange[0], filterRange[1], null, "()")
       );
-      if (unit) unit.entities.push(task as any);
+      if (unit) unit.entities.push(task as never);
     }
 
     return Response.json(units);
