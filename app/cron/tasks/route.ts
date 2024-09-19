@@ -54,6 +54,7 @@ export async function POST(req: NextRequest) {
   );
   const users = await prisma.user.findMany({
     select: {
+      notificationSettings: { select: { groupNotifications: true } },
       notificationSubscriptions: {
         select: { tokens: true, type: true },
       },
@@ -104,7 +105,7 @@ export async function POST(req: NextRequest) {
 
   const messages = data
     .map((user) => {
-      return user.spaces[0].space.entities
+      const l = user.spaces[0].space.entities
         .filter((entity) => {
           if (entity.start && entity._count.completionInstances === 0) {
             return entity.notifications.find((notification) => {
@@ -155,6 +156,21 @@ export async function POST(req: NextRequest) {
           );
         })
         .flat();
+
+      if (user.notificationSettings?.groupNotifications) {
+        // Send one notification for all entities. Notification will be sent to all devices
+        return user.notificationSubscriptions.map((tokens): ExpoPushMessage => {
+          return {
+            ["fcmTo" as any]: tokens,
+            to: tokens.tokens as any,
+            title: "You have upcoming events",
+            body: `You have ${l.length} upcoming event${
+              l.length > 1 ? "s" : ""
+            }. Open Dysperse to see them`,
+            data: { type: tokens.type },
+          };
+        });
+      } else return l;
     })
     .flat();
 
