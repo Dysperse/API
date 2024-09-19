@@ -147,6 +147,8 @@ model Widget {
 model NotificationSettings {
   id String @id @unique @default(uuid())
 
+  groupNotifications Boolean @default(true)
+
   COLLECTION_INVITE      Boolean @default(true)
   COLLECTION_ITEM_CREATE Boolean @default(true)
   COLLECTION_ITEM_UPDATE Boolean @default(true)
