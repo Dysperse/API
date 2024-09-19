@@ -159,6 +159,10 @@ export async function POST(req: NextRequest) {
 
       if (user.notificationSettings?.groupNotifications) {
         // Send one notification for all entities. Notification will be sent to all devices
+        const uniqueNotifications = [
+          new Set(l.map((message: any) => message.data.id)),
+        ];
+
         return l.length === 0
           ? []
           : user.notificationSubscriptions.map((tokens): ExpoPushMessage => {
@@ -166,8 +170,8 @@ export async function POST(req: NextRequest) {
                 ["fcmTo" as any]: tokens,
                 to: tokens.tokens as any,
                 title: "You have upcoming events",
-                body: `You have ${l.length} upcoming event${
-                  l.length > 1 ? "s" : ""
+                body: `You have ${uniqueNotifications.length} upcoming event${
+                  uniqueNotifications.length > 1 ? "s" : ""
                 }. Open Dysperse to see them`,
                 data: { type: tokens.type },
               };
