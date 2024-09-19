@@ -38,6 +38,10 @@ function capitalizeFirstLetter(str: string) {
 
 const getHighestInArray = (arr) => Math.max(...arr);
 
+function onlyUnique(value, index, array) {
+  return array.indexOf(value) === index;
+}
+
 export async function POST(req: NextRequest) {
   if (
     process.env.NODE_ENV !== "development" &&
@@ -157,20 +161,24 @@ export async function POST(req: NextRequest) {
         })
         .flat();
 
-      if (user.notificationSettings?.groupNotifications && l.length > 1) {
+      const uniqueNotifications = [
+        ...new Map(l.map((item: any) => [item.data.id, item])).values(),
+      ];
+
+      console.log(uniqueNotifications);
+
+      if (
+        user.notificationSettings?.groupNotifications &&
+        uniqueNotifications.length > 1
+      ) {
         // Send one notification for all entities. Notification will be sent to all devices
-        const uniqueNotifications = [
-          new Set(l.map((message: any) => message.data.id)),
-        ];
 
         return user.notificationSubscriptions.map((tokens): ExpoPushMessage => {
           return {
             ["fcmTo" as any]: tokens,
             to: tokens.tokens as any,
-            title: "You have upcoming events",
-            body: `You have ${uniqueNotifications.length} upcoming event${
-              uniqueNotifications.length > 1 ? "s" : ""
-            }. Open Dysperse to see them`,
+            title: `You have ${uniqueNotifications.length} upcoming events`,
+            body: uniqueNotifications.map((n) => n.title).join(", "),
             data: { type: tokens.type },
           };
         });
