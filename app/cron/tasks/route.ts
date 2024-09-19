@@ -159,17 +159,19 @@ export async function POST(req: NextRequest) {
 
       if (user.notificationSettings?.groupNotifications) {
         // Send one notification for all entities. Notification will be sent to all devices
-        return user.notificationSubscriptions.map((tokens): ExpoPushMessage => {
-          return {
-            ["fcmTo" as any]: tokens,
-            to: tokens.tokens as any,
-            title: "You have upcoming events",
-            body: `You have ${l.length} upcoming event${
-              l.length > 1 ? "s" : ""
-            }. Open Dysperse to see them`,
-            data: { type: tokens.type },
-          };
-        });
+        return l.length === 0
+          ? []
+          : user.notificationSubscriptions.map((tokens): ExpoPushMessage => {
+              return {
+                ["fcmTo" as any]: tokens,
+                to: tokens.tokens as any,
+                title: "You have upcoming events",
+                body: `You have ${l.length} upcoming event${
+                  l.length > 1 ? "s" : ""
+                }. Open Dysperse to see them`,
+                data: { type: tokens.type },
+              };
+            });
       } else return l;
     })
     .flat();
