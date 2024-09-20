@@ -8,6 +8,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import tz from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
+import { RRule } from "rrule";
 import { inviteLinkParams } from "../planner/inviteLinkParams";
 
 dayjs.extend(utc);
@@ -141,30 +142,37 @@ export async function GET(req: NextRequest) {
     const recurringTasks = tasks.filter((task) => task.recurrenceRule);
     const normalTasks = tasks.filter((task) => task.recurrenceRule === null);
 
-    // // Populate the tasks for each perspective unit
-    // for (const task of recurringTasks) {
-    //   if (!task.recurrenceRule) continue;
-    //   const rule = new RRule({
-    //     ...(task as any).recurrenceRule,
-    //     dtstart: new Date((task as any).recurrenceRule.dtstart),
-    //     until:
-    //       (task.recurrenceRule as any).until &&
-    //       new Date((task as any).recurrenceRule.until),
-    //   }).between(start.toDate(), end.toDate());
+    // Populate the tasks for each perspective unit
+    for (const task of recurringTasks) {
+      if (!task.recurrenceRule) continue;
+      const rule = new RRule({
+        ...(task as any).recurrenceRule,
+        dtstart: new Date((task as any).recurrenceRule.dtstart),
+        until:
+          (task.recurrenceRule as any).until &&
+          new Date((task as any).recurrenceRule.until),
+      }).between(start.toDate(), dayjs(start).endOf("year").toDate(), true);
 
-    //   for (const dueDate of rule) {
-    //     // SEE THIS: https://github.com/jkbrzt/rrule?tab=readme-ov-file#important-use-utc-dates
+      // if one of the instances lies between any of the units, add the task to that unit. Only add the task once.
 
-    //     const due = dayjs(dueDate).utc().tz(params.timezone, true);
-    //     const unit = units.find(({ start, end }) =>
-    //       due.isBetween(start, end, null, "[]")
-    //     );
-    //     if (unit)
-    //       tasksByUnit
-    //         .get(unit)
-    //         .push({ ...task, recurrenceDay: due.toISOString() });
-    //   }
-    // }
+      let added = false;
+      for (const instance of rule) {
+        const instanceStart = dayjs(instance).utc();
+        for (const [unitName, unit] of Object.entries(units)) {
+          if (
+            instanceStart.isBetween(unit.filterRange[0], unit.filterRange[1])
+          ) {
+            unit.entities.push({
+              ...task,
+              recurrenceDay: instanceStart.toISOString(),
+            } as never);
+            added = true;
+            break;
+          }
+        }
+        if (added) break;
+      }
+    }
 
     for (const task of normalTasks) {
       const taskStart = dayjs(task.start).utc();
@@ -179,3 +187,4 @@ export async function GET(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
