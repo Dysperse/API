@@ -227,7 +227,11 @@ export async function POST() {
                       equals: entity.entity.integrationParams.id,
                     },
                   },
-                  data: entity.entity,
+                  data: {
+                    ...entity.entity,
+                    label: undefined,
+                    integration: undefined,
+                  },
                 })
           )
         )
@@ -240,3 +244,4 @@ export async function POST() {
     return handleApiError(e);
   }
 }
+
