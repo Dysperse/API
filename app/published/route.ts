@@ -86,6 +86,16 @@ export async function GET(req: NextRequest) {
           select: {
             name: true,
             id: true,
+            members: {
+              select: {
+                user: {
+                  select: {
+                    profile: { select: { name: true, picture: true } },
+                  },
+                },
+              },
+              take: 1,
+            },
           },
         },
       },
