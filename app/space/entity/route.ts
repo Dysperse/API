@@ -156,6 +156,7 @@ export async function GET(req: NextRequest) {
   try {
     const params = await getApiParams(req, [
       { name: "id", required: true },
+      { name: "user", required: false },
       { name: "inviteLinkId", required: false },
     ]);
     const { userId } = await getIdentifiers(
@@ -204,6 +205,18 @@ export async function GET(req: NextRequest) {
           select: {
             name: true,
             id: true,
+            ...(params.user === "true" && {
+              members: {
+                select: {
+                  user: {
+                    select: {
+                      profile: { select: { name: true, picture: true } },
+                    },
+                  },
+                },
+                take: 1,
+              },
+            }),
           },
         },
       },
@@ -295,3 +308,4 @@ export async function PUT(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
