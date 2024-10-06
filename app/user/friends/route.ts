@@ -171,6 +171,32 @@ export async function PUT(req: NextRequest) {
       { type: "BODY" }
     );
 
+    // Send the notification that "@___" has accepted your friend request
+    if (params.accepted) {
+      const follower = await prisma.user.findFirstOrThrow({
+        where: {
+          id: params.followerId,
+        },
+        select: { profile: { select: { name: true } } },
+      });
+      const following = await prisma.user.findFirstOrThrow({
+        where: {
+          id: params.followingId,
+        },
+        select: { profile: { select: { name: true } } },
+      });
+      new Notification("FRIEND_REQUEST_ACCEPT", {
+        title: "Friend request accepted",
+        body: `${
+          following?.profile?.name || "A Dysperse user"
+        } has accepted your friend request`,
+        data: {
+          type: "FRIEND_REQUEST",
+          userId: params.followingId,
+        },
+      }).dispatch(params.followerId);
+    }
+
     const data = await prisma.follows.update({
       where: {
         followerId_followingId: {
