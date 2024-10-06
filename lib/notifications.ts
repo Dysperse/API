@@ -42,9 +42,14 @@ export class Notification {
       where: {
         AND: [
           { OR: [{ userId }, { user: { email: userId } }] },
-          this.identifier === "FORCE"
-            ? { id: { contains: "-" } }
-            : { [this.identifier]: true },
+          {
+            user: {
+              notificationSettings:
+                this.identifier === "FORCE"
+                  ? { id: { contains: "-" } }
+                  : { [this.identifier]: true },
+            },
+          },
         ],
       },
     });
