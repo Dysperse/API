@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
   );
 
   for (const message of webMessages) {
-    const response = await new Notification("FORCE", message).send(
+    const response = await new Notification("PLAN_DAY", message).send(
       message.fcmTo
     );
     status[response ? 0 : 1]++;

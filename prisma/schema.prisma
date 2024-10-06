@@ -153,8 +153,8 @@ model NotificationSettings {
   COLLECTION_ITEM_CREATE Boolean @default(true)
   COLLECTION_ITEM_UPDATE Boolean @default(true)
 
-  FRIEND_REQUEST_ME    Boolean @default(true)
-  FRIEND_REQUEST_OTHER Boolean @default(true)
+  FRIEND_REQUEST_SEND   Boolean @default(true)
+  FRIEND_REQUEST_ACCEPT Boolean @default(true)
 
   ENTITY_START Boolean @default(true)
   PLAN_DAY     Boolean @default(true)

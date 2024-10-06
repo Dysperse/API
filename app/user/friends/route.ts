@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
@@ -102,6 +103,16 @@ export async function POST(req: NextRequest) {
         },
       },
     });
+
+    // send notification
+    new Notification("FRIEND_REQUEST_SEND", {
+      title: "Friend Request",
+      body: "You have a new friend request",
+      data: {
+        type: "FRIEND_REQUEST",
+        userId,
+      },
+    }).dispatch(followingId);
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);
