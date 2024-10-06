@@ -83,12 +83,12 @@ export async function POST(req: NextRequest) {
 
   const messages = data
     .map((user) => {
-      if (dayjs().tz(user.timeZone).hour() !== 6) return [];
+      if (dayjs().tz(user.timeZone).hour() !== 1) return [];
 
       const tokens = user.notificationSubscriptions;
       return tokens.map((token) => {
         return {
-          fcmTo: token.tokens as any,
+          ["fcmTo" as any]: token,
           to: token.tokens as any,
           title: "It's time to plan your day! 🔥",
           body,
@@ -122,9 +122,10 @@ export async function POST(req: NextRequest) {
   );
 
   for (const message of webMessages) {
-    const response = await new Notification("PLAN_DAY", message).send(
-      message.fcmTo
+    const response = await new Notification("FORCE", message).send(
+      (message as any).fcmTo
     );
+    console.log(response);
     status[response ? 0 : 1]++;
   }
 
