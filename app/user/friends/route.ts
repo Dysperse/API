@@ -88,6 +88,13 @@ export async function POST(req: NextRequest) {
         OR: [{ username: params.email }, { email: params.email }],
       },
     });
+
+    const follower = await prisma.user.findFirstOrThrow({
+      where: {
+        id: userId,
+      },
+      select: { profile: { select: { name: true } } },
+    });
     const followingId = followingIdRequest.id;
     const data = await prisma.follows.create({
       data: {
@@ -106,8 +113,10 @@ export async function POST(req: NextRequest) {
 
     // send notification
     new Notification("FRIEND_REQUEST_SEND", {
-      title: "Friend Request",
-      body: "You have a new friend request",
+      title: "You have a new friend request",
+      body: `${
+        follower?.profile?.name || "A Dysperse user"
+      } wants to be your friend`,
       data: {
         type: "FRIEND_REQUEST",
         userId,
