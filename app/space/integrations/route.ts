@@ -34,6 +34,44 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function PUT(req: NextRequest) {
+  try {
+    const { userId, spaceId } = await getIdentifiers();
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "name", required: false },
+        { name: "params", required: false },
+        { name: "labels", required: false },
+      ],
+      { type: "BODY" }
+    );
+
+    const data = await prisma.integration.update({
+      where: { id: params.id },
+      data: {
+        space: { connect: { id: spaceId } },
+        createdBy: { connect: { id: userId } },
+      },
+    });
+
+    if (Object.keys(params.labels).length > 0)
+      await prisma.$transaction(
+        Object.keys(params.labels).map((label) =>
+          prisma.label.update({
+            where: { id: params.labels[label] },
+            data: { integration: { connect: { id: params.id } } },
+          })
+        )
+      );
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
