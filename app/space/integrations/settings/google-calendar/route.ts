@@ -48,8 +48,8 @@ export async function GET(req: NextRequest) {
     name: "google-calendar",
   });
 
-  oauth2Client.setCredentials(data.params.tokens);
-  refreshGoogleAuthTokens(data.params.tokens, oauth2Client, data.id);
+  oauth2Client.setCredentials((data.params as any)?.tokens);
+  refreshGoogleAuthTokens((data.params as any)?.tokens, oauth2Client, data.id);
 
   const calendars = await fetch(
     "https://www.googleapis.com/calendar/v3/users/me/calendarList",
