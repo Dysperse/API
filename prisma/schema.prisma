@@ -235,9 +235,20 @@ model Space {
   integrations Integration[]
 }
 
+enum IntegrationType {
+  GOOGLE_CALENDAR
+  APPLE_CALENDAR
+  OUTLOOK_CALENDAR
+  CANVAS_LMS
+  NOTION
+  GMAIL
+}
+
 model Integration {
   id   String @id @unique @default(uuid())
   name String
+
+  type IntegrationType
 
   lastSynced DateTime @default(now())
   params     Json
@@ -253,7 +264,7 @@ model Integration {
   entities    Entity[]
   labels      Label[]
 
-  @@unique([name, userId])
+  // @@unique([name, userId])
 }
 
 model SpaceInvite {

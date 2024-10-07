@@ -41,14 +41,15 @@ export async function GET(req: NextRequest) {
     where: {
       AND: [{ userId }, { name: "google-calendar" }, { id: params.id }],
     },
+    include: { labels: true },
   });
 
   const oauth2Client = googleClient({
     name: "google-calendar",
   });
 
-  oauth2Client.setCredentials(data.params);
-  refreshGoogleAuthTokens(data.params, oauth2Client, data.id);
+  oauth2Client.setCredentials(data.params.tokens);
+  refreshGoogleAuthTokens(data.params.tokens, oauth2Client, data.id);
 
   const calendars = await fetch(
     "https://www.googleapis.com/calendar/v3/users/me/calendarList",

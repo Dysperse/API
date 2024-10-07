@@ -18,3 +18,4 @@ export async function GET() {
     timestamp: dayjs().utc().toISOString(),
   });
 }
+
