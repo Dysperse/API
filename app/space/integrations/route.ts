@@ -37,6 +37,32 @@ export async function GET(req: NextRequest) {
   }
 }
 
+// used for canvas lms
+export async function POST(req: NextRequest) {
+  try {
+    const { userId, spaceId } = await getIdentifiers();
+    const params = await getApiParams(req, [
+      { name: "name", required: true },
+      { name: "type", required: true },
+      { name: "params", required: true },
+    ]);
+
+    const data = await prisma.integration.create({
+      data: {
+        type: params.type,
+        space: { connect: { id: spaceId } },
+        name: params.name,
+        params: params.params,
+        createdBy: { connect: { id: userId } },
+      },
+    });
+
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function PUT(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();
