@@ -179,6 +179,7 @@ export interface IntegratedEntityItem {
 export class Integration {
   integration: IntegrationObjectType & { labels: Label[] };
   raw: any[];
+  canonicalData: Partial<IntegratedEntityItem>[];
   existingData: Entity[];
 
   constructor(integration, existingData, raw) {
@@ -191,6 +192,8 @@ export class Integration {
     this.integration = integration;
     this.raw = raw;
 
+    this.canonicalData = [];
+
     this.existingData = existingData.filter(
       (entity: Entity) => entity.integrationId === integration.id
     );
@@ -200,19 +203,29 @@ export class Integration {
     throw new Error("fetchData method must be implemented by the subclass.");
   }
 
-  async processEntities(canonicalData, entities) {
-    throw new Error(
-      "processEntities method must be implemented by the subclass."
-    );
-  }
-
   canonicalize(data): Partial<IntegratedEntityItem>[] {
     throw new Error("canonicalize method must be implemented by the subclass.");
   }
 
-  async getCanonicalData() {
+  async updateEntities(adapter: Integration) {
+    if (adapter.canonicalData.length === 0) return;
+    return await prisma.$transaction(
+      adapter.canonicalData.map((item) =>
+        item.type === "CREATE"
+          ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
+          : prisma.entity.update({
+              where: item.where,
+              data: { ...item.entity, type: "TASK" },
+            })
+      )
+    );
+  }
+
+  async processEntities() {
     const rawData = await this.fetchData();
-    return this.canonicalize(rawData);
+    this.canonicalData = this.canonicalize(rawData);
+    this.updateEntities(this);
+    return this.canonicalData;
   }
 }
 
@@ -280,8 +293,7 @@ export async function POST() {
           integration,
           entities
         );
-        const canonical = adapter.getCanonicalData();
-        // return adapter.processEntities(canonical, entities);
+        adapter.processEntities();
       })
     );
 

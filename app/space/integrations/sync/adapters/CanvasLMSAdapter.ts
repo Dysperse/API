@@ -70,7 +70,7 @@ export class CanvasLMSAdapter extends Integration {
                   attachments: [
                     this.raw[k].url && {
                       type: "LINK",
-                      data: this.raw[k].url,
+                      data: this.raw[k].url.val,
                     },
                   ],
                   shortId: generateRandomString(8),
@@ -88,3 +88,4 @@ export class CanvasLMSAdapter extends Integration {
     console.log("Processing entities for Canvas");
   }
 }
+

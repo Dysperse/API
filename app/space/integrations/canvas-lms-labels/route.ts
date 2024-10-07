@@ -1,7 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
-import { prisma } from "@/lib/prisma";
 import ical from "ical";
 import { NextRequest } from "next/server";
 
@@ -27,7 +26,7 @@ type labelFormat = {
 
 const defaultCourseCustomization = [
   {
-    keywords: ["computer"],
+    keywords: ["computer", "comp", "programming", "coding", "tech"],
     color: "blue",
     emoji: "1f4bb",
   },
@@ -40,6 +39,11 @@ const defaultCourseCustomization = [
     keywords: ["science", "bio", "chem", "phys", "astronomy"],
     color: "green",
     emoji: "1f52c",
+  },
+  {
+    keywords: ["engineer", "robot", "stem", "steam"],
+    color: "gray",
+    emoji: "1F477",
   },
   {
     keywords: [
@@ -91,73 +95,42 @@ export async function GET(req: NextRequest) {
   try {
     const { spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
-      { name: "integration", required: true },
       { name: "calendarUrl", required: false },
     ]);
 
-    switch (params.integration) {
-      case "canvas-lms":
-        const data = await fetch(params.calendarUrl).then((res) => res.text());
-        const cal = ical.parseICS(data);
+    const data = await fetch(params.calendarUrl).then((res) => res.text());
+    const cal = ical.parseICS(data);
 
-        // Extract the course names from the events
-        const courses: Set<string> = new Set();
-        for (const k in cal) {
-          if (cal.hasOwnProperty(k)) {
-            if (cal[k].type == "VEVENT") {
-              courses.add(extractTextInBrackets(cal[k].summary));
-            }
-          }
+    // Extract the course names from the events
+    const courses: Set<string> = new Set();
+    for (const k in cal) {
+      if (cal.hasOwnProperty(k)) {
+        if (cal[k].type == "VEVENT") {
+          courses.add(extractTextInBrackets(cal[k].summary));
         }
-
-        if (courses.size === 0) {
-          throw new Error("No courses found in the calendar");
-        }
-
-        // apply some customizations to each of the courses
-
-        const c = Array.from(courses).map((course) => {
-          const customization = defaultCourseCustomization.find((c) =>
-            c.keywords.some((keyword) => course.toLowerCase().includes(keyword))
-          );
-
-          return {
-            emoji: customization?.emoji ?? "1f4d6",
-            color: customization?.color ?? "blue",
-            name: course,
-            integrationParams: { id: course },
-          } as labelFormat;
-        });
-
-        const labels = await prisma.label.findMany({
-          where: {
-            OR: c.map((label) => ({
-              integrationParams: {
-                path: ["id"],
-                equals: label.name,
-              },
-            })),
-          },
-        });
-
-        return Response.json(
-          c.map((label) => {
-            const existingLabel = labels.find(
-              (l) =>
-                (l as any).integrationParams.id ===
-                  label.integrationParams.id && l.spaceId === spaceId
-            );
-            if (existingLabel) {
-              return existingLabel;
-            } else {
-              return label;
-            }
-          })
-        );
-
-      default:
-        throw new Error("Integration not found");
+      }
     }
+
+    if (courses.size === 0) {
+      throw new Error("No courses found in the calendar");
+    }
+
+    // apply some customizations to each of the courses
+
+    const c = Array.from(courses).map((course) => {
+      const customization = defaultCourseCustomization.find((c) =>
+        c.keywords.some((keyword) => course.toLowerCase().includes(keyword))
+      );
+
+      return {
+        emoji: customization?.emoji ?? "1f4d6",
+        color: customization?.color ?? "blue",
+        name: course,
+        integrationParams: { id: course },
+      } as labelFormat;
+    });
+
+    return Response.json(c);
   } catch (e) {
     return handleApiError(e);
   }

@@ -39,7 +39,15 @@ export class AppleCalendarAdapter extends Integration {
 
             if (eventHasUpdated || !eventExists) {
               events.push({
-                type: eventExists ? "CREATE" : "UPDATE",
+                type: eventExists ? "UPDATE" : "CREATE",
+                where: eventExists
+                  ? {
+                      AND: [
+                        { integrationId: this.integration.id },
+                        { integrationParams: { id: event.uid } },
+                      ],
+                    }
+                  : undefined,
                 entity: {
                   integrationParams: {
                     id: event.uid,
@@ -48,9 +56,13 @@ export class AppleCalendarAdapter extends Integration {
                     // some extra fields
                     status: event.status,
                     organizer: event.organizer,
-                    attendees: Array.isArray(event.attendee)
-                      ? event.attendee
-                      : [event.attendee],
+                    attendees: JSON.parse(
+                      JSON.stringify(
+                        Array.isArray(event.attendee)
+                          ? event.attendee
+                          : [event.attendee]
+                      )
+                    ),
                   },
                   name: event.summary,
                   note: event.description,
@@ -88,11 +100,11 @@ export class AppleCalendarAdapter extends Integration {
                           name: event.attach.params?.FILENAME,
                         },
                   ].filter((e) => e),
-                  recurrenceRule: event.rrule
-                    ? JSON.parse(
-                        JSON.stringify(new RRule(event.rrule.options).options)
-                      )
-                    : undefined,
+                  ...(event.rrule && {
+                    recurrenceRule: JSON.parse(
+                      JSON.stringify(new RRule(event.rrule.options).options)
+                    ),
+                  }),
                   shortId: generateRandomString(8),
                 },
               });
@@ -104,10 +116,7 @@ export class AppleCalendarAdapter extends Integration {
       }
     }
 
+    this.canonicalData = events;
     return events;
-  }
-
-  async processEntities(canonicalData, entities) {
-    console.log("Processing entities for Canvas");
   }
 }

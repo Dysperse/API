@@ -52,8 +52,4 @@ export class GoogleCalendarAdapter extends Integration {
   canonicalize(): Partial<IntegratedEntityItem>[] {
     return [];
   }
-
-  async processEntities(canonicalData, entities) {
-    console.log("Processing entities for Canvas");
-  }
 }
