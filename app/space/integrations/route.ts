@@ -41,11 +41,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const { userId, spaceId } = await getIdentifiers();
-    const params = await getApiParams(req, [
-      { name: "name", required: true },
-      { name: "type", required: true },
-      { name: "params", required: true },
-    ]);
+    const params = await getApiParams(
+      req,
+      [
+        { name: "name", required: true },
+        { name: "type", required: true },
+        { name: "params", required: true },
+      ],
+      { type: "BODY" }
+    );
 
     const data = await prisma.integration.create({
       data: {
