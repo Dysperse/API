@@ -215,7 +215,11 @@ export class Integration {
           ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
           : prisma.entity.update({
               where: item.where,
-              data: { ...item.entity, type: "TASK" },
+              data: {
+                ...item.entity,
+                type: "TASK",
+                integration: { connect: { id: adapter.integration.id } },
+              },
             })
       )
     );

@@ -83,9 +83,5 @@ export class CanvasLMSAdapter extends Integration {
 
     return events;
   }
-
-  async processEntities(canonicalData, entities) {
-    console.log("Processing entities for Canvas");
-  }
 }
 
