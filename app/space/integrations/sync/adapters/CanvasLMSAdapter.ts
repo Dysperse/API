@@ -58,7 +58,7 @@ export class CanvasLMSAdapter extends Integration {
                 type: "CREATE",
                 entity: {
                   integrationParams: {
-                    id: this.#extractTextInBrackets(this.raw[k].summary),
+                    id: this.raw[k].uid,
                   },
                   name: this.#removeBracketedText(this.raw[k].summary),
                   note: this.raw[k].description,
