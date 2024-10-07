@@ -2,7 +2,6 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -120,8 +119,9 @@ export async function DELETE(req: NextRequest) {
       prisma.entity.deleteMany({
         where: {
           AND: [
-            { integration: null },
-            { integrationParams: { equals: Prisma.AnyNull } },
+            { spaceId },
+            { integration: { id: params.id } },
+            { integration: { createdBy: { id: userId } } },
           ],
         },
       }),
