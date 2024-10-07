@@ -3,7 +3,6 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
-import integrations from "./integrations.json";
 export const dynamic = "force-dynamic";
 
 export const OPTIONS = async () => {
@@ -17,10 +16,14 @@ export async function GET(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: false }]);
+    const integrations = await fetch(
+      "https://app.dysperse.com/integrations.json"
+    ).then((res) => res.json());
     const data = await prisma.integration.findMany({
       where: params.id ? { id: params.id } : { userId },
       include: {
         createdBy: true,
+        labels: true,
       },
     });
     return Response.json(

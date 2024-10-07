@@ -3,7 +3,6 @@ import { handleApiError } from "@/lib/handleApiError";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
-import integrations from "../integrations.json";
 const { google } = require("googleapis");
 
 export const dynamic = "force-dynamic";
@@ -28,6 +27,10 @@ export const googleClient = ({ name }) =>
 export async function GET(req: NextRequest) {
   let authorizationUrl = null;
   try {
+    const integrations = await fetch(
+      "https://app.dysperse.com/integrations.json"
+    ).then((res) => res.json());
+
     /**
      * To use OAuth2 authentication, we need access to a CLIENT_ID, CLIENT_SECRET, AND REDIRECT_URI
      * from the client_secret.json file. To get these credentials for your application, visit
