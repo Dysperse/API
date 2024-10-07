@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     const data = await prisma.integration.create({
       data: {
-        type: params.type,
+        type: params.type as any,
         space: { connect: { id: spaceId } },
         name: params.name,
         params: params.params,
