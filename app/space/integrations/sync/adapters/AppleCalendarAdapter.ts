@@ -56,13 +56,15 @@ export class AppleCalendarAdapter extends Integration {
                     // some extra fields
                     status: event.status,
                     organizer: event.organizer,
-                    attendees: JSON.parse(
-                      JSON.stringify(
-                        Array.isArray(event.attendee)
-                          ? event.attendee.filter((e) => e)
-                          : [event.attendee]
-                      )
-                    ),
+                    ...(event.attendee && {
+                      attendees: JSON.parse(
+                        JSON.stringify(
+                          Array.isArray(event.attendee)
+                            ? event.attendee
+                            : [event.attendee]
+                        )
+                      ),
+                    }),
                   },
                   name: event.summary,
                   note: event.description,
