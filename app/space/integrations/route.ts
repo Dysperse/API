@@ -119,14 +119,8 @@ export async function DELETE(req: NextRequest) {
       prisma.entity.deleteMany({
         where: {
           AND: [
-            // { integration: { id: params.id } },
-            // { integration: { createdBy: { id: userId } } },
-            {
-              integrationParams: {
-                path: ["id"],
-                string_contains: "event-assignment-",
-              },
-            },
+            { integration: { id: params.id } },
+            { integration: { createdBy: { id: userId } } },
           ],
         },
       }),
