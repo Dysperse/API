@@ -20,7 +20,7 @@ export class GoogleCalendarAdapter extends Integration {
 
     const data = await Promise.all(
       this.integration.labels
-        .filter((i) => i.integrationParams?.calendarId)
+        .filter((i: any) => i.integrationParams?.calendarId)
         .map((label) =>
           fetch(
             `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
