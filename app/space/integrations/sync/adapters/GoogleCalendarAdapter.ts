@@ -19,25 +19,27 @@ export class GoogleCalendarAdapter extends Integration {
     );
 
     const data = await Promise.all(
-      this.integration.labels.map((label) =>
-        fetch(
-          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-            (label.integrationParams as { calendarId: string }).calendarId
-          )}/events`,
-          {
-            headers: {
-              Authorization: `Bearer ${oauth2Client.credentials.access_token}`,
-            },
-          }
+      this.integration.labels
+        .filter((i) => i.integrationParams?.calendarId)
+        .map((label) =>
+          fetch(
+            `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+              (label.integrationParams as { calendarId: string }).calendarId
+            )}/events`,
+            {
+              headers: {
+                Authorization: `Bearer ${oauth2Client.credentials.access_token}`,
+              },
+            }
+          )
+            .then((res) => res.json())
+            .then((res) => {
+              return {
+                label,
+                data: res.items,
+              };
+            })
         )
-          .then((res) => res.json())
-          .then((res) => {
-            return {
-              label,
-              data: res.items,
-            };
-          })
-      )
     ).catch((e) => {
       console.log(e);
     });
