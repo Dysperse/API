@@ -210,21 +210,21 @@ export class Integration {
   async updateEntities(adapter: Integration) {
     if (!adapter.canonicalData || adapter.canonicalData.length === 0) return;
 
-    return adapter.canonicalData;
-    // return await prisma.$transaction(
-    //   adapter.canonicalData.map((item) =>
-    //     item.type === "CREATE"
-    //       ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
-    //       : prisma.entity.update({
-    //           where: item.where,
-    //           data: {
-    //             ...item.entity,
-    //             type: "TASK",
-    //             integration: { connect: { id: adapter.integration.id } },
-    //           },
-    //         })
-    //   )
-    // );
+    return await prisma.$transaction(
+      adapter.canonicalData.map((item) =>
+        item.type === "CREATE"
+          ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
+          : prisma.entity.update({
+              where: item.where,
+              data: {
+                ...item.entity,
+                type: "TASK",
+                space: { connect: { id: adapter.integration.spaceId } },
+                integration: { connect: { id: adapter.integration.id } },
+              },
+            })
+      )
+    );
   }
 
   async processEntities() {
