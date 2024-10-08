@@ -59,7 +59,7 @@ export class AppleCalendarAdapter extends Integration {
                     attendees: JSON.parse(
                       JSON.stringify(
                         Array.isArray(event.attendee)
-                          ? event.attendee
+                          ? event.attendee.filter((e) => e)
                           : [event.attendee]
                       )
                     ),

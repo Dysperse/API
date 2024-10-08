@@ -208,28 +208,30 @@ export class Integration {
   }
 
   async updateEntities(adapter: Integration) {
-    if (adapter.canonicalData.length === 0) return;
-    return await prisma.$transaction(
-      adapter.canonicalData.map((item) =>
-        item.type === "CREATE"
-          ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
-          : prisma.entity.update({
-              where: item.where,
-              data: {
-                ...item.entity,
-                type: "TASK",
-                integration: { connect: { id: adapter.integration.id } },
-              },
-            })
-      )
-    );
+    if (!adapter.canonicalData || adapter.canonicalData.length === 0) return;
+
+    return adapter.canonicalData;
+    // return await prisma.$transaction(
+    //   adapter.canonicalData.map((item) =>
+    //     item.type === "CREATE"
+    //       ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
+    //       : prisma.entity.update({
+    //           where: item.where,
+    //           data: {
+    //             ...item.entity,
+    //             type: "TASK",
+    //             integration: { connect: { id: adapter.integration.id } },
+    //           },
+    //         })
+    //   )
+    // );
   }
 
   async processEntities() {
     const rawData = await this.fetchData();
     this.canonicalData = this.canonicalize(rawData);
-    this.updateEntities(this);
-    return this.canonicalData;
+    const t = this.updateEntities(this);
+    return t;
   }
 }
 
@@ -291,17 +293,19 @@ export async function POST() {
     //    2A. If the entity doesn't exist, create it. Store a variable to identify the event, and an etag to check for changes.
     //    2B. If the entity exists, update it. Store a variable to identify the event, and an etag to check for changes.
 
+    const t: any = [];
     const canonicalData = await Promise.all(
       integrations.map(async (integration) => {
         const adapter = IntegrationFactory.createIntegration(
           integration,
           entities
         );
-        adapter.processEntities();
+        const l = await adapter.processEntities();
+        t.push(l);
       })
     );
 
-    return Response.json({});
+    return Response.json(t);
   } catch (e) {
     return handleApiError(e);
   }
