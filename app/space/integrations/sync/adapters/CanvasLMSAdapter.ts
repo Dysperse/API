@@ -42,6 +42,8 @@ export class CanvasLMSAdapter extends Integration {
           // That being said, all we really need is a list of items which are new, based on the UID.
           // UID is stored in the integrationParams object
 
+          console.log(this.existingData);
+
           if (
             !this.existingData.find(
               (event: any) => event.integrationParams?.id === this.raw[k].uid
@@ -66,7 +68,7 @@ export class CanvasLMSAdapter extends Integration {
                   end: dayjs(this.raw[k].end).utc().toDate(),
                   dateOnly: this.raw[k].start.dateOnly,
                   published: true,
-                  labelId,
+                  label: { connect: { id: labelId } },
                   attachments: [
                     this.raw[k].url && {
                       type: "LINK",

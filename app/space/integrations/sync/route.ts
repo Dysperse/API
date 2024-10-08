@@ -174,7 +174,7 @@ function removeBracketedText(inputString) {
 
 export interface IntegratedEntityItem {
   type: "CREATE" | "UPDATE";
-  entity: Partial<Entity>;
+  entity: Partial<Prisma.EntityCreateManyLabelInput>;
   where?: Prisma.EntityWhereInput;
 }
 
@@ -215,15 +215,17 @@ export class Integration {
     return await prisma.$transaction(
       adapter.canonicalData.map((item: any) =>
         item.type === "CREATE"
-          ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
-          : prisma.entity.update({
-              where: item.where,
+          ? prisma.entity.create({
               data: {
                 ...item.entity,
                 type: "TASK",
                 space: { connect: { id: adapter.integration.spaceId } },
                 integration: { connect: { id: adapter.integration.id } },
               },
+            })
+          : prisma.entity.updateMany({
+              where: item.where,
+              data: item.entity,
             })
       )
     );
