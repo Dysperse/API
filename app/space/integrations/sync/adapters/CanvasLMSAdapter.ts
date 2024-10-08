@@ -66,7 +66,7 @@ export class CanvasLMSAdapter extends Integration {
                   end: dayjs(this.raw[k].end).utc().toDate(),
                   dateOnly: this.raw[k].start.dateOnly,
                   published: true,
-                  label: { connect: { id: labelId } },
+                  ["label" as any]: { connect: { id: labelId } }, // yes, it works
                   attachments: [
                     this.raw[k].url && {
                       type: "LINK",
