@@ -5,6 +5,7 @@ import {
   Entity,
   Integration as IntegrationObjectType,
   Label,
+  Prisma,
 } from "@prisma/client";
 import dayjs from "dayjs";
 
@@ -174,6 +175,7 @@ function removeBracketedText(inputString) {
 export interface IntegratedEntityItem {
   type: "CREATE" | "UPDATE";
   entity: Partial<Entity>;
+  where?: Prisma.EntityWhereInput;
 }
 
 export class Integration {

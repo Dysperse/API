@@ -27,7 +27,7 @@ export class AppleCalendarAdapter extends Integration {
         try {
           const event = this.raw[k];
           if (event && event.type == "VEVENT") {
-            const eventExists = this.existingData.find(
+            const eventExists: any = this.existingData.find(
               (e: any) => e.integrationParams?.id === event.uid
             );
 
@@ -44,7 +44,12 @@ export class AppleCalendarAdapter extends Integration {
                   ? {
                       AND: [
                         { integrationId: this.integration.id },
-                        { integrationParams: { id: event.uid } },
+                        {
+                          integrationParams: {
+                            path: ["id"],
+                            equals: event.uid,
+                          },
+                        },
                       ],
                     }
                   : undefined,
