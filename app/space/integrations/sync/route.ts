@@ -211,7 +211,7 @@ export class Integration {
     if (!adapter.canonicalData || adapter.canonicalData.length === 0) return;
 
     return await prisma.$transaction(
-      adapter.canonicalData.map((item) =>
+      adapter.canonicalData.map((item: any) =>
         item.type === "CREATE"
           ? prisma.entity.create({ data: { ...item.entity, type: "TASK" } })
           : prisma.entity.update({
