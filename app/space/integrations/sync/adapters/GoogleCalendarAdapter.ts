@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import { RRule } from "rrule";
 import { googleClient } from "../../redirect/route";
 import { refreshGoogleAuthTokens } from "../../settings/google-calendar/route";
 import { IntegratedEntityItem, Integration } from "../route";
@@ -52,14 +51,14 @@ export class GoogleCalendarAdapter extends Integration {
     for (const label of this.raw) {
       for (const event of label.data) {
         try {
-          if (!event.summary) continue;
+          if (!event.summary || event.recurrence) continue;
           const existingEvent = this.existingData.find(
             (existingEvent: any) =>
               existingEvent.integrationParams?.id === event.id
           );
 
           const hasUpdated =
-            existingEvent?.integrationParams?.etag !== event.etag;
+            (existingEvent?.integrationParams as any)?.etag !== event.etag;
 
           if (!existingEvent || hasUpdated) {
             events.push({
@@ -68,9 +67,9 @@ export class GoogleCalendarAdapter extends Integration {
               entity: {
                 name: event.summary,
                 note: event.description,
-                recurrenceRule: event.recurrence
-                  ? RRule.fromText(event.recurrence[0]).options
-                  : null,
+                // recurrenceRule: event.recurrence
+                //   ? RRule.fromText(event.recurrence[0]).options
+                //   : null,
                 ...((event.start || event.start) && {
                   start: dayjs(event.start.date || event.start.dateTime)
                     .utc()
