@@ -46,7 +46,8 @@ export class CanvasLMSAdapter extends Integration {
           if (
             !this.existingData.find(
               (event: any) => event.integrationParams?.id === assignment.uid
-            )
+            ) &&
+            assignment.uid
           ) {
             const labelId = this.integration.labels.find(
               (label: any) =>
