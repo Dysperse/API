@@ -21,8 +21,10 @@ export function refreshGoogleAuthTokens(
   if (tokenObj.expiry_date < Date.now()) {
     oauth2Client.refreshAccessToken(async function (err, t) {
       if (err) {
+        console.log(err);
         return;
       } else {
+        console.log(t);
         await prisma.integration.update({
           where: { id: integrationId },
           data: { params: t },

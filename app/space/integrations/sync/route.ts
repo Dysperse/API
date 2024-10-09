@@ -1,6 +1,7 @@
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { generateRandomString } from "@/lib/randomString";
 import {
   Entity,
   Integration as IntegrationObjectType,
@@ -73,6 +74,7 @@ export class Integration {
               data: {
                 ...item.entity,
                 type: "TASK",
+                shortId: generateRandomString(8),
                 space: { connect: { id: adapter.integration.spaceId } },
                 integration: { connect: { id: adapter.integration.id } },
               },

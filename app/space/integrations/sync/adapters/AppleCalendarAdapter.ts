@@ -1,4 +1,3 @@
-import { generateRandomString } from "@/lib/randomString";
 import dayjs from "dayjs";
 import ical from "ical";
 import { RRule } from "rrule";
@@ -112,7 +111,6 @@ export class AppleCalendarAdapter extends Integration {
                       JSON.stringify(new RRule(event.rrule.options).options)
                     ),
                   }),
-                  shortId: generateRandomString(8),
                 },
               });
             }

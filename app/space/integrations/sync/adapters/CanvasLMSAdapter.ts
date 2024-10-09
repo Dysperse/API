@@ -1,4 +1,3 @@
-import { generateRandomString } from "@/lib/randomString";
 import dayjs from "dayjs";
 import ical from "ical";
 import { IntegratedEntityItem, Integration } from "../route";
@@ -73,7 +72,6 @@ export class CanvasLMSAdapter extends Integration {
                       data: assignment.url.val,
                     },
                   ],
-                  shortId: generateRandomString(8),
                 },
               });
           }
