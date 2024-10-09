@@ -7,43 +7,48 @@ dayjs.extend(require("dayjs/plugin/utc"));
 
 export class GoogleCalendarAdapter extends Integration {
   async fetchData() {
-    const oauth2Client = googleClient({ name: "google-calendar" });
-    oauth2Client.setCredentials((this.integration.params as any)?.tokens);
+    try {
+      const oauth2Client = googleClient({ name: "google-calendar" });
+      oauth2Client.setCredentials((this.integration.params as any)?.tokens);
 
-    refreshGoogleAuthTokens(
-      (this.integration.params as any)?.tokens,
-      oauth2Client,
-      this.integration.id
-    );
+      refreshGoogleAuthTokens(
+        (this.integration.params as any)?.tokens,
+        oauth2Client,
+        this.integration.id
+      );
 
-    const data: any = await Promise.all(
-      this.integration.labels
-        .filter((i: any) => i.integrationParams?.calendarId)
-        .map((label) =>
-          fetch(
-            `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-              (label.integrationParams as { calendarId: string }).calendarId
-            )}/events`,
-            {
-              headers: {
-                Authorization: `Bearer ${oauth2Client.credentials.access_token}`,
-              },
-            }
+      const data: any = await Promise.all(
+        this.integration.labels
+          .filter((i: any) => i.integrationParams?.calendarId)
+          .map((label) =>
+            fetch(
+              `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+                (label.integrationParams as { calendarId: string }).calendarId
+              )}/events`,
+              {
+                headers: {
+                  Authorization: `Bearer ${oauth2Client.credentials.access_token}`,
+                },
+              }
+            )
+              .then((res) => res.json())
+              .then((res) => {
+                return {
+                  label,
+                  data: res.items,
+                };
+              })
           )
-            .then((res) => res.json())
-            .then((res) => {
-              return {
-                label,
-                data: res.items,
-              };
-            })
-        )
-    ).catch((e) => {
-      console.log(e);
-    });
+      ).catch((e) => {
+        console.log(e);
+      });
 
-    this.raw = data;
-    return data;
+      this.raw = data;
+      return data;
+    } catch {
+      this.raw = [];
+      return [];
+    }
   }
 
   canonicalize(): Partial<IntegratedEntityItem>[] {
