@@ -45,9 +45,9 @@ export class CanvasLMSAdapter extends Integration {
 
           if (
             !this.existingData.find(
-              (event: any) => event.integrationParams?.id === assignment.uid
+              (event: any) => event.integrationParams?.id === k
             ) &&
-            assignment.uid
+            k
           ) {
             const labelId = this.integration.labels.find(
               (label: any) =>
@@ -59,9 +59,7 @@ export class CanvasLMSAdapter extends Integration {
               events.push({
                 type: "CREATE",
                 entity: {
-                  integrationParams: {
-                    id: assignment.uid,
-                  },
+                  integrationParams: { id: k },
                   name: this.#removeBracketedText(assignment.summary),
                   note: assignment.description,
                   start: dayjs(assignment.start).utc().toDate(),
