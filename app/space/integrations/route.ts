@@ -74,7 +74,6 @@ export async function PUT(req: NextRequest) {
       req,
       [
         { name: "id", required: true },
-        { name: "name", required: false },
         { name: "params", required: false },
         { name: "labels", required: false },
       ],
@@ -94,7 +93,10 @@ export async function PUT(req: NextRequest) {
         Object.keys(params.labels).map((label) =>
           prisma.label.update({
             where: { id: params.labels[label] },
-            data: { integration: { connect: { id: params.id } } },
+            data: {
+              integration: { connect: { id: params.id } },
+              integrationParams: { calendarId: label },
+            },
           })
         )
       );
