@@ -26,152 +26,6 @@ export function omit(keys, obj) {
   return filteredObj;
 }
 
-function removeBracketedText(inputString) {
-  var regex = /\s*\[.*?\]\s*$/;
-  return inputString.replace(regex, "");
-}
-
-// const getIntegrationData = async (integration: {
-//   id: string;
-//   name: string;
-//   lastSynced: Date;
-//   params: Prisma.JsonValue;
-//   options: Prisma.JsonValue;
-//   spaceId: string;
-//   userId: string;
-// }) => {
-//   let data;
-//   const labelsToSelect = await prisma.label.findMany({
-//     where: {
-//       AND: [
-//         { integration: { id: integration.id } },
-//         { integrationParams: { not: Prisma.AnyNull } },
-//       ],
-//     },
-//   });
-//   switch (integration.name) {
-//     case "google-calendar":
-//       const oauth2Client = googleClient({ name: "google-calendar" });
-//       oauth2Client.setCredentials(integration.params);
-//       refreshGoogleAuthTokens(integration.params, oauth2Client, integration.id);
-
-//       data = await Promise.all(
-//         labelsToSelect.map((label) =>
-//           fetch(
-//             `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-//               (label.integrationParams as { calendarId: string }).calendarId
-//             )}/events`,
-//             {
-//               headers: {
-//                 Authorization: `Bearer ${oauth2Client.credentials.access_token}`,
-//               },
-//             }
-//           )
-//             .then((res) => res.json())
-//             .then((res) => {
-//               return {
-//                 label,
-//                 data: res.items,
-//               };
-//             })
-//         )
-//       );
-//       break;
-//     case "canvas-lms":
-//       const d = await fetch((integration.params as any).calendarUrl).then(
-//         (res) => res.text()
-//       );
-//       const cal = ical.parseICS(d);
-//       data = {
-//         items: cal,
-//         labels: labelsToSelect,
-//       };
-//   }
-
-//   return {
-//     id: integration.id,
-//     type: integration.name,
-//     data,
-//   };
-// };
-
-// const canonicalizeIntegrationData = (integration, entities) => {
-//   let data: any[] = [];
-//   switch (integration.type) {
-//     case "google-calendar":
-//       for (const labelData of integration.data) {
-//         for (const eventData of labelData.data) {
-//           const entity = entities.find(
-//             (entity) => entity.integrationParams?.id === eventData.id
-//           );
-//           if (!entity && eventData.id && eventData.summary) {
-//             data.push({
-//               type: entity ? "UPDATE" : "CREATE",
-//               entity: {
-//                 name: eventData.summary,
-//                 note: eventData.description,
-//                 start: eventData.start.dateTime,
-//                 end: eventData.end.dateTime,
-//                 recurrenceRule: eventData.recurrence?.[0]
-//                   ? RRule.fromString(
-//                       eventData.recurrence?.[0].replace("EXDATE;\n", "")
-//                     ).options
-//                   : undefined,
-//                 label: { connect: { id: labelData.label.id } },
-//                 integration: { connect: { id: integration.id } },
-//                 integrationParams: {
-//                   id: eventData.id,
-//                 },
-//               },
-//             });
-//           }
-//         }
-//       }
-
-//       break;
-//     case "canvas-lms":
-//       for (const _assignment in integration.data.items) {
-//         const assignment = integration.data.items[_assignment];
-//         const entity = entities.find(
-//           (entity) => entity.integrationParams?.id === assignment.uid
-//         );
-//         if (
-//           assignment.summary &&
-//           (!entity || entity.name !== removeBracketedText(assignment.summary))
-//         ) {
-//           data.push({
-//             type: entity ? "UPDATE" : "CREATE",
-//             entity: {
-//               name: removeBracketedText(assignment.summary),
-//               note: assignment.description,
-//               start: dayjs(assignment.start).utc().toDate(),
-//               end: dayjs(assignment.end).utc().toDate(),
-//               dateOnly: assignment.start.dateOnly,
-//               published: true,
-//               label: {
-//                 connect: {
-//                   id: integration.data.labels.find(
-//                     (label) =>
-//                       label.integrationParams.id ===
-//                       extractTextInBrackets(assignment.summary)
-//                   )?.id,
-//                 },
-//               },
-//               integration: { connect: { id: integration.id } },
-//               integrationParams: {
-//                 id: assignment.uid,
-//                 name: "Canvas LMS",
-//               },
-//             },
-//           });
-//         }
-//       }
-
-//       break;
-//   }
-//   return data;
-// };
-
 export interface IntegratedEntityItem {
   type: "CREATE" | "UPDATE";
   entity: Partial<Prisma.EntityCreateManyLabelInput>;
@@ -297,19 +151,17 @@ export async function POST() {
     //    2A. If the entity doesn't exist, create it. Store a variable to identify the event, and an etag to check for changes.
     //    2B. If the entity exists, update it. Store a variable to identify the event, and an etag to check for changes.
 
-    const t: any = [];
-    const canonicalData = await Promise.all(
+    const l = await Promise.all(
       integrations.map(async (integration) => {
         const adapter = IntegrationFactory.createIntegration(
           integration,
           entities
         );
-        const l = await adapter.processEntities();
-        t.push(l);
+        return adapter.processEntities();
       })
     );
 
-    return Response.json(t);
+    return Response.json(l);
   } catch (e) {
     return handleApiError(e);
   }
