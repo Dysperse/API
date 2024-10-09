@@ -51,8 +51,11 @@ export class CanvasLMSAdapter extends Integration {
             const labelId = this.integration.labels.find(
               (label: any) =>
                 label.integrationParams?.id ===
-                this.#extractTextInBrackets(assignment.summary)
+                  this.#extractTextInBrackets(assignment.summary) ||
+                label.integrationParams?.calendarId ===
+                  this.#extractTextInBrackets(assignment.summary)
             )?.id;
+            console.log(this.integration.labels);
 
             if (labelId)
               events.push({
@@ -82,4 +85,3 @@ export class CanvasLMSAdapter extends Integration {
     return events;
   }
 }
-
