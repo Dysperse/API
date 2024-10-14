@@ -87,24 +87,26 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    fetch("https://www.bestregards.me/api/v1/subscribers", {
-      method: "POST",
-      body: JSON.stringify({
-        firstName: params.name?.split(" ")?.[0],
-        lastName: params.name?.split(" ")?.[1] || "",
-        sources: [
-          {
-            type: "TAG",
-            id: "tag_32lntt75p9",
-          },
-        ],
-        email: params.email,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + process.env.BESTREGARDS_API_KEY,
-      },
-    }).then((res) => res.json());
+    if (params.allowMarketingEmails) {
+      fetch("https://www.bestregards.me/api/v1/subscribers", {
+        method: "POST",
+        body: JSON.stringify({
+          firstName: params.name?.split(" ")?.[0],
+          lastName: params.name?.split(" ")?.[1] || "",
+          sources: [
+            {
+              type: "TAG",
+              id: "tag_32lntt75p9",
+            },
+          ],
+          email: params.email,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + process.env.BESTREGARDS_API_KEY,
+        },
+      }).then((res) => res.json());
+    }
 
     // Create space
     const space = await prisma.space.create({
