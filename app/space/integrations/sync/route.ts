@@ -154,13 +154,19 @@ export async function POST() {
     //    2B. If the entity exists, update it. Store a variable to identify the event, and an etag to check for changes.
 
     const l = await Promise.all(
-      integrations.map(async (integration) => {
-        const adapter = IntegrationFactory.createIntegration(
-          integration,
-          entities
-        );
-        return adapter.processEntities();
-      })
+      integrations
+        .map(async (integration) => {
+          try {
+            const adapter = IntegrationFactory.createIntegration(
+              integration,
+              entities
+            );
+            return adapter.processEntities();
+          } catch (e) {
+            return null;
+          }
+        })
+        .filter((e) => e)
     );
 
     return Response.json(l);
@@ -168,4 +174,3 @@ export async function POST() {
     return handleApiError(e);
   }
 }
-
