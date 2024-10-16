@@ -91,6 +91,7 @@ export async function POST(req: NextRequest) {
       fetch("https://www.bestregards.me/api/v1/subscribers", {
         method: "POST",
         body: JSON.stringify({
+          __autoConfirm: true,
           firstName: params.name?.split(" ")?.[0],
           lastName: params.name?.split(" ")?.[1] || "",
           sources: [
