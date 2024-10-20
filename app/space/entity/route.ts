@@ -110,7 +110,7 @@ export async function POST(req: NextRequest) {
         type: params.type,
         note: params.note,
         published: !isPublished.privateTasks,
-        storyPoints: params.storyPoints || 2,
+        storyPoints: params.storyPoints,
         agendaOrder: params.agendaOrder || "0|hzzzzz:",
         start: params.start ? new Date(params.start) : undefined,
         end: params.end ? new Date(params.end) : undefined,
@@ -270,7 +270,8 @@ export async function PUT(req: NextRequest) {
         end: params.end ? new Date(params.end) : undefined,
         attachments: params.attachments,
         notifications: params.notifications || undefined,
-        storyPoints: params.storyPoints || 2,
+        storyPoints:
+          params.storyPoints === null ? null : params.storyPoints || undefined,
         published:
           typeof params.published === "boolean" ? params.published : undefined,
         note:
