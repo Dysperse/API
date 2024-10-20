@@ -76,7 +76,13 @@ export async function GET(req: NextRequest) {
         name: true,
         _count: true,
         entities: {
-          select: { type: true, trash: true },
+          select: {
+            type: true,
+            trash: true,
+            start: true,
+            recurrenceRule: true,
+            _count: { select: { completionInstances: true } },
+          },
         },
         integrations: true,
         members: {
@@ -115,6 +121,13 @@ export async function GET(req: NextRequest) {
         return acc;
       }, 0);
 
+    const entitiesInTrash = space.entities.filter((e) => e.trash).length;
+
+    // Excluding recurring tasks
+    const completeTasksCount = space.entities.filter(
+      (e) => !e.recurrenceRule && e._count.completionInstances === 1 && !e.trash
+    ).length;
+
     const taskBreakdown =
       STORAGE_UNITS.entityMultipliers.task * grouped.TASK || 0;
     const integrationBreakdown =
@@ -128,6 +141,8 @@ export async function GET(req: NextRequest) {
 
     const storage = {
       inTrash,
+      entitiesInTrash,
+      completeTasksCount,
       limit: STORAGE_UNITS.max,
       used: taskBreakdown + integrationBreakdown + labelBreakdown,
       breakdown: {
