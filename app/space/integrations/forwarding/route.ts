@@ -5,8 +5,13 @@ import { prisma } from "@/lib/prisma";
 import { generateRandomString } from "@/lib/randomString";
 import { render } from "@react-email/components";
 import dayjs from "dayjs";
+import tz from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
+
+dayjs.extend(utc);
+dayjs.extend(tz);
 
 export const OPTIONS = async () => {
   return new Response("", {
@@ -36,6 +41,7 @@ export async function POST(req: NextRequest) {
           select: { spaceId: true },
           take: 1,
         },
+        timeZone: true,
         profile: { select: { name: true } },
       },
     });
@@ -75,7 +81,7 @@ export async function POST(req: NextRequest) {
           ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note: params.body,
         shortId: generateRandomString(6),
-        start: dayjs().startOf("day").utc().toDate(),
+        start: dayjs().startOf("day").utc().tz(user.timeZone).toDate(),
         published: true,
         space: { connect: { id: user.spaces[0].spaceId } },
       },
