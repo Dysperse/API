@@ -66,10 +66,12 @@ export async function GET(req: NextRequest, { params }) {
     }
     return new Response(calendar.toString(), {
       status: 200,
-      // headers: {
-      //   "Content-Type": "text/calendar",
-      //   "Content-Disposition": `attachment; filename="${user?.user?.email}.ics"`,
-      // },
+      headers: {
+        "Content-Type": "text/calendar",
+        "Content-Disposition": `attachment; filename="${encodeURIComponent(
+          user?.user?.email
+        )}.ics"`,
+      },
     });
   } catch (e) {
     return handleApiError(e);
