@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
       where: { userId },
       include: {
         _count: true,
-        integration: true,
         createdBy: {
           select: {
             email: true,
@@ -153,9 +152,6 @@ export async function PUT(req: NextRequest) {
               : undefined,
           space: {
             connect: { id: spaceId },
-          },
-          createdBy: {
-            connect: { id: userId },
           },
         },
       });
