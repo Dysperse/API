@@ -30,6 +30,7 @@ export class CanvasLMSAdapter extends Integration {
 
   canonicalize(): Partial<IntegratedEntityItem>[] {
     const events: Partial<IntegratedEntityItem>[] = [];
+    let arr = [];
     for (const k of Object.keys(this.raw)) {
       if (this.raw.hasOwnProperty(k)) {
         const assignment = this.raw[k];
@@ -45,23 +46,21 @@ export class CanvasLMSAdapter extends Integration {
           if (
             k &&
             !this.existingData.find(
-              (event: any) => event.integrationParams?.id === assignment.uid
+              (event: any) => event.integrationParams?.id === k
             )
           ) {
+            const courseId = this.#extractTextInBrackets(assignment.summary);
             const labelId = this.integration.labels.find(
               (label: any) =>
-                label.integrationParams?.id ===
-                  this.#extractTextInBrackets(assignment.summary) ||
-                label.integrationParams?.calendarId ===
-                  this.#extractTextInBrackets(assignment.summary)
+                label.integrationParams?.id === courseId ||
+                label.integrationParams?.calendarId === courseId
             )?.id;
-            console.log(this.integration.labels);
 
             if (labelId)
               events.push({
                 type: "CREATE",
                 entity: {
-                  integrationParams: { id: assignment.uid },
+                  integrationParams: { id: k },
                   name: this.#removeBracketedText(assignment.summary),
                   note: assignment.description,
                   start: dayjs(assignment.start).utc().toDate(),
