@@ -43,10 +43,10 @@ export class CanvasLMSAdapter extends Integration {
           // UID is stored in the integrationParams object
 
           if (
+            k &&
             !this.existingData.find(
-              (event: any) => event.integrationParams?.id === k
-            ) &&
-            k
+              (event: any) => event.integrationParams?.id === assignment.uid
+            )
           ) {
             const labelId = this.integration.labels.find(
               (label: any) =>
@@ -61,7 +61,7 @@ export class CanvasLMSAdapter extends Integration {
               events.push({
                 type: "CREATE",
                 entity: {
-                  integrationParams: { id: k },
+                  integrationParams: { id: assignment.uid },
                   name: this.#removeBracketedText(assignment.summary),
                   note: assignment.description,
                   start: dayjs(assignment.start).utc().toDate(),
@@ -85,3 +85,4 @@ export class CanvasLMSAdapter extends Integration {
     return events;
   }
 }
+
