@@ -74,7 +74,10 @@ export async function POST(req: NextRequest) {
         select: { tokens: true, type: true },
       },
     },
-    // where: { email: "manusvathgurudath@gmail.com" },
+    where:
+      process.env.NODE_ENV === "development"
+        ? { email: "manusvathgurudath@gmail.com" }
+        : undefined,
   });
 
   const data = users.filter(
