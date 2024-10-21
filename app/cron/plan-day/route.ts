@@ -74,7 +74,6 @@ export async function POST(req: NextRequest) {
         select: { tokens: true, type: true },
       },
     },
-    // where: { email: "manusvathgurudath@gmail.com" },
   });
 
   const data = users.filter(
