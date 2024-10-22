@@ -81,7 +81,11 @@ export async function POST(req: NextRequest) {
           ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note: params.body,
         shortId: generateRandomString(6),
-        start: dayjs().startOf("day").utc().tz(user.timeZone).toDate(),
+        start: dayjs()
+          .startOf("day")
+          .utc()
+          .tz(user.timeZone || "UTC")
+          .toDate(),
         published: true,
         space: { connect: { id: user.spaces[0].spaceId } },
       },
