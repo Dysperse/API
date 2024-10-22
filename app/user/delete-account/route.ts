@@ -1,6 +1,37 @@
+import { getIdentifiers } from "@/lib/getIdentifiers";
+import { handleApiError } from "@/lib/handleApiError";
+import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
-export function DELETE(req: NextRequest) {
-  // Delete the user's account
-  return new Response("Account deleted", { status: 200 });
+export const dynamic = "force-dynamic";
+const STORAGE_UNITS = {
+  max: 1000,
+  entityMultipliers: {
+    item: 1.5, // deprecated
+    integration: 20,
+    task: 1.5,
+    labels: 2,
+    collections: 10,
+  },
+};
+
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { spaceId, userId } = await getIdentifiers();
+
+    // Find the user and include related data
+    await prisma.space.delete({ where: { id: spaceId } });
+    const data = await prisma.user.delete({ where: { id: userId } });
+
+    return Response.json({ data });
+  } catch (e) {
+    return handleApiError(e);
+  }
 }
