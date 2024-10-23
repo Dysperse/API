@@ -47,7 +47,7 @@ export async function DELETE(req: NextRequest) {
     await prisma.space.delete({ where: { id: spaceId } });
     const data = await prisma.user.delete({ where: { id: userId } });
 
-    return Response.json({ data });
+    return Response.json({ success: true });
   } catch (e) {
     return handleApiError(e);
   }
