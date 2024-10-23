@@ -6,16 +6,6 @@ import { verifyTurnstileToken } from "@/lib/verifyTurnstileToken";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
-const STORAGE_UNITS = {
-  max: 1000,
-  entityMultipliers: {
-    item: 1.5, // deprecated
-    integration: 20,
-    task: 1.5,
-    labels: 2,
-    collections: 10,
-  },
-};
 
 export const OPTIONS = async () => {
   return new Response("", {
@@ -33,7 +23,7 @@ export async function DELETE(req: NextRequest) {
         { name: "reason", required: true },
         { name: "feedback", required: true },
         { name: "alternative", required: true },
-        { name: "stay", required: true },
+        { name: "satisfaction", required: true },
         { name: "email", required: true },
         { name: "captcha", required: true },
       ],
