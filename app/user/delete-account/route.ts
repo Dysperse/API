@@ -34,6 +34,7 @@ export async function DELETE(req: NextRequest) {
         { name: "feedback", required: true },
         { name: "alternative", required: true },
         { name: "stay", required: true },
+        { name: "email", required: true },
         { name: "captcha", required: true },
       ],
       { type: "BODY" }
