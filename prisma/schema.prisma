@@ -204,6 +204,7 @@ model Tab {
 
   collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String?
+  createdAt    DateTime    @default(now())
 
   order         String?
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
