@@ -36,7 +36,6 @@ const randomMessage = () => {
     "not ready to plan your day? that's okay, I'll wait... 😔💔",
     "make me happy and plan your day, please? 🥺",
     "bro you're not gonna believe this... but it's time to plan your day 🤯",
-    "bro asks dysperse to plan his day. dysperse says no. bro cries. dysperse says okay, fine. dysperse plans bro's day. bro is happy. dysperse is happy. the end.",
     "once upon a time, in a land far, far away (ur room), a hero (u) woke up and planned their day. the end.",
     "not all heroes wear capes. some just plan their day. 🦸‍♂️",
     "what's the plan, stan? 🤔",
