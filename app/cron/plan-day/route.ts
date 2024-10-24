@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
         return {
           ["fcmTo" as any]: token,
           to: token.tokens as any,
-          title: "It's time to plan your day! 🔥",
+          title: "it's time to plan ur day...",
           body,
           data: { type: token.type },
         };
