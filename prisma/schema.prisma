@@ -418,7 +418,7 @@ model Entity {
 
   dateOnly       Boolean @default(true)
   recurrenceRule Json?
-  notifications  Int[]   @default([10, 30, 60])
+  notifications  Int[]   @default([10])
 
   // ONLY for tasks
   completionInstances CompletionInstance[]

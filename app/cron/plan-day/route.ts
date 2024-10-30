@@ -34,17 +34,10 @@ const randomMessage = () => {
     "they say the early bird gets the worm. but who wants worms? 🤮",
     "not saying you're a procrastinator, but you better be planning your day rn... 🐢",
     "not ready to plan your day? that's okay, I'll wait... 😔💔",
-    "make me happy and plan your day, please? 🥺",
-    "bro you're not gonna believe this... but it's time to plan your day 🤯",
-    "once upon a time, in a land far, far away (ur room), a hero (u) woke up and planned their day. the end.",
     "not all heroes wear capes. some just plan their day. 🦸‍♂️",
     "what's the plan, stan? 🤔",
-    "personally I like sleeping in, but I guess planning your day is cool too 🛌",
-    "imagine not planning ur day... couldn't be me 🤡",
-    "I checked the news this morning. it said you should plan your day 📰",
     "ur friends were conspiring against u. they said u should plan ur day 🤫",
-    "NEWS FLASH: Officials report that it's now time to plan ur day 🚨",
-    "ur a procrastinator if u didn't click on this 🫵😹",
+    "ur a procrastinator if u don't click on this 🫵😹",
   ];
 
   return messages[Math.floor(Math.random() * messages.length)];
