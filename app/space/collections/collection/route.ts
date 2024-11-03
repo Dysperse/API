@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
         },
       });
 
-      labeledEntities = labeledEntities.map((label) => ({
+      labeledEntities = (labeledEntities as any).map((label) => ({
         ...label,
         entities: label.entities.reduce((acc, entity) => {
           acc[entity.id] = {
@@ -54,9 +54,9 @@ export async function GET(req: NextRequest) {
           };
           return acc;
         }, {}),
-      }));
+      })) as any;
 
-      unlabeledEntities = unlabeledEntities.reduce((acc, entity) => {
+      unlabeledEntities = (unlabeledEntities as any).reduce((acc, entity) => {
         acc[entity.id] = {
           ...entity,
           subtasks: entity.subtasks.reduce((acc, subtask) => {
@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
           }, {}),
         };
         return acc;
-      }, {});
+      }, {}) as any;
 
       return Response.json({
         gridOrder: labeledEntities.map((label) => label.id),
@@ -167,12 +167,12 @@ export async function GET(req: NextRequest) {
         acc[entity.id] = entity;
         return acc;
       }, {}),
-    }));
+    })) as any;
 
     data.entities = data.entities.reduce((acc, entity) => {
       acc[entity.id] = entity;
       return acc;
-    }, {});
+    }, {}) as any;
 
     return Response.json({ ...data, access: foundInviteId });
   } catch (e) {
