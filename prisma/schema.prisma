@@ -438,4 +438,8 @@ model Entity {
   integration       Integration? @relation(fields: [integrationId], references: [id], onDelete: Cascade)
   integrationId     String?
   integrationParams Json?
+
+  parentTask   Entity?  @relation("Subtasks", fields: [parentTaskId], references: [id])
+  parentTaskId String?
+  subtasks     Entity[] @relation("Subtasks")
 }

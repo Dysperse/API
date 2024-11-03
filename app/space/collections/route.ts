@@ -177,6 +177,7 @@ export async function PUT(req: NextRequest) {
         })
       );
     }
+
     return Response.json({ success: true });
   } catch (e) {
     return handleApiError(e);

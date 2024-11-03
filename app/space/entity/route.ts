@@ -95,6 +95,7 @@ export async function POST(req: NextRequest) {
         { name: "agendaOrder", required: false },
         { name: "collectionId", required: false },
         { name: "storyPoints", required: false },
+        { name: "parentId", required: false },
       ],
       { type: "BODY" }
     );
@@ -120,6 +121,9 @@ export async function POST(req: NextRequest) {
         shortId: generateRandomString(10),
         recurrenceRule: params.recurrenceRule,
         attachments: params.attachments,
+        parentTask: params.parentId
+          ? { connect: { id: params.parentId } }
+          : undefined,
         collection: params.collectionId
           ? { connect: { id: params.collectionId } }
           : undefined,
@@ -163,6 +167,18 @@ export async function GET(req: NextRequest) {
       Boolean(params.inviteLinkId)
     );
 
+    const t = {
+      completionInstances: true,
+      label: true,
+      collection: true,
+      space: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+    };
+
     const data = await prisma.entity.findFirstOrThrow({
       where: {
         OR: [
@@ -197,19 +213,18 @@ export async function GET(req: NextRequest) {
         ],
       },
       include: {
-        completionInstances: true,
-        label: true,
-        collection: true,
-        space: {
-          select: {
-            name: true,
-            id: true,
-          },
-        },
+        ...t,
+        subtasks: { include: t, where: { trash: false } },
       },
     });
 
-    return Response.json(data);
+    return Response.json({
+      ...data,
+      subtasks: data.subtasks.reduce((acc, subtask) => {
+        acc[subtask.id] = subtask;
+        return acc;
+      }, {}),
+    });
   } catch (e) {
     return handleApiError(e);
   }

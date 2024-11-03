@@ -25,7 +25,7 @@ export const OPTIONS = async () => {
 interface PerspectiveUnit {
   start: string | Dayjs;
   end: string | Dayjs;
-  tasks: any[];
+  entities: Record<string, any>;
 }
 
 export async function GET(req: NextRequest) {
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
           // subtract 1 second to get x:59:59 (this is the end of the day we added)
           .subtract(1, "second")
           .toISOString(),
-        tasks: [],
+        entities: {},
       })
     );
 
@@ -129,6 +129,12 @@ export async function GET(req: NextRequest) {
       include: {
         completionInstances: true,
         label: true,
+        subtasks: {
+          where: { trash: false },
+          include: {
+            completionInstances: true,
+          },
+        },
       },
     });
 
@@ -141,7 +147,7 @@ export async function GET(req: NextRequest) {
     const recurringTasks = tasks.filter((task) => task.recurrenceRule);
 
     // Use a Map to store tasks for each perspective unit
-    const tasksByUnit: any = new Map(units.map((unit) => [unit, []]));
+    const tasksByUnit = new Map(units.map((unit) => [unit, {}]));
 
     // Populate the tasks for each perspective unit
     for (const task of recurringTasks) {
@@ -161,25 +167,44 @@ export async function GET(req: NextRequest) {
         const unit = units.find(({ start, end }) =>
           due.isBetween(start, end, null, "[]")
         );
-        if (unit)
-          tasksByUnit
-            .get(unit)
-            .push({ ...task, recurrenceDay: due.toISOString() });
+        if (unit) {
+          tasksByUnit.set(unit, {
+            ...tasksByUnit.get(unit),
+            [task.id]: {
+              ...task,
+              recurrenceDay: due.toISOString(),
+              subtasks: task.subtasks.reduce((acc, subtask) => {
+                acc[subtask.id] = subtask;
+                return acc;
+              }, {}),
+            },
+          });
+        }
       }
     }
-
     for (const task of tasks.filter((task) => task.recurrenceRule === null)) {
       const taskStart = dayjs(task.start).utc();
       const unit = units.find(({ start, end }) =>
         taskStart.isBetween(start, end, null, "[]")
       );
-      if (unit) tasksByUnit.get(unit).push(task);
+      if (unit) {
+        tasksByUnit.set(unit, {
+          ...tasksByUnit.get(unit),
+          [task.id]: {
+            ...task,
+            subtasks: task.subtasks.reduce((acc, subtask) => {
+              acc[subtask.id] = subtask;
+              return acc;
+            }, {}),
+          },
+        });
+      }
     }
-    // Convert the map of tasks by unit to an array of PerspectiveUnit objects
+
     const returned = units.map((unit) => ({
       start: unit.start,
       end: unit.end,
-      tasks: tasksByUnit.get(unit),
+      entities: tasksByUnit.get(unit),
     }));
     return Response.json(returned);
   } catch (e) {

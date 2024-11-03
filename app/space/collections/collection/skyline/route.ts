@@ -46,29 +46,24 @@ export async function GET(req: NextRequest) {
     // https://github.com/iamkun/dayjs/issues/1262
     let units = {
       today: {
-        filterRange: [start, start.tz("UTC").endOf("day").format()],
-        entities: [],
+        start,
+        end: start.tz("UTC").endOf("day").format(),
+        entities: {},
       },
       week: {
-        filterRange: [
-          start.tz("UTC").endOf("day").format(),
-          start.tz("UTC").endOf("week").format(),
-        ],
-        entities: [],
+        start: start.tz("UTC").endOf("day").format(),
+        end: start.tz("UTC").endOf("week").format(),
+        entities: {},
       },
       month: {
-        filterRange: [
-          start.tz("UTC").endOf("week").format(),
-          start.tz("UTC").endOf("month").format(),
-        ],
-        entities: [],
+        start: start.tz("UTC").endOf("week").format(),
+        end: start.tz("UTC").endOf("month").format(),
+        entities: {},
       },
       year: {
-        filterRange: [
-          start.tz("UTC").endOf("month").format(),
-          start.tz("UTC").endOf("year").format(),
-        ],
-        entities: [],
+        start: start.tz("UTC").endOf("month").format(),
+        end: start.tz("UTC").endOf("year").format(),
+        entities: {},
       },
     };
 
@@ -159,13 +154,11 @@ export async function GET(req: NextRequest) {
       for (const instance of rule) {
         const instanceStart = dayjs(instance).utc();
         for (const [unitName, unit] of Object.entries(units)) {
-          if (
-            instanceStart.isBetween(unit.filterRange[0], unit.filterRange[1])
-          ) {
-            unit.entities.push({
+          if (instanceStart.isBetween(unit.start, unit.end)) {
+            unit.entities[task.id] = {
               ...task,
               recurrenceDay: instanceStart.toISOString(),
-            } as never);
+            } as never;
             added = true;
             break;
           }
@@ -176,13 +169,13 @@ export async function GET(req: NextRequest) {
 
     for (const task of normalTasks) {
       const taskStart = dayjs(task.start).utc();
-      const unit = Object.values(units).find(({ filterRange }) =>
-        taskStart.isBetween(filterRange[0], filterRange[1], null, "[]")
+      const unit = Object.values(units).find(({ start, end }) =>
+        taskStart.isBetween(start, end, null, "[]")
       );
-      if (unit) unit.entities.push(task as never);
+      if (unit) unit.entities[task.id] = task;
     }
 
-    return Response.json(units);
+    return Response.json(Object.values(units));
   } catch (e) {
     return handleApiError(e);
   }

@@ -28,19 +28,45 @@ export async function GET(req: NextRequest) {
     );
 
     if (params.all) {
-      const labeledEntities = await prisma.label.findMany({
+      let labeledEntities = await prisma.label.findMany({
         where: { spaceId },
         include: {
           _count: true,
           entities: entitiesSelection,
         },
       });
-      const unlabeledEntities = await prisma.entity.findMany({
+      let unlabeledEntities = await prisma.entity.findMany({
         ...entitiesSelection,
         where: {
           AND: [{ spaceId }, { label: null }, { trash: false }],
         },
       });
+
+      labeledEntities = labeledEntities.map((label) => ({
+        ...label,
+        entities: label.entities.reduce((acc, entity) => {
+          acc[entity.id] = {
+            ...entity,
+            subtasks: entity.subtasks.reduce((acc, subtask) => {
+              acc[subtask.id] = subtask;
+              return acc;
+            }, {}),
+          };
+          return acc;
+        }, {}),
+      }));
+
+      unlabeledEntities = unlabeledEntities.reduce((acc, entity) => {
+        acc[entity.id] = {
+          ...entity,
+          subtasks: entity.subtasks.reduce((acc, subtask) => {
+            acc[subtask.id] = subtask;
+            return acc;
+          }, {}),
+        };
+        return acc;
+      }, {});
+
       return Response.json({
         gridOrder: labeledEntities.map((label) => label.id),
         kanbanOrder: labeledEntities.map((label) => label.id),
@@ -133,6 +159,21 @@ export async function GET(req: NextRequest) {
 
     data.kanbanOrder = getLabelOrder(data, "kanbanOrder");
     data.gridOrder = getLabelOrder(data, "gridOrder");
+
+    // Convert label.entities to object with id as key, using a very performant data structure
+    data.labels = data.labels.map((label) => ({
+      ...label,
+      entities: label.entities.reduce((acc, entity) => {
+        acc[entity.id] = entity;
+        return acc;
+      }, {}),
+    }));
+
+    data.entities = data.entities.reduce((acc, entity) => {
+      acc[entity.id] = entity;
+      return acc;
+    }, {});
+
     return Response.json({ ...data, access: foundInviteId });
   } catch (e) {
     return handleApiError(e);
