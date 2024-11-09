@@ -177,11 +177,10 @@ export async function GET(req: NextRequest) {
       acc[entity.id] = entity;
       return acc;
     }, {}) as any;
-
     if (
       data.pinCode &&
-      (dayjs(data.pinAuthorizationExpiresAt).isBefore(dayjs()) ||
-        !data.pinAuthorizationExpiresAt)
+      (!data.pinAuthorizationExpiresAt ||
+        dayjs(data.pinAuthorizationExpiresAt).isBefore(dayjs()))
     ) {
       return Response.json({
         id: data.id,

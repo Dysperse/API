@@ -55,7 +55,6 @@ export async function POST(req: NextRequest) {
       where: { id: params.id },
       data: { pinAuthorizationExpiresAt: t },
     });
-
     return Response.json({ success: true, expiresAt: t });
   } catch (e) {
     return handleApiError(e);
