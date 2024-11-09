@@ -125,6 +125,7 @@ export async function PUT(req: NextRequest) {
       params.description ||
       params.kanbanOrder ||
       params.listOrder ||
+      params.pinCode ||
       params.defaultView ||
       params.gridOrder ||
       params.category ||
@@ -146,6 +147,12 @@ export async function PUT(req: NextRequest) {
           keepProfileAnonymous: params.keepProfileAnonymous || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
           listOrder: params.listOrder || undefined,
+          pinCode:
+            typeof params.pinCode === "number"
+              ? params.pinCode
+              : params.pinCode === false
+              ? null
+              : undefined,
           public:
             typeof params.public === "boolean" ? params.public : undefined,
           showCompleted:

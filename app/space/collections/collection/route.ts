@@ -3,6 +3,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 import { entitiesSelection } from "./entitiesSelection";
 import { inviteLinkParams } from "./planner/inviteLinkParams";
@@ -21,6 +22,7 @@ export async function GET(req: NextRequest) {
       { name: "id", required: true },
       { name: "all", required: false },
       { name: "isPublic", required: false },
+      { name: "pinCode", required: false },
     ]);
     const { userId, spaceId } = await getIdentifiers(
       undefined,
@@ -175,6 +177,20 @@ export async function GET(req: NextRequest) {
       acc[entity.id] = entity;
       return acc;
     }, {}) as any;
+
+    if (
+      data.pinCode &&
+      (dayjs(data.pinAuthorizationExpiresAt).isBefore(dayjs()) ||
+        !data.pinAuthorizationExpiresAt)
+    ) {
+      return Response.json({
+        id: data.id,
+        error: true,
+        name: data.name,
+        emoji: data.emoji,
+        pinCodeError: data.pinCode ? "REQUIRED" : "NOT_SET",
+      });
+    }
 
     return Response.json({ ...data, access: foundInviteId });
   } catch (e) {
