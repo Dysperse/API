@@ -357,7 +357,7 @@ model Collection {
   category             String?
   keepProfileAnonymous Boolean @default(false)
 
-  pinCode                   Int?
+  pinCode                   String?
   pinAuthorizationExpiresAt DateTime?
 
   // User preferences

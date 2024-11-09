@@ -44,13 +44,11 @@ export async function POST(req: NextRequest) {
               { inviteLink: inviteLinkParams(params.id) },
             ],
           },
-          { pinCode: { equals: params.pinCode } },
+          { pinCode: params.pinCode },
         ],
       },
       select: { id: true },
     });
-
-    console.log(1);
 
     const t = dayjs().add(1, "hour").toISOString();
     await prisma.collection.update({
