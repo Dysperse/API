@@ -138,7 +138,7 @@ export async function PUT(req: NextRequest) {
       typeof params.showCompleted === "boolean" ||
       typeof params.keepProfileAnonymous === "boolean" ||
       typeof params.pinCode === "boolean" ||
-      typeof params.pinCode === "string" ||
+      params.pinCode ||
       typeof params.locked === "boolean"
     ) {
       await prisma.collection.update({
