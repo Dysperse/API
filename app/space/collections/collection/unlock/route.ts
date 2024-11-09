@@ -50,12 +50,13 @@ export async function POST(req: NextRequest) {
       select: { id: true },
     });
 
+    const t = dayjs().add(1, "hour").toISOString();
     await prisma.collection.update({
       where: { id: params.id },
-      data: { pinAuthorizationExpiresAt: dayjs().add(1, "hour").toISOString() },
+      data: { pinAuthorizationExpiresAt: t },
     });
 
-    return Response.json({ success: true });
+    return Response.json({ success: true, expiresAt: t });
   } catch (e) {
     return handleApiError(e);
   }

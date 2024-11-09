@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -127,6 +128,7 @@ export async function PUT(req: NextRequest) {
       params.listOrder ||
       params.pinCode ||
       params.defaultView ||
+      params.pinAuthorizationExpiresAt ||
       params.gridOrder ||
       params.category ||
       typeof params.public === "boolean" ||
@@ -146,6 +148,9 @@ export async function PUT(req: NextRequest) {
           category: params.category || undefined,
           keepProfileAnonymous: params.keepProfileAnonymous || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
+          pinAuthorizationExpiresAt: params.pinAuthorizationExpiresAt
+            ? dayjs().subtract(1, "year").toISOString()
+            : undefined,
           listOrder: params.listOrder || undefined,
           pinCode:
             typeof params.pinCode === "number"
