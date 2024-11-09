@@ -50,6 +50,8 @@ export async function POST(req: NextRequest) {
       select: { id: true },
     });
 
+    console.log(1);
+
     const t = dayjs().add(1, "hour").toISOString();
     await prisma.collection.update({
       where: { id: params.id },
