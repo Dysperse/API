@@ -158,7 +158,7 @@ export async function PUT(req: NextRequest) {
             : undefined,
           listOrder: params.listOrder || undefined,
           pinCode:
-            typeof params.pinCode === "number"
+            typeof params.pinCode === "string"
               ? params.pinCode
               : params.pinCode === false
               ? null
