@@ -70,6 +70,7 @@ export async function GET(req: NextRequest) {
       return Response.json({
         gridOrder: labeledEntities.map((label) => label.id),
         kanbanOrder: labeledEntities.map((label) => label.id),
+        listOrder: labeledEntities.map((label) => label.id),
         labels: labeledEntities,
         entities: unlabeledEntities,
       });
@@ -159,6 +160,7 @@ export async function GET(req: NextRequest) {
 
     data.kanbanOrder = getLabelOrder(data, "kanbanOrder");
     data.gridOrder = getLabelOrder(data, "gridOrder");
+    data.listOrder = getLabelOrder(data, "listOrder");
 
     // Convert label.entities to object with id as key, using a very performant data structure
     data.labels = data.labels.map((label) => ({

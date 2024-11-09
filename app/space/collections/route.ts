@@ -144,6 +144,7 @@ export async function PUT(req: NextRequest) {
           category: params.category || undefined,
           keepProfileAnonymous: params.keepProfileAnonymous || undefined,
           kanbanOrder: params.kanbanOrder || undefined,
+          listOrder: params.listOrder || undefined,
           public:
             typeof params.public === "boolean" ? params.public : undefined,
           showCompleted:

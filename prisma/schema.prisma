@@ -364,6 +364,7 @@ model Collection {
   archived      Boolean @default(false)
   showCompleted Boolean @default(true)
 
+  listOrder   Json?
   gridOrder   Json?
   kanbanOrder Json?
 

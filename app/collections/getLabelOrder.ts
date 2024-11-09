@@ -1,6 +1,6 @@
 export function getLabelOrder(
   collection,
-  key: "kanbanOrder" | "gridOrder" = "kanbanOrder"
+  key: "kanbanOrder" | "gridOrder" | "listOrder" = "kanbanOrder"
 ) {
   const labelIds = new Set(collection.labels.map((label) => label.id));
   const t = (collection as any)?.[key] || [];
