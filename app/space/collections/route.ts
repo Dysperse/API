@@ -124,6 +124,7 @@ export async function PUT(req: NextRequest) {
       params.emoji ||
       params.description ||
       params.kanbanOrder ||
+      params.listOrder ||
       params.defaultView ||
       params.gridOrder ||
       params.category ||
