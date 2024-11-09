@@ -188,6 +188,7 @@ export async function GET(req: NextRequest) {
         error: true,
         name: data.name,
         emoji: data.emoji,
+        pinAuthorizationExpiresAt: data.pinAuthorizationExpiresAt,
         pinCodeError: data.pinCode ? "REQUIRED" : "NOT_SET",
       });
     }
