@@ -130,7 +130,6 @@ export async function PUT(req: NextRequest) {
       params.description ||
       params.kanbanOrder ||
       params.listOrder ||
-      params.pinCode ||
       params.defaultView ||
       params.pinAuthorizationExpiresAt ||
       params.gridOrder ||
@@ -138,6 +137,7 @@ export async function PUT(req: NextRequest) {
       typeof params.public === "boolean" ||
       typeof params.showCompleted === "boolean" ||
       typeof params.keepProfileAnonymous === "boolean" ||
+      typeof params.pinCode === "boolean" ||
       typeof params.locked === "boolean"
     ) {
       await prisma.collection.update({
