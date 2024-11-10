@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { generateRandomString } from "@/lib/randomString";
 import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
+import { entitiesSelection } from "../collections/collection/entitiesSelection";
+import { omit } from "../collections/collection/omit";
 
 export const dynamic = "force-dynamic";
 export const OPTIONS = async () => {
@@ -170,6 +172,7 @@ export async function PATCH(req: NextRequest) {
     const data = await prisma.$transaction(
       params.entities.map((entity) => {
         return prisma.entity.create({
+          ...omit(["where"], entitiesSelection),
           data: {
             type: "TASK",
             name: entity.name,
