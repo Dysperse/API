@@ -156,6 +156,48 @@ export async function POST(req: NextRequest) {
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  // Used for creating multiple entities at once. Passed an array of objects
+
+  try {
+    const { spaceId } = await getIdentifiers();
+    const params = await getApiParams(req, [
+      { name: "entities", required: true },
+    ]);
+
+    const data = await prisma.$transaction(
+      params.entities.map((entity) => {
+        return prisma.entity.create({
+          data: {
+            type: "TASK",
+            name: entity.name,
+            labelId: entity.labelId,
+            pinned: entity.pinned,
+            start: entity.start ? new Date(entity.start) : undefined,
+            end: entity.end ? new Date(entity.end) : undefined,
+            note: entity.note,
+            recurrenceRule: entity.recurrenceRule,
+            agendaOrder: entity.agendaOrder,
+            notifications: entity.notifications,
+            attachments: entity.attachments,
+            storyPoints: entity.storyPoints,
+            published: entity.published,
+            trash: entity.trash,
+            space: {
+              connect: {
+                id: spaceId,
+              },
+            },
+          },
+        });
+      })
+    );
+    return Response.json(data);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function GET(req: NextRequest) {
   try {
     const params = await getApiParams(req, [
