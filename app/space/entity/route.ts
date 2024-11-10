@@ -161,9 +161,11 @@ export async function PATCH(req: NextRequest) {
 
   try {
     const { spaceId } = await getIdentifiers();
-    const params = await getApiParams(req, [
-      { name: "entities", required: true },
-    ]);
+    const params = await getApiParams(
+      req,
+      [{ name: "entities", required: true }],
+      { type: "BODY" }
+    );
 
     const data = await prisma.$transaction(
       params.entities.map((entity) => {
