@@ -183,8 +183,8 @@ export async function PATCH(req: NextRequest) {
             note: entity.note,
             recurrenceRule: entity.recurrenceRule,
             agendaOrder: entity.agendaOrder,
-            parentTask: params.parentId
-              ? { connect: { id: params.parentId } }
+            parentTask: entity.parentId
+              ? { connect: { id: entity.parentId } }
               : undefined,
             notifications: entity.notifications,
             attachments: entity.attachments,
