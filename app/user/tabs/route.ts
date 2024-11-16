@@ -51,28 +51,21 @@ export async function POST(req: NextRequest) {
     }
 
     const { userId } = await getIdentifiers();
-    let profileId = "";
 
-    if (params.slug.includes("/users/")) {
-      const user = await prisma.profile.findFirstOrThrow({
-        where: {
-          user: { email: params.params.id },
-        },
-        select: {
-          userId: true,
-        },
-      });
-      if (!user) {
-        throw new Error("User not found");
-      }
-      profileId = user.userId;
-    }
+    const lastTab = await prisma.tab.findFirst({
+      where: { userId },
+      orderBy: { order: "desc" },
+      select: { order: true },
+    });
+
     const tab = await prisma.tab.create({
       data: {
         slug: params.slug,
         params: params.params,
         userId,
-        order: LexoRank.max().toString(),
+        order: lastTab?.order
+          ? LexoRank.parse(lastTab?.order).toString()
+          : LexoRank.middle().toString(),
         ...(params.slug.includes("/collections/") &&
           params.params.id !== "all" && {
             collectionId: params.params.id,
