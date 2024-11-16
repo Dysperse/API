@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
         params: params.params,
         userId,
         order: lastTab?.order
-          ? LexoRank.parse(lastTab?.order).toString()
+          ? LexoRank.parse(lastTab?.order).genNext().toString()
           : LexoRank.middle().toString(),
         ...(params.slug.includes("/collections/") &&
           params.params.id !== "all" && {
