@@ -31,7 +31,9 @@ export async function POST(req: NextRequest) {
       select: { password: true },
     });
 
-    if (!argon2.verify(user.password, params.password)) {
+    const valid = await argon2.verify(user.password, params.password);
+
+    if (!valid) {
       throw new Error("Invalid password");
     }
 
