@@ -74,6 +74,22 @@ model User {
   invitedCollections CollectionAccess[]
   resetTokens        ResetToken[]
   widgets            Widget[]
+
+  aiToken AiToken?
+}
+
+enum AiTokenType {
+  GEMINI
+  OPENAI
+}
+
+model AiToken {
+  id    String      @id @unique @default(uuid())
+  type  AiTokenType
+  token String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
 }
 
 model PasskeyChallenge {
