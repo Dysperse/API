@@ -3,6 +3,7 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 export const OPTIONS = async () => {
   return new Response("", {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     const t = { type: params.type, token: params.token, userId };
 
     const data = await prisma.aiToken.upsert({
-      where: { id: token?.id },
+      where: { id: token?.id || uuidv4() },
       update: t,
       create: t,
     });
