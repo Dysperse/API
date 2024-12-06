@@ -38,8 +38,6 @@ You will only give the task's description, without any surrounding text or infor
 ${params.task.name}
 
 # Additional information
-## Note
-${params.task.note || "Not specified"}
 
 ## Label name
 ${params.task.label?.name || "Not specified"}
