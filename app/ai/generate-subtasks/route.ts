@@ -13,11 +13,11 @@ export const OPTIONS = async () => {
   });
 };
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [
-      { name: "taskName", required: true },
-    ]);
+    const params = await getApiParams(req, [{ name: "task", required: true }], {
+      type: "BODY",
+    });
     const { userId } = await getIdentifiers();
     const data = await prisma.aiToken.findFirstOrThrow({ where: { userId } });
 
@@ -25,16 +25,32 @@ export async function GET(req: NextRequest) {
       apiKey: data.token,
     });
 
-    const { text, response } = await generateText({
+    const { text } = await generateText({
       model: google("gemini-1.5-flash"),
-      system:
-        `You are an AI which will split this task into smaller, manageable subtasks which are relevant to achieve the task.
+      system: `You are an AI which will split this task into smaller, manageable subtasks which are relevant to achieve the task.
 You will provide data in a minified JSON format only, without any surrounding or extra text.
-You must follow this schema: [{"title": "...", "description": "..."}]
-Do not create more than 5 subtasks. Keep titles and descriptions to the point. Keep the description to 1 short sentence. You may use emojis in the description.
-Do not use extra whitespace or new lines at all.`.replaceAll("\n", " "),
-      prompt: `Task name: ${params.taskName}`,
+You must follow this schema: [{"title": "...","description": "..."}]
+Do not create more than 5 subtasks. You do not have to go up to 5 subtasks. Only create how much is necessary. Keep titles and descriptions to the point. Keep the description to 1 short sentence. You do not need to end the description with a period.
+Descriptions need to be short. You can use slashes instead of and/or. Write in the present tense. Do not use any pronouns.
+You may use emojis in the name, but do not make it repetitive. You may only use one emoji per name and must keep it in the start. Put a space after an emoji.
+Additional information can sometimes be specified in the prompt. This can include task notes, dates, or other relevant information. It can also be empty.
+You must give a minified JSON output, removing unnecessary whitespace. Here is an example:
+[{"title":"📈 Practice problems","description":"Complete a selection of practice problems from the textbook"},{"title": 🧮 Old exams","description":"Review previous exams/quizzes"}]
+`,
+      prompt: `
+# Task name
+${params.task.name}
+
+# Additional information
+## Note
+${params.task.note || "Not specified"}
+
+## Label name
+${params.task.label?.name || "Not specified"}
+`,
     });
+
+    console.log(text);
 
     return Response.json(JSON.parse(text));
   } catch (e) {
