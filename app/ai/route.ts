@@ -13,7 +13,10 @@ export const OPTIONS = async () => {
 
 export async function POST(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [{ name: "token", required: true }]);
+    const params = await getApiParams(req, [
+      { name: "token", required: true },
+      { name: "type", required: true },
+    ]);
     const { userId } = await getIdentifiers();
     const token = await prisma.aiToken.findFirst({
       where: { userId },
