@@ -34,6 +34,7 @@ model User {
   email                    String    @unique
   password                 String
   twoFactorSecret          String?
+  betaTester               Boolean   @default(false)
   lastReleaseVersionViewed Int       @default(77711209)
   createdAt                DateTime  @default(now())
   timeZone                 String    @default("America/Los_Angeles")

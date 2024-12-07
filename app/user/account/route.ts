@@ -28,6 +28,7 @@ export async function PUT(req: NextRequest) {
         { name: "weeklyStreakGoal", required: false },
         { name: "privateTasks", required: false },
         { name: "mapsProvider", required: false },
+        { name: "betaTester", required: false },
       ],
       { type: "BODY" }
     );
@@ -49,6 +50,7 @@ export async function PUT(req: NextRequest) {
           typeof params.militaryTime === "boolean"
             ? params.militaryTime
             : undefined,
+        betaTester: typeof params.betaTester === "boolean" ? params.betaTester : undefined,
 
         dailyStreakGoal: params.dailyStreakGoal || undefined,
         weeklyStreakGoal: params.weeklyStreakGoal || undefined,
