@@ -45,9 +45,8 @@ export class CanvasLMSAdapter extends Integration {
 
           if (
             k &&
-            assignment.url.val &&
             !this.existingData.find(
-              (event: any) => event.integrationParams?.id === assignment.url.val
+              (event: any) => event.integrationParams?.id === k
             )
           ) {
             const courseId = this.#extractTextInBrackets(assignment.summary);
@@ -61,6 +60,7 @@ export class CanvasLMSAdapter extends Integration {
               events.push({
                 type: "CREATE",
                 entity: {
+                  id: "canvas-" + this.integration.id + "-" + k,
                   integrationParams: { id: assignment.url.val },
                   name: this.#removeBracketedText(assignment.summary),
                   note: assignment.description,
