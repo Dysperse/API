@@ -4,7 +4,11 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
+
+dayjs.extend(utc);
 
 export const OPTIONS = async () => {
   return new Response("", {
@@ -15,7 +19,7 @@ export const OPTIONS = async () => {
 
 export async function POST(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [{ name: "task", required: true }], {
+    const params = await getApiParams(req, [{ name: "text", required: true }], {
       type: "BODY",
     });
     const { userId } = await getIdentifiers();
@@ -27,30 +31,78 @@ export async function POST(req: NextRequest) {
 
     const { text } = await generateText({
       model: google("gemini-1.5-flash"),
+      // prettier-ignore
       system: `
 # Instructions and format
-You are an AI which will read a tasks's name and decide the best way to categorize it. 
+You are an AI which will bring a user's ideas to life by converting what they need to a collection. Think of a collection as a kanban board, with labels where tasks can be categorized. Collections can be then viewed in different ways.
 You will provide data in a minified JSON format only, without any surrounding or extra text. You must stick to the schema provided below. Remove unnecessary whitespace.
 Additional information can sometimes be specified in the prompt. This can include task notes, dates, or other relevant information. It can also be empty.
 
 # Schema
-{"storyPoints": 2|4|8|16|32,"pinned": (true/false),"labelId": "...Label ID..."}
-- storyPoints: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
-- pinned: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
-- labelId: The ID of the label that the task should be categorized under.
+{
+    "name": string,
+    "description": string,
+    "emoji": "unicode hex code",
+    "defaultView: list | kanban | grid | skyline |  planner | stream | calendar | workload | matrix,
+    "category": "work" | "personal" | "shopping" | "study",
+    "labels": {
+      "name": string,
+      "color": red | orange | yellow | green | blue | purple | pink | brown,
+      "emoji": "unicode hex code",
+      "description": string
+    }[],
+}
+
+- name: The name of the collection.
+- description: The description of the collection. 
+- emoji: The emoji to represent the collection. This must be a unicode hex code. Do not include the leading text.
+- defaultView: The default view of the collection. Choose from list, kanban, grid, skyline, planner, stream, calendar, workload, or matrix.
+      - list: A simple list view.
+      - kanban: A kanban board view.
+      - grid: Similar to kanban, but with a grid layout.
+      - skyline: Similar to planner, but one column is for today's tasks, one is for the week's tasks, one is for the month's tasks, and one is for the year's tasks.
+      - planner: A traditional planner view.
+      - stream: View upcoming, backlog, and completed tasks side by side in columns
+      - calendar: A traditional calendar view.
+      - workload: View tasks by how much effort they require.
+      - matrix: Eisenhower matrix view.
+- category: The category of the collection. Choose from work, personal, shopping, or study.
+- labels: The labels that can be used to categorize tasks in the collection. Each label has a name, color, and description.
+      - name: The name of the label.
+      - color: The color of the label. Choose from red, orange, yellow, green, blue, purple, pink, or brown.
+      - emoji: The emoji to represent the label. This must be a unicode hex code. Do not include the leading text.
+      - description: The description of the label.
 
 # Example
 ## Input 
-### Name
-Study for math final
-
-### Available labels:
-Label ID: 1, Name: "math"
-Label ID: 2, Name: "science"
-Label ID: 3, Name: "english"
+I want a system to organize my assignments for each class
 
 ### Output
-{"storyPoints":16,"pinned":true,"labelId":1}
+
+{
+    "name": "My assignments",
+    "description": "A place to organize my assignments for each class",
+    "emoji": "1F4DA",
+    "defaultView": "kanban",
+    "category": "study",
+    "labels": [
+        {
+            "name": "Math",
+            "color": "blue",
+            "emoji": "1F522"
+        },
+        {
+            "name": "Science",
+            "color": "green",
+            "emoji": "1F52C"
+        },
+        {
+            "name": "English",
+            "color": "orange",
+            "emoji": "1F4D6"
+        }
+    ]
+}
 `,
       prompt: `
 # Available labels: 
@@ -59,19 +111,10 @@ Label ID: 2, Name: "personal"
 Label ID: 3, Name: "shopping"
 Label ID: 4, Name: "study"
 
-# Task name
-${params.task.name}
-
-# Additional information
-## Note
-${params.task.note || "Not specified"}
-
-## Label name
-${params.task.label?.name || "Not specified"}
+# Text
+${params.text}
 `,
     });
-
-    console.log(text);
 
     return Response.json(JSON.parse(text));
   } catch (e) {
