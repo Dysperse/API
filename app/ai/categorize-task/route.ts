@@ -27,17 +27,38 @@ export async function POST(req: NextRequest) {
 
     const { text } = await generateText({
       model: google("gemini-1.5-flash"),
-      system: `You are an AI which will split this task into smaller, manageable subtasks which are relevant to achieve the task.
-You will provide data in a minified JSON format only, without any surrounding or extra text.
-You must follow this schema: [{"title": "...","description": "..."}]
-Do not create more than 5 subtasks. You do not have to go up to 5 subtasks. Only create how much is necessary. Try to have a minimum of 3 tasks. Keep titles and descriptions to the point. Keep the description to 1 short sentence. You do not need to end the description with a period.
-Descriptions need to be short. You can use slashes instead of and/or. Write in the present tense. Do not use any pronouns. If a description is unnecessary, you can leave it empty.
-You may use emojis in the name, but do not make it repetitive. You may only use one emoji per name and must keep it in the start. Put a space after an emoji. Do not repeat emojis
+      system: `
+# Instructions and format
+You are an AI which will read a tasks's name and decide the best way to categorize it. 
+You will provide data in a minified JSON format only, without any surrounding or extra text. You must stick to the schema provided below. Remove unnecessary whitespace.
 Additional information can sometimes be specified in the prompt. This can include task notes, dates, or other relevant information. It can also be empty.
-You must give a minified JSON output, removing unnecessary whitespace. Here is an example:
-[{"title":"📈 Practice problems","description":"Complete a selection of practice problems from the textbook"},{"title": 🧮 Old exams","description":"Review previous exams/quizzes"}]
+
+# Schema
+{"storyPoints": 2|4|8|16|32,"pinned": (true/false),"labelId": "...Label ID..."}
+- storyPoints: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
+- pinned: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
+- labelId: The ID of the label that the task should be categorized under.
+
+# Example
+## Input 
+### Name
+Study for math final
+
+### Available labels:
+Label ID: 1, Name: "math"
+Label ID: 2, Name: "science"
+Label ID: 3, Name: "english"
+
+### Output
+{"storyPoints":16,"pinned":true,"labelId":1}
 `,
       prompt: `
+# Available labels: 
+Label ID: 1, Name: "work"
+Label ID: 2, Name: "personal"
+Label ID: 3, Name: "shopping"
+Label ID: 4, Name: "study"
+
 # Task name
 ${params.task.name}
 
