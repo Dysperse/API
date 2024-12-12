@@ -34,61 +34,84 @@ export async function POST(req: NextRequest) {
       // prettier-ignore
       system: `
 # Instructions and format
-You are an AI which will import a document with text and extract tasks from it.
+You are an AI which will bring a user's ideas to life by converting what they need to a collection. Think of a collection as a kanban board, with labels where tasks can be categorized. Collections can be then viewed in different ways.
 You will provide data in a minified JSON format only, without any surrounding or extra text. You must stick to the schema provided below. Remove unnecessary whitespace.
-Additional information can sometimes be specified in the prompt. This can include task notes, dates, or other relevant information. It can also be empty.
-
-# Helpful information
-The current date and time is ${dayjs().utc().toISOString()}. It is provided in the ISO 8601 format, in the UTC timezone.
 
 # Schema
-{"n":"...","d":"...","s": 2|4|8|16|32,"p": (true/false),"l":"...Label ID...","t":"ISO 8601 date","e":"ISO 8601 date",y:(true/false)}
-- n: The name of the task.
-- d: The description of the task (Optional, only fill if additional notes might be helpful. Do not go over 1-2 sentences).
-- s: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
-- p: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
-- l: The ID of the label that the task should be categorized under.
-- t: The start date of the task. This is an optional field. Always use UTC timezone.
-- e: The end date of the task. This is an optional field. Always use UTC timezone.
-- y: Is the task all day? If a time is not specified, it is considered an all-day task. Choose from true or false.
+{
+    "name": string,
+    "description": string,
+    "emoji": "unicode hex code",
+    "defaultView: list | kanban | grid | skyline |  planner | stream | calendar | workload | matrix,
+    "category": "work" | "personal" | "shopping" | "study",
+    "labels": {
+      "name": string,
+      "color": red | orange | yellow | green | blue | purple | pink | brown,
+      "emoji": "unicode hex code"
+    }[],
+}
+
+- name: The name of the collection.
+- description: The description of the collection. 
+- emoji: The emoji to represent the collection. This must be a unicode hex code. Do not include the leading text.
+- defaultView: The default view of the collection. Choose from list, kanban, grid, skyline, planner, stream, calendar, workload, or matrix.
+      - list: A simple list view.
+      - kanban: A kanban board view.
+      - grid: Similar to kanban, but with a grid layout.
+      - skyline: Similar to planner, but one column is for today's tasks, one is for the week's tasks, one is for the month's tasks, and one is for the year's tasks.
+      - planner: A traditional planner view.
+      - stream: View upcoming, backlog, and completed tasks side by side in columns
+      - calendar: A traditional calendar view.
+      - workload: View tasks by how much effort they require.
+      - matrix: Eisenhower matrix view.
+- category: The category of the collection. Choose from work, personal, shopping, or study.
+- labels: The labels that can be used to categorize tasks in the collection. Each label has a name, color, and description.
+      - name: The name of the label.
+      - color: The color of the label. Choose from red, orange, yellow, green, blue, purple, pink, or brown.
+      - emoji: The emoji to represent the label. This must be a unicode hex code. Do not include the leading text.
+
+# Information
+"lock in" can mean to ready and prepare onself or be committed.
+Avoid creating labels such as "to-do/in progress/completed". Instead, use labels that represent the type of task.
+Labels should be broad and not too specific. A collection should have labels which fit all aspects of the prompt. For example a prompt "summer vacation" should have labels such as "Destination research", "Activities", "Food",  etc.
+Only create columns which are necessary for the collection. Do not create extra columns.
+Never repeat emojis. Labels should usually be one word. If two words is needed, only the first word should be capitalized.
 
 # Example
 ## Input 
-### Text
-Welcome to John Doe's Physics class. This semester, we will be covering a variety of topics, including motion, forces, and energy. The first assignment is due on 2022-12-31. The final exam will be on 2023-05-31. The textbook for this class is "Physics for Dummies". The class will be held on Mondays and Wednesdays from 10:00 AM to 11:30 AM. The class will be held in room 101. 
-
-### Available labels:
-Label ID: 1, Name: "math"
-Label ID: 2, Name: "science"
-Label ID: 3, Name: "english"
+I want a system to organize my assignments for each class
 
 ### Output
-[{"n":"Read Physics for Dummies","d":"Read the first chapter of the textbook","s":2,"p":false,"l":2,"t":"2022-12-31T00:00:00Z","e":"2022-12-31T23:59:59Z","y":false},{"n":"Study motion","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Study forces","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Study energy","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Take the final exam","d":"","s":16,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false}]
-`,
-      prompt: `
-# Available labels: 
-Label ID: 1, Name: "work"
-Label ID: 2, Name: "personal"
-Label ID: 3, Name: "shopping"
-Label ID: 4, Name: "study"
 
-# Text
-${params.text}
+{
+    "name": "My assignments",
+    "description": "A place to organize my assignments for each class",
+    "emoji": "1F4DA",
+    "defaultView": "kanban",
+    "category": "study",
+    "labels": [
+        {
+            "name": "Math",
+            "color": "blue",
+            "emoji": "1F522"
+        },
+        {
+            "name": "Science",
+            "color": "green",
+            "emoji": "1F52C"
+        },
+        {
+            "name": "English",
+            "color": "orange",
+            "emoji": "1F4D6"
+        }
+    ]
+}
 `,
+      prompt: params.text,
     });
 
-    return Response.json(
-      JSON.parse(text).map((task) => ({
-        name: task.n,
-        description: task.d,
-        storyPoints: task.s,
-        pinned: task.p,
-        labelId: task.l,
-        start: task.t,
-        end: task.e,
-        dateOnly: task.y,
-      }))
-    );
+    return Response.json(JSON.parse(text));
   } catch (e) {
     return handleApiError(e);
   }

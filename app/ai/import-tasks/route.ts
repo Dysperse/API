@@ -4,7 +4,11 @@ import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
+
+dayjs.extend(utc);
 
 export const OPTIONS = async () => {
   return new Response("", {
@@ -15,7 +19,7 @@ export const OPTIONS = async () => {
 
 export async function POST(req: NextRequest) {
   try {
-    const params = await getApiParams(req, [{ name: "task", required: true }], {
+    const params = await getApiParams(req, [{ name: "text", required: true }], {
       type: "BODY",
     });
     const { userId } = await getIdentifiers();
@@ -27,22 +31,30 @@ export async function POST(req: NextRequest) {
 
     const { text } = await generateText({
       model: google("gemini-1.5-flash"),
+      // prettier-ignore
       system: `
 # Instructions and format
-You are an AI which will read a tasks's name and decide the best way to categorize it. 
-You will provide data in a minified JSON format only, without any surrounding or extra text. You must stick to the schema provided below. Remove unnecessary whitespace.
+YoYou will provide data in a minified JSON format only, without any surrounding or extra text. You must stick to the schema provided below. Remove unnecessary whitespace.
 Additional information can sometimes be specified in the prompt. This can include task notes, dates, or other relevant information. It can also be empty.
 
+# Helpful information
+The current date and time is ${dayjs().utc().toISOString()}. It is provided in the ISO 8601 format, in the UTC timezone.
+
 # Schema
-{"storyPoints": 2|4|8|16|32,"pinned": (true/false),"labelId": "...Label ID..."}
-- storyPoints: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
-- pinned: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
-- labelId: The ID of the label that the task should be categorized under.
+{"n":"...","d":"...","s": 2|4|8|16|32,"p": (true/false),"l":"...Label ID...","t":"ISO 8601 date","e":"ISO 8601 date",y:(true/false)}
+- n: The name of the task.
+- d: The description of the task (Optional, only fill if additional notes might be helpful. Do not go over 1-2 sentences).
+- s: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
+- p: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
+- l: The ID of the label that the task should be categorized under.
+- t: The start date of the task. This is an optional field. Always use UTC timezone.
+- e: The end date of the task. This is an optional field. Always use UTC timezone.
+- y: Is the task all day? If a time is not specified, it is considered an all-day task. Choose from true or false.
 
 # Example
 ## Input 
-### Name
-Study for math final
+### Text
+Welcome to John Doe's Physics class. This semester, we will be covering a variety of topics, including motion, forces, and energy. The first assignment is due on 2022-12-31. The final exam will be on 2023-05-31. The textbook for this class is "Physics for Dummies". The class will be held on Mondays and Wednesdays from 10:00 AM to 11:30 AM. The class will be held in room 101. 
 
 ### Available labels:
 Label ID: 1, Name: "math"
@@ -50,7 +62,7 @@ Label ID: 2, Name: "science"
 Label ID: 3, Name: "english"
 
 ### Output
-{"storyPoints":16,"pinned":true,"labelId":1}
+[{"n":"Read Physics for Dummies","d":"Read the first chapter of the textbook","s":2,"p":false,"l":2,"t":"2022-12-31T00:00:00Z","e":"2022-12-31T23:59:59Z","y":false},{"n":"Study motion","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Study forces","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Study energy","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Take the final exam","d":"","s":16,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false}]
 `,
       prompt: `
 # Available labels: 
@@ -59,21 +71,23 @@ Label ID: 2, Name: "personal"
 Label ID: 3, Name: "shopping"
 Label ID: 4, Name: "study"
 
-# Task name
-${params.task.name}
-
-# Additional information
-## Note
-${params.task.note || "Not specified"}
-
-## Label name
-${params.task.label?.name || "Not specified"}
+# Text
+${params.text}
 `,
     });
 
-    console.log(text);
-
-    return Response.json(JSON.parse(text));
+    return Response.json(
+      JSON.parse(text).map((task) => ({
+        name: task.n,
+        description: task.d,
+        storyPoints: task.s,
+        pinned: task.p,
+        labelId: task.l,
+        start: task.t,
+        end: task.e,
+        dateOnly: task.y,
+      }))
+    );
   } catch (e) {
     return handleApiError(e);
   }
