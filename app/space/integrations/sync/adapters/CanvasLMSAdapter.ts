@@ -63,7 +63,7 @@ export class CanvasLMSAdapter extends Integration {
                   id: "canvas-" + this.integration.id + "-" + k,
                   integrationParams: { id: assignment.url.val },
                   name: this.#removeBracketedText(assignment.summary),
-                  note: assignment["ALT-DESC"] || assignment.description,
+                  note: assignment["ALT-DESC"]?.val || assignment.description,
                   start: dayjs(assignment.start).utc().toDate(),
                   end: dayjs(assignment.end).utc().toDate(),
                   dateOnly: false,
