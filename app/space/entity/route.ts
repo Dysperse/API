@@ -331,7 +331,11 @@ export async function PUT(req: NextRequest) {
         name: params.name ?? undefined,
         labelId: params.labelId ?? undefined,
         pinned: typeof params.pinned === "boolean" ? params.pinned : undefined,
-        start: params.start ? new Date(params.start) : undefined,
+        start: params.start
+          ? new Date(params.start)
+          : params.start === null
+          ? null
+          : undefined,
         end: params.end ? new Date(params.end) : undefined,
         attachments: params.attachments,
         notifications: params.notifications || undefined,
