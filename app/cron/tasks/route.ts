@@ -178,7 +178,7 @@ export async function POST(req: NextRequest) {
             ["fcmTo" as any]: tokens,
             to: tokens.tokens as any,
             title: `You have ${uniqueNotifications.length} upcoming events`,
-            body: uniqueNotifications.map((n) => n.title).join(", "),
+            body: uniqueNotifications.map((n) => n.title.trim()).join(", "),
             data: { type: tokens.type },
           };
         });
