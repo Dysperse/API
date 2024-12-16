@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 dayjs.extend(utc);
 dayjs.extend(tz);
 
-const getDescription = async (content) => {
+const getDescription = async (content): Promise<string> => {
   try {
     const res = await fetch(
       "https://api-inference.huggingface.co/models/mistralai/Mistral-Nemo-Instruct-2407/v1/chat/completions",
@@ -42,7 +42,7 @@ const getDescription = async (content) => {
       }
     ).then((r) => r.json());
 
-    return markdown(res.choices[0].message.content);
+    return markdown(res.choices[0].message.content).toString();
   } catch (e) {
     return content;
   }
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const note = getDescription(params.body);
+    const note = await getDescription(params.body);
 
     const data = await prisma.entity.create({
       data: {
