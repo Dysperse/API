@@ -42,7 +42,9 @@ const getDescription = async (content): Promise<string> => {
       }
     ).then((r) => r.json());
 
-    return markdown(res.choices[0].message.content).toString();
+    return markdown(
+      res.choices[0].message.content.replaceAll("**", "")
+    ).toString();
   } catch (e) {
     return content;
   }
