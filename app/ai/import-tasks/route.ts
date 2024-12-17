@@ -29,6 +29,10 @@ export async function POST(req: NextRequest) {
       apiKey: data.token,
     });
 
+    const labels = await prisma.label.findMany({
+      where: { userId },
+    });
+
     const { text } = await generateText({
       model: google("gemini-1.5-flash"),
       // prettier-ignore
@@ -62,14 +66,11 @@ Label ID: 2, Name: "science"
 Label ID: 3, Name: "english"
 
 ### Output
-[{"n":"Read Physics for Dummies","d":"Read the first chapter of the textbook","s":2,"p":false,"l":2,"t":"2022-12-31T00:00:00Z","e":"2022-12-31T23:59:59Z","y":false},{"n":"Study motion","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Study forces","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Study energy","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"Take the final exam","d":"","s":16,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false}]
+[{"n":"📖 Read Physics for Dummies","d":"Read the first chapter of the textbook","s":2,"p":false,"l":2,"t":"2022-12-31T00:00:00Z","e":"2022-12-31T23:59:59Z","y":false},{"n":"🎢 Study motion","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"🫸 Study forces","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"⚡ Study energy","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"💯 Take the final exam","d":"","s":16,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false}]
 `,
       prompt: `
 # Available labels: 
-Label ID: 1, Name: "work"
-Label ID: 2, Name: "personal"
-Label ID: 3, Name: "shopping"
-Label ID: 4, Name: "study"
+${labels.map((e) => `Label ID: ${e.id}, Name: ${e.name}`).join("\n")}
 
 # Text
 ${params.text}
