@@ -45,8 +45,8 @@ Additional information can sometimes be specified in the prompt. This can includ
 The current date and time is ${dayjs().utc().toISOString()}. It is provided in the ISO 8601 format, in the UTC timezone.
 
 # Schema
-{"n":"...","d":"...","s": 2|4|8|16|32,"p": (true/false),"l":"...Label ID...","t":"ISO 8601 date","e":"ISO 8601 date",y:(true/false)}
-- n: The name of the task.
+{"n":string,"d":string,"s": 2|4|8|16|32,"p":boolean,"l":"string","t":"ISO 8601 date","e":"ISO 8601 date",y:boolean}[]
+- n: The name of the task. Begin it with a non-repeating emoji. Sentence must be an actionable item and start with a capital letter.
 - d: The description of the task (Optional, only fill if additional notes might be helpful. Do not go over 1-2 sentences).
 - s: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
 - p: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
@@ -66,7 +66,7 @@ Label ID: 2, Name: "science"
 Label ID: 3, Name: "english"
 
 ### Output
-[{"n":"📖 Read Physics for Dummies","d":"Read the first chapter of the textbook","s":2,"p":false,"l":2,"t":"2022-12-31T00:00:00Z","e":"2022-12-31T23:59:59Z","y":false},{"n":"🎢 Study motion","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"🫸 Study forces","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"⚡ Study energy","d":"","s":8,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"💯 Take the final exam","d":"","s":16,"p":true,"l":2,"t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false}]
+[{"n":"📖 Read Physics for Dummies","d":"Read the first chapter of the textbook","s":2,"p":false,"l":"2","t":"2022-12-31T00:00:00Z","e":"2022-12-31T23:59:59Z","y":false},{"n":"🎢 Study motion","d":"","s":8,"p":true,"l":"2","t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"🫸 Study forces","d":"","s":8,"p":true,"l":"2","t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"⚡ Study energy","d":"","s":8,"p":true,"l":"2","t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false},{"n":"💯 Take the final exam","d":"","s":16,"p":true,"l":"2","t":"2023-05-31T00:00:00Z","e":"2023-05-31T23:59:59Z","y":false}]
 `,
       prompt: `
 # Available labels: 
@@ -76,7 +76,7 @@ ${labels.map((e) => `Label ID: ${e.id}, Name: ${e.name}`).join("\n")}
 ${params.text}
 `,
     });
-
+    console.log(text);
     return Response.json(
       JSON.parse(text).map((task) => ({
         name: task.n,
