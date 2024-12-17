@@ -18,8 +18,19 @@ export async function POST(req: NextRequest) {
     const params = await getApiParams(req, [{ name: "task", required: true }], {
       type: "BODY",
     });
+
     const { userId } = await getIdentifiers();
     const data = await prisma.aiToken.findFirstOrThrow({ where: { userId } });
+    const labels = await prisma.label.findMany({
+      where: {
+        AND: [
+          { userId },
+          params.task.collectionId && {
+            collections: { some: { id: params.task.collectionId } },
+          },
+        ].filter((e) => e),
+      },
+    });
 
     const google = createGoogleGenerativeAI({
       apiKey: data.token,
@@ -34,10 +45,11 @@ You will provide data in a minified JSON format only, without any surrounding or
 Additional information can sometimes be specified in the prompt. This can include task notes, dates, or other relevant information. It can also be empty.
 
 # Schema
-{"storyPoints": 2|4|8|16|32,"pinned": (true/false),"labelId": "...Label ID..."}
+{"storyPoints":2|4|8|16|32,"pinned":boolean,"labelId":string,"storyPointReason":string}
 - storyPoints: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
 - pinned: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
 - labelId: The ID of the label that the task should be categorized under.
+- storyPointReason: This is a string that explains why the task has the number of story points it does. This is a reason for why you chose the number of story points you did. Keep it one sentence long. Don't assume everything.
 
 # Example
 ## Input 
@@ -50,14 +62,11 @@ Label ID: 2, Name: "science"
 Label ID: 3, Name: "english"
 
 ### Output
-{"storyPoints":16,"pinned":true,"labelId":1}
+{"storyPoints":16,"pinned":true,"labelId":1,"storyPointReason":"This is a final exam and might require a lot of effort to study for."}
 `,
       prompt: `
 # Available labels: 
-Label ID: 1, Name: "work"
-Label ID: 2, Name: "personal"
-Label ID: 3, Name: "shopping"
-Label ID: 4, Name: "study"
+${labels.map((e) => `Label ID: ${e.id}, Name: ${e.name}`).join("\n")}
 
 # Task name
 ${params.task.name}
