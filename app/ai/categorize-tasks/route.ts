@@ -49,7 +49,7 @@ Additional information can sometimes be specified in the prompt. This can includ
 - storyPoints: This is how complex the task is. Choose from 2, 4, 8, 16, or 32. Decide how much effort is required to complete the task.
 - pinned: Whether the task should be pinned or not. Choose from true or false. A pinned task is one that is important and should be completed first. Imporant tasks are usually time-sensitive or have a high priority.
 - labelId: The ID of the label that the task should be categorized under.
-- storyPointReason: This is a string that explains why the task has the number of story points it does. This is a reason for why you chose the number of story points you did. Keep it one sentence long. Don't assume everything.
+- storyPointReason: This is a string that explains why the task has the number of story points it does. This is a reason for why you chose the number of story points you did. Keep it one sentence long. Don't assume everything. You can explain why a task is complex or simple.
 
 # Example
 ## Input 
@@ -82,7 +82,10 @@ ${params.task.label?.name || "Not specified"}
 
     console.log(text);
 
-    return Response.json(JSON.parse(text));
+    return Response.json({
+      ...JSON.parse(text),
+      label: labels.find((e) => e.id === JSON.parse(text).labelId),
+    });
   } catch (e) {
     return handleApiError(e);
   }
