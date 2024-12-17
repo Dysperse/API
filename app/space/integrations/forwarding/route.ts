@@ -29,7 +29,7 @@ const getDescription = async (content): Promise<string> => {
           messages: [
             {
               role: "system",
-              content: `You are an AI which will summarize a user's email in 2-5 bullet points. You will not include any surrounding text. Format using markdown. You will address the user in first person, as if they're reading this description in their to-do list. Each bullet point must start with a non-repeating emoji.`,
+              content: `You are an AI which will summarize a user's email in 2-5 bullet points. You will not include any surrounding text. Format using markdown. You will address the user in first person, as if they're reading this description in their to-do list. Each bullet point must start with a non-repeating emoji in plain text (example: 🔥).`,
             },
             {
               role: "user",
