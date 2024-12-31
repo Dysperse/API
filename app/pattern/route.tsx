@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
             style={{
               width: `${params.screenWidth}px`,
               height: `${params.screenHeight}px`,
-              backgroundImage: `url(data:image/svg+xml,${uri})`,
+              backgroundImage: `url("${image}")`,
               backgroundSize: "cover",
             }}
           />
