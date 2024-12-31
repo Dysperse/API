@@ -1,5 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import patterns from "@/patterns.json";
+import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +16,7 @@ export async function GET(req: NextRequest) {
     const params = await getApiParams(req, [
       { name: "pattern", required: true },
       { name: "color", required: true },
+      { name: "asPng", required: false },
     ]);
     if (!patterns[params.pattern]) throw new Error("Pattern not found");
     const image = patterns[params.pattern].replace(
@@ -22,6 +24,20 @@ export async function GET(req: NextRequest) {
       params.color
     );
     const uri = decodeURI(image.replace("data:image/svg+xml,", ""));
+
+    if (params.asPng) {
+      return new ImageResponse(
+        (
+          <img
+            src={`data:image/svg+xml,${uri}`}
+            alt="Pattern"
+            width={600}
+            height={600}
+          />
+        ),
+        { width: 600, height: 600 }
+      );
+    }
 
     return new Response(uri, {
       status: 200,
