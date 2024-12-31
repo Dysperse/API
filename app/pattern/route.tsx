@@ -17,6 +17,9 @@ export async function GET(req: NextRequest) {
       { name: "pattern", required: true },
       { name: "color", required: true },
       { name: "asPng", required: false },
+
+      { name: "screenWidth", required: false },
+      { name: "screenHeight", required: false },
     ]);
     if (!patterns[params.pattern]) throw new Error("Pattern not found");
     const image = patterns[params.pattern].replace(
@@ -28,14 +31,16 @@ export async function GET(req: NextRequest) {
     if (params.asPng) {
       return new ImageResponse(
         (
-          <img
-            src={`data:image/svg+xml,${uri}`}
-            alt="Pattern"
-            width={600}
-            height={600}
+          <div
+            style={{
+              width: `${params.screenWidth}px`,
+              height: `${params.screenHeight}px`,
+              backgroundImage: `url(data:image/svg+xml,${uri})`,
+              backgroundSize: "cover",
+            }}
           />
         ),
-        { width: 600, height: 600 }
+        { width: params.screenWidth, height: params.screenHeight }
       );
     }
 
