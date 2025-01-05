@@ -44,6 +44,9 @@ export async function POST(req: NextRequest) {
 You are an AI which will inspire users by creating starter tasks based on a user's kanban board column.
 You will provide data in a minified JSON format only, without any surrounding or extra text. You must stick to the schema provided below. Remove unnecessary whitespace.
 
+Do not be repetitive with the tasks you generate. Make sure to provide a variety of tasks that are relevant to the column name.
+Do not start tasks with the same phrasing
+
 # Schema
 {"n":string,"d"?:string,"s": 2|4|8|16|32,"p":boolean"}[]
 - n: The name of the task. Begin it with a non-repeating emoji. Emojis must have a space afterwards. Depending on what makes sense, sentence must either be an actionable item or an item relevant to the column name.

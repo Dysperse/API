@@ -1,0 +1,167 @@
+import { getApiParams } from "@/lib/getApiParams";
+import { getIdentifiers } from "@/lib/getIdentifiers";
+import { handleApiError } from "@/lib/handleApiError";
+import { prisma } from "@/lib/prisma";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateText } from "ai";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { NextRequest } from "next/server";
+import { NodeHtmlMarkdown } from "node-html-markdown";
+
+dayjs.extend(utc);
+
+export const OPTIONS = async () => {
+  return new Response("", {
+    status: 200,
+    headers: { "Access-Control-Allow-Headers": "*" },
+  });
+};
+
+export async function POST(req: NextRequest) {
+  try {
+    const params = await getApiParams(
+      req,
+      [
+        { name: "id", required: true },
+        { name: "prompt", required: true },
+      ],
+      {
+        type: "BODY",
+      }
+    );
+    const { userId } = await getIdentifiers();
+    const data = await prisma.aiToken.findFirstOrThrow({ where: { userId } });
+
+    const google = createGoogleGenerativeAI({
+      apiKey: data.token,
+    });
+
+    const collection = await prisma.collection.findFirstOrThrow({
+      where: {
+        AND: [{ id: params.id }, { userId }],
+      },
+      select: {
+        name: true,
+        entities: {
+          select: {
+            name: true,
+            note: true,
+            _count: { select: { completionInstances: true } },
+          },
+        },
+        labels: {
+          select: {
+            name: true,
+            entities: {
+              select: {
+                name: true,
+                note: true,
+                _count: { select: { completionInstances: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const serialized = JSON.stringify({
+      n: collection.name,
+      t: collection.entities.map((e) => ({
+        n: e.name,
+        d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+      })),
+      l: collection.labels.map((l) => ({
+        n: l.name,
+        t: l.entities.map((e) => ({
+          n: e.name,
+          d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+        })),
+      })),
+    });
+
+    const { text, usage } = await generateText({
+      model: google("gemini-1.5-flash"),
+      // prettier-ignore
+      system: `
+# Instructions and format
+You are an AI which will answer a user's question based on their kanban board. 
+You may answer general questions outside the context of the kanban board.
+Responses should be in a conversational format. They should be 1-4 sentences.
+Do not mention that it is a kanban board.
+You do not need to repeat the question in your response, but you should answer it directly.
+The input schema is defined below 
+
+# Schema
+{
+    "n": string,
+    "t": {
+        "n": string,
+        "d"?: string
+    }[],
+   "l": {
+        "n": string,
+        "t": {
+        "n": string,
+        "d"?: string
+        }[],
+    }[]
+}
+
+- n: The name of the collection.
+- l: The labels in the collection. Each label has a name and a list of tasks.
+    - n: The name of the label.
+    - t: The tasks in the label. Each task has a name and a description.
+        - n: The name of the task.
+        - d: The description of the task.
+- t: Uncategorizedtasks in the collection. Each task has a name and a description.
+    - n: The name of the task.
+    - d: The description of the task.
+
+## Input 
+### Collection
+${JSON.stringify({
+    n: "College list",
+    t: [
+        { n: "Caltech" },
+    ],
+    l: [
+        {
+            n: "Reach",
+            t: [
+            { n: "Harvard", d: "Top college in the world" },
+            { n: "MIT", d: "Top college in the world" },
+            ],
+        },
+        {
+            n: "Safety",
+            t: [
+            { n: "UC Berkeley", d: "Top college in the world" },
+            { n: "Stanford", d: "Top college in the world" },
+            ],
+        },
+    ],
+})}
+
+### Prompt
+Which of these colleges require SAT scores?
+
+### Output
+The colleges that require SAT scores are Caltech, MIT, and Stanford.
+
+`,
+      prompt: `
+### Collection
+${serialized}
+
+### Prompt
+${params.prompt}
+`,
+    });
+    console.log(serialized);
+
+    return Response.json(text);
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
