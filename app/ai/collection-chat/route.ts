@@ -169,7 +169,7 @@ ${params.prompt}
     });
     console.log(serialized);
 
-    return new Response(text);
+    return Response.json({ generated: text });
   } catch (e) {
     return handleApiError(e);
   }
