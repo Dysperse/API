@@ -90,6 +90,7 @@ export async function POST(req: NextRequest) {
       system: `
 # Instructions and format
 You are an AI which will answer a user's question based on their kanban board. 
+If the user asks a question for which the board data cannot address, you may use your own predictions and reasoning.
 You may answer general questions outside the context of the kanban board.
 When a user asks for ideas, do not repeat items already in the board, and provide a variety of ideas.
 When a user asks for an explanation, make sure you give reasoning in another sentence. Users prefer bullet points.
