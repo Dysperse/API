@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
     });
 
     const { text, usage } = await generateText({
-      model: google("gemini-2.0-flash-exp"),
+      model: google("gemini-1.5-flash"),
       // prettier-ignore
       system: `
 # Instructions and format
