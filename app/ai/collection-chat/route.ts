@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
           select: {
             name: true,
             note: true,
+            recurrenceRule: true,
             _count: { select: { completionInstances: true } },
           },
         },
@@ -57,6 +58,7 @@ export async function POST(req: NextRequest) {
               select: {
                 name: true,
                 note: true,
+                recurrenceRule: true,
                 _count: { select: { completionInstances: true } },
               },
             },
@@ -70,25 +72,29 @@ export async function POST(req: NextRequest) {
       t: collection.entities.map((e) => ({
         n: e.name,
         d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+        c: e._count.completionInstances > 0 && !e.recurrenceRule,
       })),
       l: collection.labels.map((l) => ({
         n: l.name,
         t: l.entities.map((e) => ({
           n: e.name,
           d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+          c: e._count.completionInstances > 0 && !e.recurrenceRule,
         })),
       })),
     });
 
     const { text, usage } = await generateText({
-      model: google("gemini-1.5-flash"),
+      model: google("gemini-2.0-flash-exp"),
       // prettier-ignore
       system: `
 # Instructions and format
 You are an AI which will answer a user's question based on their kanban board. 
 You may answer general questions outside the context of the kanban board.
-Responses should be in a conversational format. They should be 1-4 sentences.
-Do not mention that it is a kanban board.
+When a user asks for ideas, do not repeat items already in the board, abd provide a variety of ideas.
+When a user asks for an explanation, make sure you give reasoning in another sentence.
+Responses should be in a conversational format. Keep them to the point, informational. You may go up to one short paragraph (1-4 sentences).
+Do not mention that it is a kanban board. Keep in mind some tasks may be completed, so be aware of this when answering questions.
 You do not need to repeat the question in your response, but you should answer it directly.
 The input schema is defined below 
 
@@ -97,26 +103,30 @@ The input schema is defined below
     "n": string,
     "t": {
         "n": string,
-        "d"?: string
+        "d"?: string,
+        "c"?: boolean
     }[],
    "l": {
         "n": string,
         "t": {
-        "n": string,
-        "d"?: string
+          "n": string,
+          "d"?: string
+          "c"?: boolean
         }[],
     }[]
 }
 
-- n: The name of the collection.
-- l: The labels in the collection. Each label has a name and a list of tasks.
-    - n: The name of the label.
-    - t: The tasks in the label. Each task has a name and a description.
-        - n: The name of the task.
-        - d: The description of the task.
-- t: Uncategorizedtasks in the collection. Each task has a name and a description.
-    - n: The name of the task.
-    - d: The description of the task.
+- n: The name of the collection
+- l: The labels in the collection. Each label has a name and a list of tasks
+    - n: The name of the label
+    - t: The tasks in the label. Each task has a name and a description
+        - n: The name of the task
+        - d: The description of the task
+        - c: Whether the task is completed or not
+- t: Uncategorizedtasks in the collection. Each task has a name and a description
+    - n: The name of the task
+    - d: The description of the task
+    - c: Whether the task is completed or not
 
 ## Input 
 ### Collection
@@ -147,8 +157,7 @@ ${JSON.stringify({
 Which of these colleges require SAT scores?
 
 ### Output
-The colleges that require SAT scores are Caltech, MIT, and Stanford.
-
+The colleges that require SAT scores are Harvard, MIT, UC Berkeley, and Stanford.
 `,
       prompt: `
 ### Collection
@@ -160,7 +169,7 @@ ${params.prompt}
     });
     console.log(serialized);
 
-    return Response.json(text);
+    return new Response(text);
   } catch (e) {
     return handleApiError(e);
   }
