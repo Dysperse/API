@@ -6,11 +6,13 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 import * as chrono from "chrono-node";
 import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import utc from "dayjs/plugin/utc";
 import { NextRequest } from "next/server";
 import { NodeHtmlMarkdown } from "node-html-markdown";
 
 dayjs.extend(utc);
+dayjs.extend(advancedFormat);
 
 export const maxDuration = 60;
 
@@ -101,13 +103,26 @@ export async function POST(req: NextRequest) {
     const addedFilters: any[] = [];
 
     const dateFilter = chrono.parse(params.prompt);
+    const predictedRanges = parseDateRanges(dateFilter);
+    const importantTasksOnly = params.prompt.match(/\b(important)\b/i);
+
     if (dateFilter.length > 0)
       addedFilters.push(
-        dateFilter.map((d) => ({
-          type: "DATE",
-          range: [d.start.date(), d.end?.date()],
+        ...predictedRanges.map((d) => ({
+          text: dayjs(d.startDate).isSame(dayjs(d.endDate), "day")
+            ? `On ${dayjs(d.startDate).format("MMM Do")}`
+            : `From ${dayjs(d.startDate).format("MMM Do")} - ${dayjs(
+                d.endDate
+              ).format("MMM Do")}`,
+          icon: "calendar_today",
         }))
       );
+
+    if (importantTasksOnly)
+      addedFilters.push({
+        text: "Important tasks only",
+        icon: "priority_high",
+      });
 
     if (params.id)
       collection = await prisma.collection.findFirst({
@@ -146,11 +161,12 @@ export async function POST(req: NextRequest) {
         where: {
           AND: [
             { spaceId },
+            importantTasksOnly ? { pinned: true } : {},
             dateFilter.length > 0
               ? {
                   AND: [
                     {
-                      OR: parseDateRanges(dateFilter).map((range) => ({
+                      OR: predictedRanges.map((range) => ({
                         OR: [
                           {
                             start: { gte: range.startDate },
