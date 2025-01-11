@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
             select: {
               name: true,
               note: true,
+              start: true,
               recurrenceRule: true,
               _count: { select: { completionInstances: true } },
             },
@@ -61,6 +62,7 @@ export async function POST(req: NextRequest) {
                 select: {
                   name: true,
                   note: true,
+                  start: true,
                   recurrenceRule: true,
                   _count: { select: { completionInstances: true } },
                 },
@@ -86,6 +88,7 @@ export async function POST(req: NextRequest) {
           t: collection.entities.map((e) => ({
             n: e.name,
             d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+            r: dayjs(e.start).format("YYYY-MM-DD HH:mm"),
             c: e._count.completionInstances > 0 && !e.recurrenceRule,
           })),
           l: collection.labels.map((l) => ({
@@ -93,6 +96,7 @@ export async function POST(req: NextRequest) {
             t: l.entities.map((e) => ({
               n: e.name,
               d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+              r: dayjs(e.start).format("YYYY-MM-DD HH:mm"),
               c: e._count.completionInstances > 0 && !e.recurrenceRule,
             })),
           })),
@@ -118,6 +122,7 @@ Responses should be in a conversational format. Keep them to the point, informat
 Do not mention that it is a kanban board. Keep in mind some tasks may be completed, so be aware of this when answering questions.
 You do not need to repeat the question in your response, but you should answer it directly.
 The input schema is defined below 
+The current date is ${dayjs().format("YYYY-MM-DD")}
 
 # Schema
 {
@@ -125,6 +130,7 @@ The input schema is defined below
     "t": {
         "n": string,
         "d"?: string,
+        "r"?: string,
         "c"?: boolean
     }[],
    "l": {
@@ -132,6 +138,7 @@ The input schema is defined below
         "t": {
           "n": string,
           "d"?: string
+          "r"?: string
           "c"?: boolean
         }[],
     }[]
@@ -143,10 +150,12 @@ The input schema is defined below
     - t: The tasks in the label. Each task has a name and a description
         - n: The name of the task
         - d: The description of the task
+        - r: The date the task is due
         - c: Whether the task is completed or not
 - t: Uncategorizedtasks in the collection. Each task has a name and a description
     - n: The name of the task
     - d: The description of the task
+    - r: The date the task is due
     - c: Whether the task is completed or not
 
 ## Input 
