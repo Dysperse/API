@@ -23,78 +23,98 @@ export async function POST(req: NextRequest) {
     const params = await getApiParams(
       req,
       [
-        { name: "id", required: true },
+        { name: "id", required: false },
         { name: "prompt", required: true },
       ],
       {
         type: "BODY",
       }
     );
-    const { userId } = await getIdentifiers();
+    const { userId, spaceId } = await getIdentifiers();
     const data = await prisma.aiToken.findFirstOrThrow({ where: { userId } });
 
     const google = createGoogleGenerativeAI({
       apiKey: data.token,
     });
 
-    const collection = await prisma.collection.findFirstOrThrow({
-      where: {
-        AND: [{ id: params.id }, { userId }],
-      },
-      select: {
-        name: true,
-        entities: {
-          select: {
-            name: true,
-            note: true,
-            recurrenceRule: true,
-            _count: { select: { completionInstances: true } },
-          },
+    let collection;
+
+    if (params.id)
+      collection = await prisma.collection.findFirst({
+        where: {
+          AND: [{ id: params.id }, { userId }],
         },
-        labels: {
-          select: {
-            name: true,
-            entities: {
-              select: {
-                name: true,
-                note: true,
-                recurrenceRule: true,
-                _count: { select: { completionInstances: true } },
+        select: {
+          name: true,
+          entities: {
+            select: {
+              name: true,
+              note: true,
+              recurrenceRule: true,
+              _count: { select: { completionInstances: true } },
+            },
+          },
+          labels: {
+            select: {
+              name: true,
+              entities: {
+                select: {
+                  name: true,
+                  note: true,
+                  recurrenceRule: true,
+                  _count: { select: { completionInstances: true } },
+                },
               },
             },
           },
         },
-      },
-    });
+      });
+    else
+      collection = await prisma.entity.findMany({
+        where: { spaceId },
+        select: {
+          name: true,
+          note: true,
+          recurrenceRule: true,
+          _count: { select: { completionInstances: true } },
+        },
+      });
 
-    const serialized = JSON.stringify({
-      n: collection.name,
-      t: collection.entities.map((e) => ({
-        n: e.name,
-        d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
-        c: e._count.completionInstances > 0 && !e.recurrenceRule,
-      })),
-      l: collection.labels.map((l) => ({
-        n: l.name,
-        t: l.entities.map((e) => ({
-          n: e.name,
-          d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
-          c: e._count.completionInstances > 0 && !e.recurrenceRule,
-        })),
-      })),
-    });
+    const serialized = params.id
+      ? JSON.stringify({
+          n: collection.name,
+          t: collection.entities.map((e) => ({
+            n: e.name,
+            d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+            c: e._count.completionInstances > 0 && !e.recurrenceRule,
+          })),
+          l: collection.labels.map((l) => ({
+            n: l.name,
+            t: l.entities.map((e) => ({
+              n: e.name,
+              d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+              c: e._count.completionInstances > 0 && !e.recurrenceRule,
+            })),
+          })),
+        })
+      : JSON.stringify({
+          t: collection.map((e) => ({
+            n: e.name,
+            d: e.note ? NodeHtmlMarkdown.translate(e.note) : undefined,
+            c: e._count.completionInstances > 0 && !e.recurrenceRule,
+          })),
+        });
 
-    const { text, usage } = await generateText({
-      model: google("gemini-1.5-flash"),
+    const { text } = await generateText({
+      model: google("gemini-2.0-flash-exp"),
       // prettier-ignore
       system: `
 # Instructions and format
 You are an AI which will answer a user's question based on their kanban board. 
-If the user asks a question for which the board data cannot address, you may use your own predictions and reasoning.
 You may answer general questions outside the context of the kanban board.
-When a user asks for ideas, do not repeat items already in the board, and provide a variety of ideas.
-When a user asks for an explanation, make sure you give reasoning in another sentence. Users prefer bullet points.
-Responses should be in a conversational format. Keep them to the point, informational. You may go up to one paragraph (1-4 sentences).
+When a user asks for ideas, do not repeat items already in the board, abd provide a variety of ideas.
+When a user asks for an explanation, make sure you give reasoning in another sentence.
+Responses should be in a conversational format. Keep them to the point, informational. You may go up to one short paragraph (1-4 sentences).
 Do not mention that it is a kanban board. Keep in mind some tasks may be completed, so be aware of this when answering questions.
 You do not need to repeat the question in your response, but you should answer it directly.
 The input schema is defined below 
@@ -168,7 +188,6 @@ ${serialized}
 ${params.prompt}
 `,
     });
-    console.log(serialized);
 
     return Response.json({ generated: text });
   } catch (e) {
