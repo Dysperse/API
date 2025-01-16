@@ -1,3 +1,4 @@
+import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
@@ -47,10 +48,16 @@ async function refreshAuthToken(userId: string, refreshToken: string) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await getIdentifiers();
+    // used on my personal website
+    const params = await getApiParams(req, [
+      { name: "isManu", required: false },
+    ]);
+    const { userId } = await getIdentifiers(undefined, params.isManu);
 
     const data = await prisma.profile.findFirstOrThrow({
-      where: { userId },
+      where: params.isManu
+        ? { user: { email: "manusvathgurudath@gmail.com" } }
+        : { userId },
       select: { spotifyAuthTokens: true },
     });
 
