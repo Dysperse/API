@@ -75,6 +75,7 @@ export async function POST(req: NextRequest) {
                   recurrenceRule: entity.recurrenceRule || undefined,
                   attachments: entity.attachments || undefined,
                   integrationId: undefined,
+                  location: entity.location || undefined,
                   integrationParams: undefined,
                 })),
               },
