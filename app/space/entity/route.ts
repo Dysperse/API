@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
         { name: "dateOnly", required: false },
         { name: "pinned", required: false },
         { name: "labelId", required: false },
+        { name: "location", required: false },
         { name: "recurrenceRule", required: false },
         { name: "notifications", required: false },
         { name: "agendaOrder", required: false },
@@ -116,6 +117,7 @@ export async function POST(req: NextRequest) {
         storyPoints: params.storyPoints,
         agendaOrder: params.agendaOrder || "0|hzzzzz:",
         start: params.start ? new Date(params.start) : undefined,
+        location: params.location || undefined,
         end: params.end ? new Date(params.end) : undefined,
         dateOnly: Boolean(params.dateOnly ?? true),
         pinned: Boolean(params.pinned ?? false),
@@ -189,6 +191,7 @@ export async function PATCH(req: NextRequest) {
             notifications: entity.notifications,
             attachments: entity.attachments,
             storyPoints: entity.storyPoints,
+            location: entity.location,
             published: entity.published,
             trash: entity.trash,
             space: {
@@ -309,6 +312,7 @@ export async function PUT(req: NextRequest) {
         { name: "end", required: false },
         { name: "note", required: false },
         { name: "labelId", required: false },
+        { name: "location", required: false },
         { name: "trash", required: false },
         { name: "recurrenceRule", required: false },
         { name: "agendaOrder", required: false },
@@ -353,6 +357,8 @@ export async function PUT(req: NextRequest) {
           typeof params.recurrenceRule !== "undefined"
             ? params.recurrenceRule
             : undefined,
+        location:
+          typeof params.location !== "undefined" ? params.location : undefined,
         agendaOrder:
           typeof params.agendaOrder === "string"
             ? params.agendaOrder

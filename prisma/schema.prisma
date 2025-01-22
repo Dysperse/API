@@ -437,6 +437,8 @@ model Entity {
   start DateTime?
   end   DateTime?
 
+  location Json?
+
   dateOnly       Boolean @default(true)
   recurrenceRule Json?
   notifications  Int[]   @default([10])
