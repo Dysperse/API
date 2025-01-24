@@ -219,9 +219,13 @@ model Tab {
   slug   String
   params Json?
 
+  createdAt DateTime @default(now())
+
+  label   Label?  @relation(fields: [labelId], references: [id], onDelete: Cascade)
+  labelId String?
+
   collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String?
-  createdAt    DateTime    @default(now())
 
   order         String?
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -318,6 +322,7 @@ model Label {
   integration       Integration? @relation(fields: [integrationId], references: [id], onDelete: SetNull)
   integrationId     String?
   integrationParams Json?
+  Tab               Tab[]
 }
 
 enum EntityType {

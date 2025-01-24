@@ -22,6 +22,9 @@ export async function GET(req: NextRequest) {
       },
       orderBy: { order: "asc" },
       include: {
+        label: {
+          select: { name: true, emoji: true },
+        },
         collection: {
           select: { name: true, emoji: true },
           where: {
@@ -69,6 +72,10 @@ export async function POST(req: NextRequest) {
         ...(params.slug.includes("/collections/") &&
           params.params.id !== "all" && {
             collectionId: params.params.id,
+          }),
+        ...(params.slug.includes("/labels/") &&
+          params.params.id !== "all" && {
+            labelId: params.params.id,
           }),
       },
       include: {
