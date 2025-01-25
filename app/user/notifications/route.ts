@@ -23,11 +23,13 @@ export async function GET(req: NextRequest) {
 
     let settings = await prisma.notificationSettings.findFirst({
       where: { userId },
+      include: { badgedCollections: { select: { id: true } } },
     });
 
     if (!settings) {
       settings = await prisma.notificationSettings.create({
         data: { user: { connect: { id: userId } } },
+        include: { badgedCollections: { select: { id: true } } },
       });
     }
 
