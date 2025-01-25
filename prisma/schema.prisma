@@ -423,8 +423,9 @@ model Collection {
 
   invitedUsers CollectionAccess[]
 
-  inviteLink             CollectionLink?       @relation(fields: [inviteLinkId], references: [id])
-  inviteLinkId           String?               @unique
+  inviteLink   CollectionLink? @relation(fields: [inviteLinkId], references: [id])
+  inviteLinkId String?         @unique
+
   NotificationSettings   NotificationSettings? @relation(fields: [notificationSettingsId], references: [id])
   notificationSettingsId String?
 }
