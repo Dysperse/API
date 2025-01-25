@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
             entities: {
               where: {
                 trash: false,
+                parentTaskId: null,
                 completionInstances: {
                   none: { taskId: { contains: "-" } },
                 },
@@ -43,6 +44,7 @@ export async function GET(req: NextRequest) {
                 entities: {
                   where: {
                     trash: false,
+                    parentTaskId: null,
                     completionInstances: {
                       none: { taskId: { contains: "-" } },
                     },
