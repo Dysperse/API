@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
         { name: "name", required: true },
         { name: "color", required: true },
         { name: "emoji", required: true },
+        { name: "collectionId", required: false },
       ],
       { type: "BODY" }
     );
@@ -71,6 +72,9 @@ export async function POST(req: NextRequest) {
         name: params.name,
         color: params.color,
         emoji: params.emoji,
+        collections: params.collectionId
+          ? { connect: { id: params.collectionId } }
+          : undefined,
         spaceId,
         userId,
       },
