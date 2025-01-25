@@ -309,6 +309,7 @@ export async function PUT(req: NextRequest) {
         { name: "name", required: false },
         { name: "pinned", required: false },
         { name: "start", required: false },
+        { name: "dateOnly", required: false },
         { name: "end", required: false },
         { name: "note", required: false },
         { name: "labelId", required: false },
@@ -343,6 +344,8 @@ export async function PUT(req: NextRequest) {
         end: params.end ? new Date(params.end) : undefined,
         attachments: params.attachments,
         notifications: params.notifications || undefined,
+        dateOnly:
+          typeof params.dateOnly === "boolean" ? params.dateOnly : undefined,
         storyPoints:
           params.storyPoints === null ? null : params.storyPoints || undefined,
         published:
