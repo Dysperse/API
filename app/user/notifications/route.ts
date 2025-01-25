@@ -37,6 +37,32 @@ export async function GET(req: NextRequest) {
   }
 }
 
+// For app badging
+export async function PATCH(req: NextRequest) {
+  try {
+    const { userId } = await getIdentifiers();
+    const params = await getApiParams(req, [
+      { name: "collectionId", required: true },
+      { name: "operation", required: true },
+    ]);
+
+    const settings = await prisma.notificationSettings.update({
+      where: { userId },
+      data: {
+        badgedCollections: {
+          [params.operation === "remove" ? "disconnect" : "connect"]: {
+            id: params.collectionId,
+          },
+        },
+      },
+    });
+
+    return Response.json({ settings });
+  } catch (e) {
+    return handleApiError(e);
+  }
+}
+
 export async function PUT(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
