@@ -164,6 +164,8 @@ model Widget {
 model NotificationSettings {
   id String @id @unique @default(uuid())
 
+  badgedCollections Collection[]
+
   groupNotifications Boolean @default(true)
 
   COLLECTION_INVITE      Boolean @default(true)
@@ -421,8 +423,10 @@ model Collection {
 
   invitedUsers CollectionAccess[]
 
-  inviteLink   CollectionLink? @relation(fields: [inviteLinkId], references: [id])
-  inviteLinkId String?         @unique
+  inviteLink             CollectionLink?       @relation(fields: [inviteLinkId], references: [id])
+  inviteLinkId           String?               @unique
+  NotificationSettings   NotificationSettings? @relation(fields: [notificationSettingsId], references: [id])
+  notificationSettingsId String?
 }
 
 model Entity {
