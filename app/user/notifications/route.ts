@@ -33,7 +33,13 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    return Response.json({ subscriptions, settings });
+    return Response.json({
+      subscriptions,
+      settings: {
+        ...settings,
+        badgedCollections: settings.badgedCollections.map((d) => d.id),
+      },
+    });
   } catch (e) {
     return handleApiError(e);
   }
