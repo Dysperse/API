@@ -1,6 +1,7 @@
 import ForwardedEmail from "@/emails/forwarded";
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
 import { generateRandomString } from "@/lib/randomString";
 import { render } from "@react-email/components";
@@ -73,6 +74,7 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.findFirst({
       where: { email: params.from },
       select: {
+        id: true,
         spaces: {
           where: { selected: true },
           select: { spaceId: true },
@@ -132,6 +134,11 @@ export async function POST(req: NextRequest) {
         space: { connect: { id: user.spaces[0].spaceId } },
       },
     });
+
+    new Notification("EMAIL_FORWARDING", {
+      title: "🎉 We recieved your email!",
+      body: "We've added a task to your to-do list!",
+    }).dispatch(user.id);
 
     return Response.json({
       success: true,
