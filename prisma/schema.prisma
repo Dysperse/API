@@ -175,8 +175,9 @@ model NotificationSettings {
   FRIEND_REQUEST_SEND   Boolean @default(true)
   FRIEND_REQUEST_ACCEPT Boolean @default(true)
 
-  ENTITY_START Boolean @default(true)
-  PLAN_DAY     Boolean @default(true)
+  ENTITY_START     Boolean @default(true)
+  EMAIL_FORWARDING Boolean @default(true)
+  PLAN_DAY         Boolean @default(true)
 
   MFA_CODES Boolean @default(true)
 

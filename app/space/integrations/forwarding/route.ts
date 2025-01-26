@@ -117,6 +117,9 @@ export async function POST(req: NextRequest) {
             "quick",
             "critical",
             "required",
+            "action",
+            "⚠️",
+            "🚨",
           ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note,
         shortId: generateRandomString(6),
@@ -146,3 +149,4 @@ export async function POST(req: NextRequest) {
     return handleApiError(e);
   }
 }
+
