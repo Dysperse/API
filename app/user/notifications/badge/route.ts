@@ -20,9 +20,10 @@ export async function GET(req: NextRequest) {
       select: { badgedCollections: { select: { id: true } } },
     });
 
-    const entities = await prisma.collection.findMany({
+    const collections = await prisma.collection.findMany({
       where: { id: { in: badges.badgedCollections.map((t) => t.id) } },
       select: {
+        id: true,
         _count: {
           select: {
             entities: {
@@ -58,13 +59,23 @@ export async function GET(req: NextRequest) {
     });
 
     return Response.json({
-      count: entities.reduce((acc, entity) => {
+      count: collections.reduce((acc, entity) => {
         const labelCount = entity.labels.reduce(
           (labelAcc, label) => labelAcc + label._count.entities,
           0
         );
         return acc + entity._count.entities + labelCount;
       }, 0),
+
+      collections: collections.map((collection) => ({
+        id: collection.id,
+        total:
+          collection._count.entities +
+          collection.labels.reduce(
+            (acc, label) => acc + label._count.entities,
+            0
+          ),
+      })),
     });
   } catch (e) {
     return handleApiError(e);
