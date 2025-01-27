@@ -6,6 +6,7 @@ import { generateRandomString } from "@/lib/randomString";
 import { NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
+export const revalidate = 60 * 60 * 2; // 2 hours
 export const dynamic = "force-dynamic";
 
 export const OPTIONS = async () => {
