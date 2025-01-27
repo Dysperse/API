@@ -160,7 +160,12 @@ export async function GET(req: NextRequest) {
           select: {
             email: true,
             profile: {
-              select: { name: true, picture: true, theme: true },
+              select: {
+                name: true,
+                picture: true,
+                theme: true,
+                lastActive: true,
+              },
             },
             id: true,
           },
