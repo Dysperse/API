@@ -124,6 +124,7 @@ export async function POST(req: NextRequest) {
             "🚨",
           ].map((t) => params.subject.toLowerCase().includes(t)).length > 0,
         note,
+        hasSimplifiedNote: note !== params.body,
         shortId: generateRandomString(6),
         start: dayjs()
           .startOf("day")
