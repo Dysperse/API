@@ -439,9 +439,11 @@ model Entity {
   name        String
   pinned      Boolean @default(false)
   label       Label?  @relation(fields: [labelId], references: [id])
-  note        String?
   attachments Json?
   storyPoints Int?
+
+  note              String?
+  hasSimplifiedNote Boolean @default(false)
 
   trash Boolean @default(false)
 
