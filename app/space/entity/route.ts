@@ -346,6 +346,10 @@ export async function PUT(req: NextRequest) {
         notifications: params.notifications || undefined,
         dateOnly:
           typeof params.dateOnly === "boolean" ? params.dateOnly : undefined,
+        hasSimplifiedNote:
+          typeof params.hasSimplifiedNote === "boolean"
+            ? params.hasSimplifiedNote
+            : undefined,
         storyPoints:
           params.storyPoints === null ? null : params.storyPoints || undefined,
         published:
