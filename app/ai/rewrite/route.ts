@@ -3,6 +3,7 @@ import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import markdown from "@wcj/markdown-to-html";
 import { generateText } from "ai";
 import { NextRequest } from "next/server";
 
@@ -52,9 +53,7 @@ ${task.label?.name || "Not specified"}
 `,
     });
 
-    console.log(text);
-
-    return Response.json(text);
+    return Response.json(markdown(text));
   } catch (e) {
     return handleApiError(e);
   }
