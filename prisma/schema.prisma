@@ -157,7 +157,9 @@ model Profile {
   private      Boolean  @default(false)
   pattern      String?
   lastPlanned  DateTime @default(now())
-  tasksCreated Int      @default(0)
+
+  // DEPRECATED
+  tasksCreated Int @default(0)
 
   theme          String   @default("mint")
   darkMode       String   @default("system")
