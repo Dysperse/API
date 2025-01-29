@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import { generateRandomString } from "@/lib/randomString";
 import { Prisma } from "@prisma/client";
@@ -150,13 +151,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    await prisma.userInsight.upsert({
-      where: {
-        userId_year: { userId: userId, year: new Date().getFullYear() },
-      },
-      create: { year: new Date().getFullYear(), tasksCreated: 1, userId },
-      update: { tasksCreated: { increment: 1 } },
-    });
+    await incrementUserInsight(userId, "tasksCreated");
 
     return Response.json(space);
   } catch (e) {
@@ -377,6 +372,16 @@ export async function PUT(req: NextRequest) {
         trash: typeof params.trash === "boolean" ? params.trash : undefined,
       },
     });
+
+    if (
+      typeof params.start !== "undefined" ||
+      typeof params.end !== "undefined"
+    )
+      await incrementUserInsight(userId, "tasksRescheduled");
+
+    if (params.trash === true)
+      await incrementUserInsight(userId, "tasksDeleted");
+
     return Response.json(data);
   } catch (e) {
     return handleApiError(e);

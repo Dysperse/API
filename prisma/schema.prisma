@@ -88,6 +88,7 @@ model UserInsight {
   tasksCreated     Int @default(0)
   tasksCompleted   Int @default(0)
   tasksRescheduled Int @default(0)
+  tasksDeleted     Int @default(0)
 
   aiFeaturesUsed Int @default(0)
 

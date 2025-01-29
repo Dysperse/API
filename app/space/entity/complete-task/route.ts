@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 import { nonReadOnlyPermissionArgs } from "../route";
@@ -41,6 +42,8 @@ export async function POST(req: NextRequest) {
         iteration: params.iteration,
       },
     });
+
+    await incrementUserInsight(userId, "tasksCompleted");
 
     return Response.json({ instance });
   } catch (e) {

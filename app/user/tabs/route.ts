@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import { LexoRank } from "lexorank";
 import { NextRequest } from "next/server";
@@ -88,6 +89,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    await incrementUserInsight(userId, "tabsCreated");
+
     if (tab.collectionId)
       await prisma.collectionAccess.updateMany({
         where: {
@@ -154,6 +157,29 @@ export async function PUT(req: NextRequest) {
         slug: params.slug ? params.slug : undefined,
       },
     });
+
+    if (params.slug.includes("collections") && params.params?.type) {
+      const year = new Date().getFullYear();
+      const userInsight = await prisma.userInsight.findUnique({
+        where: { userId_year: { userId, year } },
+      });
+
+      await prisma.userInsight.upsert({
+        where: {
+          userId_year: { userId: userId, year },
+        },
+        create: { year, userId, viewCount: { [params.params.type]: 1 } },
+        update: {
+          viewCount: {
+            // @ts-ignore
+            ...userInsight.viewCount,
+            // @ts-ignore
+            [params.params.type]: userInsight.viewCount[params.params.type] + 1,
+          },
+        },
+      });
+    }
+
     return Response.json(tab);
   } catch (e) {
     return handleApiError(e);
