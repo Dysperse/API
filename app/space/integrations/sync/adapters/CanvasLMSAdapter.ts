@@ -82,7 +82,7 @@ export class CanvasLMSAdapter extends Integration {
 
             const linkData = `<p><a href="${getAssignmentURL(
               assignment.url.val
-            )}">View assignment</a></p><br/>`;
+            )}">View assignment</a></p>`;
 
             if (labelId)
               events.push({
