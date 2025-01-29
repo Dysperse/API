@@ -1,3 +1,4 @@
+import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
@@ -13,6 +14,14 @@ export const OPTIONS = async () => {
 export async function GET(req: NextRequest) {
   try {
     const { spaceId, userId } = await getIdentifiers();
+
+    const params = await getApiParams(req, [{ name: "year", required: true }]);
+
+    const insights = await prisma.userInsight.findFirst({
+      where: { userId, year: params.year },
+    });
+
+    if (!insights) throw new Error("Insufficient data");
 
     const user = await prisma.profile.findFirstOrThrow({
       where: { userId },
@@ -95,6 +104,8 @@ export async function GET(req: NextRequest) {
     const co2 = 4.74 * (tasksCreated / 28);
 
     return Response.json({
+      insights,
+
       co2,
       treesSaved,
       byHour,
