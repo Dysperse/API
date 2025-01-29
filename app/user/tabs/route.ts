@@ -147,18 +147,22 @@ export async function PUT(req: NextRequest) {
 
     const { userId } = await getIdentifiers();
 
-    const tab = await prisma.tab.updateMany({
+    const tab = await prisma.tab.update({
       where: {
-        AND: [{ id: params.id }, { userId }],
+        id: params.id,
+        userId,
       },
       data: {
         order: params.order ? params.order : undefined,
         params: params.params ? params.params : undefined,
         slug: params.slug ? params.slug : undefined,
       },
+      select: {
+        slug: true,
+      },
     });
 
-    if (params.params?.type) {
+    if (tab.slug.includes("collections") && params.params?.type) {
       const year = new Date().getFullYear();
       const userInsight = await prisma.userInsight.findUnique({
         where: { userId_year: { userId, year } },
