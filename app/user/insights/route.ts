@@ -115,7 +115,6 @@ export async function GET(req: NextRequest) {
       ),
       ...data,
       ...user,
-      completionInstances: instances,
     });
   } catch (e) {
     return handleApiError(e);
