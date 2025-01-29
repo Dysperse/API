@@ -158,10 +158,11 @@ export async function PUT(req: NextRequest) {
       },
     });
 
-    if (params.slug.includes("collections") && params.params?.type) {
+    if (params.params?.type) {
       const year = new Date().getFullYear();
       const userInsight = await prisma.userInsight.findUnique({
         where: { userId_year: { userId, year } },
+        select: { viewCount: true },
       });
 
       await prisma.userInsight.upsert({
