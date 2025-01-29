@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -22,6 +23,7 @@ export async function POST(req: NextRequest) {
       type: "BODY",
     });
     const { userId } = await getIdentifiers();
+    incrementUserInsight(userId, "aiFeaturesUsed");
     const data = await prisma.collection.findFirstOrThrow({
       where: {
         AND: [{ id: params.id }, { userId }],

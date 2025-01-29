@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
@@ -81,6 +82,7 @@ ${params.task.label?.name || "Not specified"}
     });
 
     console.log(text);
+    incrementUserInsight(userId, "aiFeaturesUsed");
 
     return Response.json({
       ...JSON.parse(text),

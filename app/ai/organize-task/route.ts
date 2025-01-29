@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
@@ -19,6 +20,7 @@ export async function POST(req: NextRequest) {
       type: "BODY",
     });
     const { userId } = await getIdentifiers();
+    incrementUserInsight(userId, "aiFeaturesUsed");
     const data = await prisma.aiToken.findFirstOrThrow({ where: { userId } });
 
     const google = createGoogleGenerativeAI({
@@ -57,3 +59,4 @@ ${params.task.label?.name || "Not specified"}
     return handleApiError(e);
   }
 }
+

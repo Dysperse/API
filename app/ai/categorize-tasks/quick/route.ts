@@ -2,6 +2,7 @@ import { omit } from "@/app/space/collections/collection/omit";
 import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
+import { incrementUserInsight } from "@/lib/insights";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
@@ -87,6 +88,7 @@ Submit APUSH essay draft to Google Classroom by 11:59 PM
 export async function POST(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
+    incrementUserInsight(userId, "aiFeaturesUsed");
     const params = await getApiParams(
       req,
       [
