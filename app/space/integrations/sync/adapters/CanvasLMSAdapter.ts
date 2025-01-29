@@ -4,6 +4,28 @@ import { IntegratedEntityItem, Integration } from "../route";
 
 dayjs.extend(require("dayjs/plugin/utc"));
 
+// in https://iusd.instructure.com/calendar?include_contexts=course_139399&month=01&year=2025#assignment_1829142 format
+// convert to [course-id]-[assignment_id]
+const extractAssignmentId = (url: string) => {
+  const course = url.match(/course_(\d+)/);
+  const assignment = url.match(/assignment_(\d+)/);
+
+  if (!course || !assignment) throw new Error("Invalid URL");
+
+  return `${course[1]}-${assignment[1]}`;
+};
+
+// in https://iusd.instructure.com/calendar?include_contexts=course_139399&month=01&year=2025#assignment_1829142 format
+const getAssignmentURL = (url: string) => {
+  const instance = new URL(url).hostname;
+  const course = url.match(/course_(\d+)/);
+  const assignment = url.match(/assignment_(\d+)/);
+
+  if (!course || !assignment) return null;
+
+  return `https://${instance}/courses/${course[1]}/assignments/${assignment[1]}`;
+};
+
 export class CanvasLMSAdapter extends Integration {
   async fetchData() {
     if (!(this.integration as any).params?.calendarUrl) return [];
@@ -30,7 +52,6 @@ export class CanvasLMSAdapter extends Integration {
 
   canonicalize(): Partial<IntegratedEntityItem>[] {
     const events: Partial<IntegratedEntityItem>[] = [];
-    let arr = [];
     for (const k of Object.keys(this.raw)) {
       if (this.raw.hasOwnProperty(k)) {
         const assignment = this.raw[k];
@@ -43,10 +64,11 @@ export class CanvasLMSAdapter extends Integration {
           // That being said, all we really need is a list of items which are new, based on the UID.
           // UID is stored in the integrationParams object
 
+          const assignmentId = extractAssignmentId(assignment.url.val);
+
           if (
-            k &&
             !this.existingData.find(
-              (event: any) => event.integrationParams?.id === k
+              (event: any) => event.integrationParams?.id === assignmentId
             )
           ) {
             const courseId = this.#extractTextInBrackets(assignment.summary);
@@ -56,25 +78,27 @@ export class CanvasLMSAdapter extends Integration {
                 label.integrationParams?.calendarId === courseId
             )?.id;
 
+            console.log(k, assignment.url.val);
+
+            const linkData = `<p><a href="${getAssignmentURL(
+              assignment.url.val
+            )}">View assignment</a></p><br/>`;
+
             if (labelId)
               events.push({
                 type: "CREATE",
                 entity: {
-                  id: "canvas-" + this.integration.id + "-" + k,
+                  id: this.integration.id + "-" + assignmentId,
                   integrationParams: { id: assignment.url.val },
                   name: this.#removeBracketedText(assignment.summary),
-                  note: assignment["ALT-DESC"]?.val || assignment.description,
+                  note: `${linkData}${
+                    assignment["ALT-DESC"]?.val || assignment.description
+                  }`,
                   start: dayjs(assignment.start).utc().toDate(),
                   end: dayjs(assignment.end).utc().toDate(),
                   dateOnly: false,
                   published: true,
                   ["label" as any]: { connect: { id: labelId } }, // yes, it works
-                  attachments: [
-                    assignment.url && {
-                      type: "LINK",
-                      data: assignment.url.val,
-                    },
-                  ],
                 },
               });
           }
