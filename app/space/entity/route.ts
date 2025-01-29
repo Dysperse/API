@@ -149,9 +149,13 @@ export async function POST(req: NextRequest) {
         label: true,
       },
     });
-    await prisma.profile.update({
-      where: { userId },
-      data: { tasksCreated: { increment: 1 } },
+
+    await prisma.userInsight.upsert({
+      where: {
+        userId_year: { userId: userId, year: new Date().getFullYear() },
+      },
+      create: { year: new Date().getFullYear(), tasksCreated: 1, userId },
+      update: { tasksCreated: { increment: 1 } },
     });
 
     return Response.json(space);

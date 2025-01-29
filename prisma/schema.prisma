@@ -77,6 +77,27 @@ model User {
   widgets            Widget[]
 
   aiToken AiToken?
+
+  insights UserInsight[]
+}
+
+model UserInsight {
+  id   String @id @unique @default(uuid())
+  year Int
+
+  tasksCreated     Int @default(0)
+  tasksCompleted   Int @default(0)
+  tasksRescheduled Int @default(0)
+
+  aiFeaturesUsed Int @default(0)
+
+  tabsCreated Int   @default(0)
+  viewCount   Json?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, year])
 }
 
 enum AiTokenType {
