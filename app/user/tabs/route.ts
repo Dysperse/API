@@ -177,9 +177,9 @@ export async function PUT(req: NextRequest) {
         update: {
           viewCount: {
             // @ts-ignore
-            ...userInsight.viewCount,
-            // @ts-ignore
-            [params.params.type]: userInsight.viewCount[params.params.type] + 1,
+            ...(userInsight?.viewCount || {}),
+            [params.params.type]:
+              (userInsight?.viewCount?.[params.params.type] || 0) + 1,
           },
         },
       });
