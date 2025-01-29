@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     const params = await getApiParams(req, [{ name: "year", required: true }]);
 
     const insights = await prisma.userInsight.findFirst({
-      where: { userId, year: params.year },
+      where: { userId, year: parseInt(params.year) },
     });
 
     if (!insights) throw new Error("Insufficient data");
