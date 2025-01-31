@@ -38,7 +38,7 @@ export class NewCanvasLMSAdapter extends Integration {
         per_page: "100",
         access_token: i.accessToken,
         "include[]": "submission",
-        bucket: "upcoming",
+        bucket: "future",
       })}`;
 
       while (nextUrl) {
