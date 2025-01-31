@@ -266,7 +266,7 @@ export async function GET(req: NextRequest) {
       },
       include: {
         ...t,
-        integration: true,
+        integration: { select: { type: true } },
         subtasks: { include: t, where: { trash: false } },
       },
     });

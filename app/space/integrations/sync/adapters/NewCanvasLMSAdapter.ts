@@ -96,7 +96,7 @@ export class NewCanvasLMSAdapter extends Integration {
             entity: {
               integrationParams: {
                 assignmentId: assignment.id,
-                courseId: course.course_id,
+                courseId: course.course,
                 updatedAt: assignment.updated_at,
                 createdAt: assignment.created_at,
               },
