@@ -42,7 +42,12 @@ export class NewCanvasLMSAdapter extends Integration {
       })}`;
 
       while (nextUrl) {
-        const response = await fetch(nextUrl);
+        // See: https://community.canvaslms.com/t5/Archived-Questions/ARCHIVED-Different-course-id-response-when-using-curl-vs-nodejs/m-p/494859/highlight/true#M94968
+        const response = await fetch(nextUrl, {
+          headers: {
+            Accept: "application/json+canvas-string-ids",
+          },
+        });
         const data = await response.json();
         assignments = assignments.concat(data);
 

@@ -105,6 +105,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
+    // See: https://community.canvaslms.com/t5/Archived-Questions/ARCHIVED-Different-course-id-response-when-using-curl-vs-nodejs/m-p/494859/highlight/true#M94968
     const url = `https://${
       (integration as any).params.instanceUrl
     }/api/v1/courses?${new URLSearchParams({
@@ -114,7 +115,11 @@ export async function GET(req: NextRequest) {
     })}`;
 
     console.log(integration);
-    const courses = await fetch(url).then((res) => res.json());
+    const courses = await fetch(url, {
+      headers: {
+        Accept: "application/json+canvas-string-ids",
+      },
+    }).then((res) => res.json());
     console.log(courses);
 
     if (courses.length === 0) {
