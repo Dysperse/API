@@ -77,7 +77,7 @@ export class NewCanvasLMSAdapter extends Integration {
 
         const shouldUpdate = true;
 
-        console.log("shouldCreate", shouldCreate, "shouldUpdate", shouldUpdate);
+        // console.log("shouldCreate", shouldCreate, "shouldUpdate", shouldUpdate);
 
         if (shouldCreate || shouldUpdate) {
           const labelId = this.integration.labels.find(
@@ -87,11 +87,6 @@ export class NewCanvasLMSAdapter extends Integration {
 
           const linkData = `<p><a href="${assignment.html_url}">Open in Canvas</a></p>`;
 
-          console.log(
-            "hasCompleted",
-            assignment?.submission?.workflow_state &&
-              assignment.submission.workflow_state !== "unsubmitted"
-          );
           events.push({
             type: shouldCreate ? "CREATE" : "UPDATE",
             uniqueId: `${course.course}-${assignment.id}`,
