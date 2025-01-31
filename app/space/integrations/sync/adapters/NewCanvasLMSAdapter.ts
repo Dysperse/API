@@ -80,7 +80,12 @@ export class NewCanvasLMSAdapter extends Integration {
 
         const shouldCreate = !existingEvent;
 
-        const shouldUpdate = true;
+        const shouldUpdate =
+          (existingEvent &&
+            existingEvent.integrationParams?.updatedAt !==
+              assignment.updated_at) ||
+          existingEvent.integrationParams?.submittedAt !==
+            assignment?.submission?.submitted_at;
 
         // console.log("shouldCreate", shouldCreate, "shouldUpdate", shouldUpdate);
 
@@ -104,6 +109,7 @@ export class NewCanvasLMSAdapter extends Integration {
                 courseId: course.course,
                 updatedAt: assignment.updated_at,
                 createdAt: assignment.created_at,
+                submittedAt: assignment?.submission?.submitted_at,
               },
               ["label" as any]: shouldCreate
                 ? { connect: { id: labelId } }
