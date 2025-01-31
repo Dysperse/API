@@ -38,6 +38,7 @@ export class AppleCalendarAdapter extends Integration {
 
             if (eventHasUpdated || !eventExists) {
               events.push({
+                uniqueId: event.uid,
                 type: eventExists ? "UPDATE" : "CREATE",
                 where: eventExists
                   ? {

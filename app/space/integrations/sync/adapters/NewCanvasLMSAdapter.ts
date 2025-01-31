@@ -67,10 +67,12 @@ export class NewCanvasLMSAdapter extends Integration {
     for (const course of this.raw) {
       for (const assignment of course.assignments) {
         const existingEvent: any = this.existingData.find(
-          (event: any) => event.integrationParams?.id === assignment.id
+          (event: any) =>
+            event.integrationParams?.assignmentId === assignment.id
         );
 
         const shouldCreate = !existingEvent;
+
         const shouldUpdate =
           existingEvent &&
           (dayjs(assignment.updated_at).isAfter(
@@ -80,19 +82,20 @@ export class NewCanvasLMSAdapter extends Integration {
               dayjs(existingEvent.integrationParams?.createdAt)
             ));
 
+        console.log("shouldCreate", shouldCreate, "shouldUpdate", shouldUpdate);
+
         if (shouldCreate || shouldUpdate) {
           const labelId = this.integration.labels.find(
             (label: any) =>
-              label.integrationParams?.id === course.course.toString()
+              label.integrationParams?.calendarId === course.course
           )?.id;
 
           const linkData = `<p><a href="${assignment.html_url}">Open in Canvas</a></p>`;
 
           events.push({
             type: shouldCreate ? "CREATE" : "UPDATE",
+            uniqueId: `${course.course}-${assignment.id}`,
             entity: {
-              id: this.integration.id + "-" + assignment.id,
-              integrationId: this.integration.id,
               integrationParams: {
                 assignmentId: assignment.id,
                 courseId: course.course_id,
@@ -103,13 +106,19 @@ export class NewCanvasLMSAdapter extends Integration {
               name: assignment.name,
               pinned: assignment.is_quiz_assignment,
               note: `${linkData} ${assignment.description}`,
-              start: dayjs(assignment.due_at).utc().format(),
-              end: dayjs(assignment.due_at).utc().format(),
+              start: assignment.due_at
+                ? dayjs(assignment.due_at).utc().toDate()
+                : null,
+              end: assignment.due_at
+                ? dayjs(assignment.due_at).utc().toDate()
+                : null,
+              dateOnly: false,
             },
           });
         }
       }
     }
+
     return events;
   }
 }

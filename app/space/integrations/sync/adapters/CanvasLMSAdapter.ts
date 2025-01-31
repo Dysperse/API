@@ -87,8 +87,8 @@ export class CanvasLMSAdapter extends Integration {
             if (labelId)
               events.push({
                 type: "CREATE",
+                uniqueId: assignmentId,
                 entity: {
-                  id: this.integration.id + "-" + assignmentId,
                   integrationParams: { id: assignment.url.val },
                   name: this.#removeBracketedText(assignment.summary),
                   note: `${linkData}${

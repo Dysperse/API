@@ -31,6 +31,7 @@ export interface IntegratedEntityItem {
   type: "CREATE" | "UPDATE";
   entity: Partial<Prisma.EntityCreateManyLabelInput>;
   where?: Prisma.EntityWhereInput;
+  uniqueId: string;
 }
 
 export class Integration {
@@ -73,6 +74,7 @@ export class Integration {
           ? prisma.entity.create({
               data: {
                 ...item.entity,
+                id: `${adapter.integration.id}-${item.uniqueId}`,
                 type: "TASK",
                 shortId: generateRandomString(8),
                 space: { connect: { id: adapter.integration.spaceId } },
@@ -80,8 +82,9 @@ export class Integration {
               },
             })
           : prisma.entity.updateMany({
-              where: item.where,
+              limit: 1,
               data: item.entity,
+              where: { id: `${adapter.integration.id}-${item.uniqueId}` },
             })
       )
     );
@@ -156,7 +159,7 @@ export async function POST() {
     //    2A. If the entity doesn't exist, create it. Store a variable to identify the event, and an etag to check for changes.
     //    2B. If the entity exists, update it. Store a variable to identify the event, and an etag to check for changes.
 
-    const l = await Promise.allSettled(
+    const l = await Promise.all(
       integrations
         .map(async (integration) => {
           try {
@@ -164,8 +167,16 @@ export async function POST() {
               integration,
               entities
             );
+            console.log(
+              "\x1b[32m",
+              "  ⏳ Processing integration",
+              integration.type,
+              integration.id,
+              "\x1b[0m"
+            );
             return adapter.processEntities();
           } catch (e) {
+            console.error(e);
             return null;
           }
         })

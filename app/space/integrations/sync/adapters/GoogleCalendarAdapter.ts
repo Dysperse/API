@@ -70,6 +70,7 @@ export class GoogleCalendarAdapter extends Integration {
               events.push({
                 type: existingEvent ? "UPDATE" : "CREATE",
                 where: existingEvent ? { id: existingEvent.id } : undefined,
+                uniqueId: event.id,
                 entity: {
                   name: event.summary,
                   note: event.description,
@@ -143,3 +144,4 @@ export class GoogleCalendarAdapter extends Integration {
     }
   }
 }
+
