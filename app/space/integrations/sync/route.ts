@@ -191,7 +191,7 @@ export async function POST() {
               entities
             );
             console.log(
-              "\x1b[32m",
+              "\x1b[33m",
               "  ⏳ Processing integration",
               integration.type,
               integration.id,
