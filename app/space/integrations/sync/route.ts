@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 dayjs.extend(require("dayjs/plugin/utc"));
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 20;
 
 export const OPTIONS = async () => {
   return new Response("", {
@@ -32,6 +33,7 @@ export interface IntegratedEntityItem {
   entity: Partial<Prisma.EntityCreateManyLabelInput>;
   where?: Prisma.EntityWhereInput;
   uniqueId: string;
+  hasCompleted?: boolean;
 }
 
 export class Integration {
@@ -69,24 +71,45 @@ export class Integration {
     if (!adapter.canonicalData || adapter.canonicalData.length === 0) return;
 
     return await prisma.$transaction(
-      adapter.canonicalData.map((item: any) =>
-        item.type === "CREATE"
-          ? prisma.entity.create({
-              data: {
-                ...item.entity,
-                id: `${adapter.integration.id}-${item.uniqueId}`,
-                type: "TASK",
-                shortId: generateRandomString(8),
-                space: { connect: { id: adapter.integration.spaceId } },
-                integration: { connect: { id: adapter.integration.id } },
-              },
-            })
-          : prisma.entity.updateMany({
-              limit: 1,
-              data: item.entity,
-              where: { id: `${adapter.integration.id}-${item.uniqueId}` },
-            })
-      )
+      adapter.canonicalData
+        .map((item: any) => {
+          const entityOperation =
+            item.type === "CREATE"
+              ? prisma.entity.create({
+                  data: {
+                    ...item.entity,
+                    id: `${adapter.integration.id}-${item.uniqueId}`,
+                    type: "TASK",
+                    shortId: generateRandomString(8),
+                    space: { connect: { id: adapter.integration.spaceId } },
+                    integration: { connect: { id: adapter.integration.id } },
+                  },
+                })
+              : prisma.entity.updateMany({
+                  limit: 1,
+                  data: item.entity,
+                  where: { id: `${adapter.integration.id}-${item.uniqueId}` },
+                });
+
+          if (item.hasCompleted) {
+            const completionInstanceOperation =
+              prisma.completionInstance.create({
+                data: {
+                  task: {
+                    connect: {
+                      id: `${adapter.integration.id}-${item.uniqueId}`,
+                    },
+                  },
+                  completedAt: new Date(),
+                },
+              });
+
+            return [entityOperation, completionInstanceOperation];
+          }
+
+          return entityOperation;
+        })
+        .flat()
     );
   }
 

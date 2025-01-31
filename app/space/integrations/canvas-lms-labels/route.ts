@@ -1,5 +1,4 @@
 import { getApiParams } from "@/lib/getApiParams";
-import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import ical from "ical";
 import { NextRequest } from "next/server";
@@ -93,7 +92,6 @@ const defaultCourseCustomization = [
 
 export async function GET(req: NextRequest) {
   try {
-    const { spaceId } = await getIdentifiers();
     const params = await getApiParams(req, [
       { name: "calendarUrl", required: false },
     ]);

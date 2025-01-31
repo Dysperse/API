@@ -37,6 +37,7 @@ export class NewCanvasLMSAdapter extends Integration {
       }/api/v1/courses/${course}/assignments?${new URLSearchParams({
         per_page: "100",
         access_token: i.accessToken,
+        "include[]": "submission",
       })}`;
 
       while (nextUrl) {
@@ -73,14 +74,7 @@ export class NewCanvasLMSAdapter extends Integration {
 
         const shouldCreate = !existingEvent;
 
-        const shouldUpdate =
-          existingEvent &&
-          (dayjs(assignment.updated_at).isAfter(
-            dayjs(existingEvent.integrationParams?.updatedAt)
-          ) ||
-            dayjs(assignment.created_at).isAfter(
-              dayjs(existingEvent.integrationParams?.createdAt)
-            ));
+        const shouldUpdate = true;
 
         console.log("shouldCreate", shouldCreate, "shouldUpdate", shouldUpdate);
 
@@ -92,9 +86,17 @@ export class NewCanvasLMSAdapter extends Integration {
 
           const linkData = `<p><a href="${assignment.html_url}">Open in Canvas</a></p>`;
 
+          console.log(
+            "hasCompleted",
+            assignment?.submission?.workflow_state &&
+              assignment.submission.workflow_state !== "unsubmitted"
+          );
           events.push({
             type: shouldCreate ? "CREATE" : "UPDATE",
             uniqueId: `${course.course}-${assignment.id}`,
+            hasCompleted:
+              assignment?.submission?.workflow_state &&
+              assignment.submission.workflow_state !== "unsubmitted",
             entity: {
               integrationParams: {
                 assignmentId: assignment.id,
@@ -102,14 +104,16 @@ export class NewCanvasLMSAdapter extends Integration {
                 updatedAt: assignment.updated_at,
                 createdAt: assignment.created_at,
               },
-              ["label" as any]: { connect: { id: labelId } }, // yes, it works
+              ["label" as any]: shouldCreate
+                ? { connect: { id: labelId } }
+                : undefined, // yes, it works
               name: assignment.name,
               pinned: assignment.is_quiz_assignment,
               note: `${linkData} ${assignment.description}`,
-              start: assignment.due_at
+              start: dayjs(assignment.due_at).isValid()
                 ? dayjs(assignment.due_at).utc().toDate()
                 : null,
-              end: assignment.due_at
+              end: dayjs(assignment.due_at).isValid()
                 ? dayjs(assignment.due_at).utc().toDate()
                 : null,
               dateOnly: false,
