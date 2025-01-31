@@ -2,6 +2,7 @@ import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 export const dynamic = "force-dynamic";
 
@@ -109,7 +110,7 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const { userId, spaceId } = await getIdentifiers();
+    const { userId } = await getIdentifiers();
     const params = await getApiParams(req, [{ name: "id", required: true }]);
 
     await prisma.$transaction([
@@ -117,6 +118,10 @@ export async function DELETE(req: NextRequest) {
         where: {
           AND: [{ id: params.id }, { createdBy: { id: userId } }],
         },
+      }),
+      prisma.label.updateMany({
+        where: { integration: { id: params.id } },
+        data: { integrationId: null, integrationParams: Prisma.JsonNull },
       }),
       prisma.entity.deleteMany({
         where: {

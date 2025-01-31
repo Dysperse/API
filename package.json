@@ -17,7 +17,7 @@
     "@ai-sdk/google": "^1.0.5",
     "@ai-sdk/openai": "^1.0.7",
     "@passwordless-id/webauthn": "^2.1.0",
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.3.0",
     "@react-email/button": "^0.0.15",
     "@react-email/components": "^0.0.19",
     "@react-email/font": "^0.0.6",
@@ -78,7 +78,7 @@
     "eslint": "^8.49.0",
     "eslint-config-next": "^14.2.3",
     "ngrok": "^5.0.0-beta.2",
-    "prisma": "^6.1.0",
+    "prisma": "^6.3.0",
     "typescript": "^5.4.5"
   }
 }
