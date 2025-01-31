@@ -106,11 +106,11 @@ export async function GET(req: NextRequest) {
     });
 
     const url = `https://${
-      integration.params.instanceUrl
+      (integration as any).params.instanceUrl
     }/api/v1/courses?${new URLSearchParams({
       per_page: "100",
       enrollment_state: "active",
-      access_token: integration.params.accessToken,
+      access_token: (integration as any).params.accessToken,
     })}`;
 
     console.log(integration);

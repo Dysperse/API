@@ -98,6 +98,7 @@ export class Integration {
 const { CanvasLMSAdapter } = require("./adapters/CanvasLMSAdapter");
 const { GoogleCalendarAdapter } = require("./adapters/GoogleCalendarAdapter");
 const { AppleCalendarAdapter } = require("./adapters/AppleCalendarAdapter");
+const { NewCanvasLMSAdapter } = require("./adapters/NewCanvasLMSAdapter");
 
 class IntegrationFactory {
   static createIntegration(
@@ -113,6 +114,8 @@ class IntegrationFactory {
         return new AppleCalendarAdapter(integration, entities);
       case "CANVAS_LMS":
         return new CanvasLMSAdapter(integration, entities);
+      case "NEW_CANVAS_LMS":
+        return new NewCanvasLMSAdapter(integration, entities);
       default:
         throw new Error("Invalid integration name.");
     }
@@ -153,7 +156,7 @@ export async function POST() {
     //    2A. If the entity doesn't exist, create it. Store a variable to identify the event, and an etag to check for changes.
     //    2B. If the entity exists, update it. Store a variable to identify the event, and an etag to check for changes.
 
-    const l = await Promise.all(
+    const l = await Promise.allSettled(
       integrations
         .map(async (integration) => {
           try {
@@ -174,3 +177,4 @@ export async function POST() {
     return handleApiError(e);
   }
 }
+

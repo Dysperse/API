@@ -78,7 +78,7 @@ export class CanvasLMSAdapter extends Integration {
                 label.integrationParams?.calendarId === courseId
             )?.id;
 
-            console.log(k, assignment.url.val);
+            // console.log(k, assignment.url.val);
 
             const linkData = `<p><a href="${getAssignmentURL(
               assignment.url.val
