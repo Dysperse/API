@@ -74,6 +74,14 @@ Submit APUSH essay draft to Google Classroom by 11:59 PM
       }
     ).then((r) => r.json());
 
+    console.log(
+      `${labels.map(
+        (l, i) => `
+    ID: ${i}, Name: "${l.name}", ${
+          l.entities.length > 0 ? "Previous tasks in category" : ""
+        }: ${l.entities.map((e) => e.name).join(", ")}`
+      )}`
+    );
     console.log(res.choices[0].message.content);
     if (res.choices[0].message.content.split("</r>").length) {
       return omit(
