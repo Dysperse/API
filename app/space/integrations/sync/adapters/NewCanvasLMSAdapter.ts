@@ -23,7 +23,6 @@ export class NewCanvasLMSAdapter extends Integration {
       !(this.integration as any).params?.instanceUrl
     )
       return [];
-
     const courses = this.integration.labels.map(
       (label: any) => label.integrationParams?.calendarId
     );
@@ -84,8 +83,9 @@ export class NewCanvasLMSAdapter extends Integration {
           (existingEvent &&
             existingEvent.integrationParams?.updatedAt !==
               assignment.updated_at) ||
-          existingEvent.integrationParams?.submittedAt !==
-            assignment?.submission?.submitted_at;
+          (existingEvent &&
+            existingEvent.integrationParams?.submittedAt !==
+              assignment?.submission?.submitted_at);
 
         // console.log("shouldCreate", shouldCreate, "shouldUpdate", shouldUpdate);
 
