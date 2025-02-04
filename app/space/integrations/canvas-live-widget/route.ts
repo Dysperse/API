@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       (task as any).integrationParams.assignmentId
     }?${new URLSearchParams({
       access_token: (task.integration as any).params.accessToken,
-      "include[]": ["submission", "score_statistics"].join(","),
+      "include[]": "submission",
     })}`;
 
     // See: https://community.canvaslms.com/t5/Archived-Questions/ARCHIVED-Different-course-id-response-when-using-curl-vs-nodejs/m-p/494859/highlight/true#M94968
