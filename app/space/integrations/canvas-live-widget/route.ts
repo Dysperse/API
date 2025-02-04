@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     }?${new URLSearchParams({
       access_token: (task.integration as any).params.accessToken,
       "include[]": "submission",
-    })}`;
+    })}&include[]=score_statistics`;
 
     // See: https://community.canvaslms.com/t5/Archived-Questions/ARCHIVED-Different-course-id-response-when-using-curl-vs-nodejs/m-p/494859/highlight/true#M94968
     const courses = await fetch(url, {
