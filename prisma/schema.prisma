@@ -413,7 +413,7 @@ model Collection {
   // User preferences
   pinned        Boolean @default(false)
   archived      Boolean @default(false)
-  showCompleted Boolean @default(true)
+  showCompleted Boolean @default(false)
 
   listOrder   Json?
   gridOrder   Json?
