@@ -22,7 +22,7 @@ export const OPTIONS = async () => {
   "confirmPassword": "",
   "theme": "orange",
   "methods": ["POMODORO", "EISENHOWER", "KANBAN", "PLANNER", "CHECKLIST"],
-  "birthday": ["2008", 3, "19"],
+  "birthday": [3, 19], -> march 19
   "tasks": ["t1", "t2", "t3"],
   "bio": "hi there",
   "captchaToken": "0.FOAJfbLRS33vhAbFiRJBTT6ySMXEKZmWlPqejrj8OPQzZ9ZUsvgFhnMabDoh-Kn8f_yqv-JzBYouEFhN1xPPJhZilnlewXKcU8__jhDhPe_u17dmeC2m62hujGI04mSx9ppfs_a7LRywipJkagoPr8n0yVCRFlEDrLCRfak77eE6_XtjHG3c1k8UhrMqDN4jZcOyaOa9399Nh-pbWpg9pc_eCxTFP2yvnuhffSrrjpnlFsayX0O6j_XTjDexK6H9I7SJDnz5w5gqE7GJjRNsyo9BWmhQSAXl6G602eHBGnXLCbbmt_RrsdOTx7lsBo2_kmwuAzR_xJqIwmzJkPubRI0QHJuElSc18D9VbqlHjuM5Ij7MK6sTcs5tXaMXQXs3tBHc6bnPlU4YkrC0fYPXsZ3p2Ai6BG0xiQNsg4cXESs.bDiatA9s7AhL2EorhpnGFA.9b6b264a8d3cb4d69023aeb8e8d8c20038eae89f45b5682364c3e451a87a4c69"
@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
       [
         { name: "name", required: true },
         { name: "email", required: true },
-        { name: "picture", required: true },
         { name: "timeZone", required: true },
         { name: "password", required: true },
         { name: "confirmPassword", required: true },
@@ -74,12 +73,11 @@ export async function POST(req: NextRequest) {
         profile: {
           create: {
             name: params.name,
-            picture: params.picture,
             theme: params.theme,
             birthday: new Date(
+              new Date().getFullYear(),
               params.birthday[0],
-              params.birthday[1],
-              params.birthday[2]
+              params.birthday[1]
             ),
             bio: params.bio,
           },
