@@ -17,11 +17,18 @@ export async function GET(req: NextRequest) {
 
     const params = await getApiParams(req, [{ name: "year", required: true }]);
 
-    const insights = await prisma.userInsight.findFirst({
+    let insights = await prisma.userInsight.findFirst({
       where: { userId, year: parseInt(params.year) },
     });
 
-    if (!insights) throw new Error("Insufficient data");
+    if (!insights) {
+      insights = await prisma.userInsight.create({
+        data: {
+          year: parseInt(params.year),
+          userId,
+        },
+      });
+    }
 
     const user = await prisma.profile.findFirstOrThrow({
       where: { userId },
