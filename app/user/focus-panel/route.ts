@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
         { name: "type", required: true },
         { name: "order", required: true },
         { name: "params", required: false },
+        { name: "pinned", required: false },
       ],
       { type: "BODY" }
     );
@@ -60,6 +61,7 @@ export async function PUT(req: NextRequest) {
         { name: "type", required: false },
         { name: "order", required: false },
         { name: "params", required: false },
+        { name: "pinned", required: false },
       ],
       { type: "BODY" }
     );
@@ -70,6 +72,7 @@ export async function PUT(req: NextRequest) {
         params: typeof params.params === "object" ? params.params : {},
         order: typeof params.order === "string" ? params.order : undefined,
         type: typeof params.type === "string" ? params.type : undefined,
+        pinned: typeof params.pinned === "boolean" ? params.pinned : undefined,
       },
     });
     return Response.json(data);

@@ -175,10 +175,11 @@ model Profile {
 
 // Focus panel widget
 model Widget {
-  id     String @id @unique @default(uuid())
+  id     String  @id @unique @default(uuid())
   type   String
   params Json
   order  String
+  pinned Boolean @default(false)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
