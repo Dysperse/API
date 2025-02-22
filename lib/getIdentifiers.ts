@@ -37,8 +37,30 @@ export const getIdentifiers = async (
     },
   });
 
+  console.log(info);
+
   const { user } = info;
-  const space = user?.spaces[0];
+  let space = user?.spaces[0];
+
+  if (!space) {
+    const s = await prisma.space.create({
+      data: {
+        name: "Personal",
+        members: {
+          create: {
+            access: "ADMIN",
+            user: {
+              connect: { id: user.id },
+            },
+            selected: true,
+          },
+        },
+      },
+    });
+
+    // set the space as selected
+    space = { spaceId: s.id };
+  }
 
   if (!space?.spaceId || !user?.id) {
     throw new Error("Invalid session");

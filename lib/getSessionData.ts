@@ -36,13 +36,16 @@ export async function getSessionData(
       },
     },
   });
-  prisma.profile.updateMany({
+  prisma.profile.upsert({
     where: {
-      user: {
-        id: session.user.id,
-      },
+      userId: session.user.id,
     },
-    data: {
+    create: {
+      userId: session.user.id,
+      lastActive: new Date(),
+      name: "Untitled Profile",
+    },
+    update: {
       lastActive: new Date(),
     },
   });
@@ -64,5 +67,6 @@ export async function getSessionData(
     },
     space: session.user.spaces.find((s) => s.selected),
   };
+  console.log("asdfasdfasdf");
   return _session as any;
 }
