@@ -131,6 +131,14 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Create insights profile
+    await prisma.userInsight.create({
+      data: {
+        year: new Date().getFullYear(),
+        user: { connect: { id: user.id } },
+      },
+    });
+
     // Create tabs based on methods
     await prisma.tab.create({
       data: {
