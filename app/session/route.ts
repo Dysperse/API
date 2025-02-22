@@ -1,3 +1,4 @@
+import { getApiParams } from "@/lib/getApiParams";
 import { getIdentifiers } from "@/lib/getIdentifiers";
 import { getSessionData } from "@/lib/getSessionData";
 import { handleApiError } from "@/lib/handleApiError";
@@ -14,7 +15,10 @@ export const OPTIONS = async () => {
 export async function GET(req: NextRequest) {
   try {
     const { sessionId } = await getIdentifiers();
-    const user = await getSessionData(sessionId as string);
+    const params = await getApiParams(req, [
+      { name: "session", required: false },
+    ]);
+    const user = await getSessionData(params.session || (sessionId as string));
 
     return Response.json(user);
   } catch (e) {
