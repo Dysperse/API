@@ -36,7 +36,7 @@ export async function getSessionData(
       },
     },
   });
-  prisma.profile.upsert({
+  await prisma.profile.upsert({
     where: {
       userId: session.user.id,
     },
@@ -49,6 +49,7 @@ export async function getSessionData(
       lastActive: new Date(),
     },
   });
+
   if (!session) {
     throw new Error("Session not found");
   }
@@ -67,6 +68,5 @@ export async function getSessionData(
     },
     space: session.user.spaces.find((s) => s.selected),
   };
-  console.log("asdfasdfasdf");
   return _session as any;
 }
