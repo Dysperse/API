@@ -1,6 +1,7 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
 import { LexoRank } from "lexorank";
 import { NextRequest } from "next/server";
 const argon2 = require("argon2");
@@ -73,6 +74,7 @@ export async function POST(req: NextRequest) {
         profile: {
           create: {
             name: params.name,
+            lastPlanned: dayjs().subtract(1, "day").toDate(),
             theme: params.theme,
             birthday: new Date(
               new Date().getFullYear(),
