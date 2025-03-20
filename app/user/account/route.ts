@@ -20,7 +20,7 @@ export async function PUT(req: NextRequest) {
       req,
       [
         { name: "lastReleaseVersionViewed", required: false },
-        { name: "toursViewed", required: false },
+        { name: "hintsViewed", required: false },
         { name: "vanishMode", required: false },
         { name: "weekStart", required: false },
         { name: "militaryTime", required: false },
@@ -36,7 +36,7 @@ export async function PUT(req: NextRequest) {
       where: { id: userId },
       data: {
         lastReleaseVersionViewed: params.lastReleaseVersionViewed || undefined,
-        toursViewed: params.toursViewed || undefined,
+        hintsViewed: params.hintsViewed || undefined,
         weekStart: params.weekStart || undefined,
         vanishMode:
           typeof params.vanishMode === "boolean"
@@ -50,7 +50,10 @@ export async function PUT(req: NextRequest) {
           typeof params.militaryTime === "boolean"
             ? params.militaryTime
             : undefined,
-        betaTester: typeof params.betaTester === "boolean" ? params.betaTester : undefined,
+        betaTester:
+          typeof params.betaTester === "boolean"
+            ? params.betaTester
+            : undefined,
 
         dailyStreakGoal: params.dailyStreakGoal || undefined,
         weeklyStreakGoal: params.weeklyStreakGoal || undefined,

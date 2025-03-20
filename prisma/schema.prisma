@@ -54,7 +54,7 @@ model User {
   weeklyStreakGoal Int? @default(10)
 
   profile     Profile?
-  toursViewed String[]
+  hintsViewed String[]
   agreeTos    Boolean  @default(false)
 
   tabs         Tab[]
