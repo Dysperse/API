@@ -12,7 +12,7 @@ export const OPTIONS = async () => {
 export async function GET(req: NextRequest) {
   const params = await getApiParams(req, [{ name: "id", required: false }]);
   const integrations = await fetch(
-    "https://app.dysperse.com/integrations.json"
+    "https://go.dysperse.com/integrations.json"
   ).then((res) => res.json());
 
   return Response.json(

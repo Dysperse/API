@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
       `${
         process.env.NODE_ENV === "development"
           ? "http://localhost:8081"
-          : "https://app.dysperse.com"
+          : "https://go.dysperse.com"
       }/auth/google?session=${session}`
     );
   else if (newAccount)
@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
       `${
         process.env.NODE_ENV === "development"
           ? "http://localhost:8081"
-          : "https://app.dysperse.com"
+          : "https://go.dysperse.com"
       }/auth/google?${new URLSearchParams(newAccount)}`
     );
   else

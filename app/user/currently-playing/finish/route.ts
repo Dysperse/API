@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
     `${
       process.env.NODE_ENV === "development"
         ? "http://localhost:8081"
-        : "https://app.dysperse.com"
+        : "https://go.dysperse.com"
     }/settings/account/integrations`
   );
 }

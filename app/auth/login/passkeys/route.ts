@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         challenge: params.challenge,
         origin:
           process.env.NODE_ENV === "production"
-            ? "https://app.dysperse.com"
+            ? "https://go.dysperse.com"
             : "http://localhost:8081",
       }
     );
@@ -163,7 +163,7 @@ export async function PATCH(req: NextRequest) {
         challenge: params.challenge,
         origin:
           process.env.NODE_ENV === "production"
-            ? "https://app.dysperse.com"
+            ? "https://go.dysperse.com"
             : "http://localhost:8081",
         userVerified: true,
       }

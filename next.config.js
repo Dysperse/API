@@ -42,10 +42,10 @@ const moduleExports = {
         destination: "/api/session",
         permanent: false,
       },
-      // redirect /published-redirect/* to https://app.dysperse.com/p/*
+      // redirect /published-redirect/* to https://go.dysperse.com/p/*
       {
         source: "/published-redirect/:path*",
-        destination: "https://app.dysperse.com/p/:path*",
+        destination: "https://go.dysperse.com/p/:path*",
         permanent: false,
       },
       {

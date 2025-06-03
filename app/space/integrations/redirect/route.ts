@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   let authorizationUrl = null;
   try {
     const integrations = await fetch(
-      "https://app.dysperse.com/integrations.json"
+      "https://go.dysperse.com/integrations.json"
     ).then((res) => res.json());
 
     /**
