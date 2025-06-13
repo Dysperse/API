@@ -1,3 +1,4 @@
+import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma"; // assuming this exists
 import { verifyIdToken } from "apple-signin-auth";
 
@@ -25,12 +26,19 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { email },
+      select: { id: true },
     });
 
     if (user) {
       const session = await prisma.session.create({
         data: { userId: user.id },
       });
+
+      new Notification("FORCE", {
+        title: "New login detected! 🚨🫵",
+        body: "If this wasn't you, please remove this device from your account settings immediately!",
+        data: {},
+      }).dispatch(user.id);
 
       return Response.json({ sessionId: session.id });
     } else {
