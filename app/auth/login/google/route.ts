@@ -6,15 +6,16 @@ import { google } from "googleapis";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
-const options = {
-  clientID:
-    process.env.NODE_ENV === "development"
-      ? "com.dysperse.development"
-      : "com.dysperse.go",
-  redirectUri: "http://localhost:3000/auth/apple/callback",
-  responseMode: "form_post",
-  scope: "email",
-};
+export const googleLoginClient = ({ name }) =>
+  new google.auth.OAuth2(
+    process.env.LOGIN_GOOGLE_CLIENT_ID,
+    process.env.LOGIN_GOOGLE_CLIENT_SECRET,
+    `${
+      process.env.NODE_ENV === "production"
+        ? "https://api.dysperse.com"
+        : "http://localhost:3000"
+    }/auth/login/google`
+  );
 
 export async function GET(req: NextRequest) {
   let session = "";
