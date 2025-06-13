@@ -33,6 +33,7 @@
     "@vercel/og": "^0.6.4",
     "@wcj/markdown-to-html": "^3.0.4",
     "ai": "^4.0.12",
+    "apple-signin-auth": "^2.0.0",
     "argon2": "^0.31.0",
     "babel-plugin-import": "^1.13.8",
     "chrono-node": "^2.7.7",

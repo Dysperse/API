@@ -1,51 +1,36 @@
-import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { Notification } from "@/lib/notifications";
 import { prisma } from "@/lib/prisma";
-import { google } from "googleapis";
+import { verifyIdToken } from "apple-signin-auth";
 import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
-const options = {
-  clientID:
-    process.env.NODE_ENV === "development"
-      ? "com.dysperse.development"
-      : "com.dysperse.go",
-  redirectUri: "http://localhost:3000/auth/apple/callback",
-  responseMode: "form_post",
-  scope: "email",
-};
+const APPLE_CLIENT_ID =
+  process.env.NODE_ENV === "development"
+    ? "com.dysperse.development"
+    : "com.dysperse.go";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   let session = "";
   let newAccount: any = null;
-  try {
-    const params = await getApiParams<{
-      error?: string;
-      code?: string;
-      scope?: string;
-      returnSessionId?: string;
-    }>(req, [
-      { name: "error", required: false },
-      { name: "code", required: false },
-      { name: "scope", required: false },
-      { name: "returnSessionId", required: false },
-    ]);
-    // Get email from google api
-    const oauth2Client = googleLoginClient({
-      name: "google",
-    });
-    const { tokens } = await oauth2Client.getToken(params.code as string);
-    if (!tokens) throw new Error("No tokens found");
 
-    oauth2Client.setCredentials(tokens);
-    const { data } = await google
-      .oauth2("v2")
-      .userinfo.get({ auth: oauth2Client });
+  try {
+    const formData = await req.formData();
+    const identityToken = formData.get("id_token")?.toString();
+    const userStr = formData.get("user")?.toString();
+
+    if (!identityToken) throw new Error("No identity token provided");
+
+    const appleUser = await verifyIdToken(identityToken, {
+      audience: APPLE_CLIENT_ID,
+    });
+
+    const email = appleUser.email;
+    if (!email) throw new Error("No email in Apple ID token");
 
     const acc = await prisma.user.findUnique({
       where: {
-        email: data.email || "-1",
+        email,
       },
       select: {
         id: true,
@@ -68,16 +53,17 @@ export async function GET(req: NextRequest) {
       }).dispatch(acc.id);
 
       session = s.id;
-
-      if (params.returnSessionId && session) {
-        return Response.json({ session });
-      }
     } else {
+      let parsedUser = {};
+      try {
+        parsedUser = userStr ? JSON.parse(userStr) : {};
+      } catch {}
+
       newAccount = {
         isNew: true,
-        email: data.email,
-        name: data.name,
-        picture: data.picture,
+        email,
+        name: parsedUser?.name?.firstName || "",
+        picture: "", // Apple doesn't provide photo
       };
     }
   } catch (e) {
@@ -90,7 +76,7 @@ export async function GET(req: NextRequest) {
         process.env.NODE_ENV === "development"
           ? "http://localhost:8081"
           : "https://go.dysperse.com"
-      }/auth/google?session=${session}`
+      }/auth/apple?session=${session}`
     );
   else if (newAccount)
     redirect(
@@ -98,7 +84,7 @@ export async function GET(req: NextRequest) {
         process.env.NODE_ENV === "development"
           ? "http://localhost:8081"
           : "https://go.dysperse.com"
-      }/auth/google?${new URLSearchParams(newAccount)}`
+      }/auth/apple?${new URLSearchParams(newAccount)}`
     );
   else
     return new Response("Something went wrong", {
