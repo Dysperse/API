@@ -1,93 +1,47 @@
-import { handleApiError } from "@/lib/handleApiError";
-import { Notification } from "@/lib/notifications";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"; // assuming this exists
 import { verifyIdToken } from "apple-signin-auth";
-import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
 
 const APPLE_CLIENT_ID =
   process.env.NODE_ENV === "development"
     ? "com.dysperse.development"
     : "com.dysperse.go";
 
-export async function POST(req: NextRequest) {
-  let session = "";
-  let newAccount: any = null;
-
+export async function POST(req: Request) {
   try {
-    const formData = await req.formData();
-    const identityToken = formData.get("id_token")?.toString();
-    const userStr = formData.get("user")?.toString();
+    const { identityToken } = await req.json();
 
-    if (!identityToken) throw new Error("No identity token provided");
+    if (!identityToken) {
+      return new Response("Missing token", { status: 400 });
+    }
 
     const appleUser = await verifyIdToken(identityToken, {
       audience: APPLE_CLIENT_ID,
     });
 
-    const email = appleUser.email;
-    if (!email) throw new Error("No email in Apple ID token");
+    const { email, email_verified, sub } = appleUser;
 
-    const acc = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        password: true,
-        twoFactorSecret: true,
-      },
+    if (!email_verified)
+      return new Response("Email not verified", { status: 401 });
+
+    const user = await prisma.user.findUnique({
+      where: { email },
     });
 
-    if (acc) {
-      const s = await prisma.session.create({
-        data: {
-          userId: acc.id,
-        },
+    if (user) {
+      const session = await prisma.session.create({
+        data: { userId: user.id },
       });
 
-      new Notification("FORCE", {
-        title: "New login detected! 🚨🫵",
-        body: "If this wasn't you, please remove this device from your account settings immediately!",
-        data: {},
-      }).dispatch(acc.id);
-
-      session = s.id;
+      return Response.json({ sessionId: session.id });
     } else {
-      let parsedUser = {};
-      try {
-        parsedUser = userStr ? JSON.parse(userStr) : {};
-      } catch {}
-
-      newAccount = {
+      return Response.json({
         isNew: true,
         email,
-        name: parsedUser?.name?.firstName || "",
-        picture: "", // Apple doesn't provide photo
-      };
+        userId: sub,
+      });
     }
-  } catch (e) {
-    return handleApiError(e);
+  } catch (err) {
+    console.error("Apple auth error:", err);
+    return new Response("Invalid token", { status: 401 });
   }
-
-  if (session)
-    redirect(
-      `${
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:8081"
-          : "https://go.dysperse.com"
-      }/auth/apple?session=${session}`
-    );
-  else if (newAccount)
-    redirect(
-      `${
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:8081"
-          : "https://go.dysperse.com"
-      }/auth/apple?${new URLSearchParams(newAccount)}`
-    );
-  else
-    return new Response("Something went wrong", {
-      status: 500,
-    });
 }
