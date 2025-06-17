@@ -177,6 +177,7 @@ export async function POST(req: NextRequest) {
           return {
             ["fcmTo" as any]: tokens,
             to: tokens.tokens as any,
+            interruptionLevel: "time-sensitive",
             title: `You have ${uniqueNotifications.length} upcoming events`,
             body: uniqueNotifications.map((n) => n.title.trim()).join(", "),
             data: { type: tokens.type },
