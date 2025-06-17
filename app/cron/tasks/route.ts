@@ -210,7 +210,7 @@ export async function POST(req: NextRequest) {
   );
 
   for (const message of webMessages) {
-    const response = await new Notification("FORCE", message).send(
+    const response = await new Notification("ENTITY_START", message).send(
       (message as any).fcmTo
     );
     console.log(response);
