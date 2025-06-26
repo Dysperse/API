@@ -28,7 +28,8 @@ export async function POST(req: NextRequest) {
       where: { email: params.email },
     });
 
-    if (exists) throw new Error("Email already exists");
+    if (exists)
+      throw new Error("This email is already connected to an account");
 
     const data = await prisma.resetToken.create({
       data: {
