@@ -104,7 +104,10 @@ export async function PUT(req: NextRequest) {
         name: params.name || undefined,
         bio: params.bio || undefined,
         theme: params.color || undefined,
-        picture: params.picture || undefined,
+        picture:
+          typeof params.picture === "string" || params.picture === null
+            ? params.picture
+            : undefined,
         darkMode: params.darkMode ?? undefined,
         pattern: params.pattern ?? undefined,
         lastPlanned: params.lastPlanned || undefined,
