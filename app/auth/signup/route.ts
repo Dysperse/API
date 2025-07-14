@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const params = await getApiParams(
       req,
       [
-        { name: "name", required: true },
+        { name: "name", required: false },
         { name: "email", required: true },
         { name: "timeZone", required: true },
         { name: "password", required: true },
