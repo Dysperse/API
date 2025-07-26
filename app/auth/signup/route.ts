@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
             data: params.tasks.map((task) => ({
               name: task,
               type: "TASK",
-            })),
+            })).filter(t => t.name.trim()),
           },
         },
       },
