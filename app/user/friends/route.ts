@@ -13,65 +13,6 @@ export const OPTIONS = async () => {
   });
 };
 
-export async function GET(req: NextRequest) {
-  try {
-    const { userId } = await getIdentifiers();
-    const params = await getApiParams(req, [
-      { name: "requests", required: false },
-    ]);
-
-    // get body
-    const data = await prisma.follows.findMany({
-      where: {
-        AND: [
-          { OR: [{ followerId: userId }, { followingId: userId }] },
-          { accepted: params.requests ? undefined : true },
-        ],
-      },
-      select: {
-        accepted: true,
-        followerId: true,
-        followingId: true,
-        follower: {
-          select: { id: true, email: true, username: true, profile: true },
-        },
-        following: {
-          select: { id: true, email: true, username: true, profile: true },
-        },
-      },
-    });
-    // make
-    data.map((user) => {
-      if (user.follower.id === userId) {
-        user.follower = undefined as any;
-        user["user"] = user.following;
-        user.following = undefined as any;
-      } else if (user.following.id === userId) {
-        user.following = undefined as any;
-        user["user"] = user.follower;
-        user.follower = undefined as any;
-      }
-    });
-    return Response.json(
-      (data as any)
-        .filter((user) => user?.user?.profile)
-        .filter(
-          (user, index, self) =>
-            index === self.findIndex((t) => t.user.email === user.user.email)
-        )
-        .sort((a, b) => {
-          // sort by profile.lastActive
-          return (
-            new Date(b.user.profile.lastActive).getTime() -
-            new Date(a.user.profile.lastActive).getTime()
-          );
-        })
-    );
-  } catch (e) {
-    return handleApiError(e);
-  }
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { userId } = await getIdentifiers();
