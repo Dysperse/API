@@ -108,9 +108,9 @@ export async function POST(req: NextRequest) {
 
     contactsUsingDysperse = contactsUsingDysperse.map((user) => ({
       ...user,
-      contact: contactEmails.find((u) =>
+      contactImage: contactEmails.find((u) =>
         u.emails?.some((email) => email.email === user.email)
-      ),
+      )?.image?.uri,
     }));
 
     return Response.json({
