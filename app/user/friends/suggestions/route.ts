@@ -108,10 +108,8 @@ export async function POST(req: NextRequest) {
 
     contactsUsingDysperse = contactsUsingDysperse.map((user) => ({
       ...user,
-      contact: contactEmails.find(
-        ((c) => c.emails.some((email) => email.email === user.email)) || {
-          emails: [],
-        }
+      contact: contactEmails.find((u) =>
+        u.emails?.some((email) => email.email === user.email)
       ),
     }));
 
