@@ -37,7 +37,7 @@ export class Notification {
   /**
    * Dispatch the notification to all of the user's devices
    */
-  async dispatch(userId): Promise<unknown> {
+  async dispatch(userId: string): Promise<unknown> {
     const data = await prisma.notificationSubscription.findMany({
       where: {
         AND: [
