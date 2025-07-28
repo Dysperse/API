@@ -64,6 +64,7 @@ export async function PUT(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const { userId } = await getIdentifiers();
     const { spaceId } = await getApiParams(req, [
       { name: "spaceId", required: true },
     ]);
@@ -100,6 +101,15 @@ export async function GET(req: NextRequest) {
               },
             },
           },
+        },
+      },
+    });
+
+    const referredCount = await prisma.user.findFirstOrThrow({
+      where: { id: userId },
+      select: {
+        _count: {
+          select: { referredUsers: true },
         },
       },
     });
@@ -143,7 +153,7 @@ export async function GET(req: NextRequest) {
       inTrash,
       entitiesInTrash,
       completeTasksCount,
-      limit: STORAGE_UNITS.max,
+      limit: STORAGE_UNITS.max + 25 * referredCount._count.referredUsers,
       used: taskBreakdown + integrationBreakdown + labelBreakdown,
       breakdown: {
         tasks: taskBreakdown,
