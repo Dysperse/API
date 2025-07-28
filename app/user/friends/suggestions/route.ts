@@ -106,14 +106,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const contactsNotUsingDysperse = contactEmailsArray.filter(
-      (email) => !contactsUsingDysperse.some((user) => user.email === email)
-    );
-
     return Response.json({
       friends,
       contactsUsingDysperse,
-      contactsNotUsingDysperse,
     });
   } catch (e) {
     return handleApiError(e);
