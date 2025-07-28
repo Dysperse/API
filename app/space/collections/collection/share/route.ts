@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       title: `🤝 you've been invited to "${collectionInfo.name}"`,
       body: "it's go time. just tap to start collaborating 🚀",
       data: { collectionId: params.id },
-    }).dispatch(invitedUserId);
+    }).dispatch(invitedUserId.id);
 
     const data = await prisma.collectionAccess.create({
       data: {
