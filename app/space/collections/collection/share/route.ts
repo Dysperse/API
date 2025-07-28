@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const data = await prisma.collectionAccess.create({
       data: {
         collectionId: params.id,
-        userId: params.email,
+        userId: invitedUserId.id,
       },
     });
 
