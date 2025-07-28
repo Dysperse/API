@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
       [{ name: "contactEmails", required: false }],
       { type: "BODY" }
     );
-
     // get body
     const data = await prisma.follows.findMany({
       where: {
@@ -64,21 +63,58 @@ export async function POST(req: NextRequest) {
         user.follower = undefined as any;
       }
     });
-    return Response.json(
-      (data as any)
-        .filter((user) => user?.user?.profile)
-        .filter(
-          (user, index, self) =>
-            index === self.findIndex((t) => t.user.email === user.user.email)
-        )
-        .sort((a, b) => {
-          // sort by profile.lastActive
-          return (
-            new Date(b.user.profile.lastActive).getTime() -
-            new Date(a.user.profile.lastActive).getTime()
-          );
-        })
+
+    const friends = (data as any)
+      .filter((user) => user?.user?.profile)
+      .filter(
+        (user, index, self) =>
+          index === self.findIndex((t) => t.user.email === user.user.email)
+      )
+      .sort((a, b) => {
+        // sort by profile.lastActive
+        return (
+          new Date(b.user.profile.lastActive).getTime() -
+          new Date(a.user.profile.lastActive).getTime()
+        );
+      });
+
+    // Iterate through contactEmails and find users in the database, remove if they are already friends
+    const contactEmailsArray = contactEmails
+      .map((c) => c.emails?.map((email) => email.email))
+      .flat()
+      .filter(Boolean)
+      .filter(
+        (email) =>
+          !friends.some(
+            (friend) => friend.user.email.toLowerCase() === email.toLowerCase()
+          )
+      );
+
+    let contactsUsingDysperse = await prisma.user.findMany({
+      where: {
+        email: {
+          in: contactEmailsArray,
+        },
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        profile: {
+          select: { name: true, lastActive: true, picture: true },
+        },
+      },
+    });
+
+    const contactsNotUsingDysperse = contactEmailsArray.filter(
+      (email) => !contactsUsingDysperse.some((user) => user.email === email)
     );
+
+    return Response.json({
+      friends,
+      contactsUsingDysperse,
+      contactsNotUsingDysperse,
+    });
   } catch (e) {
     return handleApiError(e);
   }
