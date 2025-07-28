@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       req,
       [
         { name: "id", required: true },
-        { name: "userList", required: true },
+        { name: "email", required: true },
       ],
       { type: "BODY" }
     );
@@ -30,33 +30,22 @@ export async function POST(req: NextRequest) {
       select: { name: true },
     });
 
-    const collection = await prisma.collectionAccess.findMany({
-      where: {
-        AND: [{ collectionId: params.id }, { user: { isNot: null } }],
-      },
-      select: {
-        user: { select: { id: true } },
-      },
+    const invitedUserId = await prisma.user.findFirstOrThrow({
+      where: { email: params.email },
+      select: { id: true },
     });
 
-    // see these 2 arrays and get emails which are not in the collection
-    const emails: string[] = params.userList.filter(
-      (id) => !collection.find((c) => c.user?.id === id)
-    );
+    new Notification("COLLECTION_INVITE", {
+      title: `🤝 you've been invited to "${collectionInfo.name}"`,
+      body: "it's go time. just tap to start collaborating 🚀",
+      data: { collectionId: params.id },
+    }).dispatch(invitedUserId);
 
-    for (const email of emails) {
-      new Notification("COLLECTION_INVITE", {
-        title: `🤝 you've been invited to "${collectionInfo.name}"`,
-        body: "it's go time. just tap to start collaborating 🚀",
-        data: { collectionId: params.id },
-      }).dispatch(email);
-    }
-
-    const data = await prisma.collectionAccess.createMany({
-      data: emails.map((id) => ({
+    const data = await prisma.collectionAccess.create({
+      data: {
         collectionId: params.id,
-        userId: id,
-      })),
+        userId: params.email,
+      },
     });
 
     return Response.json(data);
