@@ -71,6 +71,9 @@ export async function POST(req: NextRequest) {
         email: params.email,
         password: hash,
         timeZone: params.timeZone,
+        referredBy: params.referredById
+          ? { connect: { id: params.referredById } }
+          : undefined,
         profile: {
           create: {
             name: params.name,
@@ -115,10 +118,12 @@ export async function POST(req: NextRequest) {
         name: "Personal",
         entities: {
           createMany: {
-            data: params.tasks.map((task) => ({
-              name: task,
-              type: "TASK",
-            })).filter(t => t.name.trim()),
+            data: params.tasks
+              .map((task) => ({
+                name: task,
+                type: "TASK",
+              }))
+              .filter((t) => t.name.trim()),
           },
         },
       },
