@@ -39,6 +39,7 @@ model User {
   createdAt                DateTime  @default(now())
   timeZone                 String    @default("America/Los_Angeles")
   passkeys                 Passkey[]
+  referredAccounts         Int       @default(0)
 
   newsletterSubscriptionId String?
 
