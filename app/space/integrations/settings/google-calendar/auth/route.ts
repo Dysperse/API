@@ -1,7 +1,6 @@
 import { getApiParams } from "@/lib/getApiParams";
 import { handleApiError } from "@/lib/handleApiError";
 import { google } from "googleapis";
-import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export const googleLoginClient = ({ name }) =>
@@ -52,11 +51,14 @@ export async function GET(req: NextRequest) {
     return handleApiError(e);
   }
 
-  redirect(
-    `${
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:8081"
-        : "https://go.dysperse.com"
-    }/auth/google?account=${JSON.stringify(account)}&tokens=${tokens}`
-  );
+  //   redirect(
+  //     `${
+  //       process.env.NODE_ENV === "development"
+  //         ? "http://localhost:8081"
+  //         : "https://go.dysperse.com"
+  //     }/auth/google?account=${JSON.stringify(account)}&tokens=${tokens}`
+  //   );
+  // }
+
+  return Response.json({ account, tokens });
 }
