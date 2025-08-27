@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
       }
     } else {
       newAccount = {
-        isNew: true,
+        isNew: "true",
         email: data.email,
         name: data.name,
         picture: data.picture,
