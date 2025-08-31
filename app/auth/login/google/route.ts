@@ -38,16 +38,13 @@ export async function GET(req: NextRequest) {
     });
     const { tokens } = await oauth2Client.getToken(params.code as string);
     if (!tokens) throw new Error("No tokens found");
-
     oauth2Client.setCredentials(tokens);
     const { data } = await google
       .oauth2("v2")
       .userinfo.get({ auth: oauth2Client });
 
     const acc = await prisma.user.findUnique({
-      where: {
-        email: data.email || "-1",
-      },
+      where: { email: data.email || "-1" },
       select: {
         id: true,
         password: true,
@@ -57,9 +54,7 @@ export async function GET(req: NextRequest) {
 
     if (acc) {
       const s = await prisma.session.create({
-        data: {
-          userId: acc.id,
-        },
+        data: { userId: acc.id },
       });
 
       new Notification("FORCE", {
@@ -80,6 +75,10 @@ export async function GET(req: NextRequest) {
         name: data.name,
         picture: data.picture,
       };
+
+      if (params.returnSessionId) {
+        return Response.json(newAccount);
+      }
     }
   } catch (e) {
     return handleApiError(e);
