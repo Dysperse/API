@@ -167,7 +167,7 @@ export async function POST() {
       }),
       prisma.integration.updateMany({
         where: { userId },
-        data: { lastSyncedAt: new Date() },
+        data: { lastSynced: new Date() },
       }),
       prisma.entity.findMany({
         where: {
