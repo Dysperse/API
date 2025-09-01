@@ -165,10 +165,6 @@ export async function POST() {
         where: { userId },
         include: { labels: true },
       }),
-      prisma.integration.updateMany({
-        where: { userId },
-        data: { lastSynced: new Date() },
-      }),
       prisma.entity.findMany({
         where: {
           AND: [{ integration: { isNot: null } }, { spaceId }],
@@ -178,6 +174,10 @@ export async function POST() {
         where: {
           AND: [{ integration: { isNot: null } }, { spaceId }],
         },
+      }),
+      prisma.integration.updateMany({
+        where: { userId },
+        data: { lastSynced: new Date() },
       }),
     ]);
 
