@@ -116,7 +116,8 @@ export class NewCanvasLMSAdapter extends Integration {
                 : undefined, // yes, it works
               name: assignment.name,
               pinned: assignment.is_quiz_assignment,
-              note: `${linkData} ${assignment.description}`,
+              // note: `${linkData} ${assignment.description}`,
+              note: assignment.description,
               start: dayjs(assignment.due_at).isValid()
                 ? dayjs(assignment.due_at).utc().toDate()
                 : null,
