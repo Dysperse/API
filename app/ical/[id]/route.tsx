@@ -23,6 +23,7 @@ export async function GET(req: NextRequest, { params }) {
     const entities = await prisma?.entity.findMany({
       where: {
         AND: [
+          { trash: false },
           { spaceId: user?.spaceId },
           {
             OR: [
@@ -41,8 +42,8 @@ export async function GET(req: NextRequest, { params }) {
     });
     for (const entity of entities) {
       calendar.createEvent({
-        end: entity.end,
         start: entity.start as Date,
+        end: entity.end,
         allDay: entity.dateOnly,
         attachments:
           entity.attachments &&
