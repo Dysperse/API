@@ -53,12 +53,14 @@ export async function GET(req: NextRequest, { params }) {
           ? `https://dys.us.to/${entity.shortId}`
           : undefined,
         summary: entity.name,
-        // location:
-        //   entity.attachments &&
-        //   (entity.attachments as any).find((e) => e.type === "LOCATION")
-        //     ? (entity.attachments as any).find((e) => e.type === "LOCATION")
-        //         .data
-        //     : undefined,
+        location:
+          entity.location && entity.location !== "null"
+            ? {
+                geo: (entity as any).location.coordinates,
+                address: (entity as any).location.name,
+                title: (entity as any).location.name,
+              }
+            : undefined,
         repeating: entity.recurrenceRule
           ? new RRule(entity.recurrenceRule as any).toString()
           : undefined,
