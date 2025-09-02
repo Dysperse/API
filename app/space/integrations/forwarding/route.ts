@@ -18,7 +18,7 @@ dayjs.extend(tz);
 const getDescription = async (content): Promise<string> => {
   try {
     const res = await fetch(
-      "https://api-inference.huggingface.co/models/mistralai/Mistral-Nemo-Instruct-2407/v1/chat/completions",
+      "https://router.huggingface.co/v1/chat/completions",
       {
         method: "POST",
         headers: {
@@ -26,11 +26,21 @@ const getDescription = async (content): Promise<string> => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "mistralai/Mistral-Nemo-Instruct-2407",
+          model: "deepseek-ai/DeepSeek-V3.1:fireworks-ai",
           messages: [
             {
               role: "system",
               content: `You are an AI which will summarize a user's email in 2-5 bullet points. You will not include any surrounding text. Format using markdown. You will address the user in first person, as if they're reading this description in their to-do list. Each bullet point must start with a non-repeating emoji in plain text (example: 🔥).`,
+            },
+            {
+              role: "user",
+              content: `<!DOCTYPE html><html><body><p>Hi Alex,</p><p>Just a reminder that we have our project sync scheduled for <b>Wednesday at 3:00 PM</b> in the main conference room.<br>We’ll go over:<br>- Current progress updates<br>- Roadblocks or challenges<br>- Next week’s goals</p><p>Please bring your notes and any updates you’d like to share.</p><p>Best,<br>Manu</p></body></html>`,
+            },
+            {
+              role: "system",
+              content: `* 📅 Reminder: Project sync on Wednesday at 3:00 PM in main conference room
+* ✅ Bring updates on progress, roadblocks, and next week’s goals
+* 📝 Prepare notes to share during the meeting`,
             },
             {
               role: "user",
@@ -44,7 +54,7 @@ const getDescription = async (content): Promise<string> => {
     ).then((r) => r.json());
 
     return markdown(
-      res.choices[0].message.content.replaceAll("**", "")
+      res.choices[0].message.content.split("</think>")[1]
     ).toString();
   } catch (e) {
     return content;
@@ -136,10 +146,11 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    new Notification("EMAIL_FORWARDING", {
-      title: "🎉 We recieved your email!",
-      body: "We've added a task to your to-do list!",
-    }).dispatch(user.id);
+    if (process.env.NODE_ENV === "production")
+      new Notification("EMAIL_FORWARDING", {
+        title: "🎉 We recieved your email!",
+        body: "We've added a task to your to-do list!",
+      }).dispatch(user.id);
 
     return Response.json({
       success: true,
